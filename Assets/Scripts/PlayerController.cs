@@ -77,6 +77,7 @@ public class PlayerController : MonoBehaviour
         MoveCharacter();
         ApplyGroundLinearDrag();
         FallMultilplier();
+        Animator();
         //跳躍
         if (onGround)
         {
@@ -109,11 +110,6 @@ public class PlayerController : MonoBehaviour
         animator.SetFloat("Speed",HorizontalaMovement);
         //加速與最高速
         rb.AddForce(new Vector2(horizontalDirection, 0f) * movementAcceleration);
-        
-        if (Mathf.Abs(rb.velocity.x) > maxMovementSpeed)
-        {
-            rb.velocity = new Vector2(Mathf.Sign(rb.velocity.x) * maxMovementSpeed, rb.velocity.y);
-        }
     }
     /// <summary>
     /// 地面奔跑阻力
