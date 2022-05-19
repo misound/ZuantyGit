@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-
+    /// <summary>
+    /// 2022/05/17更新日誌
+    /// 換為骷弓之後在白色方格下面跳躍時有BUG，那個白色平台到底是何方神聖?!
+    /// 新增有時會無法跳躍的問題
+    /// 換為骷弓之後collider的頭太大導致會卡在半空中的問題
+    /// </summary>
     [Header("Components")]
     private Rigidbody2D rb;
 
