@@ -4,14 +4,32 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    //記得看更新日誌//記得看更新日誌//記得看更新日誌//記得看更新日誌
+    #region 更新日誌
     /// <summary>
     /// 2022/05/17更新日誌
     /// 換為骷弓之後在白色方格下面跳躍時有BUG，那個白色平台到底是何方神聖?!
     /// 新增有時會無法跳躍的問題
     /// 換為骷弓之後collider的頭太大導致會卡在半空中的問題
     /// </summary>
+
+    /// <summary>
+    ///2022/05/22更新日誌
+    ///把子彈時間跟QTE做結合了但仍有BUG(請參照約第291行)
+    ///新增QTE的cs檔
+    ///新增還沒有想做開始畫面的意思
+    ///還沒新增冷卻時間
+    /// </summary>
+    #endregion
+    //記得看更新日誌//記得看更新日誌//記得看更新日誌//記得看更新日誌
     [Header("Components")]
     private Rigidbody2D rb;
+    public CircleCollider2D QTESlow;
+    public GameObject QTEBtn;
+    public GameObject pool;
+
+    public Transform Enemy;
+    public GameObject Terry;
 
     [Header("Layer Mask")]
     [SerializeField] private LayerMask groundLayer;
@@ -52,7 +70,10 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] public float HorizontalaMovement;
     [SerializeField] public bool FacingRight = false;
-    
+
+    [Header("SlowMotion")]
+    [SerializeField] public float slowdownFactor = 0.05f;
+    [SerializeField] public float slowdownLenth = 2f;
 
     private bool canJump => jumpBufferCounter >= 0f && (hangTimeCounter > 0f || extraJumpValue > 0);
 
@@ -60,11 +81,16 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        QTESlow = GetComponent<CircleCollider2D>();
 
     }
     private void Update()
     {
+        Time.timeScale += (1f / slowdownLenth) * Time.unscaledDeltaTime;
+        Time.timeScale = Mathf.Clamp(Time.timeScale, 0f, 1f);
+
         horizontalDirection = GetInput().x;
+
         if (Input.GetButtonDown("Jump"))
         {
             jumpBufferCounter = jumpBufferLength;
@@ -74,7 +100,6 @@ public class PlayerController : MonoBehaviour
             jumpBufferCounter -= Time.deltaTime;
         }
         if (canJump) Jump();
-
     }
     private void FixedUpdate()
     {
@@ -83,6 +108,7 @@ public class PlayerController : MonoBehaviour
         ApplyGroundLinearDrag();
         FallMultilplier();
         Animator();
+        SlowmotionBtn();
         //跳躍
         if (onGround)
         {
@@ -99,15 +125,15 @@ public class PlayerController : MonoBehaviour
         {
             CornerCorrect(rb.velocity.y);
         }
-
-
-
     }
+    #region 讀取數據
     private Vector2 GetInput()
     {
         return new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
 
     }
+    #endregion
+    #region 移動
     private void MoveCharacter()
     {
         //動畫數值
@@ -116,9 +142,8 @@ public class PlayerController : MonoBehaviour
         //加速與最高速
         rb.AddForce(new Vector2(horizontalDirection, 0f) * movementAcceleration);
     }
-    /// <summary>
-    /// 地面奔跑阻力
-    /// </summary>
+    #endregion
+    #region 地面奔跑阻力
     private void ApplyGroundLinearDrag()
     {
         if (Mathf.Abs(horizontalDirection) < 0.4f || changingDirection)
@@ -130,18 +155,16 @@ public class PlayerController : MonoBehaviour
             rb.drag = 0f;
         }
     }
-    /// <summary>
-    /// 空中阻力
-    /// </summary>
+    #endregion
+    #region 空中阻力
     private void ApplyAirLinearDrag()
     {
 
         rb.drag = airLinearDrag;
 
     }
-    /// <summary>
-    /// 跳躍
-    /// </summary>
+    #endregion
+    #region 跳躍
     private void Jump()
     {
         if (!onGround)
@@ -155,9 +178,8 @@ public class PlayerController : MonoBehaviour
         jumpBufferCounter = 0f;
         
     }
-    /// <summary>
-    /// 落下空氣阻力
-    /// </summary>
+    #endregion
+    #region 落下空氣阻力
     private void FallMultilplier()
     {
         if (rb.velocity.y < 0)
@@ -173,8 +195,8 @@ public class PlayerController : MonoBehaviour
             rb.gravityScale = 1f;
         }
     }
-
-    private void CheckCollisions()
+    #endregion
+    private void CheckCollisions()  //這殺虫
     {
         onGround = Physics2D.Raycast(transform.position * groundRaycastLength, Vector2.down, groundRaycastLength, groundLayer);
         if (onGround)
@@ -191,7 +213,7 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// 顯示觸發範圍
     /// </summary>
-    private void OnDrawGizmos()
+    private void OnDrawGizmos() //這又是殺虫
     {
         Gizmos.color = Color.green;
         var position = transform.position;
@@ -208,7 +230,7 @@ public class PlayerController : MonoBehaviour
                         position + innerRaycastoffset + Vector3.up * topRaycastLength + Vector3.right * topRaycastLength);
     }
 
-    
+    #region Collider轉角處理
     void CornerCorrect(float Yvelocity)
     {
         //Push player to the right
@@ -233,18 +255,63 @@ public class PlayerController : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, Yvelocity);
         }
     }
+    #endregion
+    #region 動畫相關
     void Animator()
     {
-    if (HorizontalaMovement < 0)
+        if (HorizontalaMovement < 0)
+        {
+            FacingRight = false;
+            transform.localRotation = Quaternion.Euler(0, 180, 0);
+        }
+        else
+        {
+            FacingRight = true;
+            transform.localRotation = Quaternion.Euler(0, 0, 0);
+        }
+    }
+    #endregion
+    #region 偵測泰瑞，如果有，在泰瑞身上顯示QTE按鈕，按下按鈕後擊殺泰瑞
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        FacingRight = false;
-        transform.localRotation = Quaternion.Euler(0, 180, 0);
+
+        if (Input.GetKeyDown(KeyCode.LeftShift) | Time.timeScale <= 0.4)
+        {
+            if (collision.name.ToLower().Contains("terry"))
+            {
+
+                Debug.Log("敵");
+                GameObject target = Instantiate(QTEBtn);
+                target.transform.parent = pool.transform; //丟去父類別
+                target.transform.localScale = Vector3.one; //reset
+                target.transform.position = Enemy.transform.localPosition; //在敵人身上放按鈕
+
+                if (Input.GetKeyDown(KeyCode.Q) & Time.timeScale <= 0.4)
+                {
+                    transform.position = Enemy.transform.localPosition; //teleport
+                    Destroy(Terry);
+                }
+            }
+        }
     }
-    else
+    /// <summary>
+    /// 問題:當子彈時間被緩至0.02~0.4這段區間，prefab會瘋狂生成至幾百個
+    /// 請問應該怎麼改比較好呢?因為我只想讓他生一個或是十個以下的prefab
+    /// </summary>
+    #endregion
+    #region 子彈時間相關
+    void DoSlowmotion()
     {
-        FacingRight = true;
-        transform.localRotation = Quaternion.Euler(0, 0, 0);
+        Time.timeScale = slowdownFactor;
+        Time.fixedDeltaTime = Time.timeScale * .02f;
     }
+
+    void SlowmotionBtn()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            DoSlowmotion();
+        }
     }
-    
+    #endregion
 }

@@ -347,7 +347,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_TargetDisplay: 0
 --- !u!224 &42993559
 RectTransform:
@@ -462,7 +462,7 @@ GameObject:
   - component: {fileID: 161065150}
   - component: {fileID: 161065154}
   m_Layer: 9
-  m_Name: Terry
+  m_Name: terry
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -480,7 +480,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 38.47
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -575,7 +575,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 161065149}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.88, y: -3.38, z: 0}
+  m_LocalPosition: {x: 1, y: -3, z: 0}
   m_LocalScale: {x: 1, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -610,6 +610,7 @@ GameObject:
   - component: {fileID: 262389931}
   - component: {fileID: 262389932}
   - component: {fileID: 262389924}
+  - component: {fileID: 262389933}
   - component: {fileID: 262389925}
   m_Layer: 0
   m_Name: player
@@ -669,8 +670,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!58 &262389925
-CircleCollider2D:
+--- !u!70 &262389925
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -682,9 +683,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.6287024}
-  serializedVersion: 2
-  m_Radius: 1.0700786
+  m_Offset: {x: -0.11421418, y: -0.93367887}
+  m_Size: {x: 1.3155255, y: 1.8158412}
+  m_Direction: 0
 --- !u!4 &262389926
 Transform:
   m_ObjectHideFlags: 0
@@ -693,7 +694,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 262389923}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.7, y: 1.91, z: -0.6}
+  m_LocalPosition: {x: -11.27, y: 2.32, z: -0.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1634655712}
@@ -759,6 +760,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fc5fd2b6301e7b45b017d7ada5fcf66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  QTESlow: {fileID: 262389933}
+  QTEBtn: {fileID: 315597561839878199, guid: 10d7377ee9420f04c8b994de3db6cbf0, type: 3}
+  pool: {fileID: 42993555}
+  Enemy: {fileID: 161065153}
+  Terry: {fileID: 161065149}
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
@@ -780,6 +786,8 @@ MonoBehaviour:
   animator: {fileID: 262389931}
   HorizontalaMovement: 0
   FacingRight: 0
+  slowdownFactor: 0.05
+  slowdownLenth: 2
 --- !u!114 &262389930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -834,6 +842,22 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!58 &262389933
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 262389923}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 10
 --- !u!1 &263708999
 GameObject:
   m_ObjectHideFlags: 0
