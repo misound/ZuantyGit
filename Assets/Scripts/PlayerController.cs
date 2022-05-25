@@ -6,20 +6,20 @@ public class PlayerController : MonoBehaviour
 {
     //記得看更新日誌//記得看更新日誌//記得看更新日誌//記得看更新日誌
     #region 更新日誌
-    /// <summary>
+    /// 
     /// 2022/05/17更新日誌
     /// 換為骷弓之後在白色方格下面跳躍時有BUG，那個白色平台到底是何方神聖?!
     /// 新增有時會無法跳躍的問題
     /// 換為骷弓之後collider的頭太大導致會卡在半空中的問題
-    /// </summary>
+    ///
 
-    /// <summary>
+    /// 
     ///2022/05/22更新日誌
     ///把子彈時間跟QTE做結合了但仍有BUG(請參照約第291行)
     ///新增QTE的cs檔
     ///新增還沒有想做開始畫面的意思
     ///還沒新增冷卻時間
-    /// </summary>
+    /// 
     #endregion
     //記得看更新日誌//記得看更新日誌//記得看更新日誌//記得看更新日誌
     [Header("Components")]
@@ -272,6 +272,11 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
     #region 偵測泰瑞，如果有，在泰瑞身上顯示QTE按鈕，按下按鈕後擊殺泰瑞
+
+    /// <summary>
+    /// 問題:當子彈時間被緩至0.02~0.4這段區間，prefab會瘋狂生成至幾百個
+    /// 請問應該怎麼改比較好呢?因為我只想讓他生一個或是十個以下的prefab
+    /// </summary>
     private void OnTriggerStay2D(Collider2D collision)
     {
 
@@ -294,10 +299,7 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-    /// <summary>
-    /// 問題:當子彈時間被緩至0.02~0.4這段區間，prefab會瘋狂生成至幾百個
-    /// 請問應該怎麼改比較好呢?因為我只想讓他生一個或是十個以下的prefab
-    /// </summary>
+  
     #endregion
     #region 子彈時間相關
     void DoSlowMotion()
