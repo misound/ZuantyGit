@@ -65,7 +65,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Vector3 innerRaycastoffset;
     private bool canCornerCorrect;
 
-    [Header("Animation")] 
+    [Header("Animation")]
     [SerializeField] public Animator animator;
 
     [SerializeField] public float HorizontalaMovement;
@@ -73,7 +73,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("SlowMotion")]
     [SerializeField] public float slowdownFactor = 0.05f;
-    [SerializeField] public float slowdownLenth = 2f;
+    [SerializeField] public float slowdownLength = 2f;
 
     private bool canJump => jumpBufferCounter >= 0f && (hangTimeCounter > 0f || extraJumpValue > 0);
 
@@ -86,7 +86,7 @@ public class PlayerController : MonoBehaviour
     }
     private void Update()
     {
-        Time.timeScale += (1f / slowdownLenth) * Time.unscaledDeltaTime;
+        Time.timeScale += (1f / slowdownLength) * Time.unscaledDeltaTime;
         Time.timeScale = Mathf.Clamp(Time.timeScale, 0f, 1f);
 
         horizontalDirection = GetInput().x;
@@ -108,7 +108,7 @@ public class PlayerController : MonoBehaviour
         ApplyGroundLinearDrag();
         FallMultilplier();
         Animator();
-        SlowmotionBtn();
+        SlowMotionBtn();
         //跳躍
         if (onGround)
         {
@@ -138,7 +138,7 @@ public class PlayerController : MonoBehaviour
     {
         //動畫數值
         HorizontalaMovement = Input.GetAxis("Horizontal");
-        animator.SetFloat("Speed",HorizontalaMovement);
+        animator.SetFloat("Speed", HorizontalaMovement);
         //加速與最高速
         rb.AddForce(new Vector2(horizontalDirection, 0f) * movementAcceleration);
     }
@@ -169,14 +169,14 @@ public class PlayerController : MonoBehaviour
     {
         if (!onGround)
         {
-            extraJumpValue--; 
+            extraJumpValue--;
         }
 
         rb.velocity = new Vector2(rb.velocity.x, 0f);
         rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         hangTimeCounter = 0f;
         jumpBufferCounter = 0f;
-        
+
     }
     #endregion
     #region 落下空氣阻力
@@ -201,7 +201,7 @@ public class PlayerController : MonoBehaviour
         onGround = Physics2D.Raycast(transform.position * groundRaycastLength, Vector2.down, groundRaycastLength, groundLayer);
         if (onGround)
         {
-            
+
         }
         //Corner Collisions
         var position = transform.position;
@@ -234,8 +234,8 @@ public class PlayerController : MonoBehaviour
     void CornerCorrect(float Yvelocity)
     {
         //Push player to the right
-        
-        
+
+
         RaycastHit2D hit = Physics2D.Raycast(transform.position - innerRaycastoffset + Vector3.up * topRaycastLength, Vector3.left, topRaycastLength, groundLayer);
         if (hit.collider != null)
         {
@@ -300,17 +300,17 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     #endregion
     #region 子彈時間相關
-    void DoSlowmotion()
+    void DoSlowMotion()
     {
         Time.timeScale = slowdownFactor;
         Time.fixedDeltaTime = Time.timeScale * .02f;
     }
 
-    void SlowmotionBtn()
+    void SlowMotionBtn()
     {
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            DoSlowmotion();
+            DoSlowMotion();
         }
     }
     #endregion
