@@ -6,21 +6,24 @@ using UnityEngine.Events;
 public class QTE : MonoBehaviour
 {
     #region 更新日誌 
-    /// <summary>
     /// 2022/05/27更新日誌 
     /// 更新了QTE產生機制
     /// 大要說明為一開始就產生，然後用onTrigger控制開啟和關閉
-    /// </summary>
+    /// 
+
+    /// 2022/05/29更新日誌
+    /// 驗證並把QTE按鈕產生方法改在Enemy上面
+    /// 決定把QTE當資料庫
+    /// 
     #endregion
-    public GameObject QTE_Q;
     public GameObject QTEBtn;
     public GameObject enemy;
-    private float speed = 1f;
-    UnityEvent m_MyEvent = new UnityEvent();
+
+    //UnityEvent m_MyEvent = new UnityEvent();
     // Start is called before the first frame update
     void Start()
     {
-        m_MyEvent.AddListener(QTEBtnActive);
+        //m_MyEvent.AddListener(QTEBtnActive);
     }
 
     // Update is called once per frame
@@ -36,8 +39,8 @@ public class QTE : MonoBehaviour
     {
         if(Time.timeScale <= 0.4 )
         {
-            QTEBtnActive();
-            //Destroy(QTE_Q);
+            //QTEBtnActive();
+
         }
         if (Input.GetKeyDown(KeyCode.Q))
         {
@@ -49,12 +52,7 @@ public class QTE : MonoBehaviour
     //離開範圍時消除自己
     private void OnTriggerExit2D(Collider2D collision)
     {
-        //Destroy(QTE_Q);
+
     }
     #endregion
-
-    void QTEBtnActive()
-    {
-        this.gameObject.SetActive(true);
-    }
 }

@@ -284,34 +284,31 @@ public class PlayerController : MonoBehaviour
         }
     }
     #endregion
-    #region 偵測泰瑞，如果有，在泰瑞身上顯示QTE按鈕，按下按鈕後擊殺泰瑞
+    #region 物件互動相關
 
-    /// <summary>
-    /// 問題:當子彈時間被緩至0.02~0.4這段區間，prefab會瘋狂生成至幾百個
-    /// 請問應該怎麼改比較好呢?因為我只想讓他生一個或是十個以下的prefab
-    /// </summary>
-    private void OnTriggerStay2D(Collider2D collision)
-    {
 
-        if (Input.GetKeyDown(KeyCode.LeftShift) | Time.timeScale <= 0.4)
-        {
-            if (collision.name.ToLower().Contains("terry"))
-            {
+    //private void OnTriggerStay2D(Collider2D collision)
+    //{
 
-                Debug.Log("敵");
-                GameObject target = Instantiate(QTEBtn);
-                target.transform.parent = pool.transform; //丟去父類別
-                target.transform.localScale = Vector3.one; //reset
-                target.transform.position = Enemy.transform.localPosition; //在敵人身上放按鈕
+    //    if (Input.GetKeyDown(KeyCode.LeftShift) | Time.timeScale <= 0.4)
+    //    {
+    //        if (collision.name.ToLower().Contains("terry"))
+    //        {
 
-                if (Input.GetKeyDown(KeyCode.Q) & Time.timeScale <= 0.4)
-                {
-                    transform.position = Enemy.transform.localPosition; //teleport
-                    Destroy(Terry);
-                }
-            }
-        }
-    }
+    //            Debug.Log("敵");
+    //            GameObject target = Instantiate(QTEBtn);
+    //            target.transform.parent = pool.transform; //丟去父類別
+    //            target.transform.localScale = Vector3.one; //reset
+    //            target.transform.position = Enemy.transform.localPosition; //在敵人身上放按鈕
+
+    //            if (Input.GetKeyDown(KeyCode.Q) & Time.timeScale <= 0.4)
+    //            {
+    //                transform.position = Enemy.transform.localPosition; //teleport
+    //                Destroy(Terry);
+    //            }
+    //        }
+    //    }
+    //}
 
     #endregion
     #region 子彈時間相關

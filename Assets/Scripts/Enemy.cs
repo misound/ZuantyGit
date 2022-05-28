@@ -7,7 +7,6 @@ using UnityEngine.Events;
 public class Enemy : MonoBehaviour
 {
     #region 更新日誌
-    /// <summary>
     /// 2022/05/27更新日誌
     /// 新增了控制QTE按鈕產生機制
     /// 原本為動態產生，改為一開始就生好擺在敵人上面並透過onTrigger來控制
@@ -15,7 +14,13 @@ public class Enemy : MonoBehaviour
     /// 而且現在只能指定到第一個遇見的敵人，未來會改為敵人全體。
     /// 我理想是想要每次產生(重新開啟遊戲, 死掉重來, etc...)都是不同按鍵(預設3個)
     /// 而boss一次攻擊得按比較多，所以固定按鍵。
-    /// </summary>
+    /// 
+
+    /// 2022/05/29更新日誌
+    /// 讓QTE按鈕作用的方式由GetComponent變為第一個產生的子類別。
+    /// 隨機產生按鈕的方式可以嘗試用GetSet來寫試試看
+    /// 不過擊殺動作得要改去PlayerController應該不能寫在Enemy
+    /// 
     #endregion
     [Header("Objects")]
     [SerializeField] public GameObject QTEBtn;
@@ -39,7 +44,7 @@ public class Enemy : MonoBehaviour
         GameObject target = Instantiate(QTEBtn, transform.position, transform.rotation); //實例化QTE按鈕並跟隨目標
         target.transform.parent = pool.transform; //丟去父類別
 
-        QTEBtn = GameObject.Find("samurai ixel");   //把Find用在Start只能抓一次，應該有更好做法
+        QTEBtn = gameObject.transform.GetChild(0).gameObject;   //直接指定第一個子類別
         Player = GameObject.Find("player");         //僅讓玩家順移，之後考慮有無更好作法
     }
 
@@ -87,7 +92,7 @@ public class Enemy : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     {
         QTEBtn.SetActive(false);
-        Debug.Log("gggggggggg");
+        //Debug.Log("gggggggggg");
     }
     #endregion
 
@@ -96,7 +101,7 @@ public class Enemy : MonoBehaviour
     /// </summary>
     void QTEBtnActive()
     {
-        Debug.Log("got it");
+        Debug.Log("我是Enemy觸發");
         QTEBtn.SetActive(true);
     }
 }
