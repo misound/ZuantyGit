@@ -77,11 +77,16 @@ public class PlayerController : MonoBehaviour
 
     private bool canJump => jumpBufferCounter >= 0f && (hangTimeCounter > 0f || extraJumpValue > 0);
 
+    private GUIStyle guiStyle = new GUIStyle(); //create a new variable
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         QTESlow = GetComponent<CircleCollider2D>();
+
+        guiStyle.fontSize = 40; //for debug, 設定onGUI用
+        guiStyle.normal.textColor = Color.red;
 
     }
     private void Update()
@@ -126,6 +131,14 @@ public class PlayerController : MonoBehaviour
             CornerCorrect(rb.velocity.y);
         }
     }
+
+    private void OnGUI()
+    {
+        GUI.Label(new Rect(0, 0, 100, 20), "HorizontalaMovement=" + HorizontalaMovement, guiStyle);
+        GUI.Label(new Rect(0, 40, 100, 20), "horizontalDirection=" + horizontalDirection, guiStyle);
+        GUI.Label(new Rect(0, 80, 100, 20), "movementAcceleration=" + movementAcceleration, guiStyle);
+    }
+
     #region 讀取數據
     private Vector2 GetInput()
     {
@@ -299,7 +312,7 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-  
+
     #endregion
     #region 子彈時間相關
     void DoSlowMotion()
