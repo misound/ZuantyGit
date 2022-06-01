@@ -704,16 +704,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   QTESlow: {fileID: 262389933}
-  QTEBtn: {fileID: 0}
+  QTEBtn: {fileID: 315597561839878199, guid: 10d7377ee9420f04c8b994de3db6cbf0, type: 3}
   pool: {fileID: 0}
-  Enemy: {fileID: 0}
-  Terry: {fileID: 0}
+  Enemy: {fileID: 585293644}
+  Terry: {fileID: 585293639}
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 2048
   movementAcceleration: 50
   maxMovementSpeed: 8
   groundLinearDrag: 10
+  facingRight: 0
   jumpForce: 20
   airLinearDrag: 2.5
   fallMultiplier: 8
@@ -723,12 +727,15 @@ MonoBehaviour:
   jumpBufferLength: 11.89
   groundRaycastLength: 1.67
   groundRaycastOffset: {x: 1.34, y: 0, z: 0}
+  wallRaycastLength: 0
+  onWall: 0
+  onRightWall: 0
+  wallSlideModifier: 0.5
   topRaycastLength: 1.38
   edgeRaycastOffset: {x: 0.66, y: 0, z: 0}
   innerRaycastoffset: {x: -1.15, y: 0, z: 0}
   animator: {fileID: 262389931}
   HorizontalaMovement: 0
-  FacingRight: 0
   slowdownFactor: 0.05
   slowdownLength: 2
 --- !u!114 &262389930
@@ -1159,6 +1166,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e1ebc5bdf8a40ba4ebe04730115eb923, type: 3}
+--- !u!1 &585293639 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6360215910150734582, guid: 8d53ce62dffb74e4d9fcf3ee29a1fba4,
+    type: 3}
+  m_PrefabInstance: {fileID: 1182429077548043806}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &585293644 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6360215910150734474, guid: 8d53ce62dffb74e4d9fcf3ee29a1fba4,
+    type: 3}
+  m_PrefabInstance: {fileID: 1182429077548043806}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &738332696
 PrefabInstance:
   m_ObjectHideFlags: 0

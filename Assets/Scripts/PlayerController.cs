@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.SymbolStore;
 using UnityEngine;
+using UnityEngine.Animations;
 
 public class PlayerController : MonoBehaviour
 {
@@ -34,13 +36,17 @@ public class PlayerController : MonoBehaviour
     [Header("Layer Mask")]
     [SerializeField] private LayerMask groundLayer;
 
+    [SerializeField] private LayerMask wallLayer;
+
 
     [Header("Movement Variables")]
     [SerializeField] private float movementAcceleration;
     [SerializeField] private float maxMovementSpeed;
     [SerializeField] private float groundLinearDrag;
+    [SerializeField] public bool facingRight = false;
     private float horizontalDirection;
     private bool changingDirection => (rb.velocity.x > 0f && horizontalDirection < 0f) || (rb.velocity.x < 0f && horizontalDirection > 0f);
+    private bool canMove => !wallGrab;
 
     [Header("Jump Variables")]
     [SerializeField] private float jumpForce = 12f;
@@ -54,11 +60,20 @@ public class PlayerController : MonoBehaviour
     private float jumpBufferCounter;
     private float hangTimeCounter;
 
-    [Header("GroundCollision Variables")]
+    private bool wallGrab => onWall && !onGround && Input.GetButton("WallGrab");
+
+    [Header("Ground Collision Variables")]
     [SerializeField] private float groundRaycastLength;
     [SerializeField] private Vector3 groundRaycastOffset;
     private bool onGround;
 
+    [Header("Wall Collision Variables")] 
+    [SerializeField] private float wallRaycastLength;
+    [SerializeField] public bool onWall;
+    [SerializeField] public bool onRightWall;
+    [SerializeField] public float wallSlideModifier = 0.5f;
+    [SerializeField] public bool wallSlide => onWall && !onGround && !Input.GetButton("WallGrab") && rb.velocity.y <=0f;
+    
     [Header("Corner Correction Variable")]
     [SerializeField] private float topRaycastLength;
     [SerializeField] private Vector3 edgeRaycastOffset;
@@ -67,9 +82,10 @@ public class PlayerController : MonoBehaviour
 
     [Header("Animation")]
     [SerializeField] public Animator animator;
-
     [SerializeField] public float HorizontalaMovement;
-    [SerializeField] public bool FacingRight = false;
+    
+    
+    
 
     [Header("SlowMotion")]
     [SerializeField] public float slowdownFactor = 0.05f;
@@ -109,7 +125,7 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         CheckCollisions();
-        MoveCharacter();
+        if(canMove)MoveCharacter();
         ApplyGroundLinearDrag();
         FallMultilplier();
         Animator();
@@ -120,15 +136,33 @@ public class PlayerController : MonoBehaviour
             hangTimeCounter = hangTime;
             extraJumpValue = extraJump;
             ApplyGroundLinearDrag();
+            //Animation
+            animator.SetBool("isFalling",false);
+            animator.SetBool("isJumping",false);
         }
         else
         {
             ApplyAirLinearDrag();
-            hangTimeCounter -= Time.deltaTime;
+            hangTimeCounter -= Time.fixedDeltaTime;
+        }
+
+        if (canJump)
+        {
+            Jump();
         }
         if (canCornerCorrect)
         {
             CornerCorrect(rb.velocity.y);
+        }
+
+        if (wallGrab)
+        {
+            WallGrab();
+        }
+
+        if (wallSlide)
+        { 
+            WallSlide();
         }
     }
 
@@ -138,6 +172,25 @@ public class PlayerController : MonoBehaviour
         GUI.Label(new Rect(0, 40, 100, 20), "horizontalDirection=" + horizontalDirection, guiStyle);
         GUI.Label(new Rect(0, 80, 100, 20), "movementAcceleration=" + movementAcceleration, guiStyle);
     }
+
+    public void WallGrab()
+    {
+        rb.gravityScale = 0f;
+        rb.velocity = new Vector2(rb.velocity.x, 0f);
+        StickWall();
+    }
+
+    public void WallSlide()
+    {
+        rb.velocity = new Vector2(rb.velocity.x, -maxMovementSpeed * wallSlideModifier);
+        StickWall();
+    }
+    void Flip()
+    {
+        facingRight= !facingRight;
+        transform.Rotate(0f, 180f, 0f);
+    }
+
 
     #region 讀取數據
     private Vector2 GetInput()
@@ -151,7 +204,7 @@ public class PlayerController : MonoBehaviour
     {
         //動畫數值
         HorizontalaMovement = Input.GetAxis("Horizontal");
-        animator.SetFloat("Speed", HorizontalaMovement);
+        animator.SetFloat("horizontalDirection", HorizontalaMovement);
         //加速與最高速
         rb.AddForce(new Vector2(horizontalDirection, 0f) * movementAcceleration);
     }
@@ -180,6 +233,7 @@ public class PlayerController : MonoBehaviour
     #region 跳躍
     private void Jump()
     {
+        ApplyAirLinearDrag();
         if (!onGround)
         {
             extraJumpValue--;
@@ -192,6 +246,29 @@ public class PlayerController : MonoBehaviour
 
     }
     #endregion
+
+    public void StickWall()
+    {
+        //push player torwards wall
+        if (onRightWall && horizontalDirection >= 0f)
+        {
+            rb.velocity = new Vector2(1f, rb.velocity.y);
+        }
+        else if(!onRightWall&& horizontalDirection<=0f)
+        {
+            rb.velocity = new Vector2(-1f, rb.velocity.y);
+        }
+        //Face correct direction
+        if (onRightWall && facingRight)
+        {
+            Flip();
+        }
+        else if (!onRightWall&& facingRight)
+        {
+            Flip();
+        }
+
+    }
     #region 落下空氣阻力
     private void FallMultilplier()
     {
@@ -212,19 +289,20 @@ public class PlayerController : MonoBehaviour
     private void CheckCollisions()  //這殺虫
     {
         onGround = Physics2D.Raycast(transform.position * groundRaycastLength, Vector2.down, groundRaycastLength, groundLayer);
-        if (onGround)
-        {
-
-        }
+        
         //Corner Collisions
         var position = transform.position;
         canCornerCorrect = Physics2D.Raycast(transform.position + edgeRaycastOffset, Vector2.up, topRaycastLength, groundLayer) &&
                            !Physics2D.Raycast(transform.position + innerRaycastoffset, Vector2.up, topRaycastLength, groundLayer) ||
                            Physics2D.Raycast(transform.position - edgeRaycastOffset, Vector2.up, topRaycastLength, groundLayer) &&
                            !Physics2D.Raycast(transform.position - innerRaycastoffset, Vector2.up, topRaycastLength, groundLayer);
+        //Wall Collision
+        onWall = Physics2D.Raycast(transform.position, Vector2.right, wallRaycastLength, wallLayer) ||
+                 Physics2D.Raycast(transform.position, Vector2.left, wallRaycastLength, wallLayer);
+        onRightWall = Physics2D.Raycast(transform.position, Vector2.right, wallRaycastLength, wallLayer);
     }
     /// <summary>
-    /// 顯示觸發範圍
+    /// 顯示觸發範圍(跳躍修正偵測範圍)
     /// </summary>
     private void OnDrawGizmos() //這又是殺虫
     {
@@ -241,6 +319,9 @@ public class PlayerController : MonoBehaviour
                         position - innerRaycastoffset + Vector3.up * topRaycastLength + Vector3.left * topRaycastLength);
         Gizmos.DrawLine(position + innerRaycastoffset + Vector3.up * topRaycastLength,
                         position + innerRaycastoffset + Vector3.up * topRaycastLength + Vector3.right * topRaycastLength);
+        //WallCheck
+        Gizmos.DrawLine(transform.position,transform.position+Vector3.right*wallRaycastLength);
+        Gizmos.DrawLine(transform.position,transform.position+Vector3.left*wallRaycastLength);
     }
 
     #region Collider轉角處理
@@ -274,12 +355,12 @@ public class PlayerController : MonoBehaviour
     {
         if (HorizontalaMovement < 0)
         {
-            FacingRight = false;
+            facingRight = false;
             transform.localRotation = Quaternion.Euler(0, 180, 0);
         }
         else
         {
-            FacingRight = true;
+            facingRight = true;
             transform.localRotation = Quaternion.Euler(0, 0, 0);
         }
     }
