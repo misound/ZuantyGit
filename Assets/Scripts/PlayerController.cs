@@ -35,16 +35,17 @@ public class PlayerController : MonoBehaviour
 
     [Header("Layer Mask")]
     [SerializeField] private LayerMask groundLayer;
-
     [SerializeField] private LayerMask wallLayer;
+    [SerializeField] private LayerMask cornerCorrectLayer;
 
 
     [Header("Movement Variables")]
     [SerializeField] private float movementAcceleration;
     [SerializeField] private float maxMovementSpeed;
     [SerializeField] private float groundLinearDrag;
-    [SerializeField] public bool facingRight = false;
+    public bool facingRight = false;
     private float horizontalDirection;
+    private float verticalDirection;
     private bool changingDirection => (rb.velocity.x > 0f && horizontalDirection < 0f) || (rb.velocity.x < 0f && horizontalDirection > 0f);
     private bool canMove => !wallGrab;
 
@@ -59,39 +60,48 @@ public class PlayerController : MonoBehaviour
     private int extraJumpValue;
     private float jumpBufferCounter;
     private float hangTimeCounter;
-
-    private bool wallGrab => onWall && !onGround && Input.GetButton("WallGrab");
+    private bool canJump => jumpBufferCounter > 0f && (hangTimeCounter > 0f || extraJumpValue > 0 || onWall);
+    private bool isJumping = false;
 
     [Header("Ground Collision Variables")]
     [SerializeField] private float groundRaycastLength;
     [SerializeField] private Vector3 groundRaycastOffset;
     private bool onGround;
+    
+    [Header("Wall Movement Variables")]
+    [SerializeField] private float wallSlideModifier = 0.5f;
+    [SerializeField] private float wallJumpXVelocityHaltDelay = 0.2f;
+    private bool wallGrab => onWall && !onGround && Input.GetButton("WallGrab");
+    private bool wallSlide => onWall && !onGround && !Input.GetButton("WallGrab") && rb.velocity.y < 0f;
 
     [Header("Wall Collision Variables")] 
     [SerializeField] private float wallRaycastLength;
-    [SerializeField] public bool onWall;
-    [SerializeField] public bool onRightWall;
-    [SerializeField] public float wallSlideModifier = 0.5f;
-    [SerializeField] public bool wallSlide => onWall && !onGround && !Input.GetButton("WallGrab") && rb.velocity.y <=0f;
+    public bool onWall;
+    public bool onRightWall;
+
+    [Header("Dash Variables")]
+    [SerializeField] private float dashSpeed= 15f;
+    [SerializeField] private float dashLength = 0.3f;
+    [SerializeField] private float dashBufferLength = 0.1f;
+    private float dashBufferCounter;
+    private bool isDashing;
+    private bool hasDashed;
+    private bool canDash => dashBufferCounter > 0f && !hasDashed;
+        
     
     [Header("Corner Correction Variable")]
     [SerializeField] private float topRaycastLength;
     [SerializeField] private Vector3 edgeRaycastOffset;
-    [SerializeField] private Vector3 innerRaycastoffset;
+    [SerializeField] private Vector3 innerRaycastOffset;
     private bool canCornerCorrect;
 
     [Header("Animation")]
     [SerializeField] public Animator animator;
     [SerializeField] public float HorizontalaMovement;
     
-    
-    
-
     [Header("SlowMotion")]
     [SerializeField] public float slowdownFactor = 0.05f;
     [SerializeField] public float slowdownLength = 2f;
-
-    private bool canJump => jumpBufferCounter >= 0f && (hangTimeCounter > 0f || extraJumpValue > 0);
 
     private GUIStyle guiStyle = new GUIStyle(); //create a new variable
 
@@ -109,9 +119,8 @@ public class PlayerController : MonoBehaviour
     {
         Time.timeScale += (1f / slowdownLength) * Time.unscaledDeltaTime;
         Time.timeScale = Mathf.Clamp(Time.timeScale, 0f, 1f);
-
         horizontalDirection = GetInput().x;
-
+        verticalDirection = GetInput().y;
         if (Input.GetButtonDown("Jump"))
         {
             jumpBufferCounter = jumpBufferLength;
@@ -120,94 +129,87 @@ public class PlayerController : MonoBehaviour
         {
             jumpBufferCounter -= Time.deltaTime;
         }
-        if (canJump) Jump();
+
+        if (Input.GetButtonDown("Dash"))
+        {
+            dashBufferCounter = dashBufferLength;
+        }
+        else
+        {
+            dashBufferCounter -= Time.deltaTime;
+        }
+        Animation();
     }
     private void FixedUpdate()
     {
         CheckCollisions();
-        if(canMove)MoveCharacter();
-        ApplyGroundLinearDrag();
-        FallMultilplier();
-        Animator();
-        SlowMotionBtn();
-        //跳躍
-        if (onGround)
+        if (canDash)
         {
-            hangTimeCounter = hangTime;
-            extraJumpValue = extraJump;
-            ApplyGroundLinearDrag();
-            //Animation
-            animator.SetBool("isFalling",false);
-            animator.SetBool("isJumping",false);
+            StartCoroutine(Dash(horizontalDirection, verticalDirection));
         }
-        else
+        if (!isDashing)
         {
-            ApplyAirLinearDrag();
-            hangTimeCounter -= Time.fixedDeltaTime;
+            if (canMove) MoveCharacter();
+            else rb.velocity = Vector2.Lerp(rb.velocity, (new Vector2(horizontalDirection * maxMovementSpeed, rb.velocity.y)), .5f * Time.deltaTime);
+            if (onGround)
+            {
+                ApplyGroundLinearDrag();
+                extraJumpValue = extraJump;
+                hangTimeCounter = hangTime;
+                hasDashed = false;
+            }
+            else
+            {
+                ApplyAirLinearDrag();
+                FallMultiplier();
+                hangTimeCounter -= Time.fixedDeltaTime;
+                if (!onWall || rb.velocity.y < 0f) isJumping = false;
+            }
+            if (canJump)
+            {
+                if (onWall && !onGround)
+                {
+                    if (onRightWall && horizontalDirection > 0f || !onRightWall && horizontalDirection < 0f)
+                    {
+                        StartCoroutine(NeutralWallJump());
+                    }
+                    else
+                    {
+                        WallJump();
+                    }
+                    Flip();
+                }
+                else
+                {
+                    Jump(Vector2.up);
+                }
+            }
+            if (!isJumping)
+            {
+                if (wallSlide) WallSlide();
+                if (wallGrab) WallGrab();
+                if (onWall) StickWall();
+            }
         }
-
-        if (canJump)
-        {
-            Jump();
-        }
-        if (canCornerCorrect)
-        {
-            CornerCorrect(rb.velocity.y);
-        }
-
-        if (wallGrab)
-        {
-            WallGrab();
-        }
-
-        if (wallSlide)
-        { 
-            WallSlide();
-        }
+        if (canCornerCorrect) CornerCorrect(rb.velocity.y);
     }
 
-    private void OnGUI()
-    {
-        GUI.Label(new Rect(0, 0, 100, 20), "HorizontalaMovement=" + HorizontalaMovement, guiStyle);
-        GUI.Label(new Rect(0, 40, 100, 20), "horizontalDirection=" + horizontalDirection, guiStyle);
-        GUI.Label(new Rect(0, 80, 100, 20), "movementAcceleration=" + movementAcceleration, guiStyle);
-    }
-
-    public void WallGrab()
-    {
-        rb.gravityScale = 0f;
-        rb.velocity = new Vector2(rb.velocity.x, 0f);
-        StickWall();
-    }
-
-    public void WallSlide()
-    {
-        rb.velocity = new Vector2(rb.velocity.x, -maxMovementSpeed * wallSlideModifier);
-        StickWall();
-    }
-    void Flip()
-    {
-        facingRight= !facingRight;
-        transform.Rotate(0f, 180f, 0f);
-    }
-
-
-    #region 讀取數據
+    #region 移動數據
     private Vector2 GetInput()
     {
         return new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
 
     }
     #endregion
-    #region 移動
+    #region 移動角色
     private void MoveCharacter()
     {
-        //動畫數值
-        HorizontalaMovement = Input.GetAxis("Horizontal");
-        animator.SetFloat("horizontalDirection", HorizontalaMovement);
-        //加速與最高速
         rb.AddForce(new Vector2(horizontalDirection, 0f) * movementAcceleration);
+
+        if (Mathf.Abs(rb.velocity.x) > maxMovementSpeed)
+            rb.velocity = new Vector2(Mathf.Sign(rb.velocity.x) * maxMovementSpeed,rb.velocity.y);
     }
+
     #endregion
     #region 地面奔跑阻力
     private void ApplyGroundLinearDrag()
@@ -230,47 +232,8 @@ public class PlayerController : MonoBehaviour
 
     }
     #endregion
-    #region 跳躍
-    private void Jump()
-    {
-        ApplyAirLinearDrag();
-        if (!onGround)
-        {
-            extraJumpValue--;
-        }
-
-        rb.velocity = new Vector2(rb.velocity.x, 0f);
-        rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-        hangTimeCounter = 0f;
-        jumpBufferCounter = 0f;
-
-    }
-    #endregion
-
-    public void StickWall()
-    {
-        //push player torwards wall
-        if (onRightWall && horizontalDirection >= 0f)
-        {
-            rb.velocity = new Vector2(1f, rb.velocity.y);
-        }
-        else if(!onRightWall&& horizontalDirection<=0f)
-        {
-            rb.velocity = new Vector2(-1f, rb.velocity.y);
-        }
-        //Face correct direction
-        if (onRightWall && facingRight)
-        {
-            Flip();
-        }
-        else if (!onRightWall&& facingRight)
-        {
-            Flip();
-        }
-
-    }
     #region 落下空氣阻力
-    private void FallMultilplier()
+    private void FallMultiplier()
     {
         if (rb.velocity.y < 0)
         {
@@ -286,16 +249,183 @@ public class PlayerController : MonoBehaviour
         }
     }
     #endregion
-    private void CheckCollisions()  //這殺虫
+    #region 跳躍
+    private void Jump(Vector2 direction)
+    {
+        if (!onGround && !onWall)
+            extraJumpValue--;
+
+        ApplyAirLinearDrag();
+        rb.velocity = new Vector2(rb.velocity.x, 0f);
+        rb.AddForce(direction * jumpForce, ForceMode2D.Impulse);
+        hangTimeCounter = 0f;
+        jumpBufferCounter = 0f;
+        isJumping = true;
+    }
+    #endregion
+    #region 登牆跳
+    private void WallJump()
+    {
+        Vector2 jumpDirection = onRightWall ? Vector2.left : Vector2.right;
+        Jump(Vector2.up + jumpDirection);
+    }
+    #endregion
+    #region 一般跳躍
+    IEnumerator NeutralWallJump()
+    {
+        Vector2 jumpDirection = onRightWall ? Vector2.left : Vector2.right;
+        Jump(Vector2.up + jumpDirection);
+        yield return new WaitForSeconds(wallJumpXVelocityHaltDelay);
+        rb.velocity = new Vector2(0f, rb.velocity.y);
+    }
+        #endregion
+    #region 抓牆
+        public void WallGrab()
+        {
+            rb.gravityScale = 0f;
+            rb.velocity = new Vector2(rb.velocity.x, 0f);
+            StickWall();
+        }
+        #endregion
+    #region 滑牆
+        public void WallSlide()
+        {
+            rb.velocity = new Vector2(rb.velocity.x, -maxMovementSpeed * wallSlideModifier);
+            StickWall();
+        }
+    
+        #endregion
+    #region 抓牆程式
+        public void StickWall()
+        {
+            //push player torwards wall
+            if (onRightWall && horizontalDirection >= 0f)
+            {
+                rb.velocity = new Vector2(1f, rb.velocity.y);
+            }
+            else if(!onRightWall&& horizontalDirection<=0f)
+            {
+                rb.velocity = new Vector2(-1f, rb.velocity.y);
+            }
+            //Face correct direction
+            if (onRightWall && facingRight)
+            {
+                Flip();
+            }
+            else if (!onRightWall&& facingRight)
+            {
+                Flip();
+            }
+
+        }
+        #endregion
+    #region 翻轉角色
+        void Flip()
+        {
+            facingRight= !facingRight;
+            transform.Rotate(0f, 180f, 0f);
+        }
+        #endregion
+    #region Dash協程
+        IEnumerator Dash(float x, float y)
+        {
+            float dashStartTime = Time.time;
+            hasDashed = true;
+            isDashing = true;
+            isJumping = false;
+
+            rb.velocity = Vector2.zero;
+            rb.gravityScale = 0f;
+            rb.drag = 0f;
+
+            Vector2 dir;
+            if (x != 0f || y != 0f) dir = new Vector2(x,y);
+            else
+            {
+                if (facingRight) dir = new Vector2(1f, 0f);
+                else dir = new Vector2(-1f, 0f);
+            }
+
+            while (Time.time < dashStartTime + dashLength)
+            {
+                rb.velocity = dir.normalized * dashSpeed;
+                yield return null;
+            }
+
+            isDashing = false;
+        }
+        #endregion
+    #region 動畫相關
+      
+    void Animation()
+        {
+            if (isDashing)
+        {
+            animator.SetBool("isDashing", true);
+            animator.SetBool("isGrounded", false);
+            animator.SetBool("isFalling", false);
+            animator.SetBool("wallGrab", false);
+            animator .SetBool("isJumping", false);
+            animator.SetFloat("horizontalDirection", 0f);
+            animator.SetFloat("verticalDirection", 0f);
+        }
+        else
+        {
+            animator.SetBool("isDashing", false);
+
+            if ((horizontalDirection < 0f && facingRight || horizontalDirection > 0f && !facingRight) && !wallGrab && !wallSlide)
+            {
+                Flip();
+            }
+            if (onGround)
+            {
+                animator.SetBool("isGrounded", true);
+                animator.SetBool("isFalling", false);
+                animator.SetBool("wallGrab", false);
+                animator.SetFloat("horizontalDirection", Mathf.Abs(horizontalDirection));
+            }
+            else
+            {
+                animator.SetBool("isGrounded", false);
+            }
+            if (isJumping)
+            {
+                animator.SetBool("isJumping", true);
+                animator.SetBool("isFalling", false);
+                animator.SetBool("wallGrab", false);
+                animator.SetFloat("verticalDirection", 0f);
+            }
+            else
+            {
+                animator.SetBool("isJumping", false);
+
+                if (wallGrab || wallSlide)
+                {
+                    animator.SetBool("wallGrab", true);
+                    animator.SetBool("isFalling", false);
+                    animator.SetFloat("verticalDirection", 0f);
+                }
+                else if (rb.velocity.y < 0f)
+                {
+                    animator.SetBool("isFalling", true);
+                    animator.SetBool("wallGrab", false);
+                    animator.SetFloat("verticalDirection", 0f);
+                }
+            }
+        }
+        }
+        #endregion
+    #region 修正跳躍
+ private void CheckCollisions()  //這殺虫
     {
         onGround = Physics2D.Raycast(transform.position * groundRaycastLength, Vector2.down, groundRaycastLength, groundLayer);
         
-        //Corner Collisions
+        //Corner Collision
         var position = transform.position;
         canCornerCorrect = Physics2D.Raycast(transform.position + edgeRaycastOffset, Vector2.up, topRaycastLength, groundLayer) &&
-                           !Physics2D.Raycast(transform.position + innerRaycastoffset, Vector2.up, topRaycastLength, groundLayer) ||
+                           !Physics2D.Raycast(transform.position + innerRaycastOffset, Vector2.up, topRaycastLength, groundLayer) ||
                            Physics2D.Raycast(transform.position - edgeRaycastOffset, Vector2.up, topRaycastLength, groundLayer) &&
-                           !Physics2D.Raycast(transform.position - innerRaycastoffset, Vector2.up, topRaycastLength, groundLayer);
+                           !Physics2D.Raycast(transform.position - innerRaycastOffset, Vector2.up, topRaycastLength, groundLayer);
         //Wall Collision
         onWall = Physics2D.Raycast(transform.position, Vector2.right, wallRaycastLength, wallLayer) ||
                  Physics2D.Raycast(transform.position, Vector2.left, wallRaycastLength, wallLayer);
@@ -312,59 +442,48 @@ public class PlayerController : MonoBehaviour
         //CornerCheck
         Gizmos.DrawLine(position + edgeRaycastOffset, position + edgeRaycastOffset + Vector3.up * topRaycastLength);
         Gizmos.DrawLine(position - edgeRaycastOffset, position - edgeRaycastOffset + Vector3.up * topRaycastLength);
-        Gizmos.DrawLine(position + innerRaycastoffset, position + innerRaycastoffset + Vector3.up * topRaycastLength);
-        Gizmos.DrawLine(position - innerRaycastoffset, position - innerRaycastoffset + Vector3.up * topRaycastLength);
+        Gizmos.DrawLine(position + innerRaycastOffset, position + innerRaycastOffset + Vector3.up * topRaycastLength);
+        Gizmos.DrawLine(position - innerRaycastOffset, position - innerRaycastOffset + Vector3.up * topRaycastLength);
         //Corner Distence Check
-        Gizmos.DrawLine(position - innerRaycastoffset + Vector3.up * topRaycastLength,
-                        position - innerRaycastoffset + Vector3.up * topRaycastLength + Vector3.left * topRaycastLength);
-        Gizmos.DrawLine(position + innerRaycastoffset + Vector3.up * topRaycastLength,
-                        position + innerRaycastoffset + Vector3.up * topRaycastLength + Vector3.right * topRaycastLength);
+        Gizmos.DrawLine(position - innerRaycastOffset + Vector3.up * topRaycastLength,
+                        position - innerRaycastOffset + Vector3.up * topRaycastLength + Vector3.left * topRaycastLength);
+        Gizmos.DrawLine(position + innerRaycastOffset + Vector3.up * topRaycastLength,
+                        position + innerRaycastOffset + Vector3.up * topRaycastLength + Vector3.right * topRaycastLength);
         //WallCheck
         Gizmos.DrawLine(transform.position,transform.position+Vector3.right*wallRaycastLength);
         Gizmos.DrawLine(transform.position,transform.position+Vector3.left*wallRaycastLength);
     }
 
-    #region Collider轉角處理
     void CornerCorrect(float Yvelocity)
     {
         //Push player to the right
-
-
-        RaycastHit2D hit = Physics2D.Raycast(transform.position - innerRaycastoffset + Vector3.up * topRaycastLength, Vector3.left, topRaycastLength, groundLayer);
-        if (hit.collider != null)
+        RaycastHit2D _hit = Physics2D.Raycast(transform.position - innerRaycastOffset + Vector3.up * topRaycastLength,Vector3.left, topRaycastLength, cornerCorrectLayer);
+        if (_hit.collider != null)
         {
-            float newPos = Vector3.Distance(new Vector3(hit.point.x, transform.position.y, 0f) + Vector3.up * topRaycastLength,
+            float _newPos = Vector3.Distance(new Vector3(_hit.point.x, transform.position.y, 0f) + Vector3.up * topRaycastLength,
                 transform.position - edgeRaycastOffset + Vector3.up * topRaycastLength);
-            transform.position = new Vector3(transform.position.x + newPos, transform.position.y, transform.position.z);
+            transform.position = new Vector3(transform.position.x + _newPos, transform.position.y, transform.position.z);
             rb.velocity = new Vector2(rb.velocity.x, Yvelocity);
             return;
         }
+
         //Push player to the left
-        hit = Physics2D.Raycast(transform.position + innerRaycastoffset + Vector3.up * topRaycastLength, Vector3.right, topRaycastLength, groundLayer);
-        if (hit.collider != null)
+        _hit = Physics2D.Raycast(transform.position + innerRaycastOffset + Vector3.up * topRaycastLength, Vector3.right, topRaycastLength, cornerCorrectLayer);
+        if (_hit.collider != null)
         {
-            float newPos = Vector3.Distance(new Vector3(hit.point.x, transform.position.y, 0f) + Vector3.up * topRaycastLength,
+            float _newPos = Vector3.Distance(new Vector3(_hit.point.x, transform.position.y, 0f) + Vector3.up * topRaycastLength,
                 transform.position + edgeRaycastOffset + Vector3.up * topRaycastLength);
-            transform.position = new Vector3(transform.position.x - newPos, transform.position.y, transform.position.z);
+            transform.position = new Vector3(transform.position.x - _newPos, transform.position.y, transform.position.z);
             rb.velocity = new Vector2(rb.velocity.x, Yvelocity);
         }
     }
-    #endregion
-    #region 動畫相關
-    void Animator()
+        #endregion
+    private void OnGUI()
     {
-        if (HorizontalaMovement < 0)
-        {
-            facingRight = false;
-            transform.localRotation = Quaternion.Euler(0, 180, 0);
-        }
-        else
-        {
-            facingRight = true;
-            transform.localRotation = Quaternion.Euler(0, 0, 0);
-        }
+        GUI.Label(new Rect(0, 0, 100, 20), "HorizontalaMovement=" + HorizontalaMovement, guiStyle);
+        GUI.Label(new Rect(0, 40, 100, 20), "horizontalDirection=" + horizontalDirection, guiStyle);
+        GUI.Label(new Rect(0, 80, 100, 20), "movementAcceleration=" + movementAcceleration, guiStyle);
     }
-    #endregion
     #region 物件互動相關
 
 
