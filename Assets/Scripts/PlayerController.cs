@@ -323,7 +323,7 @@ public class PlayerController : MonoBehaviour
         void Flip()
         {
             facingRight= !facingRight;
-            transform.Rotate(0f, 180f, 0f);
+            transform.Rotate(0f, -180f, 0f);
         }
         #endregion
     #region Dash協程
@@ -381,7 +381,7 @@ public class PlayerController : MonoBehaviour
             {
                 animator.SetBool("isGrounded", true);
                 animator.SetBool("isFalling", false);
-                animator.SetBool("wallGrab", false);
+                    animator.SetBool("wallGrab", false);
                 animator.SetFloat("horizontalDirection", Mathf.Abs(horizontalDirection));
             }
             else
