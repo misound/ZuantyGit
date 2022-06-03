@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class QTE : MonoBehaviour
 {
@@ -15,44 +15,43 @@ public class QTE : MonoBehaviour
     /// 驗證並把QTE按鈕產生方法改在Enemy上面
     /// 決定把QTE當資料庫
     /// 
+    /// 
+    ///2022/06/03更新日誌
+    ///開始編撰資料庫
     #endregion
-    public GameObject QTEBtn;
-    public GameObject enemy;
 
-    //UnityEvent m_MyEvent = new UnityEvent();
-    // Start is called before the first frame update
+    public Sprite Sprite_QTEButton;
+
+    private Sprite _qteButton;
+
+    public Sprite QTEButton
+    {
+        get { return _qteButton; }
+        set
+        {
+            _qteButton = value;
+            _isDirty = true;
+        }
+    }
+
+    private bool _isDirty = false;
+
     void Start()
     {
-        //m_MyEvent.AddListener(QTEBtnActive);
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        QTEBtn.transform.LookAt(enemy.transform.position);
-        transform.localRotation = Quaternion.Euler(0, 0, 0);
-    }
-
-    #region QTE碰撞相關
-
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if(Time.timeScale <= 0.4 )
+        if (_isDirty) //隨時檢查，更改完了就自我關閉
         {
-            //QTEBtnActive();
+            if(_qteButton != null)
+            {
+                Sprite_QTEButton = _qteButton;
+            }
 
-        }
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            Debug.Log(gameObject.name + "DIE!!!");
-            Destroy(this.gameObject);
+            _isDirty = false;
         }
     }
-
-    //離開範圍時消除自己
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-
-    }
-    #endregion
 }

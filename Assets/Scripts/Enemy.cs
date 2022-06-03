@@ -25,11 +25,13 @@ public class Enemy : MonoBehaviour
     [Header("Objects")]
     [SerializeField] public GameObject QTEBtn;
     [SerializeField] public GameObject pool;
-    [SerializeField] public Transform enemy;
+    //[SerializeField] public Transform enemy;
     [SerializeField] public GameObject Player;
+    [SerializeField] public QTE qte;
+    [SerializeField] public QTESpriteMgr qTESpriteMgr;
 
     UnityEvent m_MyEvent = new UnityEvent(); //QTE按鈕開啟關閉事件觸發
-    //[SerializeField] public GameObject Terry;
+
     [Header("hp")]
     public int maxHealth = 100;
 
@@ -37,6 +39,7 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
         currentHealth = maxHealth;
 
         m_MyEvent.AddListener(QTEBtnActive);
@@ -44,8 +47,12 @@ public class Enemy : MonoBehaviour
         GameObject target = Instantiate(QTEBtn, transform.position, transform.rotation); //實例化QTE按鈕並跟隨目標
         target.transform.parent = pool.transform; //丟去父類別
 
-        QTEBtn = gameObject.transform.GetChild(0).gameObject;   //直接指定第一個子類別
+        QTE _qte = target.GetComponent<QTE>();
+        _qte.QTEButton = qTESpriteMgr.QTEsprites[Random.Range(0, 3)];
+
+        //QTEBtn = gameObject.transform.GetChild(0).gameObject;   //直接指定第一個子類別
         Player = GameObject.Find("player");         //僅讓玩家順移，之後考慮有無更好作法
+
     }
 
     void Update()
@@ -101,7 +108,7 @@ public class Enemy : MonoBehaviour
     /// </summary>
     void QTEBtnActive()
     {
-        Debug.Log("我是Enemy觸發");
         QTEBtn.SetActive(true);
+        Debug.Log("我是Enemy觸發");
     }
 }

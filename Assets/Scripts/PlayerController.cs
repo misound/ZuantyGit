@@ -137,6 +137,7 @@ public class PlayerController : MonoBehaviour
         GUI.Label(new Rect(0, 0, 100, 20), "HorizontalaMovement=" + HorizontalaMovement, guiStyle);
         GUI.Label(new Rect(0, 40, 100, 20), "horizontalDirection=" + horizontalDirection, guiStyle);
         GUI.Label(new Rect(0, 80, 100, 20), "movementAcceleration=" + movementAcceleration, guiStyle);
+        GUI.Label(new Rect(0, 120, 100, 20), "TimeScale=" + Time.timeScale, guiStyle);
     }
 
     #region 讀取數據
