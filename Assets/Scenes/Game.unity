@@ -739,7 +739,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 262389923}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -47.6, y: 1.3, z: -0.6}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1634655712}
@@ -816,6 +816,9 @@ MonoBehaviour:
   wallLayer:
     serializedVersion: 2
     m_Bits: 2048
+  cornerCorrectLayer:
+    serializedVersion: 2
+    m_Bits: 256
   movementAcceleration: 50
   maxMovementSpeed: 8
   groundLinearDrag: 10
@@ -829,16 +832,17 @@ MonoBehaviour:
   jumpBufferLength: 11.89
   groundRaycastLength: 1.67
   groundRaycastOffset: {x: 1.34, y: 0, z: 0}
+  wallSlideModifier: 0.5
+  wallJumpXVelocityHaltDelay: 0.2
   wallRaycastLength: 1.6
   onWall: 0
   onRightWall: 0
-  wallSlideModifier: 0.5
   dashSpeed: 15
   dashLength: 0.3
   dashBufferLength: 0.1
   topRaycastLength: 1.38
   edgeRaycastOffset: {x: 0.66, y: 0, z: 0}
-  innerRaycastoffset: {x: -1.15, y: 0, z: 0}
+  innerRaycastOffset: {x: 0, y: 0, z: 0}
   animator: {fileID: 262389931}
   HorizontalaMovement: 0
   slowdownFactor: 0.05
@@ -973,7 +977,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 515858982}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -47.6, y: 1.3, z: -10.6}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 23850598}
@@ -1093,7 +1097,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -47.6, y: 1.3, z: -10.6}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1644494680}
