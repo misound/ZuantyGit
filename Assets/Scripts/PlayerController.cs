@@ -192,7 +192,19 @@ public class PlayerController : MonoBehaviour
         if (canCornerCorrect) CornerCorrect(rb.velocity.y);
     }
 
+<<<<<<< HEAD
+    private void OnGUI()
+    {
+        GUI.Label(new Rect(0, 0, 100, 20), "HorizontalaMovement=" + HorizontalaMovement, guiStyle);
+        GUI.Label(new Rect(0, 40, 100, 20), "horizontalDirection=" + horizontalDirection, guiStyle);
+        GUI.Label(new Rect(0, 80, 100, 20), "movementAcceleration=" + movementAcceleration, guiStyle);
+        GUI.Label(new Rect(0, 120, 100, 20), "TimeScale=" + Time.timeScale, guiStyle);
+    }
+
+    #region 讀取數據
+=======
     #region 移動數據
+>>>>>>> origin/main_1
     private Vector2 GetInput()
     {
         return new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
