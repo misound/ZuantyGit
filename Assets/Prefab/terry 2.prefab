@@ -146,12 +146,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3375617a600df8a4ebcb93d9a0ae5f34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  QTEBtn: {fileID: 5034283844582249421, guid: 4e01f66ca59423d48b0d3b9cd59137a9, type: 3}
-  pool: {fileID: 6360215910150734582}
-  enemy: {fileID: 6360215910150734474}
-  Player: {fileID: 0}
   qte: {fileID: 5838052130977182330, guid: 4e01f66ca59423d48b0d3b9cd59137a9, type: 3}
   qTESpriteMgr: {fileID: 3130206600970727905}
+  QTEBtn: {fileID: 5034283844582249421, guid: 4e01f66ca59423d48b0d3b9cd59137a9, type: 3}
+  pool: {fileID: 6360215910150734582}
+  Player: {fileID: 0}
   maxHealth: 100
 --- !u!114 &3130206600970727905
 MonoBehaviour:
@@ -165,7 +164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70173516e3361fe4c853f4423dbf5905, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  QTEsprites:
+  sprites:
   - {fileID: 21300000, guid: 9917b4a57f4a066419e0fa17d7396c30, type: 3}
   - {fileID: 21300000, guid: eb5027ebf2dff624e9874794de08e6de, type: 3}
   - {fileID: 21300000, guid: b7ba72549aeb9374ebfe7d878fec9736, type: 3}

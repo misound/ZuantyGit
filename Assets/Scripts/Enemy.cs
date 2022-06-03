@@ -23,12 +23,15 @@ public class Enemy : MonoBehaviour
     /// 
     #endregion
     [Header("Objects")]
-    [SerializeField] public GameObject QTEBtn;
-    [SerializeField] public GameObject pool;
-    //[SerializeField] public Transform enemy;
-    [SerializeField] public GameObject Player;
     [SerializeField] public QTE qte;
     [SerializeField] public QTESpriteMgr qTESpriteMgr;
+
+    [SerializeField] public GameObject QTEBtn;
+    [SerializeField] public GameObject pool;
+
+    [SerializeField] public GameObject Player;
+
+
 
     UnityEvent m_MyEvent = new UnityEvent(); //QTE按鈕開啟關閉事件觸發
 
@@ -48,9 +51,14 @@ public class Enemy : MonoBehaviour
         target.transform.parent = pool.transform; //丟去父類別
 
         QTE _qte = target.GetComponent<QTE>();
-        _qte.QTEButton = qTESpriteMgr.QTEsprites[Random.Range(0, 3)];
+        _qte.QTEButton = qTESpriteMgr.sprites[Random.Range(0, 2)];
+        if (GetComponent<QTE>())
+        {
+            Debug.Log("最好給我動喔");
+        }
 
-        //QTEBtn = gameObject.transform.GetChild(0).gameObject;   //直接指定第一個子類別
+
+        //target = gameObject.transform.GetChild(0).gameObject;   //直接指定第一個子類別
         Player = GameObject.Find("player");         //僅讓玩家順移，之後考慮有無更好作法
 
     }
@@ -109,6 +117,10 @@ public class Enemy : MonoBehaviour
     void QTEBtnActive()
     {
         QTEBtn.SetActive(true);
+        if(QTEBtn.activeInHierarchy == true)
+        {
         Debug.Log("我是Enemy觸發");
+        }
+
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class QTESpriteMgr : MonoBehaviour
 {
-    public Sprite[] QTEsprites; //πœ¿…∞}¶C
+    public Sprite[] sprites; //πœ¿…∞}¶C
     // Start is called before the first frame update
     void Start()
     {
