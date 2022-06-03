@@ -27,9 +27,6 @@ public class PlayerController : MonoBehaviour
     [Header("Components")]
     private Rigidbody2D rb;
     public CircleCollider2D QTESlow;
-    public GameObject QTEBtn;
-    public GameObject pool;
-
     public Transform Enemy;
     public GameObject Terry;
 
@@ -143,6 +140,7 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         CheckCollisions();
+        SlowMotionBtn();
         if (canDash)
         {
             StartCoroutine(Dash(horizontalDirection, verticalDirection));
@@ -323,7 +321,7 @@ public class PlayerController : MonoBehaviour
         void Flip()
         {
             facingRight= !facingRight;
-            transform.Rotate(0f, -180f, 0f);
+            transform.Rotate(0f, 180f, 0f);
         }
         #endregion
     #region Dash協程
@@ -486,29 +484,7 @@ public class PlayerController : MonoBehaviour
     }
     #region 物件互動相關
 
-
-    //private void OnTriggerStay2D(Collider2D collision)
-    //{
-
-    //    if (Input.GetKeyDown(KeyCode.LeftShift) | Time.timeScale <= 0.4)
-    //    {
-    //        if (collision.name.ToLower().Contains("terry"))
-    //        {
-
-    //            Debug.Log("敵");
-    //            GameObject target = Instantiate(QTEBtn);
-    //            target.transform.parent = pool.transform; //丟去父類別
-    //            target.transform.localScale = Vector3.one; //reset
-    //            target.transform.position = Enemy.transform.localPosition; //在敵人身上放按鈕
-
-    //            if (Input.GetKeyDown(KeyCode.Q) & Time.timeScale <= 0.4)
-    //            {
-    //                transform.position = Enemy.transform.localPosition; //teleport
-    //                Destroy(Terry);
-    //            }
-    //        }
-    //    }
-    //}
+    
 
     #endregion
     #region 子彈時間相關
