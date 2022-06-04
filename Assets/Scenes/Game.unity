@@ -647,7 +647,7 @@ MonoBehaviour:
     m_Bits: 2048
   cornerCorrectLayer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 2304
   movementAcceleration: 50
   maxMovementSpeed: 8
   groundLinearDrag: 10
@@ -666,7 +666,7 @@ MonoBehaviour:
   wallRaycastLength: 1.6
   onWall: 0
   onRightWall: 0
-  dashSpeed: 15
+  dashSpeed: 20
   dashLength: 0.3
   dashBufferLength: 0.1
   topRaycastLength: 1.38
@@ -1154,6 +1154,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.x
       value: 9.9140625
+      objectReference: {fileID: 0}
+    - target: {fileID: 6373590843402663413, guid: e1ebc5bdf8a40ba4ebe04730115eb923,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.65
       objectReference: {fileID: 0}
     - target: {fileID: 6373590843402663413, guid: e1ebc5bdf8a40ba4ebe04730115eb923,
         type: 3}
