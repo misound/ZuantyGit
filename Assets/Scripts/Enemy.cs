@@ -6,20 +6,20 @@ using UnityEngine.Events;
 
 public class Enemy : MonoBehaviour
 {
-    #region §ó·s¤é»x
-    /// 2022/05/27§ó·s¤é»x
-    /// ·s¼W¤F±±¨îQTE«ö¶s²£¥Í¾÷¨î
-    /// ­ì¥»¬°°ÊºA²£¥Í¡A§ï¬°¤@¶}©l´N¥Í¦nÂ\¦b¼Ä¤H¤W­±¨Ã³z¹LonTrigger¨Ó±±¨î
-    /// ²£¥Íªº¾÷¨î¤]§ï¬°¥ÑEnemyªºcs¨Ó²£¥Í¡C
-    /// ¦Ó¥B²{¦b¥u¯à«ü©w¨ì²Ä¤@­Ó¹J¨£ªº¼Ä¤H¡A¥¼¨Ó·|§ï¬°¼Ä¤H¥şÅé¡C
-    /// §Ú²z·Q¬O·Q­n¨C¦¸²£¥Í(­«·s¶}±Ò¹CÀ¸, ¦º±¼­«¨Ó, etc...)³£¬O¤£¦P«öÁä(¹w³]3­Ó)
-    /// ¦Óboss¤@¦¸§ğÀ»±o«ö¤ñ¸û¦h¡A©Ò¥H©T©w«öÁä¡C
+    #region æ›´æ–°æ—¥èªŒ
+    /// 2022/05/27æ›´æ–°æ—¥èªŒ
+    /// æ–°å¢äº†æ§åˆ¶QTEæŒ‰éˆ•ç”¢ç”Ÿæ©Ÿåˆ¶
+    /// åŸæœ¬ç‚ºå‹•æ…‹ç”¢ç”Ÿï¼Œæ”¹ç‚ºä¸€é–‹å§‹å°±ç”Ÿå¥½æ“ºåœ¨æ•µäººä¸Šé¢ä¸¦é€éonTriggerä¾†æ§åˆ¶
+    /// ç”¢ç”Ÿçš„æ©Ÿåˆ¶ä¹Ÿæ”¹ç‚ºç”±Enemyçš„csä¾†ç”¢ç”Ÿã€‚
+    /// è€Œä¸”ç¾åœ¨åªèƒ½æŒ‡å®šåˆ°ç¬¬ä¸€å€‹é‡è¦‹çš„æ•µäººï¼Œæœªä¾†æœƒæ”¹ç‚ºæ•µäººå…¨é«”ã€‚
+    /// æˆ‘ç†æƒ³æ˜¯æƒ³è¦æ¯æ¬¡ç”¢ç”Ÿ(é‡æ–°é–‹å•ŸéŠæˆ², æ­»æ‰é‡ä¾†, etc...)éƒ½æ˜¯ä¸åŒæŒ‰éµ(é è¨­3å€‹)
+    /// è€Œbossä¸€æ¬¡æ”»æ“Šå¾—æŒ‰æ¯”è¼ƒå¤šï¼Œæ‰€ä»¥å›ºå®šæŒ‰éµã€‚
     /// 
 
-    /// 2022/05/29§ó·s¤é»x
-    /// ÅıQTE«ö¶s§@¥Îªº¤è¦¡¥ÑGetComponentÅÜ¬°²Ä¤@­Ó²£¥Íªº¤lÃş§O¡C
-    /// ÀH¾÷²£¥Í«ö¶sªº¤è¦¡¥i¥H¹Á¸Õ¥ÎGetSet¨Ó¼g¸Õ¸Õ¬İ
-    /// ¤£¹LÀ»±ş°Ê§@±o­n§ï¥hPlayerControllerÀ³¸Ó¤£¯à¼g¦bEnemy
+    /// 2022/05/29æ›´æ–°æ—¥èªŒ
+    /// è®“QTEæŒ‰éˆ•ä½œç”¨çš„æ–¹å¼ç”±GetComponentè®Šç‚ºç¬¬ä¸€å€‹ç”¢ç”Ÿçš„å­é¡åˆ¥ã€‚
+    /// éš¨æ©Ÿç”¢ç”ŸæŒ‰éˆ•çš„æ–¹å¼å¯ä»¥å˜—è©¦ç”¨GetSetä¾†å¯«è©¦è©¦çœ‹
+    /// ä¸éæ“Šæ®ºå‹•ä½œå¾—è¦æ”¹å»PlayerControlleræ‡‰è©²ä¸èƒ½å¯«åœ¨Enemy
     /// 
     #endregion
     [Header("Objects")]
@@ -30,7 +30,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] public QTE qte;
     [SerializeField] public QTESpriteMgr qTESpriteMgr;
 
-    UnityEvent m_MyEvent = new UnityEvent(); //QTE«ö¶s¶}±ÒÃö³¬¨Æ¥óÄ²µo
+    UnityEvent m_MyEvent = new UnityEvent(); //QTEæŒ‰éˆ•é–‹å•Ÿé—œé–‰äº‹ä»¶è§¸ç™¼
 
     [Header("hp")]
     public int maxHealth = 100;
@@ -44,14 +44,14 @@ public class Enemy : MonoBehaviour
 
         m_MyEvent.AddListener(QTEBtnActive);
 
-        GameObject target = Instantiate(QTEBtn, transform.position, transform.rotation); //¹ê¨Ò¤ÆQTE«ö¶s¨Ã¸òÀH¥Ø¼Ğ
-        target.transform.parent = pool.transform; //¥á¥h¤÷Ãş§O
+        GameObject target = Instantiate(QTEBtn, transform.position, transform.rotation); //å¯¦ä¾‹åŒ–QTEæŒ‰éˆ•ä¸¦è·Ÿéš¨ç›®æ¨™
+        target.transform.parent = pool.transform; //ä¸Ÿå»çˆ¶é¡åˆ¥
 
         QTE _qte = target.GetComponent<QTE>();
         _qte.QTEButton = qTESpriteMgr.QTEsprites[Random.Range(0, 3)];
 
-        //QTEBtn = gameObject.transform.GetChild(0).gameObject;   //ª½±µ«ü©w²Ä¤@­Ó¤lÃş§O
-        Player = GameObject.Find("player");         //¶ÈÅıª±®a¶¶²¾¡A¤§«á¦Ò¼{¦³µL§ó¦n§@ªk
+        //QTEBtn = gameObject.transform.GetChild(0).gameObject;   //ç›´æ¥æŒ‡å®šç¬¬ä¸€å€‹å­é¡åˆ¥
+        Player = GameObject.Find("player");         //åƒ…è®“ç©å®¶é †ç§»ï¼Œä¹‹å¾Œè€ƒæ…®æœ‰ç„¡æ›´å¥½ä½œæ³•
 
     }
 
@@ -78,7 +78,7 @@ public class Enemy : MonoBehaviour
         Destroy(this.gameObject);
     }
 
-    #region ¸I¼²¬ÛÃö
+    #region ç¢°æ’ç›¸é—œ
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (Time.timeScale <= 0.4 && m_MyEvent != null)
@@ -104,11 +104,11 @@ public class Enemy : MonoBehaviour
     #endregion
 
     /// <summary>
-    /// QTE¶}±ÒÃö³¬¨Æ¥óÄ²µo
+    /// QTEé–‹å•Ÿé—œé–‰äº‹ä»¶è§¸ç™¼
     /// </summary>
     void QTEBtnActive()
     {
         QTEBtn.SetActive(true);
-        Debug.Log("§Ú¬OEnemyÄ²µo");
+        Debug.Log("æˆ‘æ˜¯Enemyè§¸ç™¼");
     }
 }

@@ -6,24 +6,6 @@ using UnityEngine.Animations;
 
 public class PlayerController : MonoBehaviour
 {
-    //記得看更新日誌//記得看更新日誌//記得看更新日誌//記得看更新日誌
-    #region 更新日誌
-    /// 
-    /// 2022/05/17更新日誌
-    /// 換為骷弓之後在白色方格下面跳躍時有BUG，那個白色平台到底是何方神聖?!
-    /// 新增有時會無法跳躍的問題
-    /// 換為骷弓之後collider的頭太大導致會卡在半空中的問題
-    ///
-
-    /// 
-    ///2022/05/22更新日誌
-    ///把子彈時間跟QTE做結合了但仍有BUG(請參照約第291行)
-    ///新增QTE的cs檔
-    ///新增還沒有想做開始畫面的意思
-    ///還沒新增冷卻時間
-    /// 
-    #endregion
-    //記得看更新日誌//記得看更新日誌//記得看更新日誌//記得看更新日誌
     [Header("Components")]
     private Rigidbody2D rb;
     public CircleCollider2D QTESlow;
@@ -191,8 +173,7 @@ public class PlayerController : MonoBehaviour
         }
         if (canCornerCorrect) CornerCorrect(rb.velocity.y);
     }
-
-<<<<<<< HEAD
+    #region 讀取數據
     private void OnGUI()
     {
         GUI.Label(new Rect(0, 0, 100, 20), "HorizontalaMovement=" + HorizontalaMovement, guiStyle);
@@ -200,11 +181,9 @@ public class PlayerController : MonoBehaviour
         GUI.Label(new Rect(0, 80, 100, 20), "movementAcceleration=" + movementAcceleration, guiStyle);
         GUI.Label(new Rect(0, 120, 100, 20), "TimeScale=" + Time.timeScale, guiStyle);
     }
-
-    #region 讀取數據
-=======
+    #endregion
     #region 移動數據
->>>>>>> origin/main_1
+
     private Vector2 GetInput()
     {
         return new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
@@ -383,7 +362,7 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetBool("isDashing", false);
 
-            if ((horizontalDirection < 0f && facingRight || horizontalDirection > 0f && !facingRight) && !wallGrab && !wallSlide)
+            if ((horizontalDirection > 0f && facingRight || horizontalDirection < 0f && !facingRight) && !wallGrab && !wallSlide)
             {
                 Flip();
             }
@@ -403,7 +382,7 @@ public class PlayerController : MonoBehaviour
                 animator.SetBool("isJumping", true);
                 animator.SetBool("isFalling", false);
                 animator.SetBool("wallGrab", false);
-                animator.SetFloat("verticalDirection", 0f);
+                animator.SetFloat("verticalDirection", Mathf.Abs(0f));
             }
             else
             {
@@ -488,12 +467,6 @@ public class PlayerController : MonoBehaviour
         }
     }
         #endregion
-    private void OnGUI()
-    {
-        GUI.Label(new Rect(0, 0, 100, 20), "HorizontalaMovement=" + HorizontalaMovement, guiStyle);
-        GUI.Label(new Rect(0, 40, 100, 20), "horizontalDirection=" + horizontalDirection, guiStyle);
-        GUI.Label(new Rect(0, 80, 100, 20), "movementAcceleration=" + movementAcceleration, guiStyle);
-    }
     #region 物件互動相關
 
     
