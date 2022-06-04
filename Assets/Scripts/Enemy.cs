@@ -21,6 +21,12 @@ public class Enemy : MonoBehaviour
     /// 隨機產生按鈕的方式可以嘗試用GetSet來寫試試看
     /// 不過擊殺動作得要改去PlayerController應該不能寫在Enemy
     /// 
+
+    /// 2022/05/35更新日誌
+    /// QTE按鈕產生方式改為抓QTE.cs，同時可自定義圖片和按鈕
+    /// 但也遇到了BUG，像是SetActive無法作用在Hierarchy的QTE按鈕上，但是Project那邊有作用
+    /// 還有就是target都有抓到QTE.cs和QTEspriteMgr.cs，但就是無法換圖片
+    /// 
     #endregion
     [Header("Objects")]
     [SerializeField] public QTE qte;
@@ -92,7 +98,7 @@ public class Enemy : MonoBehaviour
         if (Time.timeScale <= 0.4 && m_MyEvent != null)
         {
             m_MyEvent.Invoke();            //Begin the action
-            if (Input.GetKeyDown(KeyCode.Q))
+            if (Input.GetKeyDown(KeyCode.U))
             {
                 Destroy(this.gameObject);
                 Player.transform.position = this.gameObject.transform.localPosition;

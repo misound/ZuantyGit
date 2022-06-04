@@ -635,8 +635,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   QTESlow: {fileID: 262389933}
-  QTEBtn: {fileID: 315597561839878199, guid: 10d7377ee9420f04c8b994de3db6cbf0, type: 3}
-  pool: {fileID: 0}
   Enemy: {fileID: 585293644}
   Terry: {fileID: 585293639}
   groundLayer:
@@ -676,6 +674,10 @@ MonoBehaviour:
   HorizontalaMovement: 0
   slowdownFactor: 0.05
   slowdownLength: 2
+  cooldownTime: 6
+  timer: 0
+  isStartTime: 0
+  skillInvalid: 0
 --- !u!114 &262389930
 MonoBehaviour:
   m_ObjectHideFlags: 0
