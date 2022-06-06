@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.SymbolStore;
 using UnityEngine;
 using UnityEngine.Animations;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -11,6 +12,12 @@ public class PlayerController : MonoBehaviour
     public CircleCollider2D QTESlow;
     public Transform Enemy;
     public GameObject Terry;
+    public HealthBar healthBar;
+    
+    [Header("Player inforamtion")] 
+    [SerializeField] public int maxHealth = 100;
+    [SerializeField] public int currentHealth;
+
 
     [Header("Layer Mask")]
     [SerializeField] private LayerMask groundLayer;
@@ -81,11 +88,15 @@ public class PlayerController : MonoBehaviour
     [Header("SlowMotion")]
     [SerializeField] public float slowdownFactor = 0.05f;
     [SerializeField] public float slowdownLength = 2f;
+    
+    
 
     private GUIStyle guiStyle = new GUIStyle(); //create a new variable
 
     private void Start()
     {
+        currentHealth = maxHealth;
+        healthBar.SetMaxHealth(maxHealth);
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         QTESlow = GetComponent<CircleCollider2D>();
@@ -118,6 +129,7 @@ public class PlayerController : MonoBehaviour
             dashBufferCounter -= Time.deltaTime;
         }
         Animation();
+        GetHurt();
     }
     private void FixedUpdate()
     {
@@ -486,5 +498,18 @@ public class PlayerController : MonoBehaviour
             DoSlowMotion();
         }
     }
+    #endregion
+    #region 玩家血量
+
+    public void GetHurt()
+    {
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            currentHealth -= 20;
+        }
+        healthBar.SetHealth(currentHealth);
+    }
+    
+
     #endregion
 }
