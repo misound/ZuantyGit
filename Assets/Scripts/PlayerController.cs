@@ -6,6 +6,27 @@ using UnityEngine.Animations;
 
 public class PlayerController : MonoBehaviour
 {
+    //記得看更新日誌//記得看更新日誌//記得看更新日誌//記得看更新日誌
+    #region 更新日誌
+    /// 2022/05/17更新日誌
+    /// 換為骷弓之後在白色方格下面跳躍時有BUG，那個白色平台到底是何方神聖?!
+    /// 新增有時會無法跳躍的問題
+    /// 換為骷弓之後collider的頭太大導致會卡在半空中的問題
+    ///
+
+    ///2022/05/22更新日誌
+    ///把子彈時間跟QTE做結合了但仍有BUG(請參照約第291行)
+    ///新增QTE的cs檔
+    ///新增還沒有想做開始畫面的意思
+    ///還沒新增冷卻時間
+    /// 
+
+    /// 2022/5/35更新日誌
+    /// 新增冷卻時間(按技能時開始計算冷卻時間)
+    /// 
+    /// 
+    #endregion
+    //記得看更新日誌//記得看更新日誌//記得看更新日誌//記得看更新日誌
     [Header("Components")]
     private Rigidbody2D rb;
     public CircleCollider2D QTESlow;
@@ -81,6 +102,10 @@ public class PlayerController : MonoBehaviour
     [Header("SlowMotion")]
     [SerializeField] public float slowdownFactor = 0.05f;
     [SerializeField] public float slowdownLength = 2f;
+    [SerializeField] public float cooldownTime = 6.0f;
+    [SerializeField] private float timer = 0;
+    [SerializeField] private bool isStartTime = false;
+    [SerializeField] private bool skillInvalid = false;
 
     private GUIStyle guiStyle = new GUIStyle(); //create a new variable
 
@@ -96,8 +121,12 @@ public class PlayerController : MonoBehaviour
     }
     private void Update()
     {
+
+
         Time.timeScale += (1f / slowdownLength) * Time.unscaledDeltaTime;
         Time.timeScale = Mathf.Clamp(Time.timeScale, 0f, 1f);
+
+
         horizontalDirection = GetInput().x;
         verticalDirection = GetInput().y;
         if (Input.GetButtonDown("Jump"))
@@ -173,13 +202,16 @@ public class PlayerController : MonoBehaviour
         }
         if (canCornerCorrect) CornerCorrect(rb.velocity.y);
     }
+
     #region 讀取數據
-    private void OnGUI()
+   private void OnGUI()
     {
         GUI.Label(new Rect(0, 0, 100, 20), "HorizontalaMovement=" + HorizontalaMovement, guiStyle);
         GUI.Label(new Rect(0, 40, 100, 20), "horizontalDirection=" + horizontalDirection, guiStyle);
         GUI.Label(new Rect(0, 80, 100, 20), "movementAcceleration=" + movementAcceleration, guiStyle);
         GUI.Label(new Rect(0, 120, 100, 20), "TimeScale=" + Time.timeScale, guiStyle);
+        GUI.Label(new Rect(0, 160, 100, 20), "Timer=" + timer, guiStyle);
+
     }
     #endregion
     #region 移動數據
@@ -467,6 +499,7 @@ public class PlayerController : MonoBehaviour
         }
     }
         #endregion
+
     #region 物件互動相關
 
     
@@ -483,7 +516,28 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            DoSlowMotion();
+            isStartTime = true;
+            skillInvalid = true;
+        }
+        if (isStartTime)
+        {
+
+            if (skillInvalid && timer == 0)
+            {
+                DoSlowMotion();
+            }
+
+            if (timer >= cooldownTime)
+            {
+
+                timer = 0;
+                isStartTime = false;
+                skillInvalid = false;
+            }
+            else
+            {
+            timer += Time.unscaledDeltaTime;
+            }
         }
     }
     #endregion

@@ -673,6 +673,10 @@ MonoBehaviour:
   HorizontalaMovement: 0
   slowdownFactor: 0.05
   slowdownLength: 2
+  cooldownTime: 6
+  timer: 0
+  isStartTime: 0
+  skillInvalid: 0
 --- !u!114 &262389930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2387,12 +2391,40 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3130206600970727905, guid: 8d53ce62dffb74e4d9fcf3ee29a1fba4,
+        type: 3}
+      propertyPath: sprites.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3130206600970727905, guid: 8d53ce62dffb74e4d9fcf3ee29a1fba4,
+        type: 3}
+      propertyPath: sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 9917b4a57f4a066419e0fa17d7396c30,
+        type: 3}
+    - target: {fileID: 3130206600970727905, guid: 8d53ce62dffb74e4d9fcf3ee29a1fba4,
+        type: 3}
+      propertyPath: sprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: eb5027ebf2dff624e9874794de08e6de,
+        type: 3}
+    - target: {fileID: 3130206600970727905, guid: 8d53ce62dffb74e4d9fcf3ee29a1fba4,
+        type: 3}
+      propertyPath: sprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300000, guid: b7ba72549aeb9374ebfe7d878fec9736,
+        type: 3}
     - target: {fileID: 6360215910150734473, guid: 8d53ce62dffb74e4d9fcf3ee29a1fba4,
         type: 3}
       propertyPath: qte
       value: 
       objectReference: {fileID: 5838052130977182330, guid: 4e01f66ca59423d48b0d3b9cd59137a9,
         type: 3}
+    - target: {fileID: 6360215910150734473, guid: 8d53ce62dffb74e4d9fcf3ee29a1fba4,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6360215910150734473, guid: 8d53ce62dffb74e4d9fcf3ee29a1fba4,
         type: 3}
       propertyPath: qTESpriteMgr
