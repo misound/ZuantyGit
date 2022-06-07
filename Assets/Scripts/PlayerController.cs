@@ -88,8 +88,11 @@ public class PlayerController : MonoBehaviour
     [Header("SlowMotion")]
     [SerializeField] public float slowdownFactor = 0.05f;
     [SerializeField] public float slowdownLength = 2f;
-    
-    
+    [SerializeField] public float cooldownTime = 6.0f;
+    [SerializeField] private float timer = 0;
+    [SerializeField] private bool isStartTime = false;
+    [SerializeField] private bool skillInvalid = false;
+
 
     private GUIStyle guiStyle = new GUIStyle(); //create a new variable
 
@@ -107,8 +110,12 @@ public class PlayerController : MonoBehaviour
     }
     private void Update()
     {
+
+
         Time.timeScale += (1f / slowdownLength) * Time.unscaledDeltaTime;
         Time.timeScale = Mathf.Clamp(Time.timeScale, 0f, 1f);
+
+
         horizontalDirection = GetInput().x;
         verticalDirection = GetInput().y;
         if (Input.GetButtonDown("Jump"))
@@ -185,13 +192,16 @@ public class PlayerController : MonoBehaviour
         }
         if (canCornerCorrect) CornerCorrect(rb.velocity.y);
     }
+
     #region 讀取數據
-    private void OnGUI()
+   private void OnGUI()
     {
         GUI.Label(new Rect(0, 0, 100, 20), "HorizontalaMovement=" + HorizontalaMovement, guiStyle);
         GUI.Label(new Rect(0, 40, 100, 20), "horizontalDirection=" + horizontalDirection, guiStyle);
         GUI.Label(new Rect(0, 80, 100, 20), "movementAcceleration=" + movementAcceleration, guiStyle);
         GUI.Label(new Rect(0, 120, 100, 20), "TimeScale=" + Time.timeScale, guiStyle);
+        GUI.Label(new Rect(0, 160, 100, 20), "Timer=" + timer, guiStyle);
+
     }
     #endregion
     #region 移動數據
@@ -495,7 +505,28 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            DoSlowMotion();
+            isStartTime = true;
+            skillInvalid = true;
+        }
+        if (isStartTime)
+        {
+
+            if (skillInvalid && timer == 0)
+            {
+                DoSlowMotion();
+            }
+
+            if (timer >= cooldownTime)
+            {
+
+                timer = 0;
+                isStartTime = false;
+                skillInvalid = false;
+            }
+            else
+            {
+            timer += Time.unscaledDeltaTime;
+            }
         }
     }
     #endregion
