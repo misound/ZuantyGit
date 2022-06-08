@@ -6,40 +6,30 @@ using UnityEngine.Events;
 
 public class Enemy : MonoBehaviour
 {
-    #region ��s��x
-    /// 2022/05/27��s��x
-    /// �s�W�F����QTE���s���;���
-    /// �쥻���ʺA���͡A�אּ�@�}�l�N�ͦn�\�b�ĤH�W���óz�LonTrigger�ӱ���
-    /// ���ͪ�����]�אּ��Enemy��cs�Ӳ��͡C
-    /// �ӥB�{�b�u����w��Ĥ@�ӹJ�����ĤH�A���ӷ|�אּ�ĤH����C
-    /// �ڲz�Q�O�Q�n�C������(���s�}�ҹC��, ��������, etc...)���O���P����(�w�]3��)
-    /// ��boss�@�������o������h�A�ҥH�T�w����C
-    /// 
-
-    /// 2022/05/29��s��x
-    /// ��QTE���s�@�Ϊ��覡��GetComponent�ܬ��Ĥ@�Ӳ��ͪ��l���O�C
-    /// �H�����ͫ��s���覡�i�H���ե�GetSet�Ӽg�ոլ�
-    /// ���L�����ʧ@�o�n��hPlayerController���Ӥ���g�bEnemy
-    /// 
-
-    /// 2022/05/35��s��x
-    /// QTE���s���ͤ覡�אּ��QTE.cs�A�P�ɥi�۩w�q�Ϥ��M���s
-    /// ���]�J��FBUG�A���OSetActive�L�k�@�ΦbHierarchy��QTE���s�W�A���OProject���䦳�@��
-    /// �٦��N�Otarget�������QTE.cs�MQTEspriteMgr.cs�A���N�O�L�k���Ϥ�
-    /// 
-    #endregion
     [Header("Objects")]
     [SerializeField] public QTE qte;
     [SerializeField] public QTESpriteMgr qTESpriteMgr;
 
-    [SerializeField] public GameObject QTEBtn;
+    [SerializeField] public GameObject QTEBtn_U;
+    [SerializeField] public GameObject QTEBtn_I;
+    [SerializeField] public GameObject QTEBtn_O;
     [SerializeField] public GameObject pool;
 
     [SerializeField] public GameObject Player;
 
+    private int direction;
+    public enum eDirection
+    {
+        U,
+        I,
+        O,
+    }
 
+    private int RandomQTE;
 
-    UnityEvent m_MyEvent = new UnityEvent(); //QTE���s�}�������ƥ�Ĳ�o
+    UnityEvent m_MyEvent = new UnityEvent(); //QTE事件產生
+    UnityEvent m_MyEvent_I = new UnityEvent();
+    UnityEvent m_MyEvent_O = new UnityEvent();
 
     [Header("hp")]
     public int maxHealth = 100;
@@ -48,13 +38,36 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        RandomQTE = Random.Range(1, 4);
+        Debug.Log(RandomQTE);
 
         currentHealth = maxHealth;
+        switch(direction)
+        {
+            case 1:
+                QTEBtn_U.SetActive(true);
+                QTEBtn_I.SetActive(false);
+                QTEBtn_O.SetActive(false);
+                break;
+            case 2:
+                QTEBtn_IActive();
+                break;
+            case 3:
+                QTEBtn_OActive();
+                break;
 
-        m_MyEvent.AddListener(QTEBtnActive);
 
-        GameObject target = Instantiate(QTEBtn, transform.position, transform.rotation); //��Ҥ�QTE���s�ø��H�ؼ�
-        target.transform.parent = pool.transform; //��h�����O
+
+
+        }
+
+        m_MyEvent.AddListener(QTEBtn_UActive);
+        m_MyEvent_I.AddListener(QTEBtn_IActive);
+        m_MyEvent_O.AddListener(QTEBtn_OActive);
+
+        /*
+        GameObject target = Instantiate(QTEBtn, transform.position, transform.rotation); //實力畫
+        target.transform.parent = pool.transform; //富類別
 
         QTE _qte = target.GetComponent<QTE>();
         _qte.QTEButton = qTESpriteMgr.sprites[Random.Range(0, 2)];
@@ -62,17 +75,30 @@ public class Enemy : MonoBehaviour
         {
             Debug.Log("�̦n���ڰʳ�");
         }
+        */
 
-
-        //target = gameObject.transform.GetChild(0).gameObject;   //�������w�Ĥ@�Ӥl���O
-        Player = GameObject.Find("player");         //�������a�����A����Ҽ{���L��n�@�k
+        //target = gameObject.transform.GetChild(0).gameObject;   //直接選取子類別
+        Player = GameObject.Find("player");         //僅供玩家順移
 
     }
 
     void Update()
     {
-
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            direction = 1;
+        }
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            direction = 2;
+        }
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            direction = 3;
+        }
     }
+
+
 
     public void TakeDamege(int damage)
     {
@@ -92,40 +118,96 @@ public class Enemy : MonoBehaviour
         Destroy(this.gameObject);
     }
 
-    #region �I������
+    #region 碰撞相關
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (Time.timeScale <= 0.4 && m_MyEvent != null)
         {
-            m_MyEvent.Invoke();            //Begin the action
-            if (Input.GetKeyDown(KeyCode.U))
+            if(RandomQTE == 1)
             {
+                m_MyEvent.Invoke();            //Begin the action
+                if (Input.GetKeyDown(KeyCode.U))
+                {
                 Destroy(this.gameObject);
                 Player.transform.position = this.gameObject.transform.localPosition;
+                }
             }
+            if (RandomQTE == 2)
+            {
+            Debug.Log("duck");
+            m_MyEvent_O.Invoke();
+                if (Input.GetKeyDown(KeyCode.I))
+                {
+                    Destroy(this.gameObject);
+                    Player.transform.position = this.gameObject.transform.localPosition;
+                }
+            }
+            if (RandomQTE == 3)
+            {
+            Debug.Log("giraffe");
+            m_MyEvent_I.Invoke();
+                if (Input.GetKeyDown(KeyCode.O))
+                {
+                    Destroy(this.gameObject);
+                    Player.transform.position = this.gameObject.transform.localPosition;
+                }
+            }
+ 
         }
-        else
-        {
-            QTEBtn.SetActive(false);
-        }
+           else
+            {
+                QTEBtn_U.SetActive(false);
+                QTEBtn_O.SetActive(false);
+                QTEBtn_I.SetActive(false);
+            }
+        
+
+
+ 
+
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        QTEBtn.SetActive(false);
-        //Debug.Log("gggggggggg");
+        QTEBtn_U.SetActive(false);
+        QTEBtn_O.SetActive(false);
+        QTEBtn_I.SetActive(false);
     }
     #endregion
 
     /// <summary>
-    /// QTE�}�������ƥ�Ĳ�o
+    /// QTE顯示
     /// </summary>
-    void QTEBtnActive()
+    void QTEBtn_UActive()
     {
-        QTEBtn.SetActive(true);
-        if(QTEBtn.activeInHierarchy == true)
+        QTEBtn_U.SetActive(true);
+        QTEBtn_I.SetActive(false);
+        QTEBtn_O.SetActive(false);
+        if (QTEBtn_U.activeInHierarchy == true)
         {
-        Debug.Log("�ڬOEnemyĲ�o");
+            Debug.Log("我是大笑臉");
+        }
+
+    }
+    void QTEBtn_IActive()
+    {
+        QTEBtn_U.SetActive(false);
+        QTEBtn_I.SetActive(true);
+        QTEBtn_O.SetActive(false);
+        if (QTEBtn_I.activeInHierarchy == true)
+        {
+            Debug.Log("我是大比逼");
+        }
+
+    }
+    void QTEBtn_OActive()
+    {
+        QTEBtn_U.SetActive(false);
+        QTEBtn_I.SetActive(false);
+        QTEBtn_O.SetActive(true);
+        if (QTEBtn_O.activeInHierarchy == true)
+        {
+            Debug.Log("我是大俗投");
         }
 
     }
