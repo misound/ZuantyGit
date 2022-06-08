@@ -525,7 +525,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-            timer += Time.unscaledDeltaTime;
+                timer += Time.deltaTime;
             }
         }
     }
