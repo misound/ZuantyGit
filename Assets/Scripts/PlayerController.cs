@@ -3,35 +3,21 @@ using System.Collections.Generic;
 using System.Diagnostics.SymbolStore;
 using UnityEngine;
 using UnityEngine.Animations;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
-    //記得看更新日誌//記得看更新日誌//記得看更新日誌//記得看更新日誌
-    #region 更新日誌
-    /// 2022/05/17更新日誌
-    /// 換為骷弓之後在白色方格下面跳躍時有BUG，那個白色平台到底是何方神聖?!
-    /// 新增有時會無法跳躍的問題
-    /// 換為骷弓之後collider的頭太大導致會卡在半空中的問題
-    ///
-
-    ///2022/05/22更新日誌
-    ///把子彈時間跟QTE做結合了但仍有BUG(請參照約第291行)
-    ///新增QTE的cs檔
-    ///新增還沒有想做開始畫面的意思
-    ///還沒新增冷卻時間
-    /// 
-
-    /// 2022/5/35更新日誌
-    /// 新增冷卻時間(按技能時開始計算冷卻時間)
-    /// 
-    /// 
-    #endregion
-    //記得看更新日誌//記得看更新日誌//記得看更新日誌//記得看更新日誌
     [Header("Components")]
     private Rigidbody2D rb;
     public CircleCollider2D QTESlow;
     public Transform Enemy;
     public GameObject Terry;
+    public HealthBar healthBar;
+    
+    [Header("Player inforamtion")] 
+    [SerializeField] public int maxHealth = 100;
+    [SerializeField] public int currentHealth;
+
 
     [Header("Layer Mask")]
     [SerializeField] private LayerMask groundLayer;
@@ -107,10 +93,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool isStartTime = false;
     [SerializeField] private bool skillInvalid = false;
 
+
     private GUIStyle guiStyle = new GUIStyle(); //create a new variable
 
     private void Start()
     {
+        currentHealth = maxHealth;
+        healthBar.SetMaxHealth(maxHealth);
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         QTESlow = GetComponent<CircleCollider2D>();
@@ -147,6 +136,7 @@ public class PlayerController : MonoBehaviour
             dashBufferCounter -= Time.deltaTime;
         }
         Animation();
+        GetHurt();
     }
     private void FixedUpdate()
     {
@@ -499,7 +489,6 @@ public class PlayerController : MonoBehaviour
         }
     }
         #endregion
-
     #region 物件互動相關
 
     
@@ -540,5 +529,18 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+    #endregion
+    #region 玩家血量
+
+    public void GetHurt()
+    {
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            currentHealth -= 20;
+        }
+        healthBar.SetHealth(currentHealth);
+    }
+    
+
     #endregion
 }
