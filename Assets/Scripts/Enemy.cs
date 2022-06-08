@@ -27,7 +27,7 @@ public class Enemy : MonoBehaviour
 
     private int RandomQTE;
 
-    UnityEvent m_MyEvent = new UnityEvent(); //QTE事件產生
+    UnityEvent m_MyEvent_U = new UnityEvent(); //QTE事件產生
     UnityEvent m_MyEvent_I = new UnityEvent();
     UnityEvent m_MyEvent_O = new UnityEvent();
 
@@ -61,7 +61,7 @@ public class Enemy : MonoBehaviour
 
         }
 
-        m_MyEvent.AddListener(QTEBtn_UActive);
+        m_MyEvent_U.AddListener(QTEBtn_UActive);
         m_MyEvent_I.AddListener(QTEBtn_IActive);
         m_MyEvent_O.AddListener(QTEBtn_OActive);
 
@@ -121,11 +121,11 @@ public class Enemy : MonoBehaviour
     #region 碰撞相關
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (Time.timeScale <= 0.4 && m_MyEvent != null)
+        if (Time.timeScale <= 0.4 && m_MyEvent_U != null)
         {
             if(RandomQTE == 1)
             {
-                m_MyEvent.Invoke();            //Begin the action
+                m_MyEvent_U.Invoke();            //Begin the action
                 if (Input.GetKeyDown(KeyCode.U))
                 {
                 Destroy(this.gameObject);
@@ -135,7 +135,7 @@ public class Enemy : MonoBehaviour
             if (RandomQTE == 2)
             {
             Debug.Log("duck");
-            m_MyEvent_O.Invoke();
+            m_MyEvent_I.Invoke();
                 if (Input.GetKeyDown(KeyCode.I))
                 {
                     Destroy(this.gameObject);
@@ -145,7 +145,7 @@ public class Enemy : MonoBehaviour
             if (RandomQTE == 3)
             {
             Debug.Log("giraffe");
-            m_MyEvent_I.Invoke();
+            m_MyEvent_O.Invoke();
                 if (Input.GetKeyDown(KeyCode.O))
                 {
                     Destroy(this.gameObject);
