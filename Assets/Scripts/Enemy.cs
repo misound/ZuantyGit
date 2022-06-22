@@ -17,13 +17,10 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] public GameObject Player;
 
-    private int direction;
-    public enum eDirection
-    {
-        U,
-        I,
-        O,
-    }
+    [Header("SuccessTimeReset")]
+    [SerializeField] public float slowdownFactor = 0.05f;
+
+
 
     private int RandomQTE;
 
@@ -42,60 +39,18 @@ public class Enemy : MonoBehaviour
         Debug.Log(RandomQTE);
 
         currentHealth = maxHealth;
-        switch(direction)
-        {
-            case 1:
-                QTEBtn_U.SetActive(true);
-                QTEBtn_I.SetActive(false);
-                QTEBtn_O.SetActive(false);
-                break;
-            case 2:
-                QTEBtn_IActive();
-                break;
-            case 3:
-                QTEBtn_OActive();
-                break;
-
-
-
-
-        }
 
         m_MyEvent_U.AddListener(QTEBtn_UActive);
         m_MyEvent_I.AddListener(QTEBtn_IActive);
         m_MyEvent_O.AddListener(QTEBtn_OActive);
 
-        /*
-        GameObject target = Instantiate(QTEBtn, transform.position, transform.rotation); //實力畫
-        target.transform.parent = pool.transform; //富類別
-
-        QTE _qte = target.GetComponent<QTE>();
-        _qte.QTEButton = qTESpriteMgr.sprites[Random.Range(0, 2)];
-        if (GetComponent<QTE>())
-        {
-            Debug.Log("�̦n���ڰʳ�");
-        }
-        */
-
-        //target = gameObject.transform.GetChild(0).gameObject;   //直接選取子類別
         Player = GameObject.Find("player");         //僅供玩家順移
 
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            direction = 1;
-        }
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            direction = 2;
-        }
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            direction = 3;
-        }
+
     }
 
 
@@ -128,8 +83,9 @@ public class Enemy : MonoBehaviour
                 m_MyEvent_U.Invoke();            //Begin the action
                 if (Input.GetKeyDown(KeyCode.U))
                 {
-                Destroy(this.gameObject);
-                Player.transform.position = this.gameObject.transform.localPosition;
+                    Destroy(this.gameObject);
+                    Player.transform.position = this.gameObject.transform.localPosition;
+                    DoSlowMotion();
                 }
             }
             if (RandomQTE == 2)
@@ -140,6 +96,7 @@ public class Enemy : MonoBehaviour
                 {
                     Destroy(this.gameObject);
                     Player.transform.position = this.gameObject.transform.localPosition;
+                    DoSlowMotion();
                 }
             }
             if (RandomQTE == 3)
@@ -150,21 +107,17 @@ public class Enemy : MonoBehaviour
                 {
                     Destroy(this.gameObject);
                     Player.transform.position = this.gameObject.transform.localPosition;
+                    DoSlowMotion();
                 }
             }
  
         }
            else
-            {
+           {
                 QTEBtn_U.SetActive(false);
                 QTEBtn_O.SetActive(false);
                 QTEBtn_I.SetActive(false);
-            }
-        
-
-
- 
-
+           }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -175,9 +128,7 @@ public class Enemy : MonoBehaviour
     }
     #endregion
 
-    /// <summary>
-    /// QTE顯示
-    /// </summary>
+    #region QTE顯示
     void QTEBtn_UActive()
     {
         QTEBtn_U.SetActive(true);
@@ -210,5 +161,12 @@ public class Enemy : MonoBehaviour
             Debug.Log("我是大俗投");
         }
 
+    }
+    #endregion
+
+    void DoSlowMotion()
+    {
+        Time.timeScale = slowdownFactor;
+        Time.fixedDeltaTime = Time.timeScale * .02f;
     }
 }
