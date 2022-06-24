@@ -606,6 +606,7 @@ GameObject:
   - component: {fileID: 262389931}
   - component: {fileID: 262389932}
   - component: {fileID: 262389924}
+  - component: {fileID: 262389934}
   m_Layer: 0
   m_Name: player
   m_TagString: Untagged
@@ -871,6 +872,21 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 10
+--- !u!114 &262389934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 262389923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d1e6d52d238f5b479f3a26bcc13ecca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Targets: []
+  EnemyTargets: {fileID: 0}
+  EnemyTargeta: []
 --- !u!1 &318875343 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2068548608187493194, guid: 8d53ce62dffb74e4d9fcf3ee29a1fba4,
@@ -1427,7 +1443,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: f7efcdb914c1e4a4392f8cbd331aa6e0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6d4346f743e39ce49ab4c4f3ec9d41b4, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2144,7 +2160,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b9af134bd62319e4c8e67bf752ccf34c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4aa3f6955b118b94eacf04b2eee81ef8, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
