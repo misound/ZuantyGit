@@ -8,15 +8,12 @@ public class TakeEnemy : MonoBehaviour
     public List<Enemy> Targets;
 
     public Enemy EnemyTargets;
-
-    public Enemy[] EnemyTargeta;
-
-
     // Start is called before the first frame update
     void Start()
     {
         Targets = new List<Enemy>();
-        EnemyTargeta = FindObjectsOfType<Enemy>();
+        UpdateTargetList();
+        showSelectionEffect();
     }
 
     // Update is called once per frame
@@ -31,15 +28,19 @@ public class TakeEnemy : MonoBehaviour
     public void UpdateTargetList()
     {
         Targets.Clear();
-        var gameObjects = gameObject.name.ToLower().Contains("terry 2");
+        var gameObjects = GameObject.FindGameObjectsWithTag("Enemy");
         foreach
-          (var obj in Targets)
+          (var obj in gameObjects)
         {
             var enemy = obj.GetComponent<Enemy>();
 
             if
              (enemy != null)
                 Targets.Add(enemy);
+        }
+        if (EnemyTargets == null)
+        {
+            EnemyTargets = Targets[0];
         }
     }
 
@@ -55,7 +56,7 @@ public class TakeEnemy : MonoBehaviour
         }
         else
         {
-            //hideSelectionEffect();
+            hideSelectionEffect();
             var index = Targets.IndexOf(EnemyTargets);
 
             if
@@ -71,26 +72,26 @@ public class TakeEnemy : MonoBehaviour
                 EnemyTargets = Targets[index + 1];
             }
         }
-        //showSelectionEffect();
+        showSelectionEffect();
     }
     public void CancelSelection()
     {
-        //hideSelectionEffect();
+        hideSelectionEffect();
         EnemyTargets = null;
     }
-    /*
+    
     private void showSelectionEffect()
     {
         if(EnemyTargets != null)
 
-            gameObject.name.ToLower().Contains("terry").renderer.material.color = Color.red;
+            EnemyTargets.GetComponent<Renderer>().material.color = Color.red;
     }
     private void hideSelectionEffect()
-    {if(EnemyTargets != null)
+    {
+        if(EnemyTargets != null)
 
-            EnemyTargets.renderer.material.color = Color.white;
+            EnemyTargets.GetComponent<Renderer>().material.color = Color.white;
     }
-    */
 }
 
 

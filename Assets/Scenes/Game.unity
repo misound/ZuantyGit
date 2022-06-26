@@ -499,7 +499,7 @@ PrefabInstance:
     - target: {fileID: 2068548606955189443, guid: 8d53ce62dffb74e4d9fcf3ee29a1fba4,
         type: 3}
       propertyPath: m_BodyType
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2068548606955189446, guid: 8d53ce62dffb74e4d9fcf3ee29a1fba4,
         type: 3}
@@ -891,7 +891,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Targets: []
   EnemyTargets: {fileID: 0}
-  EnemyTargeta: []
 --- !u!1 &318875343 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2068548608187493194, guid: 8d53ce62dffb74e4d9fcf3ee29a1fba4,
@@ -2611,7 +2610,7 @@ PrefabInstance:
     - target: {fileID: 2068548606955189443, guid: 8d53ce62dffb74e4d9fcf3ee29a1fba4,
         type: 3}
       propertyPath: m_BodyType
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2068548606955189446, guid: 8d53ce62dffb74e4d9fcf3ee29a1fba4,
         type: 3}
