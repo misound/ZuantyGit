@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 2068548606988774848}
   m_Layer: 9
   m_Name: terry 2
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -159,6 +159,7 @@ MonoBehaviour:
     type: 3}
   pool: {fileID: 2068548606955189453}
   Player: {fileID: 0}
+  slowdownFactor: 0.05
   maxHealth: 100
 --- !u!114 &2068548606988774848
 MonoBehaviour:
