@@ -447,7 +447,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void OnDrawGizmos() //這又是殺虫
     {
-        Gizmos.color = Color.green;
+        Gizmos.color = Color.white;
         var position = transform.position;
         Gizmos.DrawLine(position, position + Vector3.down * groundRaycastLength);
         //CornerCheck
