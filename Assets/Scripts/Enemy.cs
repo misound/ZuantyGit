@@ -9,6 +9,7 @@ public class Enemy : MonoBehaviour
     [Header("Objects")]
     [SerializeField] public QTE qte;
     [SerializeField] public QTESpriteMgr qTESpriteMgr;
+    [SerializeField] public TakeEnemy takeEnemy;
 
     [SerializeField] public GameObject QTEBtn_U;
     [SerializeField] public GameObject QTEBtn_I;
@@ -45,13 +46,59 @@ public class Enemy : MonoBehaviour
         m_MyEvent_O.AddListener(QTEBtn_OActive);
 
         Player = GameObject.Find("player");         //僅供玩家順移
+        takeEnemy = FindObjectOfType<TakeEnemy>();
 
     }
 
     void Update()
     {
-
+        if (takeEnemy.target != null && Time.timeScale <= 0.4)
+        {
+            if(RandomQTE == 1)
+            {
+                takeEnemy.Targets[0].m_MyEvent_U.Invoke(); 
+                           //Begin the action
+                if (Input.GetKeyDown(KeyCode.U))
+                {
+                    Destroy(this.gameObject);
+                    Player.transform.position = this.gameObject.transform.localPosition;
+                    DoSlowMotion();
+                }
+            }
+            if (RandomQTE == 2)
+            {
+            Debug.Log("duck");
+                takeEnemy.Targets[0].m_MyEvent_I.Invoke();
+                if (Input.GetKeyDown(KeyCode.I))
+                {
+                    Destroy(this.gameObject);
+                    Player.transform.position = this.gameObject.transform.localPosition;
+                    DoSlowMotion();
+                }
+            }
+            if (RandomQTE == 3)
+            {
+            Debug.Log("giraffe");
+                takeEnemy.Targets[0].m_MyEvent_O.Invoke();
+                if (Input.GetKeyDown(KeyCode.O))
+                {
+                    Destroy(this.gameObject);
+                    Player.transform.position = this.gameObject.transform.localPosition;
+                    DoSlowMotion();
+                }
+            }
+ 
+        }
+           else
+           {
+                QTEBtn_U.SetActive(false);
+                QTEBtn_O.SetActive(false);
+                QTEBtn_I.SetActive(false);
+           }
+        
     }
+
+
 
 
 

@@ -12,6 +12,9 @@ public class TakeEnemy : MonoBehaviour
     public Transform target;
 
     public float range = 20.0f;
+
+    public int com = 2;
+
     /*
     public Transform OnGetEnemy()
     {
@@ -117,7 +120,7 @@ public class TakeEnemy : MonoBehaviour
         else
         {
             hideSelectionEffect();
-            var index = Targets.IndexOf(EnemyTargets);
+            var index = Targets.IndexOf(com);
 
             if
              (index < 0 || index == Targets.Count - 1)
