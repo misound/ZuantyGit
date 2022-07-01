@@ -15,8 +15,6 @@ public class TakeEnemy : MonoBehaviour
 
     public float range = 20.0f;
 
-    public int com = 2;
-
 
     /*
     public Transform OnGetEnemy()
@@ -45,19 +43,29 @@ public class TakeEnemy : MonoBehaviour
         TempList = new List<Enemy>();
         UpdateTargetList();
         showSelectionEffect();
-
+        UpdateTarget();
     }
 
     // Update is called once per frame
     void Update()
     {
+        UpdateTargetList();
         if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            //SetupTemp();
+            SelectNextTarget();
+        }
+        if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             SetupTemp();
             SelectNextTarget();
         }
-        //OnGetEnemy();
-        UpdateTarget();
+
+
+        if(Time.timeScale >= 0.9)
+        {
+            hideSelectionEffect();
+        }
     }
 
 

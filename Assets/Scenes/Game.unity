@@ -1014,11 +1014,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d1e6d52d238f5b479f3a26bcc13ecca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Targets: []
+  TargetList: []
+  TempList: []
   EnemyTargets: {fileID: 0}
   target: {fileID: 0}
   range: 20
-  com: 0
 --- !u!1 &318875343 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2068548608187493194, guid: 8d53ce62dffb74e4d9fcf3ee29a1fba4,

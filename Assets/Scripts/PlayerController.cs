@@ -503,7 +503,7 @@ public class PlayerController : MonoBehaviour
 
     void SlowMotionBtn()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (Input.GetKeyDown(KeyCode.LeftShift)/*|| Input.GetButtonDown("Fire1")*/)
         {
             isStartTime = true;
             skillInvalid = true;

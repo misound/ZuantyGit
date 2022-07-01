@@ -47,22 +47,31 @@ public class Enemy : MonoBehaviour
 
         Player = GameObject.Find("player");         //僅供玩家順移
         takeEnemy = FindObjectOfType<TakeEnemy>();
-
     }
 
     void Update()
     {
-        if (takeEnemy.target != null && Time.timeScale <= 0.4)
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+            RandomQTE = Random.Range(1, 4);
+            }
+        if (takeEnemy.EnemyTargets != null && Time.timeScale <= 0.4)
         {
-            if(RandomQTE == 1)
+            
+            if (RandomQTE == 1)
             {
                 m_MyEvent_U.Invoke(); 
                            //Begin the action
                 if (Input.GetKeyDown(KeyCode.U))
                 {
+                    float distoEnemy = Vector3.Distance(transform.position, Player.transform.position);
+                    if (distoEnemy < takeEnemy.range)
+                    {
                     Destroy(this.gameObject);
                     Player.transform.position = this.gameObject.transform.localPosition;
                     DoSlowMotion();
+                    }
+
                 }
             }
             if (RandomQTE == 2)
@@ -71,9 +80,13 @@ public class Enemy : MonoBehaviour
                 m_MyEvent_I.Invoke();
                 if (Input.GetKeyDown(KeyCode.I))
                 {
-                    Destroy(this.gameObject);
-                    Player.transform.position = this.gameObject.transform.localPosition;
-                    DoSlowMotion();
+                    float distoEnemy = Vector3.Distance(transform.position, Player.transform.position);
+                    if (distoEnemy < takeEnemy.range)
+                    {
+                        Destroy(this.gameObject);
+                        Player.transform.position = this.gameObject.transform.localPosition;
+                        DoSlowMotion();
+                    }
                 }
             }
             if (RandomQTE == 3)
@@ -82,9 +95,13 @@ public class Enemy : MonoBehaviour
                 m_MyEvent_O.Invoke();
                 if (Input.GetKeyDown(KeyCode.O))
                 {
-                    Destroy(this.gameObject);
-                    Player.transform.position = this.gameObject.transform.localPosition;
-                    DoSlowMotion();
+                    float distoEnemy = Vector3.Distance(transform.position, Player.transform.position);
+                    if (distoEnemy < takeEnemy.range)
+                    {
+                        Destroy(this.gameObject);
+                        Player.transform.position = this.gameObject.transform.localPosition;
+                        DoSlowMotion();
+                    }
                 }
             }
  
@@ -122,7 +139,7 @@ public class Enemy : MonoBehaviour
 
     #region 碰撞相關
     private void OnTriggerStay2D(Collider2D collision)
-    {
+    {/*
         if (Time.timeScale <= 0.4 && m_MyEvent_U != null)
         {
             if(RandomQTE == 1)
@@ -164,23 +181,23 @@ public class Enemy : MonoBehaviour
                 QTEBtn_U.SetActive(false);
                 QTEBtn_O.SetActive(false);
                 QTEBtn_I.SetActive(false);
-           }
+           }*/
     }
 
     private void OnTriggerExit2D(Collider2D collision)
-    {
+    {/*
         QTEBtn_U.SetActive(false);
         QTEBtn_O.SetActive(false);
-        QTEBtn_I.SetActive(false);
+        QTEBtn_I.SetActive(false);*/
     }
     #endregion
 
     #region QTE顯示
     void QTEBtn_UActive()
     {
-        QTEBtn_U.SetActive(true);
-        QTEBtn_I.SetActive(false);
-        QTEBtn_O.SetActive(false);
+        takeEnemy.EnemyTargets.QTEBtn_U.SetActive(true);
+        takeEnemy.EnemyTargets.QTEBtn_I.SetActive(false);
+        takeEnemy.EnemyTargets.QTEBtn_O.SetActive(false);
         if (QTEBtn_U.activeInHierarchy == true)
         {
             Debug.Log("我是大笑臉");
@@ -189,9 +206,9 @@ public class Enemy : MonoBehaviour
     }
     void QTEBtn_IActive()
     {
-        QTEBtn_U.SetActive(false);
-        QTEBtn_I.SetActive(true);
-        QTEBtn_O.SetActive(false);
+        takeEnemy.EnemyTargets.QTEBtn_U.SetActive(false);
+        takeEnemy.EnemyTargets.QTEBtn_I.SetActive(true);
+        takeEnemy.EnemyTargets.QTEBtn_O.SetActive(false);
         if (QTEBtn_I.activeInHierarchy == true)
         {
             Debug.Log("我是大比逼");
@@ -200,9 +217,9 @@ public class Enemy : MonoBehaviour
     }
     void QTEBtn_OActive()
     {
-        QTEBtn_U.SetActive(false);
-        QTEBtn_I.SetActive(false);
-        QTEBtn_O.SetActive(true);
+        takeEnemy.EnemyTargets.QTEBtn_U.SetActive(false);
+        takeEnemy.EnemyTargets.QTEBtn_I.SetActive(false);
+        takeEnemy.EnemyTargets.QTEBtn_O.SetActive(true);
         if (QTEBtn_O.activeInHierarchy == true)
         {
             Debug.Log("我是大俗投");
