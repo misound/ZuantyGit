@@ -56,7 +56,7 @@ public class Enemy : MonoBehaviour
         {
             if(RandomQTE == 1)
             {
-                takeEnemy.Targets[0].m_MyEvent_U.Invoke(); 
+                m_MyEvent_U.Invoke(); 
                            //Begin the action
                 if (Input.GetKeyDown(KeyCode.U))
                 {
@@ -68,7 +68,7 @@ public class Enemy : MonoBehaviour
             if (RandomQTE == 2)
             {
             Debug.Log("duck");
-                takeEnemy.Targets[0].m_MyEvent_I.Invoke();
+                m_MyEvent_I.Invoke();
                 if (Input.GetKeyDown(KeyCode.I))
                 {
                     Destroy(this.gameObject);
@@ -79,7 +79,7 @@ public class Enemy : MonoBehaviour
             if (RandomQTE == 3)
             {
             Debug.Log("giraffe");
-                takeEnemy.Targets[0].m_MyEvent_O.Invoke();
+                m_MyEvent_O.Invoke();
                 if (Input.GetKeyDown(KeyCode.O))
                 {
                     Destroy(this.gameObject);

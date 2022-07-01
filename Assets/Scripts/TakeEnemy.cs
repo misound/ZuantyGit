@@ -5,7 +5,9 @@ using UnityEngine;
 public class TakeEnemy : MonoBehaviour
 {
 
-    public List<Enemy> Targets;
+    public List<Enemy> TargetList;
+
+    public List<Enemy> TempList;
 
     public Enemy EnemyTargets;
 
@@ -14,6 +16,7 @@ public class TakeEnemy : MonoBehaviour
     public float range = 20.0f;
 
     public int com = 2;
+
 
     /*
     public Transform OnGetEnemy()
@@ -38,7 +41,8 @@ public class TakeEnemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Targets = new List<Enemy>();
+        TargetList = new List<Enemy>();
+        TempList = new List<Enemy>();
         UpdateTargetList();
         showSelectionEffect();
 
@@ -49,30 +53,44 @@ public class TakeEnemy : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
+            SetupTemp();
             SelectNextTarget();
         }
         //OnGetEnemy();
         UpdateTarget();
     }
 
+
+    public void SetupTemp()
+    {
+        TempList.Clear();
+        for (int i = 0; i < TargetList.Count; i++)
+        {
+            float distoEnemy = Vector3.Distance(transform.position, TargetList[i].transform.position);
+            if (distoEnemy < range)
+            {
+                TempList.Add(TargetList[i]);
+            }
+        }
+    }
     void UpdateTarget()
     {
         float sdis = Mathf.Infinity;
         GameObject nearEnemy = null;
 
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        foreach(GameObject enemys in enemies)
+        foreach (GameObject enemys in enemies)
         {
-           float distoEnemy = Vector3.Distance(transform.position, enemys.transform.position);
+            float distoEnemy = Vector3.Distance(transform.position, enemys.transform.position);
 
-            if(distoEnemy < sdis)
+            if (distoEnemy < sdis)
             {
                 nearEnemy = enemys;
                 sdis = distoEnemy;
             }
 
         }
-        if(nearEnemy != null && sdis <= range)
+        if (nearEnemy != null && sdis <= range)
         {
             target = nearEnemy.transform;
             target.GetComponent<Renderer>().material.color = Color.green;
@@ -91,48 +109,73 @@ public class TakeEnemy : MonoBehaviour
 
     public void UpdateTargetList()
     {
-        Targets.Clear();
+
+        TargetList.Clear();
         var gameObjects = GameObject.FindGameObjectsWithTag("Enemy");
-        foreach(var obj in gameObjects)
+        foreach (var obj in gameObjects)
         {
             var enemy = obj.GetComponent<Enemy>();
 
             if
              (enemy != null)
-                Targets.Add(enemy);
+                TargetList.Add(enemy);
         }
         if (EnemyTargets == null)
         {
-            EnemyTargets = Targets[0];
+            EnemyTargets = TargetList[0];
         }
+
+
     }
 
     public void SelectNextTarget()
     {
-        if(Targets.Count == 0)
+        if (TempList.Count == 0)
         {
             return;
         }
-        if(EnemyTargets == null)
+        if (EnemyTargets == null)
         {
-            EnemyTargets = Targets[0];
+            EnemyTargets = TempList[0];
         }
         else
         {
             hideSelectionEffect();
-            var index = Targets.IndexOf(com);
+            var index = TempList.IndexOf(EnemyTargets);
 
-            if
-             (index < 0 || index == Targets.Count - 1)
-
+            if (index < 0 || index == TempList.Count - 1)
             {
-
-                EnemyTargets = Targets[0];
-
+                EnemyTargets = TempList[0];
             }
             else
             {
-                EnemyTargets = Targets[index + 1];
+                EnemyTargets = TempList[index + 1];
+            }
+        }
+        showSelectionEffect();
+    }
+    public void SelectNextTarget1()
+    {
+        if (TargetList.Count == 0)
+        {
+            return;
+        }
+        if (EnemyTargets == null)
+        {
+            EnemyTargets = TargetList[0];
+        }
+        else
+        {
+            hideSelectionEffect();
+            var index = TargetList.IndexOf(EnemyTargets);
+
+            if (index < 0 || index == TargetList.Count - 1)
+            {
+                EnemyTargets = TargetList[0];
+            }
+            else
+            {
+                EnemyTargets = TargetList[index + 1];
             }
         }
         showSelectionEffect();
@@ -142,16 +185,16 @@ public class TakeEnemy : MonoBehaviour
         hideSelectionEffect();
         EnemyTargets = null;
     }
-    
+
     private void showSelectionEffect()
     {
-        if(EnemyTargets != null)
+        if (EnemyTargets != null)
 
             EnemyTargets.GetComponent<Renderer>().material.color = Color.red;
     }
     private void hideSelectionEffect()
     {
-        if(EnemyTargets != null)
+        if (EnemyTargets != null)
 
             EnemyTargets.GetComponent<Renderer>().material.color = Color.white;
     }
