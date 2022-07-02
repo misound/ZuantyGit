@@ -195,14 +195,14 @@ public class PlayerController : MonoBehaviour
 
     #region 讀取數據
    private void OnGUI()
-    {
+   {
         GUI.Label(new Rect(0, 0, 100, 20), "HorizontalaMovement=" + HorizontalaMovement, guiStyle);
         GUI.Label(new Rect(0, 40, 100, 20), "horizontalDirection=" + horizontalDirection, guiStyle);
         GUI.Label(new Rect(0, 80, 100, 20), "movementAcceleration=" + movementAcceleration, guiStyle);
         GUI.Label(new Rect(0, 120, 100, 20), "TimeScale=" + Time.timeScale, guiStyle);
         GUI.Label(new Rect(0, 160, 100, 20), "Timer=" + timer, guiStyle);
 
-    }
+   }
     #endregion
     #region 移動數據
 

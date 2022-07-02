@@ -14,8 +14,6 @@ public class TakeEnemy : MonoBehaviour
     public Transform target;
 
     public float range = 20.0f;
-
-
     /*
     public Transform OnGetEnemy()
     {
@@ -41,11 +39,10 @@ public class TakeEnemy : MonoBehaviour
     {
         TargetList = new List<Enemy>();
         TempList = new List<Enemy>();
-        UpdateTargetList();
-        showSelectionEffect();
+        //UpdateTargetList();
+        //showSelectionEffect();
         UpdateTarget();
     }
-
     // Update is called once per frame
     void Update()
     {
@@ -58,23 +55,22 @@ public class TakeEnemy : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             SetupTemp();
-            SelectNextTarget();
+            //SelectNextTarget();
         }
 
 
-        if(Time.timeScale >= 0.9)
+        if(Time.timeScale >= 0.4)
         {
             hideSelectionEffect();
         }
     }
-
-
     public void SetupTemp()
     {
         TempList.Clear();
         for (int i = 0; i < TargetList.Count; i++)
         {
             float distoEnemy = Vector3.Distance(transform.position, TargetList[i].transform.position);
+            
             if (distoEnemy < range)
             {
                 TempList.Add(TargetList[i]);
@@ -124,16 +120,13 @@ public class TakeEnemy : MonoBehaviour
         {
             var enemy = obj.GetComponent<Enemy>();
 
-            if
-             (enemy != null)
+            if(enemy != null)
                 TargetList.Add(enemy);
         }
         if (EnemyTargets == null)
         {
             EnemyTargets = TargetList[0];
         }
-
-
     }
 
     public void SelectNextTarget()
@@ -203,8 +196,10 @@ public class TakeEnemy : MonoBehaviour
     private void hideSelectionEffect()
     {
         if (EnemyTargets != null)
-
-            EnemyTargets.GetComponent<Renderer>().material.color = Color.white;
+            EnemyTargets.QTEBtn_I.SetActive(false);
+        EnemyTargets.QTEBtn_U.SetActive(false);
+        EnemyTargets.QTEBtn_O.SetActive(false);
+        EnemyTargets.GetComponent<Renderer>().material.color = Color.white;
     }
 }
 

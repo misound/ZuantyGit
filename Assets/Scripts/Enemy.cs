@@ -33,6 +33,8 @@ public class Enemy : MonoBehaviour
     public int maxHealth = 100;
 
     private int currentHealth;
+
+    private GUIStyle guiStyle = new GUIStyle();
     // Start is called before the first frame update
     void Start()
     {
@@ -53,16 +55,15 @@ public class Enemy : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.LeftShift))
             {
-            RandomQTE = Random.Range(1, 4);
+            //RandomQTE = Random.Range(1, 4);
             }
         if (takeEnemy.EnemyTargets != null && Time.timeScale <= 0.4)
         {
             
-            if (RandomQTE == 1)
+            if (takeEnemy.EnemyTargets.RandomQTE == 1)
             {
-                m_MyEvent_U.Invoke(); 
-                           //Begin the action
-                if (Input.GetKeyDown(KeyCode.U))
+                m_MyEvent_U.Invoke(); //Begin the action
+                if (Input.GetKeyDown(KeyCode.U) && QTEBtn_U.activeInHierarchy == true)
                 {
                     float distoEnemy = Vector3.Distance(transform.position, Player.transform.position);
                     if (distoEnemy < takeEnemy.range)
@@ -74,11 +75,11 @@ public class Enemy : MonoBehaviour
 
                 }
             }
-            if (RandomQTE == 2)
+            if (takeEnemy.EnemyTargets.RandomQTE == 2)
             {
             Debug.Log("duck");
                 m_MyEvent_I.Invoke();
-                if (Input.GetKeyDown(KeyCode.I))
+                if (Input.GetKeyDown(KeyCode.I) && QTEBtn_I.activeInHierarchy == true)
                 {
                     float distoEnemy = Vector3.Distance(transform.position, Player.transform.position);
                     if (distoEnemy < takeEnemy.range)
@@ -89,11 +90,11 @@ public class Enemy : MonoBehaviour
                     }
                 }
             }
-            if (RandomQTE == 3)
+            if (takeEnemy.EnemyTargets.RandomQTE == 3)
             {
             Debug.Log("giraffe");
                 m_MyEvent_O.Invoke();
-                if (Input.GetKeyDown(KeyCode.O))
+                if (Input.GetKeyDown(KeyCode.O) && QTEBtn_O.activeInHierarchy == true)
                 {
                     float distoEnemy = Vector3.Distance(transform.position, Player.transform.position);
                     if (distoEnemy < takeEnemy.range)
@@ -114,11 +115,6 @@ public class Enemy : MonoBehaviour
            }
         
     }
-
-
-
-
-
     public void TakeDamege(int damage)
     {
         currentHealth -= damage;
