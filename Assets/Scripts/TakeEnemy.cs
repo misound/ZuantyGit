@@ -14,33 +14,13 @@ public class TakeEnemy : MonoBehaviour
     public Transform target;
 
     public float range = 20.0f;
-    /*
-    public Transform OnGetEnemy()
-    {
-        //タ穓碝畖
-        int radius = 1;
-        //˙˙耎穓畖,程耎100
-        while (radius < 100)
-        {
-            //瞴甮絬浪代,眔畖radiusμ絛瞅ず┮Τン
-            Collider[] cols = Physics.OverlapSphere(transform.position, radius);
-            //耞浪代ンいΤ⊿ΤEnemy
-            if (cols.Length > 0)
-                for (int i = 0; i < cols.Length; i++)
-                    if (cols[i].tag.Equals("Enemy"))
-                        return cols[i].transform;
-            //⊿Τ浪代Enemy,盢浪代畖耎2μ
-            radius += 2;
-        }
-        return null;
-    }*/
+
+    public bool slaind = false;
     // Start is called before the first frame update
     void Start()
     {
         TargetList = new List<Enemy>();
         TempList = new List<Enemy>();
-        //UpdateTargetList();
-        //showSelectionEffect();
         UpdateTarget();
     }
     // Update is called once per frame
@@ -49,19 +29,25 @@ public class TakeEnemy : MonoBehaviour
         UpdateTargetList();
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            //SetupTemp();
+            SetupTemp();
             SelectNextTarget();
         }
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             SetupTemp();
-            //SelectNextTarget();
+            SelectNextTarget();
         }
 
 
-        if(Time.timeScale >= 0.4)
+        if (Time.timeScale >= 0.4)
         {
-            hideSelectionEffect();
+            HideSelectionEffect();
+        }
+
+        if (slaind)
+        {
+            SetupTemp();
+            SelectNextTarget();
         }
     }
     public void SetupTemp()
@@ -70,7 +56,7 @@ public class TakeEnemy : MonoBehaviour
         for (int i = 0; i < TargetList.Count; i++)
         {
             float distoEnemy = Vector3.Distance(transform.position, TargetList[i].transform.position);
-            
+
             if (distoEnemy < range)
             {
                 TempList.Add(TargetList[i]);
@@ -120,7 +106,7 @@ public class TakeEnemy : MonoBehaviour
         {
             var enemy = obj.GetComponent<Enemy>();
 
-            if(enemy != null)
+            if (enemy != null)
                 TargetList.Add(enemy);
         }
         if (EnemyTargets == null)
@@ -141,7 +127,7 @@ public class TakeEnemy : MonoBehaviour
         }
         else
         {
-            hideSelectionEffect();
+            HideSelectionEffect();
             var index = TempList.IndexOf(EnemyTargets);
 
             if (index < 0 || index == TempList.Count - 1)
@@ -153,7 +139,8 @@ public class TakeEnemy : MonoBehaviour
                 EnemyTargets = TempList[index + 1];
             }
         }
-        showSelectionEffect();
+        ShowSelectionEffect();
+        slaind = false;
     }
     public void SelectNextTarget1()
     {
@@ -167,7 +154,7 @@ public class TakeEnemy : MonoBehaviour
         }
         else
         {
-            hideSelectionEffect();
+            HideSelectionEffect();
             var index = TargetList.IndexOf(EnemyTargets);
 
             if (index < 0 || index == TargetList.Count - 1)
@@ -179,21 +166,21 @@ public class TakeEnemy : MonoBehaviour
                 EnemyTargets = TargetList[index + 1];
             }
         }
-        showSelectionEffect();
+        ShowSelectionEffect();
     }
     public void CancelSelection()
     {
-        hideSelectionEffect();
+        HideSelectionEffect();
         EnemyTargets = null;
     }
 
-    private void showSelectionEffect()
+    private void ShowSelectionEffect()
     {
         if (EnemyTargets != null)
 
             EnemyTargets.GetComponent<Renderer>().material.color = Color.red;
     }
-    private void hideSelectionEffect()
+    private void HideSelectionEffect()
     {
         if (EnemyTargets != null)
             EnemyTargets.QTEBtn_I.SetActive(false);
