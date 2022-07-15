@@ -54,12 +54,12 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.LeftShift))
-            {
+        {
             //RandomQTE = Random.Range(1, 4);
-            }
+        }
         if (takeEnemy.EnemyTargets != null && Time.timeScale <= 0.4)
         {
-            
+
             if (takeEnemy.EnemyTargets.RandomQTE == 1)
             {
                 m_MyEvent_U.Invoke(); //Begin the action
@@ -68,18 +68,36 @@ public class Enemy : MonoBehaviour
                     float distoEnemy = Vector3.Distance(transform.position, Player.transform.position);
                     if (distoEnemy < takeEnemy.range)
                     {
-                    Destroy(this.gameObject);
-                    Player.transform.position = this.gameObject.transform.localPosition;
-                    DoSlowMotion();
+                        Destroy(this.gameObject);
+                        Player.transform.position = this.gameObject.transform.localPosition;
+                        DoSlowMotion();
                         takeEnemy.slaind = true;
                     }
+                }
+                if (Input.GetKeyDown(KeyCode.I) && QTEBtn_U.activeInHierarchy == true)
+                {
+
+                }
+                if (Input.GetKeyDown(KeyCode.O) && QTEBtn_U.activeInHierarchy == true)
+                {
 
                 }
             }
             if (takeEnemy.EnemyTargets.RandomQTE == 2)
             {
-            Debug.Log("duck");
+                Debug.Log("duck");
                 m_MyEvent_I.Invoke();
+                if (Input.GetKeyDown(KeyCode.U) && QTEBtn_I.activeInHierarchy == true)
+                {
+                    float distoEnemy = Vector3.Distance(transform.position, Player.transform.position);
+                    if (distoEnemy < takeEnemy.range)
+                    {
+                        Destroy(this.gameObject);
+                        Player.transform.position = this.gameObject.transform.localPosition;
+                        DoSlowMotion();
+                        takeEnemy.slaind = true;
+                    }
+                }
                 if (Input.GetKeyDown(KeyCode.I) && QTEBtn_I.activeInHierarchy == true)
                 {
                     float distoEnemy = Vector3.Distance(transform.position, Player.transform.position);
@@ -91,11 +109,23 @@ public class Enemy : MonoBehaviour
                         takeEnemy.slaind = true;
                     }
                 }
+                if (Input.GetKeyDown(KeyCode.O) && QTEBtn_I.activeInHierarchy == true)
+                {
+
+                }
             }
             if (takeEnemy.EnemyTargets.RandomQTE == 3)
             {
-            Debug.Log("giraffe");
+                Debug.Log("giraffe");
                 m_MyEvent_O.Invoke();
+                if (Input.GetKeyDown(KeyCode.U) && QTEBtn_O.activeInHierarchy == true)
+                {
+
+                }
+                if (Input.GetKeyDown(KeyCode.I) && QTEBtn_O.activeInHierarchy == true)
+                {
+
+                }
                 if (Input.GetKeyDown(KeyCode.O) && QTEBtn_O.activeInHierarchy == true)
                 {
                     float distoEnemy = Vector3.Distance(transform.position, Player.transform.position);
@@ -108,15 +138,14 @@ public class Enemy : MonoBehaviour
                     }
                 }
             }
- 
         }
-           else
-           {
-                QTEBtn_U.SetActive(false);
-                QTEBtn_O.SetActive(false);
-                QTEBtn_I.SetActive(false);
-           }
-        
+        else
+        {
+            QTEBtn_U.SetActive(false);
+            QTEBtn_O.SetActive(false);
+            QTEBtn_I.SetActive(false);
+        }
+
     }
     public void TakeDamege(int damage)
     {
@@ -128,11 +157,11 @@ public class Enemy : MonoBehaviour
     }
 
     public void Die()
-    { 
+    {
         //Die ani,ation
-        
+
         //Disable the enemy
-        Debug.Log(gameObject.name+"DIE!!!");
+        Debug.Log(gameObject.name + "DIE!!!");
         Destroy(this.gameObject);
     }
 
