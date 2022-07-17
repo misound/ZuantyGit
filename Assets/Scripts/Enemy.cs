@@ -15,6 +15,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] public GameObject QTEBtn_I;
     [SerializeField] public GameObject QTEBtn_O;
     [SerializeField] public GameObject pool;
+    [SerializeField] public GameObject Trigger;
 
     [SerializeField] public GameObject Player;
 
@@ -28,6 +29,7 @@ public class Enemy : MonoBehaviour
     UnityEvent m_MyEvent_U = new UnityEvent(); //QTE事件產生
     UnityEvent m_MyEvent_I = new UnityEvent();
     UnityEvent m_MyEvent_O = new UnityEvent();
+    UnityEvent m_MyEvent_Trigger = new UnityEvent();
 
     [Header("hp")]
     public int maxHealth = 100;
@@ -46,6 +48,7 @@ public class Enemy : MonoBehaviour
         m_MyEvent_U.AddListener(QTEBtn_UActive);
         m_MyEvent_I.AddListener(QTEBtn_IActive);
         m_MyEvent_O.AddListener(QTEBtn_OActive);
+        m_MyEvent_Trigger.AddListener(TriggerActive);
 
         Player = GameObject.Find("player");         //僅供玩家順移
         takeEnemy = FindObjectOfType<TakeEnemy>();
@@ -59,7 +62,7 @@ public class Enemy : MonoBehaviour
         }
         if (takeEnemy.EnemyTargets != null && Time.timeScale <= 0.4)
         {
-
+            takeEnemy.EnemyTargets.Trigger.SetActive(true);
             if (takeEnemy.EnemyTargets.RandomQTE == 1)
             {
                 m_MyEvent_U.Invoke(); //Begin the action
@@ -89,14 +92,7 @@ public class Enemy : MonoBehaviour
                 m_MyEvent_I.Invoke();
                 if (Input.GetKeyDown(KeyCode.U) && QTEBtn_I.activeInHierarchy == true)
                 {
-                    float distoEnemy = Vector3.Distance(transform.position, Player.transform.position);
-                    if (distoEnemy < takeEnemy.range)
-                    {
-                        Destroy(this.gameObject);
-                        Player.transform.position = this.gameObject.transform.localPosition;
-                        DoSlowMotion();
-                        takeEnemy.slaind = true;
-                    }
+
                 }
                 if (Input.GetKeyDown(KeyCode.I) && QTEBtn_I.activeInHierarchy == true)
                 {
@@ -144,6 +140,7 @@ public class Enemy : MonoBehaviour
             QTEBtn_U.SetActive(false);
             QTEBtn_O.SetActive(false);
             QTEBtn_I.SetActive(false);
+            Trigger.SetActive(false);
         }
 
     }
@@ -181,33 +178,23 @@ public class Enemy : MonoBehaviour
         takeEnemy.EnemyTargets.QTEBtn_U.SetActive(true);
         takeEnemy.EnemyTargets.QTEBtn_I.SetActive(false);
         takeEnemy.EnemyTargets.QTEBtn_O.SetActive(false);
-        if (QTEBtn_U.activeInHierarchy == true)
-        {
-            Debug.Log("我是大笑臉");
-        }
-
     }
     void QTEBtn_IActive()
     {
         takeEnemy.EnemyTargets.QTEBtn_U.SetActive(false);
         takeEnemy.EnemyTargets.QTEBtn_I.SetActive(true);
         takeEnemy.EnemyTargets.QTEBtn_O.SetActive(false);
-        if (QTEBtn_I.activeInHierarchy == true)
-        {
-            Debug.Log("我是大比逼");
-        }
-
     }
     void QTEBtn_OActive()
     {
         takeEnemy.EnemyTargets.QTEBtn_U.SetActive(false);
         takeEnemy.EnemyTargets.QTEBtn_I.SetActive(false);
         takeEnemy.EnemyTargets.QTEBtn_O.SetActive(true);
-        if (QTEBtn_O.activeInHierarchy == true)
-        {
-            Debug.Log("我是大俗投");
-        }
+    }
 
+    void TriggerActive()
+    {
+        takeEnemy.EnemyTargets.Trigger.SetActive(true);
     }
     #endregion
 

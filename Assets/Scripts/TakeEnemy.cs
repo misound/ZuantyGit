@@ -21,7 +21,7 @@ public class TakeEnemy : MonoBehaviour
     {
         TargetList = new List<Enemy>();
         TempList = new List<Enemy>();
-        UpdateTarget();
+        //UpdateTarget();
     }
     // Update is called once per frame
     void Update()
@@ -63,7 +63,7 @@ public class TakeEnemy : MonoBehaviour
             }
         }
     }
-    void UpdateTarget()
+    /*void UpdateTarget()
     {
         float sdis = Mathf.Infinity;
         GameObject nearEnemy = null;
@@ -89,7 +89,7 @@ public class TakeEnemy : MonoBehaviour
         {
             target = null;
         }
-    }
+    }*/
 
     private void OnDrawGizmosSelected()
     {
@@ -183,10 +183,14 @@ public class TakeEnemy : MonoBehaviour
     private void HideSelectionEffect()
     {
         if (EnemyTargets != null)
+        {
             EnemyTargets.QTEBtn_I.SetActive(false);
-        EnemyTargets.QTEBtn_U.SetActive(false);
-        EnemyTargets.QTEBtn_O.SetActive(false);
-        EnemyTargets.GetComponent<Renderer>().material.color = Color.white;
+            EnemyTargets.QTEBtn_U.SetActive(false);
+            EnemyTargets.QTEBtn_O.SetActive(false);
+            EnemyTargets.Trigger.SetActive(false);
+            EnemyTargets.GetComponent<Renderer>().material.color = Color.white;
+        }
+
     }
 }
 

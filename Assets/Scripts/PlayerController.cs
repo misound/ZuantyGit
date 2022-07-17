@@ -487,11 +487,6 @@ public class PlayerController : MonoBehaviour
         }
     }
     #endregion
-    #region 物件互動相關
-
-
-
-    #endregion
     #region 子彈時間相關
     void DoSlowMotion()
     {
@@ -508,7 +503,6 @@ public class PlayerController : MonoBehaviour
         }
         if (isStartTime)
         {
-
             if (skillInvalid && timer == 0)
             {
                 DoSlowMotion();
@@ -516,7 +510,6 @@ public class PlayerController : MonoBehaviour
 
             if (timer >= cooldownTime)
             {
-
                 timer = 0;
                 isStartTime = false;
                 skillInvalid = false;
