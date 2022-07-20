@@ -22,7 +22,13 @@ public class Enemy : MonoBehaviour
     [Header("SuccessTimeReset")]
     [SerializeField] public float slowdownFactor = 0.05f;
 
-
+    [Header("QTE CoolDownTime")]
+    [SerializeField] public float slowdownLength = 2f;
+    [SerializeField] public float cooldownTime = 3.0f;
+    [SerializeField] private float timer = 0;
+    [SerializeField] private bool isStartTime = false;
+    [SerializeField] private bool skillInvalid = false;
+    [SerializeField] private bool QTEInvalid = false;
 
     private int RandomQTE;
 
@@ -56,6 +62,8 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
+        QTE_invalid();
+
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             //RandomQTE = Random.Range(1, 4);
@@ -66,7 +74,7 @@ public class Enemy : MonoBehaviour
             if (takeEnemy.EnemyTargets.RandomQTE == 1)
             {
                 m_MyEvent_U.Invoke(); //Begin the action
-                if (Input.GetKeyDown(KeyCode.U) && QTEBtn_U.activeInHierarchy == true)
+                if (Input.GetKeyDown(KeyCode.U) && QTEBtn_U.activeInHierarchy == true && QTEInvalid == false)
                 {
                     float distoEnemy = Vector3.Distance(transform.position, Player.transform.position);
                     if (distoEnemy < takeEnemy.range)
@@ -79,11 +87,11 @@ public class Enemy : MonoBehaviour
                 }
                 if (Input.GetKeyDown(KeyCode.I) && QTEBtn_U.activeInHierarchy == true)
                 {
-
+                    QTEInvalid = true;
                 }
                 if (Input.GetKeyDown(KeyCode.O) && QTEBtn_U.activeInHierarchy == true)
                 {
-
+                    QTEInvalid = true;
                 }
             }
             if (takeEnemy.EnemyTargets.RandomQTE == 2)
@@ -92,9 +100,9 @@ public class Enemy : MonoBehaviour
                 m_MyEvent_I.Invoke();
                 if (Input.GetKeyDown(KeyCode.U) && QTEBtn_I.activeInHierarchy == true)
                 {
-
+                    QTEInvalid = true;
                 }
-                if (Input.GetKeyDown(KeyCode.I) && QTEBtn_I.activeInHierarchy == true)
+                if (Input.GetKeyDown(KeyCode.I) && QTEBtn_I.activeInHierarchy == true && QTEInvalid == false)
                 {
                     float distoEnemy = Vector3.Distance(transform.position, Player.transform.position);
                     if (distoEnemy < takeEnemy.range)
@@ -107,7 +115,7 @@ public class Enemy : MonoBehaviour
                 }
                 if (Input.GetKeyDown(KeyCode.O) && QTEBtn_I.activeInHierarchy == true)
                 {
-
+                    QTEInvalid = true;
                 }
             }
             if (takeEnemy.EnemyTargets.RandomQTE == 3)
@@ -116,13 +124,13 @@ public class Enemy : MonoBehaviour
                 m_MyEvent_O.Invoke();
                 if (Input.GetKeyDown(KeyCode.U) && QTEBtn_O.activeInHierarchy == true)
                 {
-
+                    QTEInvalid = true;
                 }
                 if (Input.GetKeyDown(KeyCode.I) && QTEBtn_O.activeInHierarchy == true)
                 {
-
+                    QTEInvalid = true;
                 }
-                if (Input.GetKeyDown(KeyCode.O) && QTEBtn_O.activeInHierarchy == true)
+                if (Input.GetKeyDown(KeyCode.O) && QTEBtn_O.activeInHierarchy == true && QTEInvalid == false)
                 {
                     float distoEnemy = Vector3.Distance(transform.position, Player.transform.position);
                     if (distoEnemy < takeEnemy.range)
@@ -161,17 +169,6 @@ public class Enemy : MonoBehaviour
         Debug.Log(gameObject.name + "DIE!!!");
         Destroy(this.gameObject);
     }
-
-    #region 碰撞相關
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-    }
-    #endregion
-
     #region QTE顯示
     void QTEBtn_UActive()
     {
@@ -197,7 +194,34 @@ public class Enemy : MonoBehaviour
         takeEnemy.EnemyTargets.Trigger.SetActive(true);
     }
     #endregion
+    #region QTE失效
+    public void QTE_invalid()
+    {
+        if (QTEInvalid)
+        {
+            isStartTime = true;
+            skillInvalid = true;
+        }
+        if (isStartTime)
+        {
+            if (skillInvalid && timer == 0)
+            {
+                QTEInvalid = false;
+            }
 
+            if (timer >= cooldownTime)
+            {
+                timer = 0;
+                isStartTime = false;
+                skillInvalid = false;
+            }
+            else
+            {
+                timer += Time.deltaTime;
+            }
+        }
+    }
+    #endregion
     void DoSlowMotion()
     {
         Time.timeScale = slowdownFactor;

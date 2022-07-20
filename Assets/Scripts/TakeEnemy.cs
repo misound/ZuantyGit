@@ -63,34 +63,6 @@ public class TakeEnemy : MonoBehaviour
             }
         }
     }
-    /*void UpdateTarget()
-    {
-        float sdis = Mathf.Infinity;
-        GameObject nearEnemy = null;
-
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        foreach (GameObject enemys in enemies)
-        {
-            float distoEnemy = Vector3.Distance(transform.position, enemys.transform.position);
-
-            if (distoEnemy < sdis)
-            {
-                nearEnemy = enemys;
-                sdis = distoEnemy;
-            }
-
-        }
-        if (nearEnemy != null && sdis <= range)
-        {
-            target = nearEnemy.transform;
-            target.GetComponent<Renderer>().material.color = Color.green;
-        }
-        else
-        {
-            target = null;
-        }
-    }*/
-
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
@@ -99,7 +71,6 @@ public class TakeEnemy : MonoBehaviour
 
     public void UpdateTargetList()
     {
-
         TargetList.Clear();
         var gameObjects = GameObject.FindGameObjectsWithTag("Enemy");
         foreach (var obj in gameObjects)
