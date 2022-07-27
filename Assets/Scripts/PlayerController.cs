@@ -8,8 +8,9 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
    [Header("Components")]
-    private Rigidbody2D _rb;
-    private Animator _anim;
+    public Rigidbody2D _rb;
+    public Animator _anim;
+    public Collider2D Coll;
 
     [Header("Layer Masks")]
     [SerializeField] private LayerMask _groundLayer;
@@ -33,8 +34,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _lowJumpFallMultiplier = 5f;
     [SerializeField] private float _downMultiplier = 12f;
     [SerializeField] private int _extraJumps = 1;
-    [SerializeField] private float _hangTime = .1f;
-    [SerializeField] private float _jumpBufferLength = .1f;
+    [SerializeField] private float _hangTime = 0.1f;
+    [SerializeField] private float _jumpBufferLength = 0.1f;
     private int _extraJumpsValue;
     private float _hangTimeCounter;
     private float _jumpBufferCounter;
@@ -51,8 +52,8 @@ public class PlayerController : MonoBehaviour
 
     [Header("Dash Variables")]
     [SerializeField] private float _dashSpeed = 15f;
-    [SerializeField] private float _dashLength = .3f;
-    [SerializeField] private float _dashBufferLength = .1f;
+    [SerializeField] private float _dashLength = 0.3f;
+    [SerializeField] private float _dashBufferLength = 0.1f;
     private float _dashBufferCounter;
     private bool _isDashing;
     private bool _hasDashed;
@@ -73,6 +74,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Vector3 _edgeRaycastOffset;
     [SerializeField] private Vector3 _innerRaycastOffset;
     private bool _canCornerCorrect;
+
+    [Header("OneWayPlatform")] 
+    [SerializeField] public float checkRadius;
+    [SerializeField] public bool isOneWayPlatform;
+    [SerializeField] public LayerMask OneWayPlatformLayerMask;
+    [SerializeField] public Transform grounCheck;
     
     private void Start()
     {
@@ -89,8 +96,8 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("Dash")) _dashBufferCounter = _dashBufferLength;
         else _dashBufferCounter -= Time.deltaTime;
         Animation();
+        
     }
-
     private void FixedUpdate()
     {
         CheckCollisions();
@@ -142,7 +149,7 @@ public class PlayerController : MonoBehaviour
         }
         if (_canCornerCorrect) CornerCorrect(_rb.velocity.y);
     }
-
+    #region 腳色移動
     private Vector2 GetInput()
     {
         return new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
@@ -155,7 +162,10 @@ public class PlayerController : MonoBehaviour
         if (Mathf.Abs(_rb.velocity.x) > _maxMoveSpeed)
             _rb.velocity = new Vector2(Mathf.Sign(_rb.velocity.x) * _maxMoveSpeed, _rb.velocity.y);
     }
+    
 
+    #endregion
+    #region 地面磨擦
     private void ApplyGroundLinearDrag()
     {
         if (Mathf.Abs(_horizontalDirection) < 0.4f || _changingDirection)
@@ -167,10 +177,11 @@ public class PlayerController : MonoBehaviour
             _rb.drag = 0f;
         }
     }
-
+    #endregion
+    #region 空中摩擦力
     private void ApplyAirLinearDrag()
     {
-         _rb.drag = _airLinearDrag;
+        _rb.drag = _airLinearDrag;
     }
 
     private void Jump(Vector2 direction)
@@ -186,6 +197,8 @@ public class PlayerController : MonoBehaviour
         _isJumping = true;
     }
 
+    #endregion
+    #region 蹬牆跳
     private void WallJump()
     {
         Vector2 jumpDirection = _onRightWall ? Vector2.left : Vector2.right;
@@ -199,7 +212,8 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(_wallJumpXVelocityHaltDelay);
         _rb.velocity = new Vector2(0f, _rb.velocity.y);
     }
-    
+    #endregion
+    #region 下墜摩擦力
     private void FallMultiplier()
     {
         if (_verticalDirection < 0f)
@@ -222,7 +236,8 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-
+    #endregion
+    #region 滑牆抓牆
     void WallGrab()
     {
         _rb.gravityScale = 0f;
@@ -238,7 +253,6 @@ public class PlayerController : MonoBehaviour
     {
         _rb.velocity = new Vector2(_rb.velocity.x, _verticalDirection * _maxMoveSpeed * _wallRunModifier);
     }
-
     void StickToWall()
     {
         //Push player torwards wall
@@ -261,7 +275,8 @@ public class PlayerController : MonoBehaviour
             Flip();
         }
     }
-
+    #endregion
+    #region 腳色翻轉
     void Flip()
     {
         _facingRight = !_facingRight;
@@ -295,8 +310,9 @@ public class PlayerController : MonoBehaviour
 
         _isDashing = false;
     }
-
-    void Animation()
+    #endregion
+    #region 動畫相關
+void Animation()
     {
         if (_isDashing)
         {
@@ -359,7 +375,8 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-
+    #endregion
+    #region 防撞角
     void CornerCorrect(float Yvelocity)
     {
         //Push player to the right
@@ -383,7 +400,6 @@ public class PlayerController : MonoBehaviour
             _rb.velocity = new Vector2(_rb.velocity.x, Yvelocity);
         }
     }
-
     private void CheckCollisions()
     {
         //Ground Collisions
@@ -426,4 +442,7 @@ public class PlayerController : MonoBehaviour
         Gizmos.DrawLine(transform.position, transform.position + Vector3.right * _wallRaycastLength);
         Gizmos.DrawLine(transform.position, transform.position + Vector3.left * _wallRaycastLength);
     }
+    #endregion
+    
+
 }
