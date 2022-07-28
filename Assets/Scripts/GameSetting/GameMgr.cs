@@ -8,6 +8,15 @@ public class GameMgr : MonoBehaviour
 {
     int maxPlatform = 0;
     public GameOverScreen GameOverScreen;
+
+    public void PlayGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex+1);
+    }
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
     public void GameOver()
     {
         

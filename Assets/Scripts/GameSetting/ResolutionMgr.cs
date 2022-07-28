@@ -20,8 +20,9 @@ public class ResolutionMgr : MonoBehaviour
 
     public void SetRes()
     {
-        //Screen.SetResolution(width,height,false);
-        Screen.SetResolution(800,600,true);
+        Screen.SetResolution(width,height,true);
+        
+        
     }
 
     
