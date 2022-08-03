@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
     private bool _changingDirection => (_rb.velocity.x > 0f && _horizontalDirection < 0f) || (_rb.velocity.x < 0f && _horizontalDirection > 0f);
     private bool _facingRight = true;
     private bool _canMove => !_wallGrab;
+    
 
     [Header("Jump Variables")]
     [SerializeField] private float _jumpForce = 12f;
@@ -80,6 +81,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public bool isOneWayPlatform;
     [SerializeField] public LayerMask OneWayPlatformLayerMask;
     [SerializeField] public Transform grounCheck;
+    [Header("SlowMotion")]
+    [SerializeField] public float slowdownFactor = 0.05f;
+    [SerializeField] public float slowdownLength = 2f;
+    [SerializeField] public float cooldownTime = 1.0f;
+    [SerializeField] private float timer = 0;
+    [SerializeField] private bool isStartTime = false;
+    [SerializeField] private bool skillInvalid = false;
     
     private void Start()
     {
@@ -101,6 +109,7 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         CheckCollisions();
+        SlowMotionBtn();
         if (_canDash) StartCoroutine(Dash(_horizontalDirection, _verticalDirection));
         if (!_isDashing)
         {
@@ -443,6 +452,38 @@ void Animation()
         Gizmos.DrawLine(transform.position, transform.position + Vector3.left * _wallRaycastLength);
     }
     #endregion
-    
+    void DoSlowMotion()
+    {
+        Time.timeScale = slowdownFactor;
+        Time.fixedDeltaTime = Time.timeScale * 0.02f;
+    }
 
+    void SlowMotionBtn()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftShift) /*|| Input.GetButtonDown("Fire1")*/)
+        {
+            isStartTime = true;
+            skillInvalid = true;
+        }
+
+        if (isStartTime)
+        {
+            if (skillInvalid && timer == 0)
+            {
+                DoSlowMotion();
+            }
+
+            if (timer >= cooldownTime)
+            {
+                timer = 0;
+                isStartTime = false;
+                skillInvalid = false;
+            }
+            else
+            {
+                timer += Time.deltaTime;
+            }
+        }
+
+    }
 }
