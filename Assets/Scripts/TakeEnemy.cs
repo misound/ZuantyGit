@@ -61,6 +61,10 @@ public class TakeEnemy : MonoBehaviour
             {
                 TempList.Add(TargetList[i]);
             }
+            if (distoEnemy > range)
+            {
+                TempList.Remove(TargetList[i]);
+            }
         }
     }
     private void OnDrawGizmosSelected()
