@@ -4,13 +4,14 @@ using System.Diagnostics.SymbolStore;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class PlayerController : MonoBehaviour
 {
    [Header("Components")]
     public Rigidbody2D _rb;
     public Animator _anim;
-    public Collider2D Coll;
+    public GameObject Trigger;
 
     [Header("Layer Masks")]
     [SerializeField] private LayerMask _groundLayer;
@@ -88,7 +89,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float timer = 0;
     [SerializeField] private bool isStartTime = false;
     [SerializeField] private bool skillInvalid = false;
-    
+
     private void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -104,7 +105,10 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("Dash")) _dashBufferCounter = _dashBufferLength;
         else _dashBufferCounter -= Time.deltaTime;
         Animation();
-        
+
+        Time.timeScale += (1f / slowdownLength) * Time.unscaledDeltaTime;
+        Time.timeScale = Mathf.Clamp(Time.timeScale, 0f, 1f);
+        TriggerActive();
     }
     private void FixedUpdate()
     {
@@ -452,6 +456,7 @@ void Animation()
         Gizmos.DrawLine(transform.position, transform.position + Vector3.left * _wallRaycastLength);
     }
     #endregion
+    #region 時間相關
     void DoSlowMotion()
     {
         Time.timeScale = slowdownFactor;
@@ -484,6 +489,18 @@ void Animation()
                 timer += Time.deltaTime;
             }
         }
-
     }
+
+    void TriggerActive()
+    {
+        if(Time.timeScale > 0.4)
+        {
+            Trigger.SetActive(false);
+        }
+        if (Time.timeScale < 0.4)
+        {
+            Trigger.SetActive(true);
+        }
+    }
+    #endregion
 }
