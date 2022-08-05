@@ -407,52 +407,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fc5fd2b6301e7b45b017d7ada5fcf66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Enemy: {fileID: 0}
-  Terry: {fileID: 0}
-  healthBar: {fileID: 1226687616}
-  maxHealth: 100
-  currentHealth: 0
-  groundLayer:
+  _groundLayer:
     serializedVersion: 2
     m_Bits: 256
-  wallLayer:
+  _wallLayer:
     serializedVersion: 2
     m_Bits: 2048
-  cornerCorrectLayer:
+  _cornerCorrectLayer:
     serializedVersion: 2
-    m_Bits: 2304
-  movementAcceleration: 50
-  maxMovementSpeed: 8
-  groundLinearDrag: 10
-  facingRight: 0
-  jumpForce: 20
-  airLinearDrag: 2.5
-  fallMultiplier: 8
-  lowJumpFallMultiplier: 5
-  extraJump: 1
-  hangTime: 0.1
-  jumpBufferLength: 0.1
-  groundRaycastLength: 1
-  groundRaycastOffset: {x: 1.34, y: 0, z: 0}
-  wallSlideModifier: 0.5
-  wallJumpXVelocityHaltDelay: 0.2
-  wallRaycastLength: 1.6
-  onWall: 0
-  onRightWall: 0
-  dashSpeed: 20
-  dashLength: 0.2
-  dashBufferLength: 0.1
-  topRaycastLength: 1.38
-  edgeRaycastOffset: {x: 0.66, y: 0, z: 0}
-  innerRaycastOffset: {x: 0, y: 0, z: 0}
-  animator: {fileID: 91291775}
-  HorizontalaMovement: 0
-  slowdownFactor: 0.05
-  slowdownLength: 3
-  cooldownTime: 1
-  timer: 0
-  isStartTime: 0
-  skillInvalid: 0
+    m_Bits: 4294967295
+  _movementAcceleration: 70
+  _maxMoveSpeed: 12
+  _groundLinearDrag: 7
+  _jumpForce: 12
+  _airLinearDrag: 2.5
+  _fallMultiplier: 8
+  _lowJumpFallMultiplier: 5
+  _downMultiplier: 12
+  _extraJumps: 1
+  _hangTime: 0.1
+  _jumpBufferLength: 0.1
+  _wallSlideModifier: 0.5
+  _wallRunModifier: 0.85
+  _wallJumpXVelocityHaltDelay: 0.2
+  _dashSpeed: 15
+  _dashLength: 0.3
+  _dashBufferLength: 0.1
+  _groundRaycastLength: 0.24
+  _groundRaycastOffset: {x: 0, y: 0, z: 0}
+  _wallRaycastLength: 0.56
+  _topRaycastLength: 1.79
+  _edgeRaycastOffset: {x: 0.27, y: 0, z: 0}
+  _innerRaycastOffset: {x: 0, y: 0, z: 0}
 --- !u!50 &91291779
 Rigidbody2D:
   serializedVersion: 4
