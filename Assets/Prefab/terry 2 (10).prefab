@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8454172058890302405}
   - component: {fileID: 1913464148611115289}
-  - component: {fileID: 7836726830906447552}
   m_Layer: 0
   m_Name: QTEBtn_I
   m_TagString: Untagged
@@ -83,19 +82,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7836726830906447552
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1755196979134864252}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52855f2ebdca8474b8b55eb5ad1a13f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Sprite_QTEButton: {fileID: 21300000, guid: b7ba72549aeb9374ebfe7d878fec9736, type: 3}
 --- !u!1 &5488257801839500665
 GameObject:
   m_ObjectHideFlags: 0
@@ -106,7 +92,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5488257801839500670}
   - component: {fileID: 5488257801839500668}
-  - component: {fileID: 5488257801839500671}
   m_Layer: 0
   m_Name: QTEBtn_U
   m_TagString: Untagged
@@ -179,19 +164,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5488257801839500671
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5488257801839500665}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52855f2ebdca8474b8b55eb5ad1a13f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Sprite_QTEButton: {fileID: 0}
 --- !u!1 &5488257802596135581
 GameObject:
   m_ObjectHideFlags: 0
@@ -205,7 +177,6 @@ GameObject:
   - component: {fileID: 5488257802596135568}
   - component: {fileID: 5488257802596135571}
   - component: {fileID: 5488257802596135570}
-  - component: {fileID: 5488257802629720976}
   m_Layer: 9
   m_Name: terry 2 (10)
   m_TagString: Enemy
@@ -342,8 +313,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3375617a600df8a4ebcb93d9a0ae5f34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  qte: {fileID: 5838052130977182330, guid: 4e01f66ca59423d48b0d3b9cd59137a9, type: 3}
-  qTESpriteMgr: {fileID: 5488257802629720976}
   takeEnemy: {fileID: 0}
   QTEBtn_U: {fileID: 5488257801839500665}
   QTEBtn_I: {fileID: 1755196979134864252}
@@ -351,24 +320,15 @@ MonoBehaviour:
   pool: {fileID: 5488257802596135581}
   Trigger: {fileID: 5501681149155815702}
   Player: {fileID: 0}
+  rb: {fileID: 5488257802596135571}
   slowdownFactor: 0.05
+  slowdownLength: 2
+  cooldownTime: 3
+  timer: 0
+  isStartTime: 0
+  skillInvalid: 0
+  QTEInvalid: 0
   maxHealth: 100
---- !u!114 &5488257802629720976
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5488257802596135581}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70173516e3361fe4c853f4423dbf5905, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sprites:
-  - {fileID: 21300000, guid: 9917b4a57f4a066419e0fa17d7396c30, type: 3}
-  - {fileID: 21300000, guid: eb5027ebf2dff624e9874794de08e6de, type: 3}
-  - {fileID: 21300000, guid: b7ba72549aeb9374ebfe7d878fec9736, type: 3}
 --- !u!1 &5488257803780336922
 GameObject:
   m_ObjectHideFlags: 0
@@ -379,7 +339,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5488257803780336923}
   - component: {fileID: 5488257803780336921}
-  - component: {fileID: 5488257803780336920}
   m_Layer: 0
   m_Name: QTEBtn_O
   m_TagString: Untagged
@@ -452,19 +411,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5488257803780336920
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5488257803780336922}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52855f2ebdca8474b8b55eb5ad1a13f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Sprite_QTEButton: {fileID: 0}
 --- !u!1001 &6329932088926895079
 PrefabInstance:
   m_ObjectHideFlags: 0

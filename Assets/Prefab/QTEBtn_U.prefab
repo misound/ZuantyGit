@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 9161153338210484461}
   - component: {fileID: 549030357788332283}
-  - component: {fileID: -3408301625268449426}
   m_Layer: 0
   m_Name: QTEBtn_U
   m_TagString: Untagged
@@ -83,16 +82,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-3408301625268449426
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8486292351516162633}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52855f2ebdca8474b8b55eb5ad1a13f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Sprite_QTEButton: {fileID: 0}

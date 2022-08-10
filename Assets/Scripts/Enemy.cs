@@ -7,8 +7,6 @@ using UnityEngine.Events;
 public class Enemy : MonoBehaviour
 {
     [Header("Objects")]
-    [SerializeField] public QTE qte;
-    [SerializeField] public QTESpriteMgr qTESpriteMgr;
     [SerializeField] public TakeEnemy takeEnemy;
 
     [SerializeField] public GameObject QTEBtn_U;
@@ -16,8 +14,10 @@ public class Enemy : MonoBehaviour
     [SerializeField] public GameObject QTEBtn_O;
     [SerializeField] public GameObject pool;
     [SerializeField] public GameObject Trigger;
-
     [SerializeField] public GameObject Player;
+
+    [Header("Componets")]
+    [SerializeField] public Rigidbody2D rb;
 
     [Header("SuccessTimeReset")]
     [SerializeField] public float slowdownFactor = 0.05f;
