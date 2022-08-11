@@ -1591,7 +1591,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1778585757
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1927,7 +1927,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rb: {fileID: 2055673371}
   _anim: {fileID: 2055673368}
-  Coll: {fileID: 0}
+  Trigger: {fileID: 0}
   _groundLayer:
     serializedVersion: 2
     m_Bits: 256
@@ -1937,6 +1937,9 @@ MonoBehaviour:
   _cornerCorrectLayer:
     serializedVersion: 2
     m_Bits: 4294967295
+  _onOneWayPlatformLayerMask:
+    serializedVersion: 2
+    m_Bits: 4096
   _movementAcceleration: 70
   _maxMoveSpeed: 12
   _groundLinearDrag: 7
@@ -1956,16 +1959,21 @@ MonoBehaviour:
   _dashBufferLength: 0.1
   _groundRaycastLength: 0.22
   _groundRaycastOffset: {x: 0, y: 0, z: 0}
+  _onGround: 0
   _wallRaycastLength: 0.88
   _topRaycastLength: 1.51
   _edgeRaycastOffset: {x: -0.8, y: 0, z: 0}
   _innerRaycastOffset: {x: -0.51, y: 0, z: 0}
+  _oneWayRaycastLength: 0.22
+  _oneWayRaycastOffset: {x: 0, y: 0, z: 0}
   checkRadius: 0
-  isOneWayPlatform: 0
-  OneWayPlatformLayerMask:
-    serializedVersion: 2
-    m_Bits: 0
-  grounCheck: {fileID: 0}
+  _onOneWayPlatform: 0
+  slowdownFactor: 0.05
+  slowdownLength: 2
+  cooldownTime: 1
+  timer: 0
+  isStartTime: 0
+  skillInvalid: 0
 --- !u!111 &2055673367
 Animation:
   m_ObjectHideFlags: 0
@@ -2343,7 +2351,7 @@ GameObject:
   - component: {fileID: 2096046737}
   - component: {fileID: 2096046740}
   - component: {fileID: 2096046736}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: OneWayPlatform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2406,7 +2414,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 1
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.49823692}
+  m_Offset: {x: 0, y: -0.44099742}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -2417,7 +2425,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3, y: 1.0035262}
+  m_Size: {x: 3, y: 0.88904727}
   m_EdgeRadius: 0
 --- !u!1839735485 &2096046737
 Tilemap:

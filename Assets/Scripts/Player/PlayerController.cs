@@ -8,29 +8,34 @@ using UnityEngine.Events;
 
 public class PlayerController : MonoBehaviour
 {
-   [Header("Components")]
-    public Rigidbody2D _rb;
+    [Header("Components")] public Rigidbody2D _rb;
     public Animator _anim;
     public GameObject Trigger;
 
-    [Header("Layer Masks")]
-    [SerializeField] private LayerMask _groundLayer;
+    [Header("Layer Masks")] [SerializeField]
+    private LayerMask _groundLayer;
     [SerializeField] private LayerMask _wallLayer;
     [SerializeField] private LayerMask _cornerCorrectLayer;
+    [SerializeField] public LayerMask _onOneWayPlatformLayerMask;
 
-    [Header("Movement Variables")]
-    [SerializeField] private float _movementAcceleration = 70f;
+    [Header("Movement Variables")] [SerializeField]
+    private float _movementAcceleration = 70f;
+
     [SerializeField] private float _maxMoveSpeed = 12f;
     [SerializeField] private float _groundLinearDrag = 7f;
     private float _horizontalDirection;
     private float _verticalDirection;
-    private bool _changingDirection => (_rb.velocity.x > 0f && _horizontalDirection < 0f) || (_rb.velocity.x < 0f && _horizontalDirection > 0f);
+
+    private bool _changingDirection => (_rb.velocity.x > 0f && _horizontalDirection < 0f) ||
+                                       (_rb.velocity.x < 0f && _horizontalDirection > 0f);
+
     private bool _facingRight = true;
     private bool _canMove => !_wallGrab;
-    
 
-    [Header("Jump Variables")]
-    [SerializeField] private float _jumpForce = 12f;
+
+    [Header("Jump Variables")] [SerializeField]
+    private float _jumpForce = 12f;
+
     [SerializeField] private float _airLinearDrag = 2.5f;
     [SerializeField] private float _fallMultiplier = 8f;
     [SerializeField] private float _lowJumpFallMultiplier = 5f;
@@ -44,16 +49,21 @@ public class PlayerController : MonoBehaviour
     private bool _canJump => _jumpBufferCounter > 0f && (_hangTimeCounter > 0f || _extraJumpsValue > 0 || _onWall);
     private bool _isJumping = false;
 
-    [Header("Wall Movement Variables")]
-    [SerializeField] private float _wallSlideModifier = 0.5f;
+    [Header("Wall Movement Variables")] [SerializeField]
+    private float _wallSlideModifier = 0.5f;
+
     [SerializeField] private float _wallRunModifier = 0.85f;
     [SerializeField] private float _wallJumpXVelocityHaltDelay = 0.2f;
     private bool _wallGrab => _onWall && !_onGround && Input.GetButton("WallGrab") && !_wallRun;
-    private bool _wallSlide => _onWall && !_onGround && !Input.GetButton("WallGrab") && _rb.velocity.y < 0f && !_wallRun;
+
+    private bool _wallSlide =>
+        _onWall && !_onGround && !Input.GetButton("WallGrab") && _rb.velocity.y < 0f && !_wallRun;
+
     private bool _wallRun => _onWall && _verticalDirection > 0f;
 
-    [Header("Dash Variables")]
-    [SerializeField] private float _dashSpeed = 15f;
+    [Header("Dash Variables")] [SerializeField]
+    private float _dashSpeed = 15f;
+
     [SerializeField] private float _dashLength = 0.3f;
     [SerializeField] private float _dashBufferLength = 0.1f;
     private float _dashBufferCounter;
@@ -61,10 +71,10 @@ public class PlayerController : MonoBehaviour
     private bool _hasDashed;
     private bool _canDash => _dashBufferCounter > 0f && !_hasDashed;
 
-    [Header("Ground Collision Variables")]
+    [Header("Ground Collision Variables")] 
     [SerializeField] private float _groundRaycastLength;
     [SerializeField] private Vector3 _groundRaycastOffset;
-    private bool _onGround;
+    [SerializeField] private bool _onGround;
 
     [Header("Wall Collision Variables")]
     [SerializeField] private float _wallRaycastLength;
@@ -78,10 +88,12 @@ public class PlayerController : MonoBehaviour
     private bool _canCornerCorrect;
 
     [Header("OneWayPlatform")] 
+    [SerializeField] private float _oneWayRaycastLength;
+    [SerializeField] private Vector3 _oneWayRaycastOffset;
     [SerializeField] public float checkRadius;
-    [SerializeField] public bool isOneWayPlatform;
-    [SerializeField] public LayerMask OneWayPlatformLayerMask;
-    [SerializeField] public Transform grounCheck;
+    [SerializeField] public bool _onOneWayPlatform;
+    [SerializeField] public float DownwardDistance;
+    
     [Header("SlowMotion")]
     [SerializeField] public float slowdownFactor = 0.05f;
     [SerializeField] public float slowdownLength = 2f;
@@ -89,6 +101,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float timer = 0;
     [SerializeField] private bool isStartTime = false;
     [SerializeField] private bool skillInvalid = false;
+    
 
     private void Start()
     {
@@ -112,6 +125,7 @@ public class PlayerController : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        CanBeDropDown();
         CheckCollisions();
         SlowMotionBtn();
         if (_canDash) StartCoroutine(Dash(_horizontalDirection, _verticalDirection));
@@ -119,7 +133,7 @@ public class PlayerController : MonoBehaviour
         {
             if (_canMove) MoveCharacter();
             else _rb.velocity = Vector2.Lerp(_rb.velocity, (new Vector2(_horizontalDirection * _maxMoveSpeed, _rb.velocity.y)), .5f * Time.deltaTime);
-            if (_onGround)
+            if (_onGround||_onOneWayPlatform)
             {
                 ApplyGroundLinearDrag();
                 _extraJumpsValue = _extraJumps;
@@ -135,7 +149,7 @@ public class PlayerController : MonoBehaviour
             }
             if (_canJump)
             {
-                if (_onWall && !_onGround)
+                if (_onWall && !_onGround&&!_onOneWayPlatform)
                 {
                     if (!_wallRun && (_onRightWall && _horizontalDirection > 0f || !_onRightWall && _horizontalDirection < 0f))
                     {
@@ -199,7 +213,7 @@ public class PlayerController : MonoBehaviour
 
     private void Jump(Vector2 direction)
     {
-        if (!_onGround && !_onWall)
+        if (!_onGround && !_onWall&&!_onOneWayPlatform)
             _extraJumpsValue--;
 
         ApplyAirLinearDrag();
@@ -345,7 +359,7 @@ void Animation()
             {
                 Flip();
             }
-            if (_onGround)
+            if (_onGround||_onOneWayPlatform)
             {
                 _anim.SetBool("isGrounded", true);
                 _anim.SetBool("isFalling", false);
@@ -416,8 +430,11 @@ void Animation()
     private void CheckCollisions()
     {
         //Ground Collisions
-        _onGround = Physics2D.Raycast(transform.position + _groundRaycastOffset, Vector2.down, _groundRaycastLength, _groundLayer) ||
-                    Physics2D.Raycast(transform.position - _groundRaycastOffset, Vector2.down, _groundRaycastLength, _groundLayer);
+        _onGround = Physics2D.Raycast(transform.position + _groundRaycastOffset, Vector2.down, _groundRaycastLength,
+                        _groundLayer) ||
+                    Physics2D.Raycast(transform.position - _groundRaycastOffset, Vector2.down, _groundRaycastLength,
+                        _groundLayer);
+        
 
         //Corner Collisions
         _canCornerCorrect = Physics2D.Raycast(transform.position + _edgeRaycastOffset, Vector2.up, _topRaycastLength, _cornerCorrectLayer) &&
@@ -429,6 +446,10 @@ void Animation()
         _onWall = Physics2D.Raycast(transform.position, Vector2.right, _wallRaycastLength, _wallLayer) ||
                     Physics2D.Raycast(transform.position, Vector2.left, _wallRaycastLength, _wallLayer);
         _onRightWall = Physics2D.Raycast(transform.position, Vector2.right, _wallRaycastLength, _wallLayer);
+        //OneWayPlatform Collision
+        _onOneWayPlatform=Physics2D.Raycast(transform.position + _oneWayRaycastOffset, Vector2.down, _oneWayRaycastLength, _onOneWayPlatformLayerMask)||
+                          Physics2D.Raycast(transform.position - _oneWayRaycastOffset, Vector2.down, _oneWayRaycastLength, _onOneWayPlatformLayerMask);
+        
     }
 
     private void OnDrawGizmos()
@@ -438,7 +459,10 @@ void Animation()
         //Ground Check
         Gizmos.DrawLine(transform.position + _groundRaycastOffset, transform.position + _groundRaycastOffset + Vector3.down * _groundRaycastLength);
         Gizmos.DrawLine(transform.position - _groundRaycastOffset, transform.position - _groundRaycastOffset + Vector3.down * _groundRaycastLength);
-
+        
+        //OneWayPlatformCheck
+        Gizmos.DrawLine(transform.position + _oneWayRaycastOffset,transform.position + _oneWayRaycastOffset+Vector3.down*_oneWayRaycastLength);
+        Gizmos.DrawLine(transform.position - _oneWayRaycastOffset,transform.position - _oneWayRaycastOffset+Vector3.down*_oneWayRaycastLength);
         //Corner Check
         Gizmos.DrawLine(transform.position + _edgeRaycastOffset, transform.position + _edgeRaycastOffset + Vector3.up * _topRaycastLength);
         Gizmos.DrawLine(transform.position - _edgeRaycastOffset, transform.position - _edgeRaycastOffset + Vector3.up * _topRaycastLength);
@@ -502,5 +526,19 @@ void Animation()
             Trigger.SetActive(true);
         }
     }
+    #endregion
+    #region 單向平台下向
+
+    public void CanBeDropDown()
+    {
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            transform.Translate(0,DownwardDistance,0);
+            Debug.Log("往下");
+        }
+    }
+
+    
+
     #endregion
 }
