@@ -101,16 +101,49 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float timer = 0;
     [SerializeField] private bool isStartTime = false;
     [SerializeField] private bool skillInvalid = false;
-    
 
+    private Vector2 EEE;
+    private TakeEnemy takeEnemy;
     private void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
         _anim = GetComponent<Animator>();
+        takeEnemy = FindObjectOfType<TakeEnemy>();
     }
 
     private void Update()
     {
+        EEE = new Vector2(takeEnemy.EnemyTargets.transform.position.x, takeEnemy.EnemyTargets.transform.position.y);
+        float distoEnemy = Vector3.Distance(transform.position, takeEnemy.EnemyTargets.transform.position);
+        Debug.Log(distoEnemy);
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            if(Time.time < Time.time + 10)
+            {
+            _rb.velocity = Vector2.zero;
+            _rb.gravityScale = 0f;
+            _rb.drag = 0f;
+            }
+
+            Vector3 direction = takeEnemy.EnemyTargets.transform.position - transform.position;
+            if (takeEnemy.range > distoEnemy)
+            {
+                _rb.AddForceAtPosition(direction * 30, transform.position, ForceMode2D.Impulse);
+            }
+            //_rb.velocity = direction.normalized * _dashSpeed;
+            //transform.position = Vector3.Lerp(transform.position, takeEnemy.EnemyTargets.transform.position, Time.deltaTime * 1);
+            /*
+            if (_facingRight)
+            {
+                _rb.velocity = new Vector2(takeEnemy.EnemyTargets.transform.localScale.x * 10, 5f);
+            }
+            else
+            _rb.velocity = new Vector2(-takeEnemy.EnemyTargets.transform.localScale.x * 10, 5f);*/
+            //_rb.AddForce(EEE , ForceMode2D.Force);
+            Debug.Log(distoEnemy);
+        }
+
         _horizontalDirection = GetInput().x;
         _verticalDirection = GetInput().y;
         if (Input.GetButtonDown("Jump")) _jumpBufferCounter = _jumpBufferLength;

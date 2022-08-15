@@ -26,6 +26,10 @@ public class TakeEnemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(slaind);
+
+        if (slaind)
+            Debug.Log("YYYYYY");
         UpdateTargetList();
         if (Input.GetKeyDown(KeyCode.Tab))
         {
@@ -99,6 +103,7 @@ public class TakeEnemy : MonoBehaviour
         if (EnemyTargets == null)
         {
             EnemyTargets = TempList[0];
+            slaind = false;
         }
         else
         {
@@ -108,14 +113,16 @@ public class TakeEnemy : MonoBehaviour
             if (index < 0 || index == TempList.Count - 1)
             {
                 EnemyTargets = TempList[0];
+                slaind = false;
             }
             else
             {
                 EnemyTargets = TempList[index + 1];
+                slaind = false;
             }
         }
         ShowSelectionEffect();
-        slaind = false;
+        //slaind = false;           point:為啥不能放這邊
     }
     public void SelectNextTarget1()
     {
