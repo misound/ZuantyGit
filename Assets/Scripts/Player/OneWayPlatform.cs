@@ -1,16 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class OneWayPlatform : MonoBehaviour
 {
 
-    public PlatformEffector2D platformEffector2D;
+    public Image image;
     
     // Start is called before the first frame update
     void Start()
     {
-        platformEffector2D = GetComponent<PlatformEffector2D>();
+        image = GetComponent<Image>();
     }
 
     // Update is called once per frame
@@ -21,9 +22,6 @@ public class OneWayPlatform : MonoBehaviour
 
     public void GetDownPlat()
     {
-        if (Input.GetButtonDown("Jump" + "s"))
-        {
-            Debug.Log("往下");
-        }
+        
     }
 }

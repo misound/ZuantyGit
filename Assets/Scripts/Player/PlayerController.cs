@@ -113,17 +113,17 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        EEE = new Vector2(takeEnemy.EnemyTargets.transform.position.x, takeEnemy.EnemyTargets.transform.position.y);
+       /* EEE = new Vector2(takeEnemy.EnemyTargets.transform.position.x, takeEnemy.EnemyTargets.transform.position.y);
         float distoEnemy = Vector3.Distance(transform.position, takeEnemy.EnemyTargets.transform.position);
         Debug.Log(distoEnemy);
 
         if (Input.GetKeyDown(KeyCode.R))
         {
             if(Time.time < Time.time + 10)
-            {
-            _rb.velocity = Vector2.zero;
-            _rb.gravityScale = 0f;
-            _rb.drag = 0f;
+            { 
+                _rb.velocity = Vector2.zero;
+                _rb.gravityScale = 0f;
+                _rb.drag = 0f;
             }
 
             Vector3 direction = takeEnemy.EnemyTargets.transform.position - transform.position;
@@ -133,16 +133,16 @@ public class PlayerController : MonoBehaviour
             }
             //_rb.velocity = direction.normalized * _dashSpeed;
             //transform.position = Vector3.Lerp(transform.position, takeEnemy.EnemyTargets.transform.position, Time.deltaTime * 1);
-            /*
+            
             if (_facingRight)
             {
                 _rb.velocity = new Vector2(takeEnemy.EnemyTargets.transform.localScale.x * 10, 5f);
             }
             else
-            _rb.velocity = new Vector2(-takeEnemy.EnemyTargets.transform.localScale.x * 10, 5f);*/
+            _rb.velocity = new Vector2(-takeEnemy.EnemyTargets.transform.localScale.x * 10, 5f);
             //_rb.AddForce(EEE , ForceMode2D.Force);
             Debug.Log(distoEnemy);
-        }
+        }*/
 
         _horizontalDirection = GetInput().x;
         _verticalDirection = GetInput().y;
@@ -564,7 +564,7 @@ void Animation()
 
     public void CanBeDropDown()
     {
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.S)&&_onOneWayPlatform)
         {
             transform.Translate(0,DownwardDistance,0);
             Debug.Log("往下");
