@@ -228,7 +228,7 @@ public class PlayerController : MonoBehaviour
     #region 地面磨擦
     private void ApplyGroundLinearDrag()
     {
-        if (Mathf.Abs(_horizontalDirection) < 0.4f || _changingDirection)
+        if (Mathf.Abs(_horizontalDirection) < 0.8f || _changingDirection)
         {
             _rb.drag = _groundLinearDrag;
         }
