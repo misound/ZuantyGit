@@ -79,8 +79,6 @@ public class Enemy : MonoBehaviour
                     float distoEnemy = Vector3.Distance(transform.position, Player.transform.position);
                     if (distoEnemy < takeEnemy.range)
                     {
-                        Destroy(this.gameObject);
-                        Player.transform.position = this.gameObject.transform.localPosition;
                         DoSlowMotion();
                         takeEnemy.slaind = true;
                     }
@@ -107,8 +105,6 @@ public class Enemy : MonoBehaviour
                     float distoEnemy = Vector3.Distance(transform.position, Player.transform.position);
                     if (distoEnemy < takeEnemy.range)
                     {
-                        Destroy(this.gameObject);
-                        Player.transform.position = this.gameObject.transform.localPosition;
                         DoSlowMotion();
                         takeEnemy.slaind = true;
                     }
@@ -135,8 +131,6 @@ public class Enemy : MonoBehaviour
                     float distoEnemy = Vector3.Distance(transform.position, Player.transform.position);
                     if (distoEnemy < takeEnemy.range)
                     {
-                        Destroy(this.gameObject);
-                        Player.transform.position = this.gameObject.transform.localPosition;
                         DoSlowMotion();
                         takeEnemy.slaind = true;
                     }

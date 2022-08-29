@@ -102,8 +102,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool isStartTime = false;
     [SerializeField] private bool skillInvalid = false;
 
-    private Vector2 EEE;
     private TakeEnemy takeEnemy;
+    public float MovetoLength;
+    public bool KilllingTime = false;
     private void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -113,37 +114,6 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-       /* EEE = new Vector2(takeEnemy.EnemyTargets.transform.position.x, takeEnemy.EnemyTargets.transform.position.y);
-        float distoEnemy = Vector3.Distance(transform.position, takeEnemy.EnemyTargets.transform.position);
-        Debug.Log(distoEnemy);
-
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            if(Time.time < Time.time + 10)
-            { 
-                _rb.velocity = Vector2.zero;
-                _rb.gravityScale = 0f;
-                _rb.drag = 0f;
-            }
-
-            Vector3 direction = takeEnemy.EnemyTargets.transform.position - transform.position;
-            if (takeEnemy.range > distoEnemy)
-            {
-                _rb.AddForceAtPosition(direction * 30, transform.position, ForceMode2D.Impulse);
-            }
-            //_rb.velocity = direction.normalized * _dashSpeed;
-            //transform.position = Vector3.Lerp(transform.position, takeEnemy.EnemyTargets.transform.position, Time.deltaTime * 1);
-            
-            if (_facingRight)
-            {
-                _rb.velocity = new Vector2(takeEnemy.EnemyTargets.transform.localScale.x * 10, 5f);
-            }
-            else
-            _rb.velocity = new Vector2(-takeEnemy.EnemyTargets.transform.localScale.x * 10, 5f);
-            //_rb.AddForce(EEE , ForceMode2D.Force);
-            Debug.Log(distoEnemy);
-        }*/
-
         _horizontalDirection = GetInput().x;
         _verticalDirection = GetInput().y;
         if (Input.GetButtonDown("Jump")) _jumpBufferCounter = _jumpBufferLength;
@@ -158,6 +128,8 @@ public class PlayerController : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        if (takeEnemy.slaind == true)
+            KillingSpree();
         CanBeDropDown();
         CheckCollisions();
         SlowMotionBtn();
@@ -570,8 +542,26 @@ void Animation()
             Debug.Log("往下");
         }
     }
-
-    
-
+    #endregion
+    #region 擊殺衝刺
+    public void KillingSpree()
+    {
+        float distoEnemy = Vector3.Distance(transform.position, takeEnemy.EnemyTargets.transform.position);
+        Vector3 direction = takeEnemy.EnemyTargets.transform.position - transform.position;
+            KilllingTime = true;
+        if (KilllingTime && distoEnemy > 0.2f)
+        {
+            _rb.velocity = Vector2.zero;
+            _rb.gravityScale = 0f;
+            _rb.drag = 0f;
+            _rb.AddForceAtPosition(direction * MovetoLength, takeEnemy.EnemyTargets.transform.position);
+        }
+        if (KilllingTime && distoEnemy <= 0.2f)
+        {
+            _rb.AddForceAtPosition(direction * MovetoLength * 2, takeEnemy.EnemyTargets.transform.position);
+            KilllingTime = false;
+            takeEnemy.slaind = false;
+        }
+    }
     #endregion
 }
