@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MoveingPlatforms : MonoBehaviour
 
@@ -10,9 +11,10 @@ public class MoveingPlatforms : MonoBehaviour
     public Transform startingPoint;
     public Transform  endindPoint;
     
+    
 
     public bool moveUp;
-    public bool readyToGo;
+    //public bool readyToGo;
     
    
     
@@ -20,27 +22,27 @@ public class MoveingPlatforms : MonoBehaviour
     void Start()
     {
         transform.position = startingPoint.position;
-        moveUp = true;
+        moveUp = false;
     }
 
 
     void Update()
     {
         
-        if (transform.position == endindPoint.position)
+        if (transform.position == endindPoint.position&& Input.GetKeyDown(KeyCode.E))
         {
             moveUp = false;
         }
-        else if (transform.position == startingPoint.position)
+        else if (transform.position == startingPoint.position&& Input.GetKeyDown(KeyCode.E))
         {
             moveUp = true;
         }
-        if (moveUp == false& readyToGo)
+        if (moveUp == false)
         {
             transform.position = Vector3.MoveTowards(transform.position, startingPoint.position, speed*Time.deltaTime);
         }
  
-        else if (moveUp&readyToGo)
+        else if (moveUp)
         {
             transform.position = Vector3.MoveTowards(transform.position, endindPoint.position, speed*Time.deltaTime);
         }
@@ -50,13 +52,13 @@ public class MoveingPlatforms : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         collision.transform.SetParent(transform);
-        readyToGo = true;
+        
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
         collision.transform.SetParent(null);
-        readyToGo = false;
+        
     }
 }
 
