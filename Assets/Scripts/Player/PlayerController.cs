@@ -128,8 +128,9 @@ public class PlayerController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-       /* if (takeEnemy.slaind == true){KillingSpree();}
-            */
+       if (takeEnemy.slaind == true)
+            KillingSpree();
+            
         CanBeDropDown();
         CheckCollisions();
         SlowMotionBtn();
