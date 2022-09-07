@@ -102,9 +102,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool isStartTime = false;
     [SerializeField] private bool skillInvalid = false;
 
+    [Header("Killing Spree")]
+    [SerializeField] public float MovetoTime;
+    [SerializeField] private bool KilllingTime = false;
+    [SerializeField] public float KillDash;
+    [SerializeField] public float SlowDelay;
     private TakeEnemy takeEnemy;
-    public float MovetoLength;
-    public bool KilllingTime = false;
+    private Vector2 direction;
     private void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -114,6 +118,25 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+
+        Vector2 direction = takeEnemy.EnemyTargets.transform.position - transform.position;
+        Ray2D MyRay = new Ray2D(transform.position, direction);
+        RaycastHit2D info = Physics2D.Raycast(transform.position, direction,8f,1);
+        if (info)
+        {
+            if (info.collider.gameObject.tag == "Enemy")
+            {
+                Debug.Log("ㄔㄐㄐ");
+            }
+            if (info.collider.gameObject.tag == "Player")
+            {
+                Debug.Log("pekoko");
+            }
+            if (info.collider.gameObject.tag == "UnTagged")
+            {
+                Debug.Log("阿好姨");
+            }
+        }
         _horizontalDirection = GetInput().x;
         _verticalDirection = GetInput().y;
         if (Input.GetButtonDown("Jump")) _jumpBufferCounter = _jumpBufferLength;
@@ -125,6 +148,8 @@ public class PlayerController : MonoBehaviour
         Time.timeScale += (1f / slowdownLength) * Time.unscaledDeltaTime;
         Time.timeScale = Mathf.Clamp(Time.timeScale, 0f, 1f);
         TriggerActive();
+
+
     }
     private void FixedUpdate()
     {
@@ -181,6 +206,11 @@ public class PlayerController : MonoBehaviour
             }
         }
         if (_canCornerCorrect) CornerCorrect(_rb.velocity.y);
+    }
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, 8f);
     }
     #region 腳色移動
     private Vector2 GetInput()
@@ -548,18 +578,19 @@ void Animation()
     public void KillingSpree()
     {
         float distoEnemy = Vector3.Distance(transform.position, takeEnemy.EnemyTargets.transform.position);
-        Vector3 direction = takeEnemy.EnemyTargets.transform.position - transform.position;
+        Vector2 direction = takeEnemy.EnemyTargets.transform.position - transform.position;
             KilllingTime = true;
         if (KilllingTime && distoEnemy > 0.2f)
         {
             _rb.velocity = Vector2.zero;
             _rb.gravityScale = 0f;
             _rb.drag = 0f;
-            _rb.AddForceAtPosition(direction * MovetoLength, takeEnemy.EnemyTargets.transform.position);
+            _rb.AddForceAtPosition(direction * MovetoTime, takeEnemy.EnemyTargets.transform.position);
         }
         if (KilllingTime && distoEnemy <= 0.2f)
         {
-            _rb.AddForceAtPosition(direction * MovetoLength * 2, takeEnemy.EnemyTargets.transform.position);
+            Invoke("DoSlowMotion", SlowDelay);
+            _rb.AddForceAtPosition(direction * KillDash, takeEnemy.EnemyTargets.transform.position);
             KilllingTime = false;
             takeEnemy.slaind = false;
         }

@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour
 {
     [Header("Objects")]
     [SerializeField] public TakeEnemy takeEnemy;
+    [SerializeField] public PlayerController playerController;
 
     [SerializeField] public GameObject QTEBtn_U;
     [SerializeField] public GameObject QTEBtn_I;
@@ -58,6 +59,7 @@ public class Enemy : MonoBehaviour
 
         Player = GameObject.Find("player");         //僅供玩家順移
         takeEnemy = FindObjectOfType<TakeEnemy>();
+        playerController = FindObjectOfType<PlayerController>();
     }
 
     void Update()
@@ -80,6 +82,7 @@ public class Enemy : MonoBehaviour
                     if (distoEnemy < takeEnemy.range)
                     {
                         DoSlowMotion();
+                        Time.timeScale = 1;
                         takeEnemy.slaind = true;
                     }
                 }
@@ -106,6 +109,7 @@ public class Enemy : MonoBehaviour
                     if (distoEnemy < takeEnemy.range)
                     {
                         DoSlowMotion();
+                        Time.timeScale = 1;
                         takeEnemy.slaind = true;
                     }
                 }
@@ -132,6 +136,7 @@ public class Enemy : MonoBehaviour
                     if (distoEnemy < takeEnemy.range)
                     {
                         DoSlowMotion();
+                        Time.timeScale = 1;
                         takeEnemy.slaind = true;
                     }
                 }
