@@ -126,7 +126,7 @@ public class PlayerController : MonoBehaviour
         {
             if (info.collider.gameObject.tag == "Enemy")
             {
-                Debug.Log("ㄔㄐㄐ");
+                Debug.Log("ㄔㄐㄐㄐ");
             }
             if (info.collider.gameObject.tag == "Player")
             {
