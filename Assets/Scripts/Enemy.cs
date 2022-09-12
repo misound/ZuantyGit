@@ -57,7 +57,6 @@ public class Enemy : MonoBehaviour
         m_MyEvent_O.AddListener(QTEBtn_OActive);
         m_MyEvent_Trigger.AddListener(TriggerActive);
 
-        Player = GameObject.Find("player");         //僅供玩家順移
         takeEnemy = FindObjectOfType<TakeEnemy>();
         playerController = FindObjectOfType<PlayerController>();
     }
@@ -65,91 +64,7 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         QTE_invalid();
-
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            //RandomQTE = Random.Range(1, 4);
-        }
-        if (takeEnemy.EnemyTargets != null && Time.timeScale <= 0.4)
-        {
-            takeEnemy.EnemyTargets.Trigger.SetActive(true);
-            if (takeEnemy.EnemyTargets.RandomQTE == 1)
-            {
-                m_MyEvent_U.Invoke(); //Begin the action
-                if (Input.GetKeyDown(KeyCode.U) && QTEBtn_U.activeInHierarchy == true && QTEInvalid == false)
-                {
-                    float distoEnemy = Vector3.Distance(transform.position, Player.transform.position);
-                    if (distoEnemy < takeEnemy.range)
-                    {
-                        DoSlowMotion();
-                        Time.timeScale = 1;
-                        takeEnemy.slaind = true;
-                    }
-                }
-                if (Input.GetKeyDown(KeyCode.I) && QTEBtn_U.activeInHierarchy == true)
-                {
-                    QTEInvalid = true;
-                }
-                if (Input.GetKeyDown(KeyCode.O) && QTEBtn_U.activeInHierarchy == true)
-                {
-                    QTEInvalid = true;
-                }
-            }
-            if (takeEnemy.EnemyTargets.RandomQTE == 2)
-            {
-                Debug.Log("duck");
-                m_MyEvent_I.Invoke();
-                if (Input.GetKeyDown(KeyCode.U) && QTEBtn_I.activeInHierarchy == true)
-                {
-                    QTEInvalid = true;
-                }
-                if (Input.GetKeyDown(KeyCode.I) && QTEBtn_I.activeInHierarchy == true && QTEInvalid == false)
-                {
-                    float distoEnemy = Vector3.Distance(transform.position, Player.transform.position);
-                    if (distoEnemy < takeEnemy.range)
-                    {
-                        DoSlowMotion();
-                        Time.timeScale = 1;
-                        takeEnemy.slaind = true;
-                    }
-                }
-                if (Input.GetKeyDown(KeyCode.O) && QTEBtn_I.activeInHierarchy == true)
-                {
-                    QTEInvalid = true;
-                }
-            }
-            if (takeEnemy.EnemyTargets.RandomQTE == 3)
-            {
-                Debug.Log("giraffe");
-                m_MyEvent_O.Invoke();
-                if (Input.GetKeyDown(KeyCode.U) && QTEBtn_O.activeInHierarchy == true)
-                {
-                    QTEInvalid = true;
-                }
-                if (Input.GetKeyDown(KeyCode.I) && QTEBtn_O.activeInHierarchy == true)
-                {
-                    QTEInvalid = true;
-                }
-                if (Input.GetKeyDown(KeyCode.O) && QTEBtn_O.activeInHierarchy == true && QTEInvalid == false)
-                {
-                    float distoEnemy = Vector3.Distance(transform.position, Player.transform.position);
-                    if (distoEnemy < takeEnemy.range)
-                    {
-                        DoSlowMotion();
-                        Time.timeScale = 1;
-                        takeEnemy.slaind = true;
-                    }
-                }
-            }
-        }
-        else
-        {
-            QTEBtn_U.SetActive(false);
-            QTEBtn_O.SetActive(false);
-            QTEBtn_I.SetActive(false);
-            Trigger.SetActive(false);
-        }
-
+        QTETrigger();
     }
     public void TakeDamege(int damage)
     {
@@ -221,9 +136,99 @@ public class Enemy : MonoBehaviour
         }
     }
     #endregion
+    #region 子彈時間重置
     void DoSlowMotion()
     {
         Time.timeScale = slowdownFactor;
         Time.fixedDeltaTime = Time.timeScale * .02f;
     }
+    #endregion
+    #region QTE觸發
+    void QTETrigger()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            //RandomQTE = Random.Range(1, 4);
+        }
+        if (takeEnemy.EnemyTargets != null && Time.timeScale <= 0.4 && playerController.CanKill)
+        {
+            takeEnemy.EnemyTargets.Trigger.SetActive(true);
+            if (takeEnemy.EnemyTargets.RandomQTE == 1)
+            {
+                m_MyEvent_U.Invoke(); //Begin the action
+                if (Input.GetKeyDown(KeyCode.U) && QTEBtn_U.activeInHierarchy == true && QTEInvalid == false)
+                {
+                    float distoEnemy = Vector3.Distance(transform.position, playerController.transform.position);
+                    if (distoEnemy < takeEnemy.range)
+                    {
+                        DoSlowMotion();
+                        Time.timeScale = 1;
+                        takeEnemy.slaind = true;
+                    }
+                }
+                if (Input.GetKeyDown(KeyCode.I) && QTEBtn_U.activeInHierarchy == true)
+                {
+                    QTEInvalid = true;
+                }
+                if (Input.GetKeyDown(KeyCode.O) && QTEBtn_U.activeInHierarchy == true)
+                {
+                    QTEInvalid = true;
+                }
+            }
+            if (takeEnemy.EnemyTargets.RandomQTE == 2)
+            {
+                Debug.Log("duck");
+                m_MyEvent_I.Invoke();
+                if (Input.GetKeyDown(KeyCode.U) && QTEBtn_I.activeInHierarchy == true)
+                {
+                    QTEInvalid = true;
+                }
+                if (Input.GetKeyDown(KeyCode.I) && QTEBtn_I.activeInHierarchy == true && QTEInvalid == false)
+                {
+                    float distoEnemy = Vector3.Distance(transform.position, playerController.transform.position);
+                    if (distoEnemy < takeEnemy.range)
+                    {
+                        DoSlowMotion();
+                        Time.timeScale = 1;
+                        takeEnemy.slaind = true;
+                    }
+                }
+                if (Input.GetKeyDown(KeyCode.O) && QTEBtn_I.activeInHierarchy == true)
+                {
+                    QTEInvalid = true;
+                }
+            }
+            if (takeEnemy.EnemyTargets.RandomQTE == 3)
+            {
+                Debug.Log("giraffe");
+                m_MyEvent_O.Invoke();
+                if (Input.GetKeyDown(KeyCode.U) && QTEBtn_O.activeInHierarchy == true)
+                {
+                    QTEInvalid = true;
+                }
+                if (Input.GetKeyDown(KeyCode.I) && QTEBtn_O.activeInHierarchy == true)
+                {
+                    QTEInvalid = true;
+                }
+                if (Input.GetKeyDown(KeyCode.O) && QTEBtn_O.activeInHierarchy == true && QTEInvalid == false)
+                {
+                    float distoEnemy = Vector3.Distance(transform.position, playerController.transform.position);
+                    if (distoEnemy < takeEnemy.range)
+                    {
+                        DoSlowMotion();
+                        Time.timeScale = 1;
+                        takeEnemy.slaind = true;
+                    }
+                }
+            }
+        }
+        else
+        {
+            QTEBtn_U.SetActive(false);
+            QTEBtn_O.SetActive(false);
+            QTEBtn_I.SetActive(false);
+            Trigger.SetActive(false);
+        }
+    }
+    #endregion
 }

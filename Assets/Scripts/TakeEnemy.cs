@@ -16,11 +16,14 @@ public class TakeEnemy : MonoBehaviour
     public float range = 20.0f;
 
     public bool slaind = false;
+
+    private PlayerController playerController;
     // Start is called before the first frame update
     void Start()
     {
         TargetList = new List<Enemy>();
         TempList = new List<Enemy>();
+        playerController = FindObjectOfType<PlayerController>();
         //UpdateTarget();
     }
     // Update is called once per frame
@@ -37,18 +40,13 @@ public class TakeEnemy : MonoBehaviour
             SetupTemp();
             SelectNextTarget();
         }
-
-
         if (Time.timeScale >= 0.4)
-        {
             HideSelectionEffect();
-        }
-
         if (slaind)
-        {
             SetupTemp();
+        if(playerController.KilllingTime)
             SelectNextTarget();
-        }
+
     }
     public void SetupTemp()
     {

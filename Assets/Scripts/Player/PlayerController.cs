@@ -104,9 +104,10 @@ public class PlayerController : MonoBehaviour
 
     [Header("Killing Spree")]
     [SerializeField] public float MovetoTime;
-    [SerializeField] private bool KilllingTime = false;
-    [SerializeField] public float KillDash;
+    [SerializeField] public bool KilllingTime = false;
+    [SerializeField] private float KillDash;
     [SerializeField] public float SlowDelay;
+    [SerializeField] public bool CanKill = false;
     private TakeEnemy takeEnemy;
     private Vector2 direction;
     private void Start()
@@ -119,24 +120,6 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
 
-        Vector2 direction = takeEnemy.EnemyTargets.transform.position - transform.position;
-        Ray2D MyRay = new Ray2D(transform.position, direction);
-        RaycastHit2D info = Physics2D.Raycast(transform.position, direction,8f,1);
-        if (info)
-        {
-            if (info.collider.gameObject.tag == "Enemy")
-            {
-                Debug.Log("ㄔㄐㄐㄐ");
-            }
-            if (info.collider.gameObject.tag == "Player")
-            {
-                Debug.Log("pekoko");
-            }
-            if (info.collider.gameObject.tag == "UnTagged")
-            {
-                Debug.Log("阿好姨");
-            }
-        }
         _horizontalDirection = GetInput().x;
         _verticalDirection = GetInput().y;
         if (Input.GetButtonDown("Jump")) _jumpBufferCounter = _jumpBufferLength;
@@ -155,7 +138,7 @@ public class PlayerController : MonoBehaviour
     {
        if (takeEnemy.slaind == true)
             KillingSpree();
-            
+        CheckTerrain();
         CanBeDropDown();
         CheckCollisions();
         SlowMotionBtn();
@@ -210,7 +193,7 @@ public class PlayerController : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, 8f);
+        Gizmos.DrawWireSphere(transform.position, takeEnemy.range);
     }
     #region 腳色移動
     private Vector2 GetInput()
@@ -579,21 +562,38 @@ void Animation()
     {
         float distoEnemy = Vector3.Distance(transform.position, takeEnemy.EnemyTargets.transform.position);
         Vector2 direction = takeEnemy.EnemyTargets.transform.position - transform.position;
-            KilllingTime = true;
-        if (KilllingTime && distoEnemy > 0.2f)
+        if (takeEnemy.slaind && distoEnemy > 0.2f)
         {
             _rb.velocity = Vector2.zero;
             _rb.gravityScale = 0f;
             _rb.drag = 0f;
             _rb.AddForceAtPosition(direction * MovetoTime, takeEnemy.EnemyTargets.transform.position);
         }
-        if (KilllingTime && distoEnemy <= 0.2f)
+        if (takeEnemy.slaind && distoEnemy <= 0.2f)
         {
+            KilllingTime = true;
             Invoke("DoSlowMotion", SlowDelay);
             _rb.AddForceAtPosition(direction * KillDash, takeEnemy.EnemyTargets.transform.position);
             KilllingTime = false;
             takeEnemy.slaind = false;
         }
+    }
+    void CheckTerrain()
+    {
+        Vector2 direction = takeEnemy.EnemyTargets.transform.position - transform.position;
+        Ray2D MyRay = new Ray2D(transform.position, direction);
+        RaycastHit2D info = Physics2D.Raycast(transform.position, direction, takeEnemy.range, 1 << LayerMask.NameToLayer("Ground") | 1 << LayerMask.NameToLayer("Wall"));
+        Debug.DrawRay(transform.position, direction, color: Color.cyan);
+        if (info.collider != null)
+        {
+            if (info.collider.gameObject.CompareTag("Untagged"))
+            {
+                Debug.Log("阿好姨");
+                CanKill = false;
+            }
+        }
+        else
+            CanKill = true;
     }
     #endregion
 }
