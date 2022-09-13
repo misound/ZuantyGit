@@ -46,7 +46,6 @@ public class TakeEnemy : MonoBehaviour
             SetupTemp();
         if(playerController.KilllingTime)
             SelectNextTarget();
-
     }
     public void SetupTemp()
     {
