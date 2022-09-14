@@ -12,13 +12,15 @@ public class PlayerController : MonoBehaviour
     public Animator _anim;
     public GameObject Trigger;
 
-    [Header("Layer Masks")] [SerializeField]
+    [Header("Layer Masks")]
+    [SerializeField]
     private LayerMask _groundLayer;
     [SerializeField] private LayerMask _wallLayer;
     [SerializeField] private LayerMask _cornerCorrectLayer;
     [SerializeField] public LayerMask _onOneWayPlatformLayerMask;
 
-    [Header("Movement Variables")] [SerializeField]
+    [Header("Movement Variables")]
+    [SerializeField]
     private float _movementAcceleration = 70f;
 
     [SerializeField] private float _maxMoveSpeed = 12f;
@@ -33,7 +35,8 @@ public class PlayerController : MonoBehaviour
     private bool _canMove => !_wallGrab;
 
 
-    [Header("Jump Variables")] [SerializeField]
+    [Header("Jump Variables")]
+    [SerializeField]
     private float _jumpForce = 12f;
 
     [SerializeField] private float _airLinearDrag = 2.5f;
@@ -49,7 +52,8 @@ public class PlayerController : MonoBehaviour
     private bool _canJump => _jumpBufferCounter > 0f && (_hangTimeCounter > 0f || _extraJumpsValue > 0 || _onWall);
     private bool _isJumping = false;
 
-    [Header("Wall Movement Variables")] [SerializeField]
+    [Header("Wall Movement Variables")]
+    [SerializeField]
     private float _wallSlideModifier = 0.5f;
 
     [SerializeField] private float _wallRunModifier = 0.85f;
@@ -61,7 +65,8 @@ public class PlayerController : MonoBehaviour
 
     private bool _wallRun => _onWall && _verticalDirection > 0f;
 
-    [Header("Dash Variables")] [SerializeField]
+    [Header("Dash Variables")]
+    [SerializeField]
     private float _dashSpeed = 15f;
 
     [SerializeField] private float _dashLength = 0.3f;
@@ -71,7 +76,7 @@ public class PlayerController : MonoBehaviour
     private bool _hasDashed;
     private bool _canDash => _dashBufferCounter > 0f && !_hasDashed;
 
-    [Header("Ground Collision Variables")] 
+    [Header("Ground Collision Variables")]
     [SerializeField] private float _groundRaycastLength;
     [SerializeField] private Vector3 _groundRaycastOffset;
     [SerializeField] private bool _onGround;
@@ -87,13 +92,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Vector3 _innerRaycastOffset;
     private bool _canCornerCorrect;
 
-    [Header("OneWayPlatform")] 
+    [Header("OneWayPlatform")]
     [SerializeField] private float _oneWayRaycastLength;
     [SerializeField] private Vector3 _oneWayRaycastOffset;
     [SerializeField] public float checkRadius;
     [SerializeField] public bool _onOneWayPlatform;
     [SerializeField] public float DownwardDistance;
-    
+
     [Header("SlowMotion")]
     [SerializeField] public float slowdownFactor = 0.05f;
     [SerializeField] public float slowdownLength = 2f;
@@ -136,7 +141,7 @@ public class PlayerController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-       if (takeEnemy.slaind == true)
+        if (takeEnemy.slaind == true)
             KillingSpree();
         CheckTerrain();
         CanBeDropDown();
@@ -147,7 +152,7 @@ public class PlayerController : MonoBehaviour
         {
             if (_canMove) MoveCharacter();
             else _rb.velocity = Vector2.Lerp(_rb.velocity, (new Vector2(_horizontalDirection * _maxMoveSpeed, _rb.velocity.y)), .5f * Time.deltaTime);
-            if (_onGround||_onOneWayPlatform)
+            if (_onGround || _onOneWayPlatform)
             {
                 ApplyGroundLinearDrag();
                 _extraJumpsValue = _extraJumps;
@@ -163,7 +168,7 @@ public class PlayerController : MonoBehaviour
             }
             if (_canJump)
             {
-                if (_onWall && !_onGround&&!_onOneWayPlatform)
+                if (_onWall && !_onGround && !_onOneWayPlatform)
                 {
                     if (!_wallRun && (_onRightWall && _horizontalDirection > 0f || !_onRightWall && _horizontalDirection < 0f))
                     {
@@ -208,7 +213,7 @@ public class PlayerController : MonoBehaviour
         if (Mathf.Abs(_rb.velocity.x) > _maxMoveSpeed)
             _rb.velocity = new Vector2(Mathf.Sign(_rb.velocity.x) * _maxMoveSpeed, _rb.velocity.y);
     }
-    
+
 
     #endregion
     #region 地面磨擦
@@ -232,7 +237,7 @@ public class PlayerController : MonoBehaviour
 
     private void Jump(Vector2 direction)
     {
-        if (!_onGround && !_onWall&&!_onOneWayPlatform)
+        if (!_onGround && !_onWall && !_onOneWayPlatform)
             _extraJumpsValue--;
 
         ApplyAirLinearDrag();
@@ -341,7 +346,7 @@ public class PlayerController : MonoBehaviour
         _rb.drag = 0f;
 
         Vector2 dir;
-        if (x != 0f || y != 0f) dir = new Vector2(x,y);
+        if (x != 0f || y != 0f) dir = new Vector2(x, y);
         else
         {
             if (_facingRight) dir = new Vector2(1f, 0f);
@@ -358,7 +363,7 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
     #region 動畫相關
-void Animation()
+    void Animation()
     {
         if (_isDashing)
         {
@@ -378,7 +383,7 @@ void Animation()
             {
                 Flip();
             }
-            if (_onGround||_onOneWayPlatform)
+            if (_onGround || _onOneWayPlatform)
             {
                 _anim.SetBool("isGrounded", true);
                 _anim.SetBool("isFalling", false);
@@ -426,7 +431,7 @@ void Animation()
     void CornerCorrect(float Yvelocity)
     {
         //Push player to the right
-        RaycastHit2D _hit = Physics2D.Raycast(transform.position - _innerRaycastOffset + Vector3.up * _topRaycastLength,Vector3.left, _topRaycastLength, _cornerCorrectLayer);
+        RaycastHit2D _hit = Physics2D.Raycast(transform.position - _innerRaycastOffset + Vector3.up * _topRaycastLength, Vector3.left, _topRaycastLength, _cornerCorrectLayer);
         if (_hit.collider != null)
         {
             float _newPos = Vector3.Distance(new Vector3(_hit.point.x, transform.position.y, 0f) + Vector3.up * _topRaycastLength,
@@ -453,7 +458,7 @@ void Animation()
                         _groundLayer) ||
                     Physics2D.Raycast(transform.position - _groundRaycastOffset, Vector2.down, _groundRaycastLength,
                         _groundLayer);
-        
+
 
         //Corner Collisions
         _canCornerCorrect = Physics2D.Raycast(transform.position + _edgeRaycastOffset, Vector2.up, _topRaycastLength, _cornerCorrectLayer) &&
@@ -466,9 +471,9 @@ void Animation()
                     Physics2D.Raycast(transform.position, Vector2.left, _wallRaycastLength, _wallLayer);
         _onRightWall = Physics2D.Raycast(transform.position, Vector2.right, _wallRaycastLength, _wallLayer);
         //OneWayPlatform Collision
-        _onOneWayPlatform=Physics2D.Raycast(transform.position + _oneWayRaycastOffset, Vector2.down, _oneWayRaycastLength, _onOneWayPlatformLayerMask)||
+        _onOneWayPlatform = Physics2D.Raycast(transform.position + _oneWayRaycastOffset, Vector2.down, _oneWayRaycastLength, _onOneWayPlatformLayerMask) ||
                           Physics2D.Raycast(transform.position - _oneWayRaycastOffset, Vector2.down, _oneWayRaycastLength, _onOneWayPlatformLayerMask);
-        
+
     }
 
     private void OnDrawGizmos()
@@ -478,10 +483,10 @@ void Animation()
         //Ground Check
         Gizmos.DrawLine(transform.position + _groundRaycastOffset, transform.position + _groundRaycastOffset + Vector3.down * _groundRaycastLength);
         Gizmos.DrawLine(transform.position - _groundRaycastOffset, transform.position - _groundRaycastOffset + Vector3.down * _groundRaycastLength);
-        
+
         //OneWayPlatformCheck
-        Gizmos.DrawLine(transform.position + _oneWayRaycastOffset,transform.position + _oneWayRaycastOffset+Vector3.down*_oneWayRaycastLength);
-        Gizmos.DrawLine(transform.position - _oneWayRaycastOffset,transform.position - _oneWayRaycastOffset+Vector3.down*_oneWayRaycastLength);
+        Gizmos.DrawLine(transform.position + _oneWayRaycastOffset, transform.position + _oneWayRaycastOffset + Vector3.down * _oneWayRaycastLength);
+        Gizmos.DrawLine(transform.position - _oneWayRaycastOffset, transform.position - _oneWayRaycastOffset + Vector3.down * _oneWayRaycastLength);
         //Corner Check
         Gizmos.DrawLine(transform.position + _edgeRaycastOffset, transform.position + _edgeRaycastOffset + Vector3.up * _topRaycastLength);
         Gizmos.DrawLine(transform.position - _edgeRaycastOffset, transform.position - _edgeRaycastOffset + Vector3.up * _topRaycastLength);
@@ -536,7 +541,7 @@ void Animation()
 
     void TriggerActive()
     {
-        if(Time.timeScale > 0.4)
+        if (Time.timeScale > 0.4)
         {
             Trigger.SetActive(false);
         }
@@ -550,9 +555,9 @@ void Animation()
 
     public void CanBeDropDown()
     {
-        if (Input.GetKeyDown(KeyCode.S)&&_onOneWayPlatform)
+        if (Input.GetKeyDown(KeyCode.S) && _onOneWayPlatform)
         {
-            transform.Translate(0,DownwardDistance,0);
+            transform.Translate(0, DownwardDistance, 0);
             Debug.Log("往下");
         }
     }
@@ -580,20 +585,23 @@ void Animation()
     }
     void CheckTerrain()
     {
-        Vector2 direction = takeEnemy.EnemyTargets.transform.position - transform.position;
-        Ray2D MyRay = new Ray2D(transform.position, direction);
-        RaycastHit2D info = Physics2D.Raycast(transform.position, direction, takeEnemy.range, 1 << LayerMask.NameToLayer("Ground") | 1 << LayerMask.NameToLayer("Wall"));
-        Debug.DrawRay(transform.position, direction, color: Color.cyan);
-        if (info.collider != null)
+        if (takeEnemy.EnemyTargets)
         {
-            if (info.collider.gameObject.CompareTag("Untagged"))
+            Vector2 direction = takeEnemy.EnemyTargets.transform.position - transform.position;
+            Ray2D MyRay = new Ray2D(transform.position, direction);
+            RaycastHit2D info = Physics2D.Raycast(transform.position, direction, takeEnemy.range, 1 << LayerMask.NameToLayer("Ground") | 1 << LayerMask.NameToLayer("Wall"));
+            Debug.DrawRay(transform.position, direction, color: Color.cyan);
+            if (info.collider != null)
             {
-                Debug.Log("阿好姨");
-                CanKill = false;
+                if (info.collider.gameObject.CompareTag("Untagged"))
+                {
+                    Debug.Log("阿好姨");
+                    CanKill = false;
+                }
             }
+            else
+                CanKill = true;
         }
-        else
-            CanKill = true;
     }
     #endregion
 }
