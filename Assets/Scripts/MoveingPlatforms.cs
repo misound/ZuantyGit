@@ -10,6 +10,7 @@ public class MoveingPlatforms : MonoBehaviour
     public float speed;
     public Transform startingPoint;
     public Transform  endindPoint;
+    public bool playerIn;
     
     
 
@@ -23,17 +24,18 @@ public class MoveingPlatforms : MonoBehaviour
     {
         transform.position = startingPoint.position;
         moveUp = false;
+        playerIn = false;
     }
 
 
     void Update()
     {
         
-        if (transform.position == endindPoint.position&& Input.GetKeyDown(KeyCode.E))
+        if (transform.position == endindPoint.position&& Input.GetKeyDown(KeyCode.E)&&playerIn)
         {
             moveUp = false;
         }
-        else if (transform.position == startingPoint.position&& Input.GetKeyDown(KeyCode.E))
+        else if (transform.position == startingPoint.position&& Input.GetKeyDown(KeyCode.E)&&playerIn)
         {
             moveUp = true;
         }
@@ -52,13 +54,15 @@ public class MoveingPlatforms : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         collision.transform.SetParent(transform);
-        
+        playerIn = true;
+
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
         collision.transform.SetParent(null);
-        
+        playerIn = false;
+
     }
 }
 
