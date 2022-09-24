@@ -115,16 +115,22 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public bool CanKill = false;
     private TakeEnemy takeEnemy;
     private Vector2 direction;
+
+    [Header("Audio")] 
+    [SerializeField] public AudioSource Footstep;
+    [SerializeField] public bool isRunning;
     private void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
         _anim = GetComponent<Animator>();
         takeEnemy = FindObjectOfType<TakeEnemy>();
+        Footstep = GetComponent<AudioSource>();
     }
 
     private void Update()
     {
 
+       
         _horizontalDirection = GetInput().x;
         _verticalDirection = GetInput().y;
         if (Input.GetButtonDown("Jump")) _jumpBufferCounter = _jumpBufferLength;
@@ -193,7 +199,12 @@ public class PlayerController : MonoBehaviour
                 if (_onWall) StickToWall();
             }
         }
-        if (_canCornerCorrect) CornerCorrect(_rb.velocity.y);
+        if (_canCornerCorrect)
+        {
+            CornerCorrect(_rb.velocity.y);
+        }
+        Sound();
+        
     }
     private void OnDrawGizmosSelected()
     {
@@ -603,5 +614,33 @@ public class PlayerController : MonoBehaviour
                 CanKill = true;
         }
     }
+    #endregion
+
+    #region 音效
+
+    public void Sound()
+    {
+        if (_horizontalDirection != 0)
+        {
+            isRunning = true;
+        }
+        else
+        {
+            isRunning = false;
+        }
+
+        if (_onGround&&isRunning)
+        {
+            if (!Footstep.isPlaying)
+            {
+                Footstep.Play();
+            }
+        }
+        else
+        {
+            Footstep.Stop();
+        }
+    }
+
     #endregion
 }
