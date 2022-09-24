@@ -44,8 +44,12 @@ public class TakeEnemy : MonoBehaviour
             HideSelectionEffect();
         if (slaind)
             SetupTemp();
-        if(playerController.KilllingTime)
+        if (playerController.KilllingTime)
+        {
             SelectNextTarget();
+            playerController.KilllingTime = false;
+        }
+
     }
     public void SetupTemp()
     {

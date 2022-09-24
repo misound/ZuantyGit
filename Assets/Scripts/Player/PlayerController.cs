@@ -590,7 +590,6 @@ public class PlayerController : MonoBehaviour
             KilllingTime = true;
             Invoke("DoSlowMotion", SlowDelay);
             _rb.AddForceAtPosition(direction * KillDash, takeEnemy.EnemyTargets.transform.position);
-            KilllingTime = false;
             takeEnemy.slaind = false;
         }
     }
@@ -615,7 +614,6 @@ public class PlayerController : MonoBehaviour
         }
     }
     #endregion
-
     #region 音效
 
     public void Sound()

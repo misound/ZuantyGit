@@ -150,7 +150,7 @@ public class Enemy : MonoBehaviour
         {
             //RandomQTE = Random.Range(1, 4);
         }
-        if (takeEnemy.EnemyTargets != null && Time.timeScale <= 0.4 && playerController.CanKill)
+        if (takeEnemy.EnemyTargets != null && Time.timeScale <= 0.4 && Time.timeScale >= 0.05 && playerController.CanKill)
         {
             takeEnemy.EnemyTargets.Trigger.SetActive(true);
             if (takeEnemy.EnemyTargets.RandomQTE == 1)
