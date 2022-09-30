@@ -5,79 +5,224 @@ using UnityEngine;
 
 public class EnemyBomb : MonoBehaviour
 {
-    public GameObject player;
-    public Rigidbody2D rb;
+    [Header("Components")]
+    [SerializeField] public PlayerController playerController;
+    [SerializeField] public Rigidbody2D rb;
 
-    public float speed;
-    public float distance;
+    [Header("Check Points")]
+    [SerializeField] public GameObject CheckpointR;
+    [SerializeField] public GameObject CheckpointL;
 
-    private bool mustTurn;
-    private bool mustPatrol;
-    public Transform groundCheck;
-    public LayerMask groundLayer;
-    public Collider coll;
-   
+    [Header("Speed")]
+    [SerializeField] public float VariableSpeed;
+    [SerializeField] public float Patrolspeed;
+    [SerializeField] public float Boomspeed;
+    [SerializeField] public float Jumpforce;
 
-    
-// Start is called before the first frame update
+    [Header("Ray Range")]
+    [SerializeField] public float CheckGroundRange;
+    [SerializeField] public float CheckPlayerRange;
+    [SerializeField] public float Checkwallrange;
+    [SerializeField] public float UnstoppableRange;
+    [SerializeField] public float WarningRange;
+
+    [SerializeField] private bool mustTurn;
+    [SerializeField] private bool mustPatrol;
+    [SerializeField] private bool CanJump;
+    [SerializeField] private bool _isFacingRight;
+    [SerializeField] private bool hitwall;
+    [SerializeField] private bool WannaBoom;
+
+
+    float distance;
+    // Start is called before the first frame update
     void Start()
     {
         mustPatrol = true;
-
+        playerController = FindObjectOfType<PlayerController>();
+        _isFacingRight = true;
     }
 
     private void FixedUpdate()
     {
         if (mustPatrol)
-        {
             Patrol();
-        }
+        if (_isFacingRight)
+            CheckPlayerR();
+        if (!_isFacingRight)
+            CheckPlayerL();
+        if (WannaBoom)
+            Attack();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (mustPatrol)
-        {
-            mustTurn = !Physics2D.OverlapCircle(groundCheck.position, 0.1f, groundLayer);
-        }
+        if (WannaBoom)
+            mustPatrol = false;
+        else
+            mustPatrol = true;
     }
 
     #region 巡邏
     public void Patrol()
     {
+        mustTurn = Physics2D.Raycast(CheckpointR.transform.position, Vector2.down * CheckGroundRange, 5, 1 << LayerMask.NameToLayer("Ground"))
+            && !Physics2D.Raycast(CheckpointL.transform.position, Vector2.down * CheckGroundRange, 5, 1 << LayerMask.NameToLayer("Ground"));
+
+        mustTurn = !Physics2D.Raycast(CheckpointR.transform.position, Vector2.down * CheckGroundRange, 5, 1 << LayerMask.NameToLayer("Ground"))
+            && Physics2D.Raycast(CheckpointL.transform.position, Vector2.down * CheckGroundRange, 5, 1 << LayerMask.NameToLayer("Ground"));
+
+        hitwall = Physics2D.Raycast(transform.position, Vector2.right * Checkwallrange, Checkwallrange, 1 << LayerMask.NameToLayer("Ground"))
+            || Physics2D.Raycast(transform.position, Vector2.left * Checkwallrange, Checkwallrange, 1 << LayerMask.NameToLayer("Ground"));
+
         if (mustTurn)
         {
-            Flip();
+            if (_isFacingRight)
+                FlipToL();
+            else
+                FlipToR();
         }
-        rb.velocity = new Vector2(speed * Time.deltaTime,rb.velocity.y);
-        
+        if (hitwall)
+        {
+            if (_isFacingRight)
+                FlipToL();
+            else
+                FlipToR();
+        }
+        if (_isFacingRight)
+        {
+            transform.localScale = new Vector2(-1, transform.localScale.y);
+            rb.velocity = new Vector2(Patrolspeed * Time.deltaTime, rb.velocity.y);
+            //speed = Mathf.Abs(speed);
+        }
+        if (!_isFacingRight)
+        {
+            transform.localScale = new Vector2(1, transform.localScale.y);
+            VariableSpeed = -Patrolspeed;
+            rb.velocity = new Vector2(VariableSpeed * Time.deltaTime, rb.velocity.y);
+        }
     }
     #endregion
-    #region 腳色翻轉
+    #region 角色翻轉
 
-    void Flip()
+    void FlipToL()
     {
-        mustPatrol = false;
-        transform.localScale = new Vector2(transform.localScale.x * -1, transform.localScale.y);
-        speed *= -1;
-        mustPatrol = true;
+        if (_isFacingRight)
+            _isFacingRight = false;
+
+        if (!_isFacingRight)
+        {
+            transform.localScale = new Vector2(1, transform.localScale.y);
+            VariableSpeed = -VariableSpeed;
+        }
+        mustTurn = false;
+        hitwall = false;
     }
+    void FlipToR()
+    {
+        if (!_isFacingRight)
+            _isFacingRight = true;
 
+        if (_isFacingRight)
+        {
+            transform.localScale = new Vector2(-1, transform.localScale.y);
+            VariableSpeed = Mathf.Abs(VariableSpeed);
+        }
+        mustTurn = false;
+        hitwall = false;
+    }
     #endregion
-    /*#region 攻擊玩家
-
+    #region 攻擊玩家
     public void Attack()
     {
-        distance = Vector2.Distance(transform.position,player.transform.position);
-        Vector2 direction = player.transform.position - transform.position;
+            rb.gravityScale = 4f;
+        if (rb.velocity.y != 0f)
+            rb.drag = 2.5f;
 
-        transform.position =
-            Vector2.MoveTowards(this.transform.position, player.transform.position, speed * Time.deltaTime); 
+        CanJump = Physics2D.Raycast(transform.position, Vector2.down * Checkwallrange, Checkwallrange, 1 << LayerMask.NameToLayer("Ground"));
+        distance = Vector2.Distance(transform.position, playerController.transform.position);
+
+        if (CanJump && distance - UnstoppableRange < 0.6 && distance - UnstoppableRange > 0.4)
+            rb.velocity = new Vector2(rb.velocity.x, Jumpforce);
+
+        if (transform.position.x > playerController.transform.position.x)
+        {
+            rb.velocity = new Vector2(-Boomspeed, rb.velocity.y);
+            if (distance < UnstoppableRange)
+                rb.velocity = new Vector2(-Boomspeed * 2, rb.velocity.y);
+            _isFacingRight = false;
+            transform.localScale = new Vector2(1, transform.localScale.y);
+        }
+        if (transform.position.x < playerController.transform.position.x)
+        {
+            rb.velocity = new Vector2(Boomspeed, rb.velocity.y);
+            if (distance < UnstoppableRange)
+                rb.velocity = new Vector2(Boomspeed * 2, rb.velocity.y);
+            _isFacingRight = true;
+            transform.localScale = new Vector2(-1, transform.localScale.y);
+        }
+        if (distance > WarningRange)
+            WannaBoom = false;
+
+        mustPatrol = false;
     }
-    #endregion*/
+    #endregion
+    #region 檢查玩家
+    private void CheckPlayerR()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right * CheckPlayerRange, 5, 1 << LayerMask.NameToLayer("Default") | 1 << LayerMask.NameToLayer("Ground"));
+        if (hit.collider != null)
+        {
+            if (hit.collider.gameObject.CompareTag("Player"))
+            {
+                WannaBoom = true;
+            }
+        }
+    }
+    private void CheckPlayerL()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.left * CheckPlayerRange, 5, 1 << LayerMask.NameToLayer("Default") | 1 << LayerMask.NameToLayer("Ground"));
+        if (hit.collider != null)
+        {
+            if (hit.collider.gameObject.CompareTag("Player"))
+            {
+                WannaBoom = true;
+            }
+        }
+    }
+    #endregion\
+    void CheckGroundR()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right * Checkwallrange, 5, 1 << LayerMask.NameToLayer("Ground"));
+        if (hit.collider != null)
+        {
+            if (hit.collider.gameObject.CompareTag("Untagged"))
+            {
+                //mustTurn = true;
+            }
+        }
+        else
+        {
 
-    
+        }
 
-    
+    }
+    void CheckGroundL()
+    {
+        RaycastHit2D hitL = Physics2D.Raycast(transform.position, Vector2.left * Checkwallrange, 5, 1 << LayerMask.NameToLayer("Ground"));
+        if (hitL.collider != null)
+        {
+            if (hitL.collider.gameObject.CompareTag("Untagged"))
+            {
+                //mustTurn = true;
+
+            }
+        }
+        else
+        {
+
+        }
+    }
+
 }
