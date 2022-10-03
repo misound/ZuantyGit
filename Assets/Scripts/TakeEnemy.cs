@@ -43,11 +43,16 @@ public class TakeEnemy : MonoBehaviour
         if (Time.timeScale >= 0.4)
             HideSelectionEffect();
         if (slaind)
+        {
+            playerController._anim.SetBool("isAttack", false);
             SetupTemp();
+        }
+            
         if (playerController.KilllingTime)
         {
             SelectNextTarget();
             playerController.KilllingTime = false;
+            
         }
 
     }

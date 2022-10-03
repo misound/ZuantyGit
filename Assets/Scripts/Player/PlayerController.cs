@@ -50,7 +50,7 @@ public class PlayerController : MonoBehaviour
     private float _hangTimeCounter;
     private float _jumpBufferCounter;
     private bool _canJump => _jumpBufferCounter > 0f && (_hangTimeCounter > 0f || _extraJumpsValue > 0 || _onWall);
-    private bool _isJumping = false;
+    public bool _isJumping = false;
 
     [Header("Wall Movement Variables")]
     [SerializeField]
@@ -72,14 +72,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _dashLength = 0.3f;
     [SerializeField] private float _dashBufferLength = 0.1f;
     private float _dashBufferCounter;
-    private bool _isDashing;
-    private bool _hasDashed;
-    private bool _canDash => _dashBufferCounter > 0f && !_hasDashed;
+    private bool _isAttack;
+    private bool _hasAttacked;
+    private bool _canDash => _dashBufferCounter > 0f && !_hasAttacked;
 
     [Header("Ground Collision Variables")]
     [SerializeField] private float _groundRaycastLength;
     [SerializeField] private Vector3 _groundRaycastOffset;
-    [SerializeField] private bool _onGround;
+    [SerializeField] public bool _onGround;
 
     [Header("Wall Collision Variables")]
     [SerializeField] private float _wallRaycastLength;
@@ -148,13 +148,17 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         if (takeEnemy.slaind == true)
+        {
             KillingSpree();
+            _anim.SetBool("isAttack",true);
+        }
         CheckTerrain();
         CanBeDropDown();
         CheckCollisions();
         SlowMotionBtn();
+        
         if (_canDash) StartCoroutine(Dash(_horizontalDirection, _verticalDirection));
-        if (!_isDashing)
+        if (!_isAttack)
         {
             if (_canMove) MoveCharacter();
             else _rb.velocity = Vector2.Lerp(_rb.velocity, (new Vector2(_horizontalDirection * _maxMoveSpeed, _rb.velocity.y)), .5f * Time.deltaTime);
@@ -163,7 +167,7 @@ public class PlayerController : MonoBehaviour
                 ApplyGroundLinearDrag();
                 _extraJumpsValue = _extraJumps;
                 _hangTimeCounter = _hangTime;
-                _hasDashed = false;
+                _hasAttacked = false;
             }
             else
             {
@@ -348,8 +352,8 @@ public class PlayerController : MonoBehaviour
     IEnumerator Dash(float x, float y)
     {
         float dashStartTime = Time.time;
-        _hasDashed = true;
-        _isDashing = true;
+        _hasAttacked = true;
+        _isAttack = true;
         _isJumping = false;
 
         _rb.velocity = Vector2.zero;
@@ -370,15 +374,15 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
 
-        _isDashing = false;
+        _isAttack = false;
     }
     #endregion
     #region 動畫相關
     void Animation()
     {
-        if (_isDashing)
+        if (_isAttack)
         {
-            _anim.SetBool("isDashing", true);
+            _anim.SetBool("isAttack", true);
             _anim.SetBool("isGrounded", false);
             _anim.SetBool("isFalling", false);
             _anim.SetBool("WallGrab", false);
@@ -388,7 +392,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            _anim.SetBool("isDashing", false);
+            _anim.SetBool("isAttack", false);
 
             if ((_horizontalDirection < 0f && _facingRight || _horizontalDirection > 0f && !_facingRight) && !_wallGrab && !_wallSlide)
             {
