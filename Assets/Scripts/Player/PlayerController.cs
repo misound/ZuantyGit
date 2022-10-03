@@ -72,9 +72,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _dashLength = 0.3f;
     [SerializeField] private float _dashBufferLength = 0.1f;
     private float _dashBufferCounter;
-    private bool _isAttack;
-    private bool _hasAttacked;
-    private bool _canDash => _dashBufferCounter > 0f && !_hasAttacked;
+    public bool _isAttack;
+    public bool _hasAttacked;
+    //private bool _canDash => _dashBufferCounter > 0f && !_hasAttacked;
 
     [Header("Ground Collision Variables")]
     [SerializeField] private float _groundRaycastLength;
@@ -157,11 +157,17 @@ public class PlayerController : MonoBehaviour
         CheckCollisions();
         SlowMotionBtn();
         
-        if (_canDash) StartCoroutine(Dash(_horizontalDirection, _verticalDirection));
+        //if (_canDash) StartCoroutine(Dash(_horizontalDirection, _verticalDirection));
         if (!_isAttack)
         {
-            if (_canMove) MoveCharacter();
-            else _rb.velocity = Vector2.Lerp(_rb.velocity, (new Vector2(_horizontalDirection * _maxMoveSpeed, _rb.velocity.y)), .5f * Time.deltaTime);
+            if (_canMove)
+            {
+                MoveCharacter();
+            }
+            else
+            {
+                _rb.velocity = Vector2.Lerp(_rb.velocity, (new Vector2(_horizontalDirection * _maxMoveSpeed, _rb.velocity.y)), .5f * Time.deltaTime);
+            }
             if (_onGround || _onOneWayPlatform)
             {
                 ApplyGroundLinearDrag();
@@ -573,7 +579,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.S) && _onOneWayPlatform)
         {
             transform.Translate(0, DownwardDistance, 0);
-            Debug.Log("往下");
+            
         }
     }
     #endregion
@@ -595,6 +601,7 @@ public class PlayerController : MonoBehaviour
             Invoke("DoSlowMotion", SlowDelay);
             _rb.AddForceAtPosition(direction * KillDash, takeEnemy.EnemyTargets.transform.position);
             takeEnemy.slaind = false;
+            _isAttack = false;
         }
     }
     void CheckTerrain()
@@ -609,7 +616,6 @@ public class PlayerController : MonoBehaviour
             {
                 if (info.collider.gameObject.CompareTag("Untagged"))
                 {
-                    Debug.Log("阿好姨");
                     CanKill = false;
                 }
             }

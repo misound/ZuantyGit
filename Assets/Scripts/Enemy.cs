@@ -48,7 +48,7 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         RandomQTE = Random.Range(1, 4);
-        Debug.Log(RandomQTE);
+        
 
         currentHealth = maxHealth;
 
@@ -177,7 +177,7 @@ public class Enemy : MonoBehaviour
             }
             if (takeEnemy.EnemyTargets.RandomQTE == 2)
             {
-                Debug.Log("duck");
+                
                 m_MyEvent_I.Invoke();
                 if (Input.GetKeyDown(KeyCode.U) && QTEBtn_I.activeInHierarchy == true)
                 {
@@ -200,7 +200,7 @@ public class Enemy : MonoBehaviour
             }
             if (takeEnemy.EnemyTargets.RandomQTE == 3)
             {
-                Debug.Log("giraffe");
+                
                 m_MyEvent_O.Invoke();
                 if (Input.GetKeyDown(KeyCode.U) && QTEBtn_O.activeInHierarchy == true)
                 {

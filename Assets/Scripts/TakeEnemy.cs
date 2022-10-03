@@ -44,7 +44,7 @@ public class TakeEnemy : MonoBehaviour
             HideSelectionEffect();
         if (slaind)
         {
-            playerController._anim.SetBool("isAttack", false);
+            playerController._isAttack = true;
             SetupTemp();
         }
             
