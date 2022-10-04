@@ -34,13 +34,15 @@ public class MoveingPlatforms : MonoBehaviour
         
         if (transform.position == endindPoint.position&& Input.GetKeyDown(KeyCode.E)&&playerIn)
         {
-            moveUp = false;
+            
             switchOn.Play();
+            StartCoroutine(DelaySwitchOnStart());
+
         }
         else if (transform.position == startingPoint.position&& Input.GetKeyDown(KeyCode.E)&&playerIn)
         {
-            moveUp = true;
             switchOn.Play();
+            StartCoroutine(DelaySwitchOnEnd());
         }
         if (moveUp == false)
         {
@@ -69,6 +71,19 @@ public class MoveingPlatforms : MonoBehaviour
         playerIn = false;
 
     }
+
+    IEnumerator DelaySwitchOnStart()
+    {
+        yield return new WaitForSeconds(1);
+        moveUp = false;
+    }
+    IEnumerator DelaySwitchOnEnd()
+    {
+        yield return new WaitForSeconds(1);
+        moveUp = true;
+    }
+
+
 }
 
     
