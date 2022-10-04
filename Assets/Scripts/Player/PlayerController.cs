@@ -128,9 +128,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private void Update()
-    {
-
-       
+    { 
         _horizontalDirection = GetInput().x;
         _verticalDirection = GetInput().y;
         if (Input.GetButtonDown("Jump")) _jumpBufferCounter = _jumpBufferLength;
@@ -138,15 +136,14 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("Dash")) _dashBufferCounter = _dashBufferLength;
         else _dashBufferCounter -= Time.deltaTime;
         Animation();
-
+    }
+    private void FixedUpdate()
+    {
         Time.timeScale += (1f / slowdownLength) * Time.unscaledDeltaTime;
         Time.timeScale = Mathf.Clamp(Time.timeScale, 0f, 1f);
         TriggerActive();
 
 
-    }
-    private void FixedUpdate()
-    {
         if (takeEnemy.slaind == true)
         {
             KillingSpree();
