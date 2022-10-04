@@ -11,6 +11,7 @@ public class MoveingPlatforms : MonoBehaviour
     public Transform startingPoint;
     public Transform  endindPoint;
     public bool playerIn;
+    public AudioSource switchOn;
     
     
 
@@ -34,19 +35,23 @@ public class MoveingPlatforms : MonoBehaviour
         if (transform.position == endindPoint.position&& Input.GetKeyDown(KeyCode.E)&&playerIn)
         {
             moveUp = false;
+            switchOn.Play();
         }
         else if (transform.position == startingPoint.position&& Input.GetKeyDown(KeyCode.E)&&playerIn)
         {
             moveUp = true;
+            switchOn.Play();
         }
         if (moveUp == false)
         {
-            transform.position = Vector3.MoveTowards(transform.position, startingPoint.position, speed*Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, startingPoint.position, speed * Time.deltaTime);
+            
         }
  
         else if (moveUp)
         {
             transform.position = Vector3.MoveTowards(transform.position, endindPoint.position, speed*Time.deltaTime);
+            
         }
        
     }
