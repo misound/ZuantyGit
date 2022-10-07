@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 public class GameMgr : MonoBehaviour
 {
@@ -13,18 +14,26 @@ public class GameMgr : MonoBehaviour
     UnityEngine.Rendering.VolumeProfile volumeProfile;
     public PlayerController playerController;
     public TakeEnemy takeEnemy;
-    bool pauseEnabled;
+    static bool pauseEnabled;
 
     public GameObject Panal;
     public Image pauseImage;
     public Button con;
+    public GameObject Pausefirstbtn;
+    public Button option;
+    public GameObject Optionfirstbtn;
     public Button btm;
 
     UnityEvent PauseEvent = new UnityEvent();
 
     private void Start()
     {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
         PauseEvent.AddListener(PauseUI);
+        con.onClick.AddListener(ContinueBtn);
+        btm.onClick.AddListener(BackToMain);
+        option.onClick.AddListener(Option);
         playerController = FindObjectOfType<PlayerController>();
         takeEnemy = FindObjectOfType<TakeEnemy>();
     }
@@ -36,10 +45,6 @@ public class GameMgr : MonoBehaviour
     private void FixedUpdate()
     {
         Volume();
-    }
-    public void PlayGame()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
     public void QuitGame()
     {
@@ -61,25 +66,48 @@ public class GameMgr : MonoBehaviour
                 //unpause the game
                 pauseEnabled = false;
                 Time.timeScale = 1;
-                AudioListener.volume = 1;
-                Cursor.visible = false;
+                //AudioListener.volume = 1;
+                Panal.SetActive(false);
             }
 
             //else if game isn't paused, then pause it
             else if (pauseEnabled == false)
             {
                 pauseEnabled = true;
-                AudioListener.volume = 0;
+                //AudioListener.volume = 0;
                 Time.timeScale = 0;
-                Cursor.visible = true;
                 PauseEvent.Invoke();
+                EventSystem.current.SetSelectedGameObject(null);
+                EventSystem.current.SetSelectedGameObject(Pausefirstbtn);
             }
         }
-
     }
     public void PauseUI()
     {
-        Panal.SetActive(true);
+        if(pauseEnabled)
+            Panal.SetActive(true);
+        if(!pauseEnabled)
+            Panal.SetActive(false);
+    }
+    public void ContinueBtn()
+    {
+        Panal.SetActive(false);
+        if (pauseEnabled == true)
+        {
+            //unpause the game
+            pauseEnabled = false;
+            Time.timeScale = 1;
+            //AudioListener.volume = 1;
+        }
+    }
+
+    public void Option()
+    {
+        
+    }
+    private void BackToMain()
+    {
+        SceneManager.LoadScene(0);
     }
     private void Volume()
     {
