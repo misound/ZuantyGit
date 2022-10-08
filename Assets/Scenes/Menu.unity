@@ -696,7 +696,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2028506887}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: GameMgr, Assembly-CSharp
         m_MethodName: PlayGame
         m_Mode: 1
@@ -2440,9 +2440,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2028506888}
-  - component: {fileID: 2028506887}
   - component: {fileID: 2028506889}
   - component: {fileID: 2028506890}
+  - component: {fileID: 2028506887}
   m_Layer: 0
   m_Name: GameMgr
   m_TagString: Untagged
@@ -2459,10 +2459,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2028506886}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e345ee48af7b260489f36f367eaebb5f, type: 3}
+  m_Script: {fileID: 11500000, guid: 1dbe1e5897189b24d83b916ec59fe8ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameOverScreen: {fileID: 0}
 --- !u!4 &2028506888
 Transform:
   m_ObjectHideFlags: 0
@@ -2712,7 +2711,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2028506887}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: GameMgr, Assembly-CSharp
         m_MethodName: QuitGame
         m_Mode: 1

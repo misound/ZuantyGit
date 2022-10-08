@@ -93,14 +93,14 @@ public class EnemyBomb : MonoBehaviour
         if (_isFacingRight)
         {
             transform.localScale = new Vector2(-1, transform.localScale.y);
-            rb.velocity = new Vector2(Patrolspeed * Time.deltaTime, rb.velocity.y);
+            rb.velocity = new Vector2(Patrolspeed, rb.velocity.y);
             //speed = Mathf.Abs(speed);
         }
         if (!_isFacingRight)
         {
             transform.localScale = new Vector2(1, transform.localScale.y);
             VariableSpeed = -Patrolspeed;
-            rb.velocity = new Vector2(VariableSpeed * Time.deltaTime, rb.velocity.y);
+            rb.velocity = new Vector2(VariableSpeed, rb.velocity.y);
         }
     }
     #endregion

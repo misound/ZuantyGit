@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 public class GameMgr : MonoBehaviour
 {
@@ -13,33 +14,47 @@ public class GameMgr : MonoBehaviour
     UnityEngine.Rendering.VolumeProfile volumeProfile;
     public PlayerController playerController;
     public TakeEnemy takeEnemy;
-    bool pauseEnabled;
+    static bool pauseEnabled;
+    static bool OpEnabled;
+
 
     public GameObject Panal;
+    public GameObject OptionUI;
     public Image pauseImage;
     public Button con;
+    public GameObject Pausefirstbtn;
+    public Button option;
+    public GameObject Optionfirstbtn;
     public Button btm;
+    public Button OpBack;
+    public Button volume;
+    public Slider mainBGM;
+    public GameObject mainBGMSli;
+    public AudioSource MBGM;
 
     UnityEvent PauseEvent = new UnityEvent();
 
     private void Start()
     {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
         PauseEvent.AddListener(PauseUI);
+        con.onClick.AddListener(ContinueBtn);
+        btm.onClick.AddListener(BackToTitle);
+        option.onClick.AddListener(Option);
+        OpBack.onClick.AddListener(Option);
+        volume.onClick.AddListener(Volume);
         playerController = FindObjectOfType<PlayerController>();
         takeEnemy = FindObjectOfType<TakeEnemy>();
     }
     private void Update()
     {
         Pause();
-
+        MBGM.volume = mainBGM.value;
     }
     private void FixedUpdate()
     {
-        Volume();
-    }
-    public void PlayGame()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        VisualEffect();
     }
     public void QuitGame()
     {
@@ -61,27 +76,70 @@ public class GameMgr : MonoBehaviour
                 //unpause the game
                 pauseEnabled = false;
                 Time.timeScale = 1;
-                AudioListener.volume = 1;
-                Cursor.visible = false;
+                //AudioListener.volume = 1;
+                Panal.SetActive(false);
+                OpEnabled = false;
             }
 
             //else if game isn't paused, then pause it
             else if (pauseEnabled == false)
             {
                 pauseEnabled = true;
-                AudioListener.volume = 0;
+                //AudioListener.volume = 0;
                 Time.timeScale = 0;
-                Cursor.visible = true;
                 PauseEvent.Invoke();
+                EventSystem.current.SetSelectedGameObject(null);
+                EventSystem.current.SetSelectedGameObject(Pausefirstbtn);
             }
         }
-
     }
     public void PauseUI()
     {
-        Panal.SetActive(true);
+        if(pauseEnabled)
+            Panal.SetActive(true);
+        if(!pauseEnabled)
+            Panal.SetActive(false);
+    }
+    public void ContinueBtn()
+    {
+        Panal.SetActive(false);
+        if (pauseEnabled == true)
+        {
+            //unpause the game
+            pauseEnabled = false;
+            Time.timeScale = 1;
+            //AudioListener.volume = 1;
+        }
+    }
+
+    public void Option()
+    {
+        if (OpEnabled == false)
+        {
+            OpEnabled = true;
+            OptionUI.SetActive(true);
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(Optionfirstbtn);
+        }
+        else if(OpEnabled == true)
+        {
+            OpEnabled = false;
+            OptionUI.SetActive(false);
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(Pausefirstbtn);
+        }
+
     }
     private void Volume()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(mainBGMSli);
+    }
+    private void BackToTitle()
+    {
+        SceneManager.LoadScene(0);
+    }
+    private void VisualEffect()
     {
         volumeProfile = GetComponent<UnityEngine.Rendering.Volume>()?.profile;
         if (!volumeProfile) throw new System.NullReferenceException(nameof(UnityEngine.Rendering.VolumeProfile));
