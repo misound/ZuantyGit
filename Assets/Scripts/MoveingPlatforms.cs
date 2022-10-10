@@ -12,9 +12,6 @@ public class MoveingPlatforms : MonoBehaviour
     public Transform  endindPoint;
     public bool playerIn;
     public AudioSource switchOn;
-    
-    
-
     public bool moveUp;
     //public bool readyToGo;
     
@@ -82,8 +79,7 @@ public class MoveingPlatforms : MonoBehaviour
         yield return new WaitForSeconds(1);
         moveUp = true;
     }
-
-
+    
 }
 
     
