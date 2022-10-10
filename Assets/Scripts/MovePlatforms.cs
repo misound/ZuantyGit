@@ -1,45 +1,35 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class MoveingPlatforms : MonoBehaviour
-
+public class MovePlatforms : MonoBehaviour
 {
+
     public float speed;
     public Transform startingPoint;
     public Transform  endindPoint;
-    public bool playerIn;
-    public AudioSource switchOn;
     public bool moveUp;
-    //public bool readyToGo;
-    
-   
-    
-    
+    // Start is called before the first frame update
     void Start()
     {
         transform.position = startingPoint.position;
         moveUp = false;
-        playerIn = false;
+
     }
 
 
     void Update()
     {
         
-        if (transform.position == endindPoint.position&& Input.GetKeyDown(KeyCode.E)&&playerIn)
+        if (transform.position == endindPoint.position)
         {
             
-            switchOn.Play();
-            StartCoroutine(DelaySwitchOnStart());
+            moveUp = false;
 
         }
-        else if (transform.position == startingPoint.position&& Input.GetKeyDown(KeyCode.E)&&playerIn)
+        else if (transform.position == startingPoint.position)
         {
-            switchOn.Play();
-            StartCoroutine(DelaySwitchOnEnd());
+            moveUp = true;
         }
         if (moveUp == false)
         {
@@ -54,36 +44,15 @@ public class MoveingPlatforms : MonoBehaviour
         }
        
     }
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         collision.transform.SetParent(transform);
-        playerIn = true;
 
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
         collision.transform.SetParent(null);
-        playerIn = false;
 
     }
-
-    IEnumerator DelaySwitchOnStart()
-    {
-        yield return new WaitForSeconds(1);
-        moveUp = false;
-    }
-    IEnumerator DelaySwitchOnEnd()
-    {
-        yield return new WaitForSeconds(1);
-        moveUp = true;
-    }
-    
 }
-
-    
-    
-
-    
-

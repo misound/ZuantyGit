@@ -1,28 +1,89 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Elevator : MonoBehaviour
+
 {
-
     public float speed;
-    public Transform[] movePos;
-
-    private int i;
-    // Start is called before the first frame update
+    public Transform startingPoint;
+    public Transform  endindPoint;
+    public bool playerIn;
+    public AudioSource switchOn;
+    public bool moveUp;
+    //public bool readyToGo;
+    
+   
+    
+    
     void Start()
     {
-        i = 1;
+        transform.position = startingPoint.position;
+        moveUp = false;
+        playerIn = false;
     }
 
-    // Update is called once per frame
+
     void Update()
     {
-        transform.position = Vector2.MoveTowards(transform.position, movePos[i].position,speed*Time.deltaTime);
-        if(Vector2.Distance(transform.position,movePos[i].position)<0.1f)
+        
+        if (transform.position == endindPoint.position&& Input.GetKeyDown(KeyCode.E)&&playerIn)
         {
             
+            switchOn.Play();
+            StartCoroutine(DelaySwitchOnStart());
+
         }
-        
+        else if (transform.position == startingPoint.position&& Input.GetKeyDown(KeyCode.E)&&playerIn)
+        {
+            switchOn.Play();
+            StartCoroutine(DelaySwitchOnEnd());
+        }
+        if (moveUp == false)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, startingPoint.position, speed * Time.deltaTime);
+            
+        }
+ 
+        else if (moveUp)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, endindPoint.position, speed*Time.deltaTime);
+            
+        }
+       
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        collision.transform.SetParent(transform);
+        playerIn = true;
+
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        collision.transform.SetParent(null);
+        playerIn = false;
+
+    }
+
+    IEnumerator DelaySwitchOnStart()
+    {
+        yield return new WaitForSeconds(1);
+        moveUp = false;
+    }
+    IEnumerator DelaySwitchOnEnd()
+    {
+        yield return new WaitForSeconds(1);
+        moveUp = true;
+    }
+    
 }
+
+    
+    
+
+    
+
