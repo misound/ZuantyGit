@@ -17,38 +17,47 @@ public class GameMgr : MonoBehaviour
     static bool pauseEnabled;
     static bool OpEnabled;
 
+    [Header("PauseUI")]
+    [SerializeField] public GameObject pauseUI;
+    [SerializeField]public GameObject Panal;
+    [SerializeField] public Button con;
+    [SerializeField] public Button option;
+    [SerializeField] public Button btt;
+    [SerializeField] public GameObject Pausefirstbtn;
 
-    public GameObject Panal;
-    public GameObject OptionUI;
-    public Image pauseImage;
-    public Button con;
-    public GameObject Pausefirstbtn;
-    public Button option;
-    public GameObject Optionfirstbtn;
-    public Button btm;
-    public Button OpBack;
-    public Button volume;
-    public Slider mainBGM;
-    public GameObject mainBGMSli;
-    public AudioSource MBGM;
+    [Header("OptionUI")]
+    [SerializeField] public GameObject OptionUI;
+    [SerializeField] public GameObject Optionfirstbtn;
+    [SerializeField] public Button OpBack;
+
+    [Header("OptionUI")]
+    [SerializeField] public GameObject VolumeUI;
+    [SerializeField] public Button volume;
+    [SerializeField] public Button VBack;
+    [SerializeField] public Slider mainBGM;
+    [SerializeField] public GameObject mainBGMSli;
+    [SerializeField] public AudioSource MBGM;
 
     UnityEvent PauseEvent = new UnityEvent();
 
+    public int pausestates;
     private void Start()
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         PauseEvent.AddListener(PauseUI);
         con.onClick.AddListener(ContinueBtn);
-        btm.onClick.AddListener(BackToTitle);
+        btt.onClick.AddListener(BackToTitle);
         option.onClick.AddListener(Option);
         OpBack.onClick.AddListener(Option);
         volume.onClick.AddListener(Volume);
+        VBack.onClick.AddListener(VolumeBack);
         playerController = FindObjectOfType<PlayerController>();
         takeEnemy = FindObjectOfType<TakeEnemy>();
     }
     private void Update()
     {
+        PauseStates();
         Pause();
         MBGM.volume = mainBGM.value;
     }
@@ -65,7 +74,51 @@ public class GameMgr : MonoBehaviour
 
         GameOverScreen.Setup(maxPlatform);
     }
+    #region 狀態管理
+    public enum ePauseStates
+    {
+        Playing,
+        Pause,
+        Option,
+        Volume
+    }
+    private void PauseStates()
+    {
+        switch (pausestates)
+        {
+            case (int)ePauseStates.Playing:
+                OptionUI.SetActive(false);
+                Panal.SetActive(false);
+                pauseUI.SetActive(false);
+                VolumeUI.SetActive(false);
+                Time.timeScale = 1;
+                break;
+            case (int)ePauseStates.Pause:
+                OptionUI.SetActive(false);
+                pauseUI.SetActive(true);
+                Panal.SetActive(true);
+                VolumeUI.SetActive(false);
+                Time.timeScale = 0;
+                break;
+            case (int)ePauseStates.Option:
+                OptionUI.SetActive(true);
+                pauseUI.SetActive(false);
+                Panal.SetActive(true);
+                VolumeUI.SetActive(false);
+                Time.timeScale = 0;
+                break;
+            case (int)ePauseStates.Volume:
+                VolumeUI.SetActive(true);
+                OptionUI.SetActive(false);
+                pauseUI.SetActive(false);
+                Panal.SetActive(true);
+                Time.timeScale = 0;
+                break;
+        }
+    }
 
+    #endregion
+    #region 暫停介面
     public void Pause()
     {
         if (Input.GetKeyDown("escape"))
@@ -76,22 +129,23 @@ public class GameMgr : MonoBehaviour
                 //unpause the game
                 pauseEnabled = false;
                 Time.timeScale = 1;
-                //AudioListener.volume = 1;
                 Panal.SetActive(false);
                 OpEnabled = false;
+                pausestates = 0;
             }
 
             //else if game isn't paused, then pause it
             else if (pauseEnabled == false)
             {
                 pauseEnabled = true;
-                //AudioListener.volume = 0;
                 Time.timeScale = 0;
                 PauseEvent.Invoke();
                 EventSystem.current.SetSelectedGameObject(null);
                 EventSystem.current.SetSelectedGameObject(Pausefirstbtn);
+                pausestates = 1;
             }
         }
+
     }
     public void PauseUI()
     {
@@ -108,10 +162,16 @@ public class GameMgr : MonoBehaviour
             //unpause the game
             pauseEnabled = false;
             Time.timeScale = 1;
+            pausestates = 0;
             //AudioListener.volume = 1;
         }
     }
-
+    private void BackToTitle()
+    {
+        SceneManager.LoadScene(0);
+    }
+    #endregion
+    #region 選項介面
     public void Option()
     {
         if (OpEnabled == false)
@@ -120,6 +180,7 @@ public class GameMgr : MonoBehaviour
             OptionUI.SetActive(true);
             EventSystem.current.SetSelectedGameObject(null);
             EventSystem.current.SetSelectedGameObject(Optionfirstbtn);
+            pausestates = 2;
         }
         else if(OpEnabled == true)
         {
@@ -127,18 +188,25 @@ public class GameMgr : MonoBehaviour
             OptionUI.SetActive(false);
             EventSystem.current.SetSelectedGameObject(null);
             EventSystem.current.SetSelectedGameObject(Pausefirstbtn);
+            pausestates = 1;
         }
-
     }
+    #endregion
+    #region 音樂
     private void Volume()
     {
+        pausestates = 3;
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(mainBGMSli);
     }
-    private void BackToTitle()
+    private void VolumeBack()
     {
-        SceneManager.LoadScene(0);
+        pausestates = 2;
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(Optionfirstbtn);
     }
+    #endregion
+
     private void VisualEffect()
     {
         volumeProfile = GetComponent<UnityEngine.Rendering.Volume>()?.profile;
