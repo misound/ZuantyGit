@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af7181f404f1447c0a7a17b3070b952b, type: 3}
+  m_Name: rock_2
+  m_EditorClassIdentifier: 
+  m_Angles:
+  - m_Start: -77
+    m_End: 78
+    m_Order: 0
+    m_Sprites:
+    - {fileID: 21300000, guid: 1ee1fd839e31ab94f8396640709e3d5f, type: 3}
+  - m_Start: -141
+    m_End: -77
+    m_Order: 0
+    m_Sprites:
+    - {fileID: 21300000, guid: 44a11cbfbab967442b411d80dec46427, type: 3}
+  - m_Start: 78
+    m_End: 141
+    m_Order: 0
+    m_Sprites:
+    - {fileID: 21300000, guid: 58e908f3cbdb8944a81fa7e483b4bd56, type: 3}
+  - m_Start: -219
+    m_End: -141
+    m_Order: 0
+    m_Sprites:
+    - {fileID: 21300000, guid: 1ee1fd839e31ab94f8396640709e3d5f, type: 3}
+  m_FillTexture: {fileID: 2800000, guid: 4564ad51ed5dd674e9f5849b1be28cd2, type: 3}
+  m_CornerSprites:
+  - m_CornerType: 0
+    m_Sprites:
+    - {fileID: 21300000, guid: 289d360344aef174f9313d21656d01db, type: 3}
+  - m_CornerType: 1
+    m_Sprites:
+    - {fileID: 21300000, guid: 819266f66bc675741b19300f68dcd81d, type: 3}
+  - m_CornerType: 2
+    m_Sprites:
+    - {fileID: 21300000, guid: a56e472d512f4d24ab0c6119f1592fb7, type: 3}
+  - m_CornerType: 3
+    m_Sprites:
+    - {fileID: 21300000, guid: e9d314208b53d4949bfab9e1a57ad961, type: 3}
+  - m_CornerType: 4
+    m_Sprites:
+    - {fileID: 21300000, guid: 8cd16d0a4f13dc944ad712aabfb4984b, type: 3}
+  - m_CornerType: 5
+    m_Sprites:
+    - {fileID: 21300000, guid: 9988f062b9e17944794fb5bcb49313aa, type: 3}
+  - m_CornerType: 6
+    m_Sprites:
+    - {fileID: 21300000, guid: 2a6d6dc03ff520b4998c212d124892d0, type: 3}
+  - m_CornerType: 7
+    m_Sprites:
+    - {fileID: 21300000, guid: 882bf1db15dedea4baf73b4f1f81e858, type: 3}
+  m_FillOffset: 0.323
+  m_UseSpriteBorders: 1
