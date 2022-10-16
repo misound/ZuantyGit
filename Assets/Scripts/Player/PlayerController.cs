@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.SymbolStore;
 using UnityEngine;
@@ -12,15 +13,14 @@ public class PlayerController : MonoBehaviour
     public Animator _anim;
     public GameObject Trigger;
 
-    [Header("Layer Masks")]
-    [SerializeField]
+    [Header("Layer Masks")] [SerializeField]
     private LayerMask _groundLayer;
+
     [SerializeField] private LayerMask _wallLayer;
     [SerializeField] private LayerMask _cornerCorrectLayer;
     [SerializeField] public LayerMask _onOneWayPlatformLayerMask;
 
-    [Header("Movement Variables")]
-    [SerializeField]
+    [Header("Movement Variables")] [SerializeField]
     private float _movementAcceleration = 70f;
 
     [SerializeField] private float _maxMoveSpeed = 12f;
@@ -35,8 +35,7 @@ public class PlayerController : MonoBehaviour
     private bool _canMove => !_wallGrab;
 
 
-    [Header("Jump Variables")]
-    [SerializeField]
+    [Header("Jump Variables")] [SerializeField]
     private float _jumpForce = 12f;
 
     [SerializeField] private float _airLinearDrag = 2.5f;
@@ -52,8 +51,7 @@ public class PlayerController : MonoBehaviour
     private bool _canJump => _jumpBufferCounter > 0f && (_hangTimeCounter > 0f || _extraJumpsValue > 0 || _onWall);
     public bool _isJumping = false;
 
-    [Header("Wall Movement Variables")]
-    [SerializeField]
+    [Header("Wall Movement Variables")] [SerializeField]
     private float _wallSlideModifier = 0.5f;
 
     [SerializeField] private float _wallRunModifier = 0.85f;
@@ -65,50 +63,56 @@ public class PlayerController : MonoBehaviour
 
     private bool _wallRun => _onWall && _verticalDirection > 0f;
 
-    [Header("Dash Variables")]
-    [SerializeField]
+    [Header("Dash Variables")] [SerializeField]
     private float _dashSpeed = 15f;
 
     [SerializeField] private float _dashLength = 0.3f;
     [SerializeField] private float _dashBufferLength = 0.1f;
     private float _dashBufferCounter;
     public bool _isAttack;
+
     public bool _hasAttacked;
     //private bool _canDash => _dashBufferCounter > 0f && !_hasAttacked;
 
-    [Header("Ground Collision Variables")]
-    [SerializeField] private float _groundRaycastLength;
+    [Header("Ground Collision Variables")] [SerializeField]
+    private float _groundRaycastLength;
+
     [SerializeField] private Vector3 _groundRaycastOffset;
     [SerializeField] public bool _onGround;
 
-    [Header("Wall Collision Variables")]
-    [SerializeField] private float _wallRaycastLength;
+    [Header("Wall Collision Variables")] [SerializeField]
+    private float _wallRaycastLength;
+
     private bool _onWall;
     private bool _onRightWall;
 
-    [Header("Corner Correction Variables")]
-    [SerializeField] private float _topRaycastLength;
+    [Header("Corner Correction Variables")] [SerializeField]
+    private float _topRaycastLength;
+
     [SerializeField] private Vector3 _edgeRaycastOffset;
     [SerializeField] private Vector3 _innerRaycastOffset;
     private bool _canCornerCorrect;
 
-    [Header("OneWayPlatform")]
-    [SerializeField] private float _oneWayRaycastLength;
+    [Header("OneWayPlatform")] [SerializeField]
+    private float _oneWayRaycastLength;
+
     [SerializeField] private Vector3 _oneWayRaycastOffset;
     [SerializeField] public float checkRadius;
     [SerializeField] public bool _onOneWayPlatform;
     [SerializeField] public float DownwardDistance;
 
-    [Header("SlowMotion")]
-    [SerializeField] public float slowdownFactor = 0.05f;
+    [Header("SlowMotion")] [SerializeField]
+    public float slowdownFactor = 0.05f;
+
     [SerializeField] public float slowdownLength = 2f;
     [SerializeField] public float cooldownTime = 1.0f;
     [SerializeField] private float timer = 0;
     [SerializeField] private bool isStartTime = false;
     [SerializeField] private bool skillInvalid = false;
 
-    [Header("Killing Spree")]
-    [SerializeField] public float MovetoTime;
+    [Header("Killing Spree")] [SerializeField]
+    public float MovetoTime;
+
     [SerializeField] public bool KilllingTime = false;
     [SerializeField] private float KillDash;
     [SerializeField] public float SlowDelay;
@@ -116,9 +120,15 @@ public class PlayerController : MonoBehaviour
     private TakeEnemy takeEnemy;
     private Vector2 direction;
 
-    [Header("Audio")] 
-    [SerializeField] public AudioSource Footstep;
+    [Header("Audio")] [SerializeField] public AudioSource Footstep;
     [SerializeField] public bool isRunning;
+
+    [Header("Respawn")] [SerializeField] public Transform spawnPoint;
+    [SerializeField] public bool die;
+    [SerializeField] public bool inTrap;
+    [SerializeField] public LayerMask _trapLayer;
+    [SerializeField] public Animator fadeAnim;
+
     private void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -128,7 +138,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private void Update()
-    { 
+    {
         _horizontalDirection = GetInput().x;
         _verticalDirection = GetInput().y;
         if (Input.GetButtonDown("Jump")) _jumpBufferCounter = _jumpBufferLength;
@@ -137,6 +147,7 @@ public class PlayerController : MonoBehaviour
         else _dashBufferCounter -= Time.deltaTime;
         Animation();
     }
+
     private void FixedUpdate()
     {
         Time.timeScale += (1f / slowdownLength) * Time.unscaledDeltaTime;
@@ -147,13 +158,14 @@ public class PlayerController : MonoBehaviour
         if (takeEnemy.slaind == true)
         {
             KillingSpree();
-            _anim.SetBool("isAttack",true);
+            _anim.SetBool("isAttack", true);
         }
+
         CheckTerrain();
         CanBeDropDown();
         CheckCollisions();
         SlowMotionBtn();
-        
+
         //if (_canDash) StartCoroutine(Dash(_horizontalDirection, _verticalDirection));
         if (!_isAttack)
         {
@@ -163,8 +175,10 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                _rb.velocity = Vector2.Lerp(_rb.velocity, (new Vector2(_horizontalDirection * _maxMoveSpeed, _rb.velocity.y)), .5f * Time.deltaTime);
+                _rb.velocity = Vector2.Lerp(_rb.velocity,
+                    (new Vector2(_horizontalDirection * _maxMoveSpeed, _rb.velocity.y)), .5f * Time.deltaTime);
             }
+
             if (_onGround || _onOneWayPlatform)
             {
                 ApplyGroundLinearDrag();
@@ -179,11 +193,13 @@ public class PlayerController : MonoBehaviour
                 _hangTimeCounter -= Time.fixedDeltaTime;
                 if (!_onWall || _rb.velocity.y < 0f || _wallRun) _isJumping = false;
             }
+
             if (_canJump)
             {
                 if (_onWall && !_onGround && !_onOneWayPlatform)
                 {
-                    if (!_wallRun && (_onRightWall && _horizontalDirection > 0f || !_onRightWall && _horizontalDirection < 0f))
+                    if (!_wallRun && (_onRightWall && _horizontalDirection > 0f ||
+                                      !_onRightWall && _horizontalDirection < 0f))
                     {
                         StartCoroutine(NeutralWallJump());
                     }
@@ -191,6 +207,7 @@ public class PlayerController : MonoBehaviour
                     {
                         WallJump();
                     }
+
                     Flip();
                 }
                 else
@@ -198,6 +215,7 @@ public class PlayerController : MonoBehaviour
                     Jump(Vector2.up);
                 }
             }
+
             if (!_isJumping)
             {
                 if (_wallSlide) WallSlide();
@@ -206,19 +224,28 @@ public class PlayerController : MonoBehaviour
                 if (_onWall) StickToWall();
             }
         }
+
+        //轉角
         if (_canCornerCorrect)
         {
             CornerCorrect(_rb.velocity.y);
         }
+
+        //聲音
         Sound();
-        
+        //重生
+        Respawn();
+
     }
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, takeEnemy.range);
     }
+
     #region 腳色移動
+
     private Vector2 GetInput()
     {
         return new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
@@ -234,7 +261,9 @@ public class PlayerController : MonoBehaviour
 
 
     #endregion
+
     #region 地面磨擦
+
     private void ApplyGroundLinearDrag()
     {
         if (Mathf.Abs(_horizontalDirection) < 0.8f || _changingDirection)
@@ -246,8 +275,11 @@ public class PlayerController : MonoBehaviour
             _rb.drag = 0f;
         }
     }
+
     #endregion
+
     #region 空中摩擦力
+
     private void ApplyAirLinearDrag()
     {
         _rb.drag = _airLinearDrag;
@@ -267,7 +299,9 @@ public class PlayerController : MonoBehaviour
     }
 
     #endregion
+
     #region 蹬牆跳
+
     private void WallJump()
     {
         Vector2 jumpDirection = _onRightWall ? Vector2.left : Vector2.right;
@@ -281,8 +315,11 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(_wallJumpXVelocityHaltDelay);
         _rb.velocity = new Vector2(0f, _rb.velocity.y);
     }
+
     #endregion
+
     #region 下墜摩擦力
+
     private void FallMultiplier()
     {
         if (_verticalDirection < 0f)
@@ -305,8 +342,11 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
     #endregion
+
     #region 滑牆抓牆
+
     void WallGrab()
     {
         _rb.gravityScale = 0f;
@@ -322,6 +362,7 @@ public class PlayerController : MonoBehaviour
     {
         _rb.velocity = new Vector2(_rb.velocity.x, _verticalDirection * _maxMoveSpeed * _wallRunModifier);
     }
+
     void StickToWall()
     {
         //Push player torwards wall
@@ -344,8 +385,11 @@ public class PlayerController : MonoBehaviour
             Flip();
         }
     }
+
     #endregion
+
     #region 腳色翻轉
+
     void Flip()
     {
         _facingRight = !_facingRight;
@@ -379,8 +423,11 @@ public class PlayerController : MonoBehaviour
 
         _isAttack = false;
     }
+
     #endregion
+
     #region 動畫相關
+
     void Animation()
     {
         if (_isAttack)
@@ -397,10 +444,12 @@ public class PlayerController : MonoBehaviour
         {
             _anim.SetBool("isAttack", false);
 
-            if ((_horizontalDirection < 0f && _facingRight || _horizontalDirection > 0f && !_facingRight) && !_wallGrab && !_wallSlide)
+            if ((_horizontalDirection < 0f && _facingRight || _horizontalDirection > 0f && !_facingRight) &&
+                !_wallGrab && !_wallSlide)
             {
                 Flip();
             }
+
             if (_onGround || _onOneWayPlatform)
             {
                 _anim.SetBool("isGrounded", true);
@@ -412,6 +461,7 @@ public class PlayerController : MonoBehaviour
             {
                 _anim.SetBool("isGrounded", false);
             }
+
             if (_isJumping)
             {
                 _anim.SetBool("isJumping", true);
@@ -435,6 +485,7 @@ public class PlayerController : MonoBehaviour
                     _anim.SetBool("WallGrab", false);
                     _anim.SetFloat("verticalDirection", 0f);
                 }
+
                 if (_wallRun)
                 {
                     _anim.SetBool("isFalling", false);
@@ -444,31 +495,41 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
     #endregion
+
     #region 防撞角
+
     void CornerCorrect(float Yvelocity)
     {
         //Push player to the right
-        RaycastHit2D _hit = Physics2D.Raycast(transform.position - _innerRaycastOffset + Vector3.up * _topRaycastLength, Vector3.left, _topRaycastLength, _cornerCorrectLayer);
+        RaycastHit2D _hit = Physics2D.Raycast(transform.position - _innerRaycastOffset + Vector3.up * _topRaycastLength,
+            Vector3.left, _topRaycastLength, _cornerCorrectLayer);
         if (_hit.collider != null)
         {
-            float _newPos = Vector3.Distance(new Vector3(_hit.point.x, transform.position.y, 0f) + Vector3.up * _topRaycastLength,
+            float _newPos = Vector3.Distance(
+                new Vector3(_hit.point.x, transform.position.y, 0f) + Vector3.up * _topRaycastLength,
                 transform.position - _edgeRaycastOffset + Vector3.up * _topRaycastLength);
-            transform.position = new Vector3(transform.position.x + _newPos, transform.position.y, transform.position.z);
+            transform.position =
+                new Vector3(transform.position.x + _newPos, transform.position.y, transform.position.z);
             _rb.velocity = new Vector2(_rb.velocity.x, Yvelocity);
             return;
         }
 
         //Push player to the left
-        _hit = Physics2D.Raycast(transform.position + _innerRaycastOffset + Vector3.up * _topRaycastLength, Vector3.right, _topRaycastLength, _cornerCorrectLayer);
+        _hit = Physics2D.Raycast(transform.position + _innerRaycastOffset + Vector3.up * _topRaycastLength,
+            Vector3.right, _topRaycastLength, _cornerCorrectLayer);
         if (_hit.collider != null)
         {
-            float _newPos = Vector3.Distance(new Vector3(_hit.point.x, transform.position.y, 0f) + Vector3.up * _topRaycastLength,
+            float _newPos = Vector3.Distance(
+                new Vector3(_hit.point.x, transform.position.y, 0f) + Vector3.up * _topRaycastLength,
                 transform.position + _edgeRaycastOffset + Vector3.up * _topRaycastLength);
-            transform.position = new Vector3(transform.position.x - _newPos, transform.position.y, transform.position.z);
+            transform.position =
+                new Vector3(transform.position.x - _newPos, transform.position.y, transform.position.z);
             _rb.velocity = new Vector2(_rb.velocity.x, Yvelocity);
         }
     }
+
     private void CheckCollisions()
     {
         //Ground Collisions
@@ -479,18 +540,29 @@ public class PlayerController : MonoBehaviour
 
 
         //Corner Collisions
-        _canCornerCorrect = Physics2D.Raycast(transform.position + _edgeRaycastOffset, Vector2.up, _topRaycastLength, _cornerCorrectLayer) &&
-                            !Physics2D.Raycast(transform.position + _innerRaycastOffset, Vector2.up, _topRaycastLength, _cornerCorrectLayer) ||
-                            Physics2D.Raycast(transform.position - _edgeRaycastOffset, Vector2.up, _topRaycastLength, _cornerCorrectLayer) &&
-                            !Physics2D.Raycast(transform.position - _innerRaycastOffset, Vector2.up, _topRaycastLength, _cornerCorrectLayer);
+        _canCornerCorrect = Physics2D.Raycast(transform.position + _edgeRaycastOffset, Vector2.up, _topRaycastLength,
+                                _cornerCorrectLayer) &&
+                            !Physics2D.Raycast(transform.position + _innerRaycastOffset, Vector2.up, _topRaycastLength,
+                                _cornerCorrectLayer) ||
+                            Physics2D.Raycast(transform.position - _edgeRaycastOffset, Vector2.up, _topRaycastLength,
+                                _cornerCorrectLayer) &&
+                            !Physics2D.Raycast(transform.position - _innerRaycastOffset, Vector2.up, _topRaycastLength,
+                                _cornerCorrectLayer);
 
         //Wall Collisions
         _onWall = Physics2D.Raycast(transform.position, Vector2.right, _wallRaycastLength, _wallLayer) ||
-                    Physics2D.Raycast(transform.position, Vector2.left, _wallRaycastLength, _wallLayer);
+                  Physics2D.Raycast(transform.position, Vector2.left, _wallRaycastLength, _wallLayer);
         _onRightWall = Physics2D.Raycast(transform.position, Vector2.right, _wallRaycastLength, _wallLayer);
-        //OneWayPlatform Collision
-        _onOneWayPlatform = Physics2D.Raycast(transform.position + _oneWayRaycastOffset, Vector2.down, _oneWayRaycastLength, _onOneWayPlatformLayerMask) ||
-                          Physics2D.Raycast(transform.position - _oneWayRaycastOffset, Vector2.down, _oneWayRaycastLength, _onOneWayPlatformLayerMask);
+        //OneWayPlatform Collisions
+        _onOneWayPlatform = Physics2D.Raycast(transform.position + _oneWayRaycastOffset, Vector2.down,
+                                _oneWayRaycastLength, _onOneWayPlatformLayerMask) ||
+                            Physics2D.Raycast(transform.position - _oneWayRaycastOffset, Vector2.down,
+                                _oneWayRaycastLength, _onOneWayPlatformLayerMask);
+        //Trap Collisions
+        inTrap = Physics2D.Raycast(transform.position + _groundRaycastOffset, Vector2.down, _groundRaycastLength,
+                     _trapLayer) ||
+                 Physics2D.Raycast(transform.position - _groundRaycastOffset, Vector2.down, _groundRaycastLength,
+                     _trapLayer);
 
     }
 
@@ -499,30 +571,43 @@ public class PlayerController : MonoBehaviour
         Gizmos.color = Color.green;
 
         //Ground Check
-        Gizmos.DrawLine(transform.position + _groundRaycastOffset, transform.position + _groundRaycastOffset + Vector3.down * _groundRaycastLength);
-        Gizmos.DrawLine(transform.position - _groundRaycastOffset, transform.position - _groundRaycastOffset + Vector3.down * _groundRaycastLength);
+        Gizmos.DrawLine(transform.position + _groundRaycastOffset,
+            transform.position + _groundRaycastOffset + Vector3.down * _groundRaycastLength);
+        Gizmos.DrawLine(transform.position - _groundRaycastOffset,
+            transform.position - _groundRaycastOffset + Vector3.down * _groundRaycastLength);
 
         //OneWayPlatformCheck
-        Gizmos.DrawLine(transform.position + _oneWayRaycastOffset, transform.position + _oneWayRaycastOffset + Vector3.down * _oneWayRaycastLength);
-        Gizmos.DrawLine(transform.position - _oneWayRaycastOffset, transform.position - _oneWayRaycastOffset + Vector3.down * _oneWayRaycastLength);
+        Gizmos.DrawLine(transform.position + _oneWayRaycastOffset,
+            transform.position + _oneWayRaycastOffset + Vector3.down * _oneWayRaycastLength);
+        Gizmos.DrawLine(transform.position - _oneWayRaycastOffset,
+            transform.position - _oneWayRaycastOffset + Vector3.down * _oneWayRaycastLength);
         //Corner Check
-        Gizmos.DrawLine(transform.position + _edgeRaycastOffset, transform.position + _edgeRaycastOffset + Vector3.up * _topRaycastLength);
-        Gizmos.DrawLine(transform.position - _edgeRaycastOffset, transform.position - _edgeRaycastOffset + Vector3.up * _topRaycastLength);
-        Gizmos.DrawLine(transform.position + _innerRaycastOffset, transform.position + _innerRaycastOffset + Vector3.up * _topRaycastLength);
-        Gizmos.DrawLine(transform.position - _innerRaycastOffset, transform.position - _innerRaycastOffset + Vector3.up * _topRaycastLength);
+        Gizmos.DrawLine(transform.position + _edgeRaycastOffset,
+            transform.position + _edgeRaycastOffset + Vector3.up * _topRaycastLength);
+        Gizmos.DrawLine(transform.position - _edgeRaycastOffset,
+            transform.position - _edgeRaycastOffset + Vector3.up * _topRaycastLength);
+        Gizmos.DrawLine(transform.position + _innerRaycastOffset,
+            transform.position + _innerRaycastOffset + Vector3.up * _topRaycastLength);
+        Gizmos.DrawLine(transform.position - _innerRaycastOffset,
+            transform.position - _innerRaycastOffset + Vector3.up * _topRaycastLength);
 
         //Corner Distance Check
         Gizmos.DrawLine(transform.position - _innerRaycastOffset + Vector3.up * _topRaycastLength,
-                        transform.position - _innerRaycastOffset + Vector3.up * _topRaycastLength + Vector3.left * _topRaycastLength);
+            transform.position - _innerRaycastOffset + Vector3.up * _topRaycastLength +
+            Vector3.left * _topRaycastLength);
         Gizmos.DrawLine(transform.position + _innerRaycastOffset + Vector3.up * _topRaycastLength,
-                        transform.position + _innerRaycastOffset + Vector3.up * _topRaycastLength + Vector3.right * _topRaycastLength);
+            transform.position + _innerRaycastOffset + Vector3.up * _topRaycastLength +
+            Vector3.right * _topRaycastLength);
 
         //Wall Check
         Gizmos.DrawLine(transform.position, transform.position + Vector3.right * _wallRaycastLength);
         Gizmos.DrawLine(transform.position, transform.position + Vector3.left * _wallRaycastLength);
     }
+
     #endregion
+
     #region 時間相關
+
     void DoSlowMotion()
     {
         Time.timeScale = slowdownFactor;
@@ -563,12 +648,15 @@ public class PlayerController : MonoBehaviour
         {
             Trigger.SetActive(false);
         }
+
         if (Time.timeScale < 0.4)
         {
             Trigger.SetActive(true);
         }
     }
+
     #endregion
+
     #region 單向平台下向
 
     public void CanBeDropDown()
@@ -576,11 +664,14 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.S) && _onOneWayPlatform)
         {
             transform.Translate(0, DownwardDistance, 0);
-            
+
         }
     }
+
     #endregion
+
     #region 擊殺衝刺
+
     public void KillingSpree()
     {
         float distoEnemy = Vector3.Distance(transform.position, takeEnemy.EnemyTargets.transform.position);
@@ -592,6 +683,7 @@ public class PlayerController : MonoBehaviour
             _rb.drag = 0f;
             _rb.AddForceAtPosition(direction * MovetoTime, takeEnemy.EnemyTargets.transform.position);
         }
+
         if (takeEnemy.slaind && distoEnemy <= 0.2f)
         {
             KilllingTime = true;
@@ -601,13 +693,15 @@ public class PlayerController : MonoBehaviour
             _isAttack = false;
         }
     }
+
     void CheckTerrain()
     {
         if (takeEnemy.EnemyTargets)
         {
             Vector2 direction = takeEnemy.EnemyTargets.transform.position - transform.position;
             Ray2D MyRay = new Ray2D(transform.position, direction);
-            RaycastHit2D info = Physics2D.Raycast(transform.position, direction, takeEnemy.range, 1 << LayerMask.NameToLayer("Ground") | 1 << LayerMask.NameToLayer("Wall"));
+            RaycastHit2D info = Physics2D.Raycast(transform.position, direction, takeEnemy.range,
+                1 << LayerMask.NameToLayer("Ground") | 1 << LayerMask.NameToLayer("Wall"));
             Debug.DrawRay(transform.position, direction, color: Color.cyan);
             if (info.collider != null)
             {
@@ -620,7 +714,9 @@ public class PlayerController : MonoBehaviour
                 CanKill = true;
         }
     }
+
     #endregion
+
     #region 音效
 
     public void Sound()
@@ -634,7 +730,7 @@ public class PlayerController : MonoBehaviour
             isRunning = false;
         }
 
-        if (_onGround&&isRunning)
+        if (_onGround && isRunning)
         {
             if (!Footstep.isPlaying)
             {
@@ -647,5 +743,33 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region 重生機制
+
+    void Respawn()
+    {
+
+        if (inTrap)
+        {
+            die = true;
+        }
+
+        if (die)
+        {
+            StartCoroutine(Reborn());
+        }
+    }
+
+    IEnumerator Reborn()
+    {
+        die = false;
+        fadeAnim.SetBool("FadeOut",true);
+        yield return new WaitForSeconds(1);
+        transform.position = spawnPoint.position;
+        fadeAnim.SetBool("FadeOut",false);
+
+    }
+    
     #endregion
 }
