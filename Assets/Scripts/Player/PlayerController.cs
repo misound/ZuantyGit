@@ -72,7 +72,7 @@ public class PlayerController : MonoBehaviour
     public bool _isAttack;
 
     public bool _hasAttacked;
-    //private bool _canDash => _dashBufferCounter > 0f && !_hasAttacked;
+    private bool _canDash => _dashBufferCounter > 0f && !_hasAttacked;
 
     [Header("Ground Collision Variables")] [SerializeField]
     private float _groundRaycastLength;
@@ -166,7 +166,10 @@ public class PlayerController : MonoBehaviour
         CheckCollisions();
         SlowMotionBtn();
 
-        //if (_canDash) StartCoroutine(Dash(_horizontalDirection, _verticalDirection));
+        if (_canDash)
+        {
+            StartCoroutine(Dash(_horizontalDirection, _verticalDirection));
+        }
         if (!_isAttack)
         {
             if (_canMove)
