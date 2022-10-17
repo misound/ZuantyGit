@@ -74,7 +74,7 @@ public class GameMgr : MonoBehaviour
 
         GameOverScreen.Setup(maxPlatform);
     }
-    #region ª¬ºAºŞ²z
+    #region ç‹€æ…‹ç®¡ç†
     public enum ePauseStates
     {
         Playing,
@@ -118,7 +118,7 @@ public class GameMgr : MonoBehaviour
     }
 
     #endregion
-    #region ¼È°±¤¶­±
+    #region æš«åœä»‹é¢
     public void Pause()
     {
         if (Input.GetKeyDown("escape"))
@@ -171,7 +171,7 @@ public class GameMgr : MonoBehaviour
         SceneManager.LoadScene(0);
     }
     #endregion
-    #region ¿ï¶µ¤¶­±
+    #region é¸é …ä»‹é¢
     public void Option()
     {
         if (OpEnabled == false)
@@ -192,7 +192,7 @@ public class GameMgr : MonoBehaviour
         }
     }
     #endregion
-    #region ­µ¼Ö
+    #region éŸ³æ¨‚
     private void Volume()
     {
         pausestates = 3;

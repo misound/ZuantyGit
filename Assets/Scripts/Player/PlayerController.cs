@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine.Rendering;
 
 public class PlayerController : MonoBehaviour
 {
@@ -128,6 +129,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public bool inTrap;
     [SerializeField] public LayerMask _trapLayer;
     [SerializeField] public Animator fadeAnim;
+    
+    
+    
 
     private void Start()
     {
@@ -762,6 +766,7 @@ public class PlayerController : MonoBehaviour
         {
             StartCoroutine(Reborn());
         }
+        
     }
 
     IEnumerator Reborn()
