@@ -9,11 +9,11 @@ public class Elevator : MonoBehaviour
 {
     public float speed;
     public Transform startingPoint;
-    public Transform  endindPoint;
+    public Transform  endingPoint;
     public bool playerIn;
     public AudioSource switchOn;
     public bool moveUp;
-    //public bool readyToGo;
+    
     
    
     
@@ -29,7 +29,7 @@ public class Elevator : MonoBehaviour
     void Update()
     {
         
-        if (transform.position == endindPoint.position&& Input.GetKeyDown(KeyCode.E)&&playerIn)
+        if (transform.position == endingPoint.position&& Input.GetKeyDown(KeyCode.E)&&playerIn)
         {
             
             switchOn.Play();
@@ -49,7 +49,7 @@ public class Elevator : MonoBehaviour
  
         else if (moveUp)
         {
-            transform.position = Vector3.MoveTowards(transform.position, endindPoint.position, speed*Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, endingPoint.position, speed*Time.deltaTime);
             
         }
        

@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 6874611243296913716}
   - component: {fileID: 6874611243296913717}
   - component: {fileID: 6874611243296913718}
-  - component: {fileID: 6874611243296913719}
+  - component: {fileID: 8577069209036507702}
   m_Layer: 8
   m_Name: movePlatforns
   m_TagString: Untagged
@@ -177,7 +177,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6874611243296913721}
   m_CullTransparentMesh: 1
---- !u!114 &6874611243296913719
+--- !u!114 &8577069209036507702
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -186,10 +186,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6874611243296913721}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d836607522dbc844990c9fe30e8bc11, type: 3}
+  m_Script: {fileID: 11500000, guid: f8e0d004ed5649e4aae5b4c1d9d29f0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10.1
+  speed: 0
   startingPoint: {fileID: 6874611243367634005}
   endindPoint: {fileID: 6874611243868236587}
   moveUp: 0
