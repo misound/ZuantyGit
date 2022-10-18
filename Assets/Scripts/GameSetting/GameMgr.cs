@@ -91,7 +91,7 @@ public class GameMgr : MonoBehaviour
                 Panal.SetActive(false);
                 pauseUI.SetActive(false);
                 VolumeUI.SetActive(false);
-                Time.timeScale = 1;
+                //Time.timeScale = 1;
                 break;
             case (int)ePauseStates.Pause:
                 OptionUI.SetActive(false);
