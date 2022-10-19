@@ -164,6 +164,7 @@ public class Enemy : MonoBehaviour
                         DoSlowMotion();
                         Time.timeScale = 1;
                         takeEnemy.slaind = true;
+                        Destroy(this.gameObject);
                     }
                 }
                 if (Input.GetKeyDown(KeyCode.I) && QTEBtn_U.activeInHierarchy == true)
@@ -191,6 +192,7 @@ public class Enemy : MonoBehaviour
                         DoSlowMotion();
                         Time.timeScale = 1;
                         takeEnemy.slaind = true;
+                        Destroy(this.gameObject);
                     }
                 }
                 if (Input.GetKeyDown(KeyCode.O) && QTEBtn_I.activeInHierarchy == true)
@@ -218,6 +220,7 @@ public class Enemy : MonoBehaviour
                         DoSlowMotion();
                         Time.timeScale = 1;
                         takeEnemy.slaind = true;
+                        Destroy(this.gameObject);
                     }
                 }
             }
