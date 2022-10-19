@@ -698,6 +698,7 @@ public class PlayerController : MonoBehaviour
             _rb.AddForceAtPosition(direction * KillDash, takeEnemy.EnemyTargets.transform.position);
             takeEnemy.slaind = false;
             _isAttack = false;
+            Destroy(takeEnemy.EnemyTargets);
         }
     }
 
