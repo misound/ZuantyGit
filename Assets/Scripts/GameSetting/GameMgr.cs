@@ -11,7 +11,6 @@ public class GameMgr : MonoBehaviour
     int maxPlatform = 0;
     public GameOverScreen GameOverScreen;
 
-    UnityEngine.Rendering.VolumeProfile volumeProfile;
     public PlayerController playerController;
     public TakeEnemy takeEnemy;
     static bool pauseEnabled;
@@ -30,21 +29,20 @@ public class GameMgr : MonoBehaviour
     [SerializeField] public GameObject Optionfirstbtn;
     [SerializeField] public Button OpBack;
 
-    [Header("OptionUI")]
+    [Header("VolumeUI")]
     [SerializeField] public GameObject VolumeUI;
     [SerializeField] public Button volume;
     [SerializeField] public Button VBack;
     [SerializeField] public Slider mainBGM;
     [SerializeField] public GameObject mainBGMSli;
     [SerializeField] public AudioSource MBGM;
-
     UnityEvent PauseEvent = new UnityEvent();
 
     public int pausestates;
     private void Start()
     {
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Locked;
         PauseEvent.AddListener(PauseUI);
         con.onClick.AddListener(ContinueBtn);
         btt.onClick.AddListener(BackToTitle);
@@ -54,6 +52,7 @@ public class GameMgr : MonoBehaviour
         VBack.onClick.AddListener(VolumeBack);
         playerController = FindObjectOfType<PlayerController>();
         takeEnemy = FindObjectOfType<TakeEnemy>();
+
     }
     private void Update()
     {
@@ -63,7 +62,7 @@ public class GameMgr : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        VisualEffect();
+        
     }
     public void QuitGame()
     {
@@ -205,22 +204,9 @@ public class GameMgr : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(Optionfirstbtn);
     }
+
+
     #endregion
-
-    private void VisualEffect()
-    {
-        volumeProfile = GetComponent<UnityEngine.Rendering.Volume>()?.profile;
-        if (!volumeProfile) throw new System.NullReferenceException(nameof(UnityEngine.Rendering.VolumeProfile));
-
-        // You can leave this variable out of your function, so you can reuse it throughout your class.
-        UnityEngine.Rendering.Universal.ChromaticAberration chromaticAberration;
-
-        if (!volumeProfile.TryGet(out chromaticAberration)) throw new System.NullReferenceException(nameof(chromaticAberration));
-        if (takeEnemy.slaind)
-            chromaticAberration.intensity.Override(0.5f);
-        else
-            chromaticAberration.intensity.Override(0f);
-    }
 
 }
 

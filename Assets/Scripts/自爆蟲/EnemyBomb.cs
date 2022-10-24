@@ -63,6 +63,20 @@ public class EnemyBomb : MonoBehaviour
         else
             mustPatrol = true;
     }
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawRay(CheckpointR.transform.position, Vector2.down * CheckGroundRange);
+        Gizmos.DrawRay(CheckpointL.transform.position, Vector2.down * CheckGroundRange);
+        Gizmos.DrawRay(transform.position - new Vector3(0, 0.05f, 0), Vector2.right * Checkwallrange);
+        Gizmos.DrawRay(transform.position - new Vector3(0, 0.05f, 0), Vector2.left * Checkwallrange);
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, CheckPlayerRange);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, UnstoppableRange);
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, WarningRange);
+    }
 
     #region 巡邏
     public void Patrol()
@@ -73,8 +87,10 @@ public class EnemyBomb : MonoBehaviour
         mustTurn = !Physics2D.Raycast(CheckpointR.transform.position, Vector2.down * CheckGroundRange, 5, 1 << LayerMask.NameToLayer("Ground"))
             && Physics2D.Raycast(CheckpointL.transform.position, Vector2.down * CheckGroundRange, 5, 1 << LayerMask.NameToLayer("Ground"));
 
-        hitwall = Physics2D.Raycast(transform.position, Vector2.right * Checkwallrange, Checkwallrange, 1 << LayerMask.NameToLayer("Ground"))
-            || Physics2D.Raycast(transform.position, Vector2.left * Checkwallrange, Checkwallrange, 1 << LayerMask.NameToLayer("Ground"));
+        hitwall = Physics2D.Raycast(transform.position, Vector2.right * Checkwallrange, Checkwallrange,
+                1 << LayerMask.NameToLayer("Ground") | 1 << LayerMask.NameToLayer("Wall"))
+            || Physics2D.Raycast(transform.position, Vector2.left * Checkwallrange, Checkwallrange,
+                1 << LayerMask.NameToLayer("Ground") | 1 << LayerMask.NameToLayer("Wall"));
 
         if (mustTurn)
         {
@@ -136,7 +152,7 @@ public class EnemyBomb : MonoBehaviour
     #region 攻擊玩家
     public void Attack()
     {
-            rb.gravityScale = 4f;
+        rb.gravityScale = 4f;
         if (rb.velocity.y != 0f)
             rb.drag = 2.5f;
 
