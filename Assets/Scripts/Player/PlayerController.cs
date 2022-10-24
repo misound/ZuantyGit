@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     [Header("Components")] public Rigidbody2D _rb;
     public Animator _anim;
     public GameObject Trigger;
+    public GameObject Player;
 
     [Header("Layer Masks")] [SerializeField]
     private LayerMask _groundLayer;
@@ -128,10 +129,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public bool die;
     [SerializeField] public bool inTrap;
     [SerializeField] public LayerMask _trapLayer;
-    [SerializeField] public Animator fadeAnim;
-    
-    
-    
+
+
+
 
     private void Start()
     {
@@ -139,6 +139,7 @@ public class PlayerController : MonoBehaviour
         _anim = GetComponent<Animator>();
         takeEnemy = FindObjectOfType<TakeEnemy>();
         Footstep = GetComponent<AudioSource>();
+        Reborn();
     }
 
     private void Update()
@@ -773,10 +774,10 @@ public class PlayerController : MonoBehaviour
     IEnumerator Reborn()
     {
         die = false;
-        fadeAnim.SetBool("FadeOut",true);
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSecondsRealtime(0.1f);
         transform.position = spawnPoint.position;
-        fadeAnim.SetBool("FadeOut",false);
+        
+
 
     }
     

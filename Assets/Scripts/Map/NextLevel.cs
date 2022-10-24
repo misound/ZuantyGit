@@ -25,9 +25,9 @@ public class NextLevel : MonoBehaviour
             SceneManager.LoadScene(i);
         }
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+    public void OnCollisionEnter2D(Collision2D col)
     {
         playerIn = true;
-
     }
+    
 }
