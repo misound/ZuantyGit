@@ -72,9 +72,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _dashBufferLength = 0.1f;
     private float _dashBufferCounter;
     public bool _isAttack;
+    public bool _isDashing;
 
-    public bool _hasAttacked;
-    private bool _canDash => _dashBufferCounter > 0f && !_hasAttacked;
+    public bool _hasDashed;
+    private bool _canDash => _dashBufferCounter > 0f && !_hasDashed;
 
     [Header("Ground Collision Variables")] [SerializeField]
     private float _groundRaycastLength;
@@ -175,7 +176,7 @@ public class PlayerController : MonoBehaviour
         {
             StartCoroutine(Dash(_horizontalDirection, _verticalDirection));
         }
-        if (!_isAttack)
+        if (!_isAttack||!_isDashing)
         {
             if (_canMove)
             {
@@ -192,7 +193,7 @@ public class PlayerController : MonoBehaviour
                 ApplyGroundLinearDrag();
                 _extraJumpsValue = _extraJumps;
                 _hangTimeCounter = _hangTime;
-                _hasAttacked = false;
+                _hasDashed = false;
             }
             else
             {
@@ -407,8 +408,8 @@ public class PlayerController : MonoBehaviour
     IEnumerator Dash(float x, float y)
     {
         float dashStartTime = Time.time;
-        _hasAttacked = true;
-        _isAttack = true;
+        _hasDashed = true;
+        _isDashing = true;
         _isJumping = false;
 
         _rb.velocity = Vector2.zero;
@@ -429,7 +430,7 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
 
-        _isAttack = false;
+        _isDashing = false;
     }
 
     #endregion
@@ -438,9 +439,21 @@ public class PlayerController : MonoBehaviour
 
     void Animation()
     {
-        if (_isAttack)
+        if (_isDashing)
+        {
+            _anim.SetBool("isAttack", false);
+            _anim.SetBool("isDashing",true);
+            _anim.SetBool("isGrounded", false);
+            _anim.SetBool("isFalling", false);
+            _anim.SetBool("WallGrab", false);
+            _anim.SetBool("isJumping", false);
+            _anim.SetFloat("horizontalDirection", 0f);
+            _anim.SetFloat("verticalDirection", 0f);
+        }
+        else if(_isAttack&&!_isDashing)
         {
             _anim.SetBool("isAttack", true);
+            _anim.SetBool("isDashing",false);
             _anim.SetBool("isGrounded", false);
             _anim.SetBool("isFalling", false);
             _anim.SetBool("WallGrab", false);
@@ -450,7 +463,8 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            _anim.SetBool("isAttack", false);
+            _anim.SetBool("isDashing", false);
+            _anim.SetBool("isAttacj",false);
 
             if ((_horizontalDirection < 0f && _facingRight || _horizontalDirection > 0f && !_facingRight) &&
                 !_wallGrab && !_wallSlide)
