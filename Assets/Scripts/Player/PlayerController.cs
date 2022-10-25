@@ -464,7 +464,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             _anim.SetBool("isDashing", false);
-            _anim.SetBool("isAttacj",false);
+            _anim.SetBool("isAttack",false);
 
             if ((_horizontalDirection < 0f && _facingRight || _horizontalDirection > 0f && !_facingRight) &&
                 !_wallGrab && !_wallSlide)
