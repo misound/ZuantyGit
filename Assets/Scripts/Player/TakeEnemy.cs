@@ -11,8 +11,6 @@ public class TakeEnemy : MonoBehaviour
 
     public Enemy EnemyTargets;
 
-    public Transform target;
-
     public float range = 20.0f;
 
     public bool slaind = false;
@@ -41,18 +39,19 @@ public class TakeEnemy : MonoBehaviour
             SelectNextTarget();
         }
         if (Time.timeScale >= 0.4)
+        {
             HideSelectionEffect();
+        }
         if (slaind)
         {
             playerController._isAttack = true;
             SetupTemp();
         }
-            
+
         if (playerController.KilllingTime)
         {
             SelectNextTarget();
             playerController.KilllingTime = false;
-            
         }
 
     }
@@ -122,32 +121,6 @@ public class TakeEnemy : MonoBehaviour
         }
         ShowSelectionEffect();
     }
-    public void SelectNextTarget1()
-    {
-        if (TargetList.Count == 0)
-        {
-            return;
-        }
-        if (EnemyTargets == null)
-        {
-            EnemyTargets = TargetList[0];
-        }
-        else
-        {
-            HideSelectionEffect();
-            var index = TargetList.IndexOf(EnemyTargets);
-
-            if (index < 0 || index == TargetList.Count - 1)
-            {
-                EnemyTargets = TargetList[0];
-            }
-            else
-            {
-                EnemyTargets = TargetList[index + 1];
-            }
-        }
-        ShowSelectionEffect();
-    }
     public void CancelSelection()
     {
         HideSelectionEffect();
@@ -157,8 +130,10 @@ public class TakeEnemy : MonoBehaviour
     private void ShowSelectionEffect()
     {
         if (EnemyTargets != null)
-
-            EnemyTargets.GetComponent<Renderer>().material.color = Color.red;
+        {
+            //顏色可調，RGB在區間在0-1之間 10/27還沒設可調變數
+            EnemyTargets.GetComponent<Renderer>().material.SetColor("Color_b44aaad93ffa4d85a1bd300a5361f8fd", new Color(1.1f, 1.1f, 0.1f, 0.5f));
+        }
     }
     private void HideSelectionEffect()
     {

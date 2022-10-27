@@ -152,6 +152,13 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("Dash")) _dashBufferCounter = _dashBufferLength;
         else _dashBufferCounter -= Time.deltaTime;
         Animation();
+        if (takeEnemy.slaind == true)
+        {
+            KillingSpree();
+            _anim.SetBool("isAttack", true);
+        }
+        SlowMotionBtn();
+
     }
 
     private void FixedUpdate()
@@ -161,16 +168,10 @@ public class PlayerController : MonoBehaviour
         TriggerActive();
 
 
-        if (takeEnemy.slaind == true)
-        {
-            KillingSpree();
-            _anim.SetBool("isAttack", true);
-        }
-
         CheckTerrain();
         CanBeDropDown();
         CheckCollisions();
-        SlowMotionBtn();
+        //SlowMotionBtn();
 
         if (_canDash)
         {
@@ -245,12 +246,6 @@ public class PlayerController : MonoBehaviour
         //重生
         Respawn();
 
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, takeEnemy.range);
     }
 
     #region 腳色移動

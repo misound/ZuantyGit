@@ -88,9 +88,9 @@ public class EnemyBomb : MonoBehaviour
             && Physics2D.Raycast(CheckpointL.transform.position, Vector2.down * CheckGroundRange, 5, 1 << LayerMask.NameToLayer("Ground"));
 
         hitwall = Physics2D.Raycast(transform.position, Vector2.right * Checkwallrange, Checkwallrange,
-                1 << LayerMask.NameToLayer("Ground") | 1 << LayerMask.NameToLayer("Wall"))
+                1 << LayerMask.NameToLayer("Ground") | 1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("EnemyColliderWall"))
             || Physics2D.Raycast(transform.position, Vector2.left * Checkwallrange, Checkwallrange,
-                1 << LayerMask.NameToLayer("Ground") | 1 << LayerMask.NameToLayer("Wall"));
+                1 << LayerMask.NameToLayer("Ground") | 1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("EnemyColliderWall"));
 
         if (mustTurn)
         {
