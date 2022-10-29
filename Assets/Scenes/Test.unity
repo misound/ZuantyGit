@@ -1960,7 +1960,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 653556554}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -9.49, y: 0.9799999, z: -10}
+  m_LocalPosition: {x: 0, y: 0.8299999, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1325325499}
@@ -2699,7 +2699,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1102718935}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -9.49, y: 0.9799999, z: -10}
+  m_LocalPosition: {x: 0, y: 0.8299999, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 737076727}
@@ -3014,7 +3014,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1309952650}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -9.49, y: 0.15, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 547267505}
@@ -3052,7 +3052,7 @@ MonoBehaviour:
     m_Bits: 4096
   _movementAcceleration: 70
   _maxMoveSpeed: 12
-  _groundLinearDrag: 12
+  _groundLinearDrag: 7
   _jumpForce: 23.22
   _airLinearDrag: 2.5
   _fallMultiplier: 8
@@ -3063,22 +3063,19 @@ MonoBehaviour:
   _jumpBufferLength: 0.1
   _isJumping: 0
   _wallSlideModifier: 0.5
-  _wallRunModifier: 0.85
   _wallJumpXVelocityHaltDelay: 0.2
   _dashSpeed: 15
   _dashLength: 0.3
   _dashBufferLength: 0.1
   _isAttack: 0
-  _isDashing: 0
-  _hasDashed: 0
-  _groundRaycastLength: 1.19
+  _groundRaycastLength: 0.05
   _groundRaycastOffset: {x: 0.27, y: 0, z: 0}
   _onGround: 0
-  _wallRaycastLength: 0.72
+  _wallRaycastLength: 0.83
   _topRaycastLength: 1.39
   _edgeRaycastOffset: {x: -0.18, y: 0, z: 0}
   _innerRaycastOffset: {x: -0.49, y: 0, z: 0}
-  _oneWayRaycastLength: 1.19
+  _oneWayRaycastLength: 0.05
   _oneWayRaycastOffset: {x: 0.3, y: 0, z: 0}
   checkRadius: 0
   _onOneWayPlatform: 0
@@ -5631,7 +5628,7 @@ Transform:
   m_GameObject: {fileID: 2096046733}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.43, y: -0.21, z: -1.794133}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 8.5375, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4

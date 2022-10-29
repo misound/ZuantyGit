@@ -55,27 +55,20 @@ public class PlayerController : MonoBehaviour
 
     [Header("Wall Movement Variables")] [SerializeField]
     private float _wallSlideModifier = 0.5f;
-
-    [SerializeField] private float _wallRunModifier = 0.85f;
     [SerializeField] private float _wallJumpXVelocityHaltDelay = 0.2f;
-    private bool _wallGrab => _onWall && !_onGround && Input.GetButton("WallGrab") && !_wallRun;
+    private bool _wallGrab => _onWall && !_onGround && Input.GetButton("WallGrab") ;
 
-    private bool _wallSlide =>
-        _onWall && !_onGround && !Input.GetButton("WallGrab") && _rb.velocity.y < 0f && !_wallRun;
+    private bool _wallSlide => _onWall && !_onGround && !Input.GetButton("WallGrab") && _rb.velocity.y < 0f ;
 
-    private bool _wallRun => _onWall && _verticalDirection > 0f;
-
-    [Header("Dash Variables")] [SerializeField]
-    private float _dashSpeed = 15f;
-
-    [SerializeField] private float _dashLength = 0.3f;
-    [SerializeField] private float _dashBufferLength = 0.1f;
+    [Header("Dash Variables")]
+    [SerializeField] private float _dashSpeed = 15f;
+    [SerializeField] private float _dashLength = .3f;
+    [SerializeField] private float _dashBufferLength = .1f;
     private float _dashBufferCounter;
-    public bool _isAttack;
-    public bool _isDashing;
-
-    public bool _hasDashed;
+    private bool _isDashing;
+    private bool _hasDashed;
     private bool _canDash => _dashBufferCounter > 0f && !_hasDashed;
+    public bool _isAttack;
 
     [Header("Ground Collision Variables")] [SerializeField]
     private float _groundRaycastLength;
@@ -147,15 +140,28 @@ public class PlayerController : MonoBehaviour
     {
         _horizontalDirection = GetInput().x;
         _verticalDirection = GetInput().y;
-        if (Input.GetButtonDown("Jump")) _jumpBufferCounter = _jumpBufferLength;
-        else _jumpBufferCounter -= Time.deltaTime;
-        if (Input.GetButtonDown("Dash")) _dashBufferCounter = _dashBufferLength;
-        else _dashBufferCounter -= Time.deltaTime;
+        if (Input.GetButtonDown("Jump"))
+        {
+            _jumpBufferCounter = _jumpBufferLength;
+        }
+        else
+        {
+            _jumpBufferCounter -= Time.deltaTime;
+        }
         Animation();
         if (takeEnemy.slaind == true)
         {
             KillingSpree();
             _anim.SetBool("isAttack", true);
+        }
+
+        if (Input.GetButtonDown("Dash"))
+        {
+            _dashBufferCounter = _dashBufferLength;
+        }
+        else
+        {
+            _dashBufferCounter -= Time.deltaTime;
         }
         SlowMotionBtn();
 
@@ -173,11 +179,13 @@ public class PlayerController : MonoBehaviour
         CheckCollisions();
         //SlowMotionBtn();
 
-        if (_canDash)
+        if (_canDash) StartCoroutine(Dash(_horizontalDirection, _verticalDirection));
+
+        if (_isDashing)
         {
-            StartCoroutine(Dash(_horizontalDirection, _verticalDirection));
+            return;
         }
-        if (!_isAttack||!_isDashing)
+        if (!_isDashing)
         {
             if (_canMove)
             {
@@ -201,15 +209,14 @@ public class PlayerController : MonoBehaviour
                 ApplyAirLinearDrag();
                 FallMultiplier();
                 _hangTimeCounter -= Time.fixedDeltaTime;
-                if (!_onWall || _rb.velocity.y < 0f || _wallRun) _isJumping = false;
+                if (!_onWall || _rb.velocity.y < 0f ) _isJumping = false;
             }
 
             if (_canJump)
             {
                 if (_onWall && !_onGround && !_onOneWayPlatform)
                 {
-                    if (!_wallRun && (_onRightWall && _horizontalDirection > 0f ||
-                                      !_onRightWall && _horizontalDirection < 0f))
+                    if (_onRightWall && _horizontalDirection > 0f || !_onRightWall && _horizontalDirection < 0f)
                     {
                         StartCoroutine(NeutralWallJump());
                     }
@@ -230,7 +237,6 @@ public class PlayerController : MonoBehaviour
             {
                 if (_wallSlide) WallSlide();
                 if (_wallGrab) WallGrab();
-                if (_wallRun) WallRun();
                 if (_onWall) StickToWall();
             }
         }
@@ -361,11 +367,7 @@ public class PlayerController : MonoBehaviour
     {
         _rb.velocity = new Vector2(_rb.velocity.x, -_maxMoveSpeed * _wallSlideModifier);
     }
-
-    void WallRun()
-    {
-        _rb.velocity = new Vector2(_rb.velocity.x, _verticalDirection * _maxMoveSpeed * _wallRunModifier);
-    }
+    
 
     void StickToWall()
     {
@@ -412,7 +414,10 @@ public class PlayerController : MonoBehaviour
         _rb.drag = 0f;
 
         Vector2 dir;
-        if (x != 0f || y != 0f) dir = new Vector2(x, y);
+        if (x != 0f || y != 0f)
+        {
+            dir = new Vector2(x,y);
+        }
         else
         {
             if (_facingRight) dir = new Vector2(1f, 0f);
@@ -427,6 +432,7 @@ public class PlayerController : MonoBehaviour
 
         _isDashing = false;
     }
+
 
     #endregion
 
@@ -473,6 +479,7 @@ public class PlayerController : MonoBehaviour
                 _anim.SetBool("isFalling", false);
                 _anim.SetBool("WallGrab", false);
                 _anim.SetFloat("horizontalDirection", Mathf.Abs(_horizontalDirection));
+                _anim.SetBool("isJumping",false);
             }
             else
             {
@@ -501,13 +508,6 @@ public class PlayerController : MonoBehaviour
                     _anim.SetBool("isFalling", true);
                     _anim.SetBool("WallGrab", false);
                     _anim.SetFloat("verticalDirection", 0f);
-                }
-
-                if (_wallRun)
-                {
-                    _anim.SetBool("isFalling", false);
-                    _anim.SetBool("WallGrab", false);
-                    _anim.SetFloat("verticalDirection", Mathf.Abs(_verticalDirection));
                 }
             }
         }
@@ -783,7 +783,7 @@ public class PlayerController : MonoBehaviour
     IEnumerator Reborn()
     {
         die = false;
-        yield return new WaitForSecondsRealtime(0.1f);
+        yield return new WaitForSecondsRealtime(0.5f);
         transform.position = spawnPoint.position;
         
 
