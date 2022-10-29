@@ -33,6 +33,10 @@ public class EnemyBomb : MonoBehaviour
     [SerializeField] private bool hitwall;
     [SerializeField] private bool WannaBoom;
 
+    [Header("Animation")] 
+    [SerializeField] public Animator _anim;
+    [SerializeField] public bool explosion;
+
 
     float distance;
     // Start is called before the first frame update
@@ -41,12 +45,20 @@ public class EnemyBomb : MonoBehaviour
         mustPatrol = true;
         playerController = FindObjectOfType<PlayerController>();
         _isFacingRight = true;
+        
+        _anim = GetComponent<Animator>();
+        explosion = false;
     }
 
     private void FixedUpdate()
     {
+        Animation();
         if (mustPatrol)
+        {
             Patrol();
+            _anim.SetBool("isAttack",false);
+            _anim.SetBool("explosion",false);
+        }
         if (_isFacingRight)
             CheckPlayerR();
         if (!_isFacingRight)
@@ -160,16 +172,22 @@ public class EnemyBomb : MonoBehaviour
         distance = Vector2.Distance(transform.position, playerController.transform.position);
 
         if (CanJump && distance - UnstoppableRange < 0.6 && distance - UnstoppableRange > 0.4)
+        {
             rb.velocity = new Vector2(rb.velocity.x, Jumpforce);
-
+            explosion = true;
+        }
+        
         if (transform.position.x > playerController.transform.position.x)
         {
             rb.velocity = new Vector2(-Boomspeed, rb.velocity.y);
             if (distance < UnstoppableRange)
+            {
                 rb.velocity = new Vector2(-Boomspeed * 2, rb.velocity.y);
+            }
             _isFacingRight = false;
             transform.localScale = new Vector2(1, transform.localScale.y);
         }
+        
         if (transform.position.x < playerController.transform.position.x)
         {
             rb.velocity = new Vector2(Boomspeed, rb.velocity.y);
@@ -178,8 +196,11 @@ public class EnemyBomb : MonoBehaviour
             _isFacingRight = true;
             transform.localScale = new Vector2(-1, transform.localScale.y);
         }
+
         if (distance > WarningRange)
+        {
             WannaBoom = false;
+        }
 
         mustPatrol = false;
     }
@@ -208,6 +229,30 @@ public class EnemyBomb : MonoBehaviour
         }
     }
     #endregion\
+
+    #region 動畫
+
+    public void Animation()
+    {
+        if (explosion)
+        {
+            _anim.SetBool("explosion",true);
+            _anim.SetBool("isAttack",true);
+        }
+
+        if (mustPatrol)
+        {
+            _anim.SetBool("isAttack",false);
+        }
+        else if (WannaBoom)
+        {
+            _anim.SetBool("isAttack",true);   
+        }
+
+        
+    }
+
+    #endregion
     void CheckGroundR()
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right * Checkwallrange, 5, 1 << LayerMask.NameToLayer("Ground"));
