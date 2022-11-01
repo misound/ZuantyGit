@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class EnemyBomb : MonoBehaviour
 {
+
     [Header("Components")]
     [SerializeField] public PlayerController playerController;
     [SerializeField] public Rigidbody2D rb;
@@ -33,10 +34,16 @@ public class EnemyBomb : MonoBehaviour
     [SerializeField] private bool hitwall;
     [SerializeField] private bool WannaBoom;
 
-    [Header("Animation")] 
+    [Header("Animation")]
     [SerializeField] public Animator _anim;
-    [SerializeField] public bool explosion;
 
+    [Header("Explotion")]
+    [SerializeField] public float Boomtime;
+    [SerializeField] public float timer;
+    [SerializeField] private bool isstarttime;
+    [SerializeField] public float BoomRange;
+    [SerializeField] public bool explosion;
+    [SerializeField] public bool explosionReady;
 
     float distance;
     // Start is called before the first frame update
@@ -45,7 +52,7 @@ public class EnemyBomb : MonoBehaviour
         mustPatrol = true;
         playerController = FindObjectOfType<PlayerController>();
         _isFacingRight = true;
-        
+
         _anim = GetComponent<Animator>();
         explosion = false;
     }
@@ -56,8 +63,8 @@ public class EnemyBomb : MonoBehaviour
         if (mustPatrol)
         {
             Patrol();
-            _anim.SetBool("isAttack",false);
-            _anim.SetBool("explosion",false);
+            _anim.SetBool("isAttack", false);
+            _anim.SetBool("explosion", false);
         }
         if (_isFacingRight)
             CheckPlayerR();
@@ -65,6 +72,8 @@ public class EnemyBomb : MonoBehaviour
             CheckPlayerL();
         if (WannaBoom)
             Attack();
+        if (explosionReady)
+            Explooooootion();
     }
 
     // Update is called once per frame
@@ -86,6 +95,7 @@ public class EnemyBomb : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, CheckPlayerRange);
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, UnstoppableRange);
+        Gizmos.DrawWireSphere(transform.position, BoomRange);
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, WarningRange);
     }
@@ -174,9 +184,8 @@ public class EnemyBomb : MonoBehaviour
         if (CanJump && distance - UnstoppableRange < 0.6 && distance - UnstoppableRange > 0.4)
         {
             rb.velocity = new Vector2(rb.velocity.x, Jumpforce);
-            explosion = true;
         }
-        
+
         if (transform.position.x > playerController.transform.position.x)
         {
             rb.velocity = new Vector2(-Boomspeed, rb.velocity.y);
@@ -187,7 +196,7 @@ public class EnemyBomb : MonoBehaviour
             _isFacingRight = false;
             transform.localScale = new Vector2(1, transform.localScale.y);
         }
-        
+
         if (transform.position.x < playerController.transform.position.x)
         {
             rb.velocity = new Vector2(Boomspeed, rb.velocity.y);
@@ -202,9 +211,45 @@ public class EnemyBomb : MonoBehaviour
             WannaBoom = false;
         }
 
+        if (distance < UnstoppableRange)
+        {
+            explosionReady = true;
+        }
+
+
+
         mustPatrol = false;
     }
     #endregion
+    private void Explooooootion()
+    {
+        timer += Time.deltaTime;
+        if (timer >= Boomtime)
+        {
+            explosion = true;
+            timer = 0;
+            //explosionReady = false;
+        }
+        if (explosion)
+        {
+            RaycastHit2D hit = Physics2D.CircleCast(transform.position, BoomRange, Vector2.right);
+            if (hit.collider != null)
+            {
+                if (hit.collider.gameObject.CompareTag("Player"))
+                {
+                    Debug.Log("你死了");
+                    Destroy(this.gameObject);
+                }
+                else
+                {
+                    Destroy(this.gameObject);
+                }
+            }
+
+
+        }
+
+    }
     #region 檢查玩家
     private void CheckPlayerR()
     {
@@ -236,20 +281,20 @@ public class EnemyBomb : MonoBehaviour
     {
         if (explosion)
         {
-            _anim.SetBool("explosion",true);
-            _anim.SetBool("isAttack",true);
+            _anim.SetBool("explosion", true);
+            _anim.SetBool("isAttack", true);
         }
 
         if (mustPatrol)
         {
-            _anim.SetBool("isAttack",false);
+            _anim.SetBool("isAttack", false);
         }
         else if (WannaBoom)
         {
-            _anim.SetBool("isAttack",true);   
+            _anim.SetBool("isAttack", true);
         }
 
-        
+
     }
 
     #endregion
