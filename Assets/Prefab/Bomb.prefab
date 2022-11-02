@@ -421,17 +421,24 @@ MonoBehaviour:
   Patrolspeed: 1
   Boomspeed: 5
   Jumpforce: 11.17
-  CheckGroundRange: 1
-  CheckPlayerRange: 5
+  CheckGroundRange: 0.1
+  CheckPlayerRange: 10
   Checkwallrange: 1
-  UnstoppableRange: 3
-  WarningRange: 6
+  UnstoppableRange: 2.5
+  WarningRange: 11
   mustTurn: 0
   mustPatrol: 0
   CanJump: 0
   _isFacingRight: 0
   hitwall: 0
   WannaBoom: 0
+  _anim: {fileID: 0}
+  Boomtime: 0
+  timer: 0
+  isstarttime: 0
+  BoomRange: 0
+  explosion: 0
+  explosionReady: 0
 --- !u!82 &7571057974633431826
 AudioSource:
   m_ObjectHideFlags: 0

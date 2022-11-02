@@ -74,7 +74,7 @@ SpriteShapeRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1652483533
-  m_SortingLayer: -3
+  m_SortingLayer: -4
   m_SortingOrder: 22
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_MaskInteraction: 0
@@ -136,7 +136,7 @@ MonoBehaviour:
   m_WorldSpaceUV: 0
   m_CornerAngleThreshold: 30
   m_ColliderDetail: 16
-  m_ColliderOffset: 0.441
+  m_ColliderOffset: 0.25
   m_UpdateCollider: 1
   m_OptimizeCollider: 1
   m_OptimizeGeometry: 1
@@ -154,7 +154,7 @@ PlatformEffector2D:
   m_UseColliderMask: 1
   m_ColliderMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 16311
   m_RotationalOffset: 0
   m_UseOneWay: 1
   m_UseOneWayGrouping: 0
@@ -178,9 +178,9 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 0
   m_Points:
-  - {x: -0.832333, y: 0.61277795}
-  - {x: 1.2010002, y: 0.61277795}
-  - {x: 1.2343335, y: 0.61277795}
+  - {x: -0.8323331, y: 0.3634168}
+  - {x: 1.2010002, y: 0.3634168}
+  - {x: 1.2343335, y: 0.3634168}
   m_AdjacentStartPoint: {x: 0, y: 0}
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
@@ -210,4 +210,4 @@ MonoBehaviour:
   - {x: -2.649168, y: -0.50488114, z: 0}
   m_ShapePathHash: 484687957
   m_Mesh: {fileID: 0}
-  m_InstanceId: 496572
+  m_InstanceId: 313310

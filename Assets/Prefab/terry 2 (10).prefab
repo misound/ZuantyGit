@@ -267,7 +267,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.025276184}
+  m_Offset: {x: 1.378645, y: 0.06829691}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -278,7 +278,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1.9099381}
+  m_Size: {x: 3.75729, y: 3.569304}
   m_EdgeRadius: 0
 --- !u!50 &5488257802596135571
 Rigidbody2D:
@@ -314,6 +314,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   takeEnemy: {fileID: 0}
+  playerController: {fileID: 0}
   QTEBtn_U: {fileID: 5488257801839500665}
   QTEBtn_I: {fileID: 1755196979134864252}
   QTEBtn_O: {fileID: 5488257803780336922}
