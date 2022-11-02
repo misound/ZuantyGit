@@ -103,11 +103,11 @@ public class EnemyBomb : MonoBehaviour
     #region 巡邏
     public void Patrol()
     {
-        mustTurn = Physics2D.Raycast(CheckpointR.transform.position, Vector2.down * CheckGroundRange, 5, 1 << LayerMask.NameToLayer("Ground"))
-            && !Physics2D.Raycast(CheckpointL.transform.position, Vector2.down * CheckGroundRange, 5, 1 << LayerMask.NameToLayer("Ground"));
+        mustTurn = Physics2D.Raycast(CheckpointR.transform.position, Vector2.down * CheckGroundRange, CheckGroundRange, 1 << LayerMask.NameToLayer("Ground"))
+            && !Physics2D.Raycast(CheckpointL.transform.position, Vector2.down * CheckGroundRange, CheckGroundRange, 1 << LayerMask.NameToLayer("Ground"));
 
-        mustTurn = !Physics2D.Raycast(CheckpointR.transform.position, Vector2.down * CheckGroundRange, 5, 1 << LayerMask.NameToLayer("Ground"))
-            && Physics2D.Raycast(CheckpointL.transform.position, Vector2.down * CheckGroundRange, 5, 1 << LayerMask.NameToLayer("Ground"));
+        mustTurn = !Physics2D.Raycast(CheckpointR.transform.position, Vector2.down * CheckGroundRange, CheckGroundRange, 1 << LayerMask.NameToLayer("Ground"))
+            && Physics2D.Raycast(CheckpointL.transform.position, Vector2.down * CheckGroundRange, CheckGroundRange, 1 << LayerMask.NameToLayer("Ground"));
 
         hitwall = Physics2D.Raycast(transform.position, Vector2.right * Checkwallrange, Checkwallrange,
                 1 << LayerMask.NameToLayer("Ground") | 1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("EnemyColliderWall"))
@@ -253,7 +253,7 @@ public class EnemyBomb : MonoBehaviour
     #region 檢查玩家
     private void CheckPlayerR()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right * CheckPlayerRange, 5, 1 << LayerMask.NameToLayer("Default") | 1 << LayerMask.NameToLayer("Ground"));
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right * CheckPlayerRange, CheckPlayerRange, 1 << LayerMask.NameToLayer("Default") | 1 << LayerMask.NameToLayer("Ground"));
         if (hit.collider != null)
         {
             if (hit.collider.gameObject.CompareTag("Player"))
@@ -264,7 +264,7 @@ public class EnemyBomb : MonoBehaviour
     }
     private void CheckPlayerL()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.left * CheckPlayerRange, 5, 1 << LayerMask.NameToLayer("Default") | 1 << LayerMask.NameToLayer("Ground"));
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.left * CheckPlayerRange, CheckPlayerRange, 1 << LayerMask.NameToLayer("Default") | 1 << LayerMask.NameToLayer("Ground"));
         if (hit.collider != null)
         {
             if (hit.collider.gameObject.CompareTag("Player"))
