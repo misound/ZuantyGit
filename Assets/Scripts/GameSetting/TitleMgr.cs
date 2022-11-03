@@ -23,6 +23,11 @@ public class TitleMgr : MonoBehaviour
     public GameObject OptoinUI;
     public GameObject VolumeUI;
 
+    public Slider TBGMSli;
+    //public Slider TSESli;
+
+    public GameMgr gameMgr;
+    private AudioMgr audioMgr;
 
     // Start is called before the first frame update
     void Start()
@@ -40,12 +45,16 @@ public class TitleMgr : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(PlayBtn);
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+
+        //audioMgr = FindObjectOfType<AudioMgr>();
+        audioMgr = GameSetting.BGMAudio;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        GameSetting.BGMAudio.MBGM.volume =TBGMSli.value;
+        //audioMgr.MBGM.volume = gameMgr.mainBGM.value = TSESli.value;
     }
     public enum eTitleStates
     {
@@ -105,6 +114,6 @@ public class TitleMgr : MonoBehaviour
     }
     public void Quit()
     {
-
+        Application.Quit();
     }
 }

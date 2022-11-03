@@ -208,6 +208,7 @@ GameObject:
   - component: {fileID: 34526947}
   - component: {fileID: 34526946}
   - component: {fileID: 34526945}
+  - component: {fileID: 34526948}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -263,6 +264,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &34526948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 34526944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1dbe1e5897189b24d83b916ec59fe8ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PBtn: {fileID: 322102717}
+  OpBtn: {fileID: 2018739324}
+  QBtn: {fileID: 2035126315}
+  VolumeBtn: {fileID: 1368423162}
+  OpBackBtn: {fileID: 105862262}
+  VoBackBtn: {fileID: 456253175}
+  PlayBtn: {fileID: 322102713}
+  OpfirstBtn: {fileID: 1368423160}
+  VofirstBtn: {fileID: 92879816}
+  TitleUI: {fileID: 1824984090}
+  OptoinUI: {fileID: 1482218883}
+  VolumeUI: {fileID: 632825317}
+  TBGMSli: {fileID: 92879818}
+  gameMgr: {fileID: 0}
 --- !u!1 &92879816
 GameObject:
   m_ObjectHideFlags: 0
@@ -349,7 +376,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.2
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -386,7 +413,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -875,12 +902,12 @@ GameObject:
   - component: {fileID: 632825319}
   - component: {fileID: 632825318}
   m_Layer: 5
-  m_Name: Voice
+  m_Name: Volume
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &632825318
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1190,8 +1217,8 @@ RectTransform:
   m_Father: {fileID: 1992246680}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0.92401123, y: 0}
   m_SizeDelta: {x: 18.152, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1565,7 +1592,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1482218884
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2095,7 +2122,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2028506888}
-  - component: {fileID: 2028506889}
   - component: {fileID: 2028506890}
   - component: {fileID: 2028506887}
   m_Layer: 0
@@ -2114,21 +2140,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 2028506886}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1dbe1e5897189b24d83b916ec59fe8ba, type: 3}
+  m_Script: {fileID: 11500000, guid: 7e4ca8cc5d86b9645993f4638a7cc354, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PBtn: {fileID: 322102717}
-  OpBtn: {fileID: 2018739324}
-  QBtn: {fileID: 2035126315}
-  VolumeBtn: {fileID: 1368423162}
-  OpBackBtn: {fileID: 105862262}
-  VoBackBtn: {fileID: 456253175}
-  PlayBtn: {fileID: 322102713}
-  OpfirstBtn: {fileID: 1368423160}
-  VofirstBtn: {fileID: 92879816}
-  TitleUI: {fileID: 1824984090}
-  OptoinUI: {fileID: 1482218883}
-  VolumeUI: {fileID: 632825317}
+  MBGM: {fileID: 0}
+  gameMgr: {fileID: 0}
+  titleMgr: {fileID: 0}
+  BGM1: {fileID: 0}
+  SE1: {fileID: 0}
 --- !u!4 &2028506888
 Transform:
   m_ObjectHideFlags: 0
@@ -2143,20 +2162,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2028506889
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2028506886}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3761c9b531ee2d14f94f7ab093ff793a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  width: 0
-  height: 0
 --- !u!82 &2028506890
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2166,13 +2171,12 @@ AudioSource:
   m_GameObject: {fileID: 2028506886}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 24300002, guid: e4e79e97d47226d49afee91073f5f645,
-    type: 2}
-  m_audioClip: {fileID: 8300000, guid: db50bcf6060f65e4a8dd5023c4d690cc, type: 3}
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: fb96daa001883754abe99cb3d9c8bb0b, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0

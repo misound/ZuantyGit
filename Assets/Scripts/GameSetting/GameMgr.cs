@@ -13,6 +13,9 @@ public class GameMgr : MonoBehaviour
 
     public PlayerController playerController;
     public TakeEnemy takeEnemy;
+    public TitleMgr titleMgr;
+    private AudioMgr audioMgr;
+
     static bool pauseEnabled;
     static bool OpEnabled;
 
@@ -35,7 +38,8 @@ public class GameMgr : MonoBehaviour
     [SerializeField] public Button VBack;
     [SerializeField] public Slider mainBGM;
     [SerializeField] public GameObject mainBGMSli;
-    [SerializeField] public AudioSource MBGM;
+    //[SerializeField] public Slider mainSE;
+    //[SerializeField] public GameObject mainSESli;
     UnityEvent PauseEvent = new UnityEvent();
 
     public int pausestates;
@@ -52,13 +56,16 @@ public class GameMgr : MonoBehaviour
         VBack.onClick.AddListener(VolumeBack);
         playerController = FindObjectOfType<PlayerController>();
         takeEnemy = FindObjectOfType<TakeEnemy>();
+        // audioMgr = FindObjectOfType<AudioMgr>();
+        audioMgr = GameSetting.BGMAudio;
 
     }
     private void Update()
     {
         PauseStates();
         Pause();
-        MBGM.volume = mainBGM.value;
+        //GameSetting.BGMAudio.MBGM.volume = mainBGM.value;
+        //M_BGM.volume = mainSE.value = titleMgr.TSESli.value;
     }
     private void FixedUpdate()
     {

@@ -100,11 +100,15 @@ public class PlayerController : MonoBehaviour
     [Header("SlowMotion")] [SerializeField]
     public float slowdownFactor = 0.05f;
 
-    [SerializeField] public float slowdownLength = 2f;
-    [SerializeField] public float cooldownTime = 1.0f;
+    [SerializeField] public float slowdownLength = 2f; //子彈時間時長
+    [SerializeField] public float cooldownTime = 1.0f; //子彈時間冷卻時間
     [SerializeField] private float timer = 0;
     [SerializeField] private bool isStartTime = false;
     [SerializeField] private bool skillInvalid = false;
+    [SerializeField] public float scaletime;  //縮放時間，愈趨近0越快
+    [SerializeField] public float roratetime; //調旋轉快慢，1~0.1之間
+    [SerializeField] public float TriggerScale;
+    [SerializeField] public float TriggerRoration;
 
     [Header("Killing Spree")] [SerializeField]
     public float MovetoTime;
@@ -134,6 +138,9 @@ public class PlayerController : MonoBehaviour
         takeEnemy = FindObjectOfType<TakeEnemy>();
         Footstep = GetComponent<AudioSource>();
         Reborn();
+        TriggerScale = 0f;
+        TriggerRoration = 0f;
+        Trigger.SetActive(false);
     }
 
     private void Update()
@@ -661,14 +668,30 @@ public class PlayerController : MonoBehaviour
 
     void TriggerActive()
     {
+
         if (Time.timeScale > 0.4)
         {
+            //TriggerRoration = 0f;
+            TriggerScale -= (1f * scaletime*10) * Time.unscaledDeltaTime;
+            TriggerScale = Mathf.Clamp(TriggerScale, 0f, 1f);
+
+            Trigger.transform.localScale = new Vector2(TriggerScale, TriggerScale);
+            if(TriggerScale <= 0.01)
             Trigger.SetActive(false);
         }
 
         if (Time.timeScale < 0.4)
         {
             Trigger.SetActive(true);
+
+            TriggerScale += (1f / scaletime) * Time.unscaledDeltaTime;
+            TriggerScale = Mathf.Clamp(TriggerScale, 0f, 1f);
+
+            TriggerRoration += (1f / roratetime) * Time.unscaledDeltaTime;
+            TriggerRoration = Mathf.Lerp(TriggerRoration, 0f, 0.1f);
+
+            Trigger.transform.Rotate(0, 0, TriggerRoration);
+            Trigger.transform.localScale = new Vector2(TriggerScale, TriggerScale);
         }
     }
 

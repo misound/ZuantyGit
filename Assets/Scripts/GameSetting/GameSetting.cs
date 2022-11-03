@@ -6,7 +6,8 @@ public static class GameSetting
 {
     public static bool AudioReady = false;
 
-    public static AudioMgr Audio;
+    public static AudioMgr BGMAudio;
+    //public static AudioMgr SEAudio;
     public static void Save()
     {
         PlayerPrefs.SetString("AudioReady", AudioReady.ToString());

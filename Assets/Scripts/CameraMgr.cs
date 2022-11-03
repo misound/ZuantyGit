@@ -9,7 +9,6 @@ public class CameraMgr : MonoBehaviour
     public GameMgr gameMgr;
     [SerializeField] public float pauseblur;
     [SerializeField] public float pastetime;
-    [SerializeField] private bool firstpause;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,7 +25,6 @@ public class CameraMgr : MonoBehaviour
     private void Update()
     {
         VisualEffectPause();
-        firstpause = true;
         if (gameMgr.pausestates > 0)
         {
             pauseblur += (1f / pastetime) * Time.unscaledDeltaTime;
@@ -35,7 +33,6 @@ public class CameraMgr : MonoBehaviour
         if (gameMgr.pausestates == 0)
         {
             pauseblur = 0f;
-            firstpause = true;
         }
         if (pauseblur >= 150f)
         {
