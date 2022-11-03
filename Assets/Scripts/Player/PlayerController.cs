@@ -156,11 +156,7 @@ public class PlayerController : MonoBehaviour
             _jumpBufferCounter -= Time.deltaTime;
         }
         Animation();
-        if (takeEnemy.slaind == true)
-        {
-            KillingSpree();
-            _anim.SetBool("isAttack", true);
-        }
+
 
         if (Input.GetButtonDown("Dash"))
         {
@@ -179,7 +175,11 @@ public class PlayerController : MonoBehaviour
         Time.timeScale += (1f / slowdownLength) * Time.unscaledDeltaTime;
         Time.timeScale = Mathf.Clamp(Time.timeScale, 0f, 1f);
         TriggerActive();
-
+        if (takeEnemy.slaind == true)
+        {
+            KillingSpree();
+            _anim.SetBool("isAttack", true);
+        }
 
         CheckTerrain();
         CanBeDropDown();
