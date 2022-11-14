@@ -8,8 +8,13 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.Rendering;
 
-public class PlayerController : MonoBehaviour
+public class OldPlayerController : MonoBehaviour
 {
+    [Header("Gun")] 
+    [SerializeField] public GameObject bulet;
+    [SerializeField] public Transform launchSite;
+    
+    
     [Header("Components")] public Rigidbody2D _rb;
     public Animator _anim;
     public GameObject Trigger;
@@ -84,7 +89,6 @@ public class PlayerController : MonoBehaviour
 
     [Header("Corner Correction Variables")] [SerializeField]
     private float _topRaycastLength;
-
     [SerializeField] private Vector3 _edgeRaycastOffset;
     [SerializeField] private Vector3 _innerRaycastOffset;
     private bool _canCornerCorrect;
@@ -157,7 +161,6 @@ public class PlayerController : MonoBehaviour
         }
         Animation();
 
-
         if (Input.GetButtonDown("Dash"))
         {
             _dashBufferCounter = _dashBufferLength;
@@ -184,7 +187,7 @@ public class PlayerController : MonoBehaviour
         CheckTerrain();
         CanBeDropDown();
         CheckCollisions();
-        //SlowMotionBtn();
+        
 
         if (_canDash) StartCoroutine(Dash(_horizontalDirection, _verticalDirection));
 
@@ -814,4 +817,6 @@ public class PlayerController : MonoBehaviour
     }
     
     #endregion
+
+   
 }

@@ -9,7 +9,7 @@ public class LevelChanger : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        GetComponent<PlayerController>();
+        GetComponent<OldPlayerController>();
     }
 
     public void FadeToLevel()

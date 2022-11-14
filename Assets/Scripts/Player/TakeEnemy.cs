@@ -15,13 +15,13 @@ public class TakeEnemy : MonoBehaviour
 
     public bool slaind = false;
 
-    private PlayerController playerController;
+    private OldPlayerController playerController;
     // Start is called before the first frame update
     void Start()
     {
         TargetList = new List<Enemy>();
         TempList = new List<Enemy>();
-        playerController = FindObjectOfType<PlayerController>();
+        playerController = FindObjectOfType<OldPlayerController>();
         //UpdateTarget();
     }
     // Update is called once per frame
@@ -131,7 +131,7 @@ public class TakeEnemy : MonoBehaviour
     {
         if (EnemyTargets != null)
         {
-            //ÃC¦â¥i½Õ¡ARGB¦b°Ï¶¡¦b0-1¤§¶¡ 10/27ÁÙ¨S³]¥i½ÕÅÜ¼Æ
+            //é¡è‰²å¯èª¿ï¼ŒRGBåœ¨å€é–“åœ¨0-1ä¹‹é–“ 10/27é‚„æ²’è¨­å¯èª¿è®Šæ•¸
             EnemyTargets.GetComponent<Renderer>().material.SetColor("Color_b44aaad93ffa4d85a1bd300a5361f8fd", new Color(1.1f, 1.1f, 0.1f, 0.5f));
         }
     }

@@ -56,7 +56,7 @@ public class CameraMgr : MonoBehaviour
         if (!volumeProfile.TryGet(out motionBlur)) throw new System.NullReferenceException(nameof(motionBlur));
 
 
-        if (takeEnemy.slaind)
+       /* if (takeEnemy.slaind)
         {
             chromaticAberration.intensity.Override(0.5f);
             motionBlur.intensity.Override(1f);
@@ -65,7 +65,7 @@ public class CameraMgr : MonoBehaviour
         {
             chromaticAberration.intensity.Override(0f);
             motionBlur.intensity.Override(0f);
-        }
+        }*/
     }
     private void VisualEffectPause()
     {

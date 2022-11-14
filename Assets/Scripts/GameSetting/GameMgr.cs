@@ -11,7 +11,7 @@ public class GameMgr : MonoBehaviour
     int maxPlatform = 0;
     public GameOverScreen GameOverScreen;
 
-    public PlayerController playerController;
+    public OldPlayerController playerController;
     public TakeEnemy takeEnemy;
     public TitleMgr titleMgr;
     private AudioMgr audioMgr;
@@ -54,7 +54,7 @@ public class GameMgr : MonoBehaviour
         OpBack.onClick.AddListener(Option);
         volume.onClick.AddListener(Volume);
         VBack.onClick.AddListener(VolumeBack);
-        playerController = FindObjectOfType<PlayerController>();
+        playerController = FindObjectOfType<OldPlayerController>();
         takeEnemy = FindObjectOfType<TakeEnemy>();
         // audioMgr = FindObjectOfType<AudioMgr>();
         audioMgr = GameSetting.BGMAudio;

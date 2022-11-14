@@ -8,7 +8,7 @@ public class Enemy : MonoBehaviour
 {
     [Header("Objects")]
     [SerializeField] public TakeEnemy takeEnemy;
-    [SerializeField] public PlayerController playerController;
+    [SerializeField] public OldPlayerController playerController;
 
     [SerializeField] public GameObject QTEBtn_U;
     [SerializeField] public GameObject QTEBtn_I;
@@ -58,7 +58,7 @@ public class Enemy : MonoBehaviour
         m_MyEvent_Trigger.AddListener(TriggerActive);
 
         takeEnemy = FindObjectOfType<TakeEnemy>();
-        playerController = FindObjectOfType<PlayerController>();
+        playerController = FindObjectOfType<OldPlayerController>();
     }
 
     void Update()

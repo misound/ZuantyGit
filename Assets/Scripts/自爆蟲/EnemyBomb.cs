@@ -7,7 +7,7 @@ public class EnemyBomb : MonoBehaviour
 {
 
     [Header("Components")]
-    [SerializeField] public PlayerController playerController;
+    [SerializeField] public OldPlayerController playerController;
     [SerializeField] public Rigidbody2D rb;
 
     [Header("Check Points")]
@@ -50,7 +50,7 @@ public class EnemyBomb : MonoBehaviour
     void Start()
     {
         mustPatrol = true;
-        playerController = FindObjectOfType<PlayerController>();
+        playerController = FindObjectOfType<OldPlayerController>();
         _isFacingRight = true;
 
         _anim = GetComponent<Animator>();
