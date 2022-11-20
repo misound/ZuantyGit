@@ -1,20 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AudioMgr : MonoBehaviour
 {
-    [SerializeField] public AudioSource MBGM;
+    [SerializeField] public AudioSource[] Array_audioSource;
+    [SerializeField] public AudioSource BGM_audioSource;
+    [SerializeField] public AudioSource SE_audioSource;
 
     public GameMgr gameMgr;
     public TitleMgr titleMgr;
+    public Test Playermoves;
 
-    [SerializeField] public AudioClip BGM1;
-    [SerializeField] public AudioClip SE1;
+    public bool BGMCheck = false;
+
+    public AudioClip[] BGM;
+    public AudioClip[] SE;
     // Start is called before the first frame update
     void Awake()
     {
-        //MBGM.Play();
+        Array_audioSource = GetComponents<AudioSource>();
+
         if (GameSetting.AudioReady)
         {
             Destroy(gameObject); //kill self
@@ -23,11 +30,15 @@ public class AudioMgr : MonoBehaviour
         {
             DontDestroyOnLoad(gameObject);
             GameSetting.BGMAudio = this;
+            GameSetting.SEAudio = this;
             GameSetting.AudioReady = true;
         }
-        MBGM = GetComponent<AudioSource>();
-        titleMgr = FindObjectOfType<TitleMgr>();
-        gameMgr = FindObjectOfType<GameMgr>();
+        BGM_audioSource = Array_audioSource[0];
+        SE_audioSource = Array_audioSource[1];
+    }
+    private void Start()
+    {
+        Playermoves = FindObjectOfType<Test>();
     }
 
     // Update is called once per frame
@@ -39,27 +50,32 @@ public class AudioMgr : MonoBehaviour
             gameMgr = FindObjectOfType<GameMgr>();
         }
 
-        //MBGM.volume = gameMgr.mainBGM.value = titleMgr.TBGMSli.value;
-        MBGM.pitch = Time.timeScale;
-        if(Time.timeScale < 0.7&& Time.timeScale > 0.05)
+
+        Step();
+        AudioBigSmall();
+        Debug.Log(BGMCheck);
+    }
+
+    private void OnGUI()
+    {
+        if (GUI.Button(new Rect(100, 80, 160, 100), "BGM1"))
         {
-            MBGM.pitch = 0.7f;
-        }
-        if (Time.timeScale > 0.7 && Time.timeScale < 0.05)
-        {
-            MBGM.pitch = Time.timeScale;
+            Play(eAudio.BGM1);
         }
     }
+    #region 音樂管理
     public enum eAudio
     {
         BGM1,
         BGM2,
     }
+
     public void Play(eAudio audio)
     {
         switch (audio)
         {
             case eAudio.BGM1:
+                BGM_audioSource.PlayOneShot(BGM[0]);
                 break;
             case eAudio.BGM2:
                 break;
@@ -68,25 +84,72 @@ public class AudioMgr : MonoBehaviour
                 break;
         }
     }
-    public void Btn()
+    #endregion
+    #region 腳步聲
+    public void Step()
     {
-        GameSetting.BGMAudio.PlayBoom();
-        GameSetting.BGMAudio.Play(eAudio.BGM1);
+        if(Playermoves == null)
+        {
+            return;
+        }
+        if (Playermoves._horizontalDirection != 0)
+        {
+            Playermoves.isRunning = true;
+        }
+        else
+        {
+            Playermoves.isRunning = false;
+        }
+
+        if (Playermoves.isRunning)
+        {
+            if (!SE_audioSource.isPlaying)
+            {
+                SE_audioSource.PlayOneShot(SE[0]);
+            }
+        }
+        else
+        {
+            SE_audioSource.Stop();
+        }
     }
-    public void Btn2()
-    {
-        GameSetting.BGMAudio.PlayBoom();
-        GameSetting.BGMAudio.Play(eAudio.BGM2);
-    }
+    #endregion
     public void PlayBoom()
     {
-        if (MBGM == null)
+        if (SE_audioSource == null)
         {
             return;
         }
 
-        MBGM = GetComponent<AudioSource>();
-        //_audioSource.Play();
-        //_audioSource.PlayOneShot(boom);
+        SE_audioSource = GetComponent<AudioSource>();
     }
+    #region BGM大小
+    public void AudioBigSmall()
+    {
+        if (titleMgr != null && !BGMCheck)
+        {
+            titleMgr.TBGMSli.value = GameSetting.BGMAudio.BGM_audioSource.volume;
+
+            BGMCheck = true;
+        }
+
+        if (titleMgr != null && BGMCheck)
+        {
+            GameSetting.BGMAudio.BGM_audioSource.volume=titleMgr.TBGMSli.value;
+        }
+
+
+        if (gameMgr != null && BGMCheck) //傳遞變數
+        {
+            gameMgr.mainBGM.value = GameSetting.BGMAudio.BGM_audioSource.volume;
+            
+            BGMCheck = false;
+        }
+        if (gameMgr != null && !BGMCheck) //輸出至可控滑桿
+        {
+            GameSetting.BGMAudio.BGM_audioSource.volume = gameMgr.mainBGM.value;
+        }
+
+    }
+    #endregion
 }

@@ -9,7 +9,6 @@ using UnityEngine.EventSystems;
 public class GameMgr : MonoBehaviour
 {
     int maxPlatform = 0;
-    public GameOverScreen GameOverScreen;
 
     public OldPlayerController playerController;
     public TakeEnemy takeEnemy;
@@ -75,11 +74,7 @@ public class GameMgr : MonoBehaviour
     {
         Application.Quit();
     }
-    public void GameOver()
-    {
 
-        GameOverScreen.Setup(maxPlatform);
-    }
     #region 狀態管理
     public enum ePauseStates
     {

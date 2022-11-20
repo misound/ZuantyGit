@@ -30,7 +30,7 @@ public class Test : MonoBehaviour
     [SerializeField] private float _movementAcceleration = 70f;
     [SerializeField] private float _maxMoveSpeed = 12f;
     [SerializeField] private float _groundLinearDrag = 7f;
-    private float _horizontalDirection;
+    public float _horizontalDirection;
     private float _verticalDirection;
     private bool _changingDirection => (_rb.velocity.x > 0f && _horizontalDirection < 0f) || (_rb.velocity.x < 0f && _horizontalDirection > 0f);
     private bool _facingRight = true;
@@ -368,33 +368,6 @@ public class Test : MonoBehaviour
         {
             transform.Translate(0, DownwardDistance, 0);
 
-        }
-    }
-
-    #endregion
-    #region 音效
-
-    public void Sound()
-    {
-        if (_horizontalDirection != 0)
-        {
-            isRunning = true;
-        }
-        else
-        {
-            isRunning = false;
-        }
-
-        if (_onGround && isRunning)
-        {
-            if (!Footstep.isPlaying)
-            {
-                Footstep.Play();
-            }
-        }
-        else
-        {
-            Footstep.Stop();
         }
     }
 

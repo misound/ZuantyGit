@@ -32,7 +32,7 @@ public class OldPlayerController : MonoBehaviour
 
     [SerializeField] private float _maxMoveSpeed = 12f;
     [SerializeField] private float _groundLinearDrag = 7f;
-    private float _horizontalDirection;
+    public float _horizontalDirection;
     private float _verticalDirection;
 
     private bool _changingDirection => (_rb.velocity.x > 0f && _horizontalDirection < 0f) ||
@@ -257,8 +257,7 @@ public class OldPlayerController : MonoBehaviour
             CornerCorrect(_rb.velocity.y);
         }
 
-        //聲音
-        Sound();
+
         //重生
         Respawn();
 
@@ -763,29 +762,7 @@ public class OldPlayerController : MonoBehaviour
 
     #region 音效
 
-    public void Sound()
-    {
-        if (_horizontalDirection != 0)
-        {
-            isRunning = true;
-        }
-        else
-        {
-            isRunning = false;
-        }
 
-        if (_onGround && isRunning)
-        {
-            if (!Footstep.isPlaying)
-            {
-                Footstep.Play();
-            }
-        }
-        else
-        {
-            Footstep.Stop();
-        }
-    }
 
     #endregion
 
