@@ -53,7 +53,6 @@ public class AudioMgr : MonoBehaviour
 
         Step();
         AudioBigSmall();
-        Debug.Log(BGMCheck);
     }
 
     private void OnGUI()
