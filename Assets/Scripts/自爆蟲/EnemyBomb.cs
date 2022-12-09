@@ -7,7 +7,7 @@ public class EnemyBomb : MonoBehaviour
 {
 
     [Header("Components")]
-    [SerializeField] public OldPlayerController playerController;
+    [SerializeField] public Test playerController;
     [SerializeField] public Rigidbody2D rb;
 
     [Header("Check Points")]
@@ -44,17 +44,31 @@ public class EnemyBomb : MonoBehaviour
     [SerializeField] public float BoomRange;
     [SerializeField] public bool explosion;
     [SerializeField] public bool explosionReady;
+    [SerializeField] public bool explosioned = false;
+    [SerializeField] public float Dietime;
+    [SerializeField] public float Dietimer;
+
+    public LayerMask playerlayer;
+
+    public GameObject[] Particles;
 
     float distance;
     // Start is called before the first frame update
     void Start()
     {
         mustPatrol = true;
-        playerController = FindObjectOfType<OldPlayerController>();
+        playerController = FindObjectOfType<Test>();
         _isFacingRight = true;
 
         _anim = GetComponent<Animator>();
         explosion = false;
+
+        if (Particles[0].GetComponent<ParticleSystem>().isPlaying == true)
+        {
+            Particles[0].GetComponent<ParticleSystem>().Stop();
+            Particles[1].GetComponent<ParticleSystem>().Stop();
+            Particles[2].GetComponent<ParticleSystem>().Stop();
+        }
     }
 
     private void FixedUpdate()
@@ -74,6 +88,18 @@ public class EnemyBomb : MonoBehaviour
             Attack();
         if (explosionReady)
             Explooooootion();
+
+        if (explosioned) //自毀
+        {
+            Dietimer += Time.deltaTime;
+            if (Dietimer >= Dietime)
+            {
+                Destroy(this.gameObject);
+                timer = 0;
+            }
+        }
+
+
     }
 
     // Update is called once per frame
@@ -174,6 +200,10 @@ public class EnemyBomb : MonoBehaviour
     #region 攻擊玩家
     public void Attack()
     {
+        if (explosioned) //以下不動作
+        {
+            return;
+        }
         rb.gravityScale = 4f;
         if (rb.velocity.y != 0f)
             rb.drag = 2.5f;
@@ -181,9 +211,15 @@ public class EnemyBomb : MonoBehaviour
         CanJump = Physics2D.Raycast(transform.position, Vector2.down * Checkwallrange, Checkwallrange, 1 << LayerMask.NameToLayer("Ground"));
         distance = Vector2.Distance(transform.position, playerController.transform.position);
 
-        if (CanJump && distance - UnstoppableRange < 0.6 && distance - UnstoppableRange > 0.4)
+        if (CanJump && distance - UnstoppableRange < 0.6 && distance - UnstoppableRange > 0.4 && (playerController.transform.position.y + 1f) > transform.position.y)
         {
             rb.velocity = new Vector2(rb.velocity.x, Jumpforce);
+            explosionReady = true;
+        }
+
+        if (CanJump && distance - UnstoppableRange < 0.6 && distance - UnstoppableRange > 0.4 && (playerController.transform.position.y + 1f) < transform.position.y)
+        {
+            explosionReady = true;
         }
 
         if (transform.position.x > playerController.transform.position.x)
@@ -215,40 +251,43 @@ public class EnemyBomb : MonoBehaviour
         {
             explosionReady = true;
         }
-
-
-
         mustPatrol = false;
     }
     #endregion
     private void Explooooootion()
     {
-        timer += Time.deltaTime;
-        if (timer >= Boomtime)
+        if (explosionReady) //計時器
         {
-            explosion = true;
-            timer = 0;
-            //explosionReady = false;
-        }
-        if (explosion)
-        {
-            RaycastHit2D hit = Physics2D.CircleCast(transform.position, BoomRange, Vector2.right);
-            if (hit.collider != null)
+            timer += Time.deltaTime;
+            if (timer >= Boomtime)
             {
-                if (hit.collider.gameObject.CompareTag("Player"))
-                {
-                    Debug.Log("你死了");
-                    Destroy(this.gameObject);
-                }
-                else
-                {
-                    Destroy(this.gameObject);
-                }
+                explosion = true;
+                timer = 0;
+                explosionReady = false;
             }
-
-
         }
 
+        if (explosion) //攻擊範圍和攻擊判定
+        {
+            Collider2D[] hit = Physics2D.OverlapCircleAll(transform.position, BoomRange, playerlayer);
+
+            foreach (Collider2D player in hit)
+            {
+                Debug.Log("要'bao'了");
+            }
+            explosion = false;
+            explosioned = true;
+        }
+
+
+        if (explosioned) //發射粒子並讓自爆重停在原地爆炸
+        {
+            rb.gravityScale = 0f;
+            rb.drag = 4 + Time.deltaTime;
+            Particles[0].GetComponent<ParticleSystem>().Play();
+            Particles[1].GetComponent<ParticleSystem>().Play();
+            Particles[2].GetComponent<ParticleSystem>().Play();
+        }
     }
     #region 檢查玩家
     private void CheckPlayerR()
@@ -279,7 +318,7 @@ public class EnemyBomb : MonoBehaviour
 
     public void Animation()
     {
-        if (explosion)
+        if (explosioned)
         {
             _anim.SetBool("explosion", true);
             _anim.SetBool("isAttack", true);
@@ -294,7 +333,10 @@ public class EnemyBomb : MonoBehaviour
             _anim.SetBool("isAttack", true);
         }
 
-
+        if (explosionReady)
+        {
+            _anim.SetBool("explosionReady", true);
+        }
     }
 
     #endregion
