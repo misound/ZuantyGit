@@ -56,7 +56,7 @@ MonoBehaviour:
   - {x: -0.24405098, y: 1.2821746, z: 0}
   m_ShapePathHash: -2037133319
   m_Mesh: {fileID: 0}
-  m_InstanceId: 94938
+  m_InstanceId: 47186
 --- !u!1 &1211360084529869572
 GameObject:
   m_ObjectHideFlags: 0
@@ -267,7 +267,7 @@ BoxCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0, y: 1, z: 0, w: 0}
+    border: {x: 0, y: 1.0055556, z: 0, w: 0.011111111}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 1.05, y: 2.0277777}
     newSize: {x: 1.05, y: 2}
@@ -334,7 +334,7 @@ MonoBehaviour:
   - {x: -0.22530746, y: -0.48908806, z: 0}
   m_ShapePathHash: 1483449317
   m_Mesh: {fileID: 0}
-  m_InstanceId: 94910
+  m_InstanceId: 47156
 --- !u!1 &3541027911459495957
 GameObject:
   m_ObjectHideFlags: 0
@@ -549,7 +549,7 @@ BoxCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0, y: 1, z: 0, w: 0}
+    border: {x: 0, y: 1.0055556, z: 0, w: 0.011111111}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 1.05, y: 2.0277777}
     newSize: {x: 1.05, y: 2}
@@ -616,7 +616,7 @@ MonoBehaviour:
   - {x: -0.24405098, y: 1.2821746, z: 0}
   m_ShapePathHash: -2037133319
   m_Mesh: {fileID: 0}
-  m_InstanceId: 94900
+  m_InstanceId: 47146
 --- !u!1 &6783820220332335350
 GameObject:
   m_ObjectHideFlags: 0
@@ -627,6 +627,7 @@ GameObject:
   m_Component:
   - component: {fileID: 636824257029368828}
   - component: {fileID: 5876923710357888749}
+  - component: {fileID: 6258771134629664109}
   m_Layer: 0
   m_Name: door_2_under
   m_TagString: Untagged
@@ -700,3 +701,29 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &6258771134629664109
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6783820220332335350}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.16}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0.9888889, z: 0, w: 1.0333333}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.7444445, y: 3}
+    newSize: {x: 1.7444445, y: 3.852929}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 2
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.7444445, y: 3}
+  m_EdgeRadius: 0
