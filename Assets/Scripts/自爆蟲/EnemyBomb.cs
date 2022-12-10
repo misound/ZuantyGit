@@ -7,7 +7,7 @@ public class EnemyBomb : MonoBehaviour
 {
 
     [Header("Components")]
-    [SerializeField] public Test playerController;
+    [SerializeField] public SpeedPlayerController playerController;
     [SerializeField] public Rigidbody2D rb;
 
     [Header("Check Points")]
