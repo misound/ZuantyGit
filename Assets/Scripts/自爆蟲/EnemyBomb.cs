@@ -57,7 +57,7 @@ public class EnemyBomb : MonoBehaviour
     void Start()
     {
         mustPatrol = true;
-        playerController = FindObjectOfType<Test>();
+        playerController = FindObjectOfType<SpeedPlayerController>();
         _isFacingRight = true;
 
         _anim = GetComponent<Animator>();
