@@ -26,17 +26,21 @@ public class doorControl : MonoBehaviour
         {
             elevatorIn = true;
         }
+        else
+        {
+            elevatorIn = false;
+        }
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player" && elevatorIn)
+        if (collision.gameObject.tag == "Player" )
         {
             canOpen = true;
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player" && elevatorIn)
+        if (collision.gameObject.tag == "Player" )
         {
             canOpen = false;
         }
@@ -48,7 +52,7 @@ public class doorControl : MonoBehaviour
 
     void Animation()
     {
-        if (canOpen)
+        if (canOpen&& elevatorIn)
         {
             elevatorAnim.SetBool("isOpen", true);
 
