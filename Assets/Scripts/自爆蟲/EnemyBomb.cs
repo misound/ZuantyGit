@@ -7,8 +7,9 @@ public class EnemyBomb : MonoBehaviour
 {
 
     [Header("Components")]
-    [SerializeField] public SpeedPlayerController playerController;
+    [SerializeField] public Test playerController;
     [SerializeField] public Rigidbody2D rb;
+    [SerializeField] public HealthBar HP;
 
     [Header("Check Points")]
     [SerializeField] public GameObject CheckpointR;
@@ -57,7 +58,9 @@ public class EnemyBomb : MonoBehaviour
     void Start()
     {
         mustPatrol = true;
-        playerController = FindObjectOfType<SpeedPlayerController>();
+        playerController = FindObjectOfType<Test>();
+        HP = FindObjectOfType<HealthBar>();
+
         _isFacingRight = true;
 
         _anim = GetComponent<Animator>();
@@ -270,12 +273,14 @@ public class EnemyBomb : MonoBehaviour
         if (explosion) //攻擊範圍和攻擊判定
         {
             Collider2D[] hit = Physics2D.OverlapCircleAll(transform.position, BoomRange, playerlayer);
-
+            explosion = false;
             foreach (Collider2D player in hit)
             {
-                Debug.Log("要'bao'了");
+                GameSetting.PlayerHP -= 30;
+                HP.SetHealth(GameSetting.PlayerHP);
+                break;
             }
-            explosion = false;
+
             explosioned = true;
         }
 

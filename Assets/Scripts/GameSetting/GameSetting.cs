@@ -8,10 +8,13 @@ public static class GameSetting
 
     public static AudioMgr BGMAudio;
     public static AudioMgr SEAudio;
+
+    public static int PlayerHP;
+    public static int BoomHP;
     public static void Save()
     {
         PlayerPrefs.SetString("AudioReady", AudioReady.ToString());
-
+        PlayerPrefs.SetInt("AAA", PlayerHP);
 
         PlayerPrefs.Save();
     }
@@ -19,5 +22,7 @@ public static class GameSetting
     public static void Load()
     {
         AudioReady = bool.Parse(PlayerPrefs.GetString("AudioReady", "false"));
+
+        PlayerHP = PlayerPrefs.GetInt("AAA", PlayerHP);
     }
 }
