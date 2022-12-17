@@ -6,10 +6,13 @@ using UnityEngine;
 public class EnemyBomb : MonoBehaviour
 {
 
+    [Header("Data")]
+    [SerializeField] int HP;
+
     [Header("Components")]
     [SerializeField] public Test playerController;
     [SerializeField] public Rigidbody2D rb;
-    [SerializeField] public HealthBar HP;
+    [SerializeField] public HealthBar PlayerHP;
 
     [Header("Check Points")]
     [SerializeField] public GameObject CheckpointR;
@@ -57,9 +60,11 @@ public class EnemyBomb : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        HP = 1;
+
         mustPatrol = true;
         playerController = FindObjectOfType<Test>();
-        HP = FindObjectOfType<HealthBar>();
+        PlayerHP = FindObjectOfType<HealthBar>();
 
         _isFacingRight = true;
 
@@ -76,6 +81,25 @@ public class EnemyBomb : MonoBehaviour
 
     private void FixedUpdate()
     {
+
+        rb.bodyType = RigidbodyType2D.Dynamic;
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            HP = 100;
+        }
+        if (playerController.transform.position.x < transform.position.x)
+        {
+            if(Input.GetKeyDown(KeyCode.I))
+            {
+                HP -= 50;
+            }
+
+        }
+        if(HP <= 0)
+        {
+            this.gameObject.SetActive(false);
+        }
+        Debug.Log(HP);
         Animation();
         if (mustPatrol)
         {
@@ -257,6 +281,7 @@ public class EnemyBomb : MonoBehaviour
         mustPatrol = false;
     }
     #endregion
+    #region 藝術
     private void Explooooootion()
     {
         if (explosionReady) //計時器
@@ -277,7 +302,7 @@ public class EnemyBomb : MonoBehaviour
             foreach (Collider2D player in hit)
             {
                 GameSetting.PlayerHP -= 30;
-                HP.SetHealth(GameSetting.PlayerHP);
+                PlayerHP.SetHealth(GameSetting.PlayerHP);
                 break;
             }
 
@@ -294,6 +319,7 @@ public class EnemyBomb : MonoBehaviour
             Particles[2].GetComponent<ParticleSystem>().Play();
         }
     }
+    #endregion
     #region 檢查玩家
     private void CheckPlayerR()
     {
@@ -318,7 +344,6 @@ public class EnemyBomb : MonoBehaviour
         }
     }
     #endregion\
-
     #region 動畫
 
     public void Animation()
@@ -345,6 +370,10 @@ public class EnemyBomb : MonoBehaviour
     }
 
     #endregion
+    void SE() //音效
+    {
+        GameSetting.SEAudio.PlayBoom();
+    }
     void CheckGroundR()
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right * Checkwallrange, 5, 1 << LayerMask.NameToLayer("Ground"));

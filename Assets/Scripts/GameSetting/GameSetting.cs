@@ -10,7 +10,6 @@ public static class GameSetting
     public static AudioMgr SEAudio;
 
     public static int PlayerHP;
-    public static int BoomHP;
     public static void Save()
     {
         PlayerPrefs.SetString("AudioReady", AudioReady.ToString());
