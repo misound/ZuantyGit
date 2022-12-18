@@ -12,6 +12,7 @@ public class AudioMgr : MonoBehaviour
     public GameMgr gameMgr;
     public TitleMgr titleMgr;
     public Test Playermoves;
+    public EnemyBomb enemyBomb;
 
     public bool BGMCheck = false;
 
@@ -39,6 +40,7 @@ public class AudioMgr : MonoBehaviour
     private void Start()
     {
         Playermoves = FindObjectOfType<Test>();
+        enemyBomb = FindObjectOfType<EnemyBomb>();
     }
 
     // Update is called once per frame
@@ -52,12 +54,17 @@ public class AudioMgr : MonoBehaviour
 
 
         Step();
+        if (enemyBomb.explosioned)
+        {
+            //PlayBoom();
+        }
+
         AudioBigSmall();
     }
 
     private void OnGUI()
     {
-        if (GUI.Button(new Rect(100, 80, 160, 100), "BGM1"))
+        if (GUI.Button(new Rect(100, 1000, 160, 100), "BGM1"))
         {
             Play(eAudio.BGM1);
         }
@@ -67,6 +74,7 @@ public class AudioMgr : MonoBehaviour
     {
         BGM1,
         BGM2,
+        SE3,
     }
 
     public void Play(eAudio audio)
@@ -74,9 +82,10 @@ public class AudioMgr : MonoBehaviour
         switch (audio)
         {
             case eAudio.BGM1:
-                BGM_audioSource.PlayOneShot(BGM[0]);
+                BGM_audioSource.PlayOneShot(BGM[1]);
                 break;
             case eAudio.BGM2:
+                SE_audioSource.PlayOneShot(SE[1]);
                 break;
             default:
                 Debug.LogError("NONE DEF");
@@ -119,7 +128,7 @@ public class AudioMgr : MonoBehaviour
         {
             return;
         }
-
+        Play(eAudio.BGM2);
         SE_audioSource = GetComponent<AudioSource>();
     }
     #region BGM¤j¤p
