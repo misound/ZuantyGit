@@ -727,14 +727,14 @@ public class SpeedPlayerController : MonoBehaviour
             }
         }
 
-        Debug.Log(attacking);
+        //Debug.Log(attacking);
     }
     #endregion
     private void OnTriggerEnter2D(Collider2D att)
     {
         foreach(Collider2D enemy in ArrayTriger)
         {
-            Debug.Log("attack");
+            //Debug.Log("attack");
         }
     }
 }
