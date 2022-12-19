@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TakeEnemy : MonoBehaviour
-{
+{/*
 
     public List<Enemy> TargetList;
 
@@ -48,12 +48,7 @@ public class TakeEnemy : MonoBehaviour
             SetupTemp();
         }
 
-        if (playerController.KilllingTime)
-        {
-            SelectNextTarget();
-            playerController.KilllingTime = false;
-        }
-
+        
     }
     public void SetupTemp()
     {
@@ -146,7 +141,7 @@ public class TakeEnemy : MonoBehaviour
             EnemyTargets.GetComponent<Renderer>().material.color = Color.white;
         }
 
-    }
+    }*/
 }
 
 

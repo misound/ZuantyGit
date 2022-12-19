@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 
 public class Enemy : MonoBehaviour
-{
+{/*
     [Header("Objects")]
     [SerializeField] public TakeEnemy takeEnemy;
     [SerializeField] public OldPlayerController playerController;
@@ -230,5 +230,5 @@ public class Enemy : MonoBehaviour
             Trigger.SetActive(false);
         }
     }
-    #endregion
+    #endregion*/
 }

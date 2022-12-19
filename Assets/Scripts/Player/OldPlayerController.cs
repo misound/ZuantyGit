@@ -10,11 +10,7 @@ using UnityEngine.Rendering;
 
 public class OldPlayerController : MonoBehaviour
 {
-    [Header("Gun")] 
-    [SerializeField] public GameObject bulet;
-    [SerializeField] public Transform launchSite;
-    
-    
+
     [Header("Components")] public Rigidbody2D _rb;
     public Animator _anim;
     public GameObject Trigger;
@@ -22,14 +18,14 @@ public class OldPlayerController : MonoBehaviour
 
     [Header("Layer Masks")] [SerializeField]
     private LayerMask _groundLayer;
-
     [SerializeField] private LayerMask _wallLayer;
     [SerializeField] private LayerMask _cornerCorrectLayer;
     [SerializeField] public LayerMask _onOneWayPlatformLayerMask;
+    [SerializeField] public LayerMask enemyLayer;
+    [SerializeField] public LayerMask _trapLayer;
 
     [Header("Movement Variables")] [SerializeField]
     private float _movementAcceleration = 70f;
-
     [SerializeField] private float _maxMoveSpeed = 12f;
     [SerializeField] private float _groundLinearDrag = 7f;
     public float _horizontalDirection;
@@ -73,7 +69,8 @@ public class OldPlayerController : MonoBehaviour
     private bool _isDashing;
     private bool _hasDashed;
     private bool _canDash => _dashBufferCounter > 0f && !_hasDashed;
-    public bool _isAttack;
+    
+    
 
     [Header("Ground Collision Variables")] [SerializeField]
     private float _groundRaycastLength;
@@ -101,36 +98,13 @@ public class OldPlayerController : MonoBehaviour
     [SerializeField] public bool _onOneWayPlatform;
     [SerializeField] public float DownwardDistance;
 
-    [Header("SlowMotion")] [SerializeField]
-    public float slowdownFactor = 0.05f;
-
-    [SerializeField] public float slowdownLength = 2f; //子彈時間時長
-    [SerializeField] public float cooldownTime = 1.0f; //子彈時間冷卻時間
-    [SerializeField] private float timer = 0;
-    [SerializeField] private bool isStartTime = false;
-    [SerializeField] private bool skillInvalid = false;
-    [SerializeField] public float scaletime;  //縮放時間，愈趨近0越快
-    [SerializeField] public float roratetime; //調旋轉快慢，1~0.1之間
-    [SerializeField] public float TriggerScale;
-    [SerializeField] public float TriggerRoration;
-
-    [Header("Killing Spree")] [SerializeField]
-    public float MovetoTime;
-
-    [SerializeField] public bool KilllingTime = false;
-    [SerializeField] private float KillDash;
-    [SerializeField] public float SlowDelay;
-    [SerializeField] public bool CanKill = false;
-    private TakeEnemy takeEnemy;
-    private Vector2 direction;
-
+    
     [Header("Audio")] [SerializeField] public AudioSource Footstep;
     [SerializeField] public bool isRunning;
 
     [Header("Respawn")] [SerializeField] public Transform spawnPoint;
     [SerializeField] public bool die;
     [SerializeField] public bool inTrap;
-    [SerializeField] public LayerMask _trapLayer;
 
 
 
@@ -139,11 +113,8 @@ public class OldPlayerController : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
         _anim = GetComponent<Animator>();
-        takeEnemy = FindObjectOfType<TakeEnemy>();
         Footstep = GetComponent<AudioSource>();
         Reborn();
-        TriggerScale = 0f;
-        TriggerRoration = 0f;
         Trigger.SetActive(false);
     }
 
@@ -161,7 +132,7 @@ public class OldPlayerController : MonoBehaviour
         }
         Animation();
 
-        if (Input.GetButtonDown("Dash"))
+        if (Input.GetKey(KeyCode.Mouse1))
         {
             _dashBufferCounter = _dashBufferLength;
         }
@@ -169,25 +140,16 @@ public class OldPlayerController : MonoBehaviour
         {
             _dashBufferCounter -= Time.deltaTime;
         }
-        SlowMotionBtn();
-
+        
     }
 
     private void FixedUpdate()
     {
-        Time.timeScale += (1f / slowdownLength) * Time.unscaledDeltaTime;
+        
         Time.timeScale = Mathf.Clamp(Time.timeScale, 0f, 1f);
-        TriggerActive();
-        if (takeEnemy.slaind == true)
-        {
-            KillingSpree();
-            _anim.SetBool("isAttack", true);
-        }
-
-        CheckTerrain();
         CanBeDropDown();
         CheckCollisions();
-        
+
 
         if (_canDash) StartCoroutine(Dash(_horizontalDirection, _verticalDirection));
 
@@ -413,6 +375,7 @@ public class OldPlayerController : MonoBehaviour
 
     IEnumerator Dash(float x, float y)
     {
+        
         float dashStartTime = Time.time;
         _hasDashed = true;
         _isDashing = true;
@@ -451,19 +414,7 @@ public class OldPlayerController : MonoBehaviour
     {
         if (_isDashing)
         {
-            _anim.SetBool("isAttack", false);
-            _anim.SetBool("isDashing",true);
-            _anim.SetBool("isGrounded", false);
-            _anim.SetBool("isFalling", false);
-            _anim.SetBool("WallGrab", false);
-            _anim.SetBool("isJumping", false);
-            _anim.SetFloat("horizontalDirection", 0f);
-            _anim.SetFloat("verticalDirection", 0f);
-        }
-        else if(_isAttack&&!_isDashing)
-        {
-            _anim.SetBool("isAttack", true);
-            _anim.SetBool("isDashing",false);
+            _anim.SetBool("isDashing", true);
             _anim.SetBool("isGrounded", false);
             _anim.SetBool("isFalling", false);
             _anim.SetBool("WallGrab", false);
@@ -474,27 +425,22 @@ public class OldPlayerController : MonoBehaviour
         else
         {
             _anim.SetBool("isDashing", false);
-            _anim.SetBool("isAttack",false);
 
-            if ((_horizontalDirection < 0f && _facingRight || _horizontalDirection > 0f && !_facingRight) &&
-                !_wallGrab && !_wallSlide)
+            if ((_horizontalDirection < 0f && _facingRight || _horizontalDirection > 0f && !_facingRight) && !_wallGrab && !_wallSlide)
             {
                 Flip();
             }
-
-            if (_onGround || _onOneWayPlatform)
+            if (_onGround)
             {
                 _anim.SetBool("isGrounded", true);
                 _anim.SetBool("isFalling", false);
                 _anim.SetBool("WallGrab", false);
                 _anim.SetFloat("horizontalDirection", Mathf.Abs(_horizontalDirection));
-                _anim.SetBool("isJumping",false);
             }
             else
             {
                 _anim.SetBool("isGrounded", false);
             }
-
             if (_isJumping)
             {
                 _anim.SetBool("isJumping", true);
@@ -518,6 +464,7 @@ public class OldPlayerController : MonoBehaviour
                     _anim.SetBool("WallGrab", false);
                     _anim.SetFloat("verticalDirection", 0f);
                 }
+                
             }
         }
     }
@@ -632,73 +579,6 @@ public class OldPlayerController : MonoBehaviour
 
     #endregion
 
-    #region 時間相關
-
-    void DoSlowMotion()
-    {
-        Time.timeScale = slowdownFactor;
-        Time.fixedDeltaTime = Time.timeScale * 0.02f;
-    }
-
-    void SlowMotionBtn()
-    {
-        if (Input.GetKeyDown(KeyCode.LeftShift) /*|| Input.GetButtonDown("Fire1")*/)
-        {
-            isStartTime = true;
-            skillInvalid = true;
-        }
-
-        if (isStartTime)
-        {
-            if (skillInvalid && timer == 0)
-            {
-                DoSlowMotion();
-            }
-
-            if (timer >= cooldownTime)
-            {
-                timer = 0;
-                isStartTime = false;
-                skillInvalid = false;
-            }
-            else
-            {
-                timer += Time.deltaTime;
-            }
-        }
-    }
-
-    void TriggerActive()
-    {
-
-        if (Time.timeScale > 0.4)
-        {
-            //TriggerRoration = 0f;
-            TriggerScale -= (1f * scaletime*10) * Time.unscaledDeltaTime;
-            TriggerScale = Mathf.Clamp(TriggerScale, 0f, 1f);
-
-            Trigger.transform.localScale = new Vector2(TriggerScale, TriggerScale);
-            if(TriggerScale <= 0.01)
-            Trigger.SetActive(false);
-        }
-
-        if (Time.timeScale < 0.4)
-        {
-            Trigger.SetActive(true);
-
-            TriggerScale += (1f / scaletime) * Time.unscaledDeltaTime;
-            TriggerScale = Mathf.Clamp(TriggerScale, 0f, 1f);
-
-            TriggerRoration += (1f / roratetime) * Time.unscaledDeltaTime;
-            TriggerRoration = Mathf.Lerp(TriggerRoration, 0f, 0.1f);
-
-            Trigger.transform.Rotate(0, 0, TriggerRoration);
-            Trigger.transform.localScale = new Vector2(TriggerScale, TriggerScale);
-        }
-    }
-
-    #endregion
-
     #region 單向平台下向
 
     public void CanBeDropDown()
@@ -707,54 +587,6 @@ public class OldPlayerController : MonoBehaviour
         {
             transform.Translate(0, DownwardDistance, 0);
 
-        }
-    }
-
-    #endregion
-
-    #region 擊殺衝刺
-
-    public void KillingSpree()
-    {
-        float distoEnemy = Vector3.Distance(transform.position, takeEnemy.EnemyTargets.transform.position);
-        Vector2 direction = takeEnemy.EnemyTargets.transform.position - transform.position;
-        if (takeEnemy.slaind && distoEnemy > 0.2f)
-        {
-            _rb.velocity = Vector2.zero;
-            _rb.gravityScale = 0f;
-            _rb.drag = 0f;
-            _rb.AddForceAtPosition(direction * MovetoTime, takeEnemy.EnemyTargets.transform.position);
-        }
-
-        if (takeEnemy.slaind && distoEnemy <= 0.2f)
-        {
-            KilllingTime = true;
-            Invoke("DoSlowMotion", SlowDelay);
-            _rb.AddForceAtPosition(direction * KillDash, takeEnemy.EnemyTargets.transform.position);
-            takeEnemy.slaind = false;
-            _isAttack = false;
-            Destroy(takeEnemy.EnemyTargets.gameObject);
-        }
-    }
-
-    void CheckTerrain()
-    {
-        if (takeEnemy.EnemyTargets)
-        {
-            Vector2 direction = takeEnemy.EnemyTargets.transform.position - transform.position;
-            Ray2D MyRay = new Ray2D(transform.position, direction);
-            RaycastHit2D info = Physics2D.Raycast(transform.position, direction, takeEnemy.range,
-                1 << LayerMask.NameToLayer("Ground") | 1 << LayerMask.NameToLayer("Wall"));
-            Debug.DrawRay(transform.position, direction, color: Color.cyan);
-            if (info.collider != null)
-            {
-                if (info.collider.gameObject.CompareTag("Untagged"))
-                {
-                    CanKill = false;
-                }
-            }
-            else
-                CanKill = true;
         }
     }
 
@@ -794,6 +626,7 @@ public class OldPlayerController : MonoBehaviour
     }
     
     #endregion
+
 
    
 }
