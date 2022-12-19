@@ -11,17 +11,15 @@ using UnityEngine.Rendering;
 public class OldPlayerController : MonoBehaviour
 {
 
-    [Header("Components")] public Rigidbody2D _rb;
+    [Header("Components")] 
+    public Rigidbody2D _rb;
     public Animator _anim;
-    public GameObject Trigger;
-    public GameObject Player;
 
     [Header("Layer Masks")] [SerializeField]
     private LayerMask _groundLayer;
     [SerializeField] private LayerMask _wallLayer;
     [SerializeField] private LayerMask _cornerCorrectLayer;
     [SerializeField] public LayerMask _onOneWayPlatformLayerMask;
-    [SerializeField] public LayerMask enemyLayer;
     [SerializeField] public LayerMask _trapLayer;
 
     [Header("Movement Variables")] [SerializeField]
@@ -80,7 +78,6 @@ public class OldPlayerController : MonoBehaviour
 
     [Header("Wall Collision Variables")] [SerializeField]
     private float _wallRaycastLength;
-
     private bool _onWall;
     private bool _onRightWall;
 
@@ -115,11 +112,11 @@ public class OldPlayerController : MonoBehaviour
         _anim = GetComponent<Animator>();
         Footstep = GetComponent<AudioSource>();
         Reborn();
-        Trigger.SetActive(false);
     }
 
     private void Update()
     {
+        
         _horizontalDirection = GetInput().x;
         _verticalDirection = GetInput().y;
         if (Input.GetButtonDown("Jump"))

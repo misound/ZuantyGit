@@ -11,7 +11,7 @@ public class AudioMgr : MonoBehaviour
 
     public GameMgr gameMgr;
     public TitleMgr titleMgr;
-    public Test Playermoves;
+    public OldPlayerController Playermoves;
     public EnemyBomb enemyBomb;
 
     public bool BGMCheck = false;
@@ -39,7 +39,7 @@ public class AudioMgr : MonoBehaviour
     }
     private void Start()
     {
-        Playermoves = FindObjectOfType<Test>();
+        Playermoves = FindObjectOfType<OldPlayerController>();
         enemyBomb = FindObjectOfType<EnemyBomb>();
     }
 
@@ -69,7 +69,7 @@ public class AudioMgr : MonoBehaviour
             Play(eAudio.BGM1);
         }
     }
-    #region ­µ¼ÖºÞ²z
+    #region ï¿½ï¿½ï¿½ÖºÞ²z
     public enum eAudio
     {
         BGM1,
@@ -93,7 +93,7 @@ public class AudioMgr : MonoBehaviour
         }
     }
     #endregion
-    #region ¸}¨BÁn
+    #region ï¿½}ï¿½Bï¿½n
     public void Step()
     {
         if(Playermoves == null)
@@ -131,7 +131,7 @@ public class AudioMgr : MonoBehaviour
         Play(eAudio.BGM2);
         SE_audioSource = GetComponent<AudioSource>();
     }
-    #region BGM¤j¤p
+    #region BGMï¿½jï¿½p
     public void AudioBigSmall()
     {
         if (titleMgr != null && !BGMCheck)
@@ -147,13 +147,13 @@ public class AudioMgr : MonoBehaviour
         }
 
 
-        if (gameMgr != null && BGMCheck) //¶Ç»¼ÅÜ¼Æ
+        if (gameMgr != null && BGMCheck) //ï¿½Ç»ï¿½ï¿½Ü¼ï¿½
         {
             gameMgr.mainBGM.value = GameSetting.BGMAudio.BGM_audioSource.volume;
             
             BGMCheck = false;
         }
-        if (gameMgr != null && !BGMCheck) //¿é¥X¦Ü¥i±±·Æ±ì
+        if (gameMgr != null && !BGMCheck) //ï¿½ï¿½Xï¿½Ü¥iï¿½ï¿½ï¿½Æ±ï¿½
         {
             GameSetting.BGMAudio.BGM_audioSource.volume = gameMgr.mainBGM.value;
         }

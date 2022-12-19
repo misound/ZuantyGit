@@ -6,7 +6,7 @@ public class CanAtkDoor : MonoBehaviour
 {
     public GameObject[] DoorBody;
     public int DoorHP;
-    public Test playerController;
+    public OldPlayerController playerController;
     float timer = 0f;
     float distimer = 3f;
     bool DisOn = false;
@@ -14,7 +14,7 @@ public class CanAtkDoor : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        playerController = FindObjectOfType<Test>();
+        playerController = FindObjectOfType<OldPlayerController>();
 
         DoorBody[0].GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
         DoorBody[1].GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
@@ -24,7 +24,7 @@ public class CanAtkDoor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Y)) //to do:¦³§ğÀ»¼Æ­È­pºâ¤§«á­n§ï¦å¶q
+        if (Input.GetKeyDown(KeyCode.Y)) //to do:æœ‰æ”»æ“Šæ•¸å€¼è¨ˆç®—ä¹‹å¾Œè¦æ”¹è¡€é‡
         {
             DoorBody[0].GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
             DoorBody[1].GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
@@ -46,6 +46,6 @@ public class CanAtkDoor : MonoBehaviour
     {
         GUIStyle GUIstyle = new GUIStyle();
         GUIstyle.fontSize = 16;
-        GUI.Box(new Rect(1820, 80, 80, 50), "«öY¯}ªù");
+        GUI.Box(new Rect(1820, 80, 80, 50), "æŒ‰Yç ´é–€");
     }
 }

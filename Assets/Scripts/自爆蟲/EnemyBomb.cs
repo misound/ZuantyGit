@@ -10,7 +10,7 @@ public class EnemyBomb : MonoBehaviour
     [SerializeField] int HP;
 
     [Header("Components")]
-    [SerializeField] public Test playerController;
+    [SerializeField] public OldPlayerController playerController;
     [SerializeField] public Rigidbody2D rb;
     [SerializeField] public HealthBar PlayerHP;
 
@@ -63,7 +63,7 @@ public class EnemyBomb : MonoBehaviour
         HP = 1;
 
         mustPatrol = true;
-        playerController = FindObjectOfType<Test>();
+        playerController = FindObjectOfType<OldPlayerController>();
         PlayerHP = FindObjectOfType<HealthBar>();
 
         _isFacingRight = true;
