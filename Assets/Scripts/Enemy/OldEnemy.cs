@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 
-public class Enemy : MonoBehaviour
+public class OldEnemy : MonoBehaviour
 {/*
     [Header("Objects")]
     [SerializeField] public TakeEnemy takeEnemy;

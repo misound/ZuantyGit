@@ -9,6 +9,10 @@ public class PlayerCombat : MonoBehaviour
     public Transform attackPoint;
     public float attackRange =0.5f;
     public LayerMask enemyLayers;
+    public bool hurtEnemy;
+    public Collider2D attackbox;
+
+    public int attackDamage = 40; 
 
     // Update is called once per frame
     void Update()
@@ -26,7 +30,7 @@ public class PlayerCombat : MonoBehaviour
 
         foreach (Collider2D enemy in hitEnemy)
         {
-            Debug.Log("HIT");
+            enemy.GetComponent<Enemy>().TakeDamage(attackDamage);
         }
         
     }
@@ -39,4 +43,6 @@ public class PlayerCombat : MonoBehaviour
         }
         Gizmos.DrawWireSphere(attackPoint.position,attackRange);
     }
+
+    
 }
