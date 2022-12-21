@@ -15,11 +15,11 @@ public class GunRotate : MonoBehaviour
         float gunangle = Mathf.Atan2(mousepos.y, mousepos.x) * Mathf.Rad2Deg;
         if (Camera.main.ScreenToWorldPoint(Input.mousePosition).x < transform.position.x)
         {
-            transform.rotation=Quaternion.Euler(new Vector3(180f,0f,-gunangle));
+            transform.rotation=Quaternion.Euler(new Vector3(0,180f,0));
         }
         else
         {
-            transform.rotation=Quaternion.Euler(new Vector3(0f,0f,gunangle));
+            transform.rotation=Quaternion.Euler(new Vector3(0f,0f,0));
         }
     }
 }

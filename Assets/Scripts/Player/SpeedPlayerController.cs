@@ -10,15 +10,9 @@ using UnityEngine.Rendering;
 
 public class SpeedPlayerController : MonoBehaviour
 {
-    [Header("Gun")] 
-    [SerializeField] public GameObject bulet;
-    [SerializeField] public Transform launchSite;
-    
     
     [Header("Components")] public Rigidbody2D _rb;
     public Animator _anim;
-    public GameObject Trigger;
-    public GameObject Player;
 
     [Header("Layer Masks")] [SerializeField]
     private LayerMask _groundLayer;
@@ -58,9 +52,10 @@ public class SpeedPlayerController : MonoBehaviour
     private bool _canJump => _jumpBufferCounter > 0f && (_hangTimeCounter > 0f || _extraJumpsValue > 0 || _onWall);
     public bool _isJumping = false;
 
-    [Header("Wall Movement Variables")] [SerializeField]
-    private float _wallSlideModifier = 0.5f;
+    [Header("Wall Movement Variables")] 
+    [SerializeField] private float _wallSlideModifier = 0.5f;
     [SerializeField] private float _wallJumpXVelocityHaltDelay = 0.2f;
+    
     private bool _wallGrab => _onWall && !_onGround && Input.GetButton("WallGrab") ;
 
     private bool _wallSlide => _onWall && !_onGround && !Input.GetButton("WallGrab") && _rb.velocity.y < 0f ;
@@ -70,7 +65,7 @@ public class SpeedPlayerController : MonoBehaviour
     [SerializeField] private float _dashLength = .3f;
     [SerializeField] private float _dashBufferLength = .1f;
     private float _dashBufferCounter;
-    private bool _isDashing;
+    public bool _isDashing;
     private bool _hasDashed;
     private bool _canDash => _dashBufferCounter > 0f && !_hasDashed;
     public bool _isAttack;
@@ -84,7 +79,7 @@ public class SpeedPlayerController : MonoBehaviour
     [Header("Wall Collision Variables")] [SerializeField]
     private float _wallRaycastLength;
 
-    private bool _onWall;
+    public bool _onWall;
     private bool _onRightWall;
 
     [Header("Corner Correction Variables")] [SerializeField]
@@ -126,9 +121,9 @@ public class SpeedPlayerController : MonoBehaviour
         _anim = GetComponent<Animator>();
         Reborn();
 
-        ArrayTriger = atteck.GetComponents<Collider2D>();
+        /*ArrayTriger = atteck.GetComponents<Collider2D>();
         LAttack = ArrayTriger[0];
-        RAttack = ArrayTriger[1];
+        RAttack = ArrayTriger[1];*/
     }
 
     private void Update()
@@ -143,7 +138,7 @@ public class SpeedPlayerController : MonoBehaviour
         {
             _jumpBufferCounter -= Time.deltaTime;
         }
-        //Animation();
+        Animation();
 
         if (Input.GetButtonDown("Dash"))
         {
@@ -157,19 +152,28 @@ public class SpeedPlayerController : MonoBehaviour
         M_Center = Camera.main.WorldToScreenPoint(transform.position);
         M_pos.x = M_pos.x - M_Center.x;
         M_pos.y = M_pos.y - M_Center.y;
-        //Debug.Log(M_Center);
+        
     }
 
     private void FixedUpdate()
     {
+        
 
-        Attack();
+        //Attack();
         StartCoroutine(MouseDown(_horizontalDirection, _verticalDirection));
 
         CanBeDropDown();
         CheckCollisions();
-        
 
+        if (M_pos.x<=M_Center.x&&_facingRight&&_isDashing)
+        {
+            Flip();
+        }
+        if (M_Center.x<=M_pos.x&& !_facingRight&&_isDashing)
+        {
+            Flip();
+        }
+       
         if (_canDash) StartCoroutine(Dash(_horizontalDirection, _verticalDirection));
 
         if (_isDashing)
@@ -394,9 +398,9 @@ public class SpeedPlayerController : MonoBehaviour
 
     IEnumerator Dash(float x, float y)
     {
+        _isDashing = true;
         float dashStartTime = Time.time;
         _hasDashed = true;
-        _isDashing = true;
         _isJumping = false;
 
         _rb.velocity = Vector2.zero;
@@ -427,24 +431,12 @@ public class SpeedPlayerController : MonoBehaviour
     #endregion
 
     #region 動畫相關
-    /*
+    
     void Animation()
     {
         if (_isDashing)
         {
-            _anim.SetBool("isAttack", false);
-            _anim.SetBool("isDashing",true);
-            _anim.SetBool("isGrounded", false);
-            _anim.SetBool("isFalling", false);
-            _anim.SetBool("WallGrab", false);
-            _anim.SetBool("isJumping", false);
-            _anim.SetFloat("horizontalDirection", 0f);
-            _anim.SetFloat("verticalDirection", 0f);
-        }
-        else if(_isAttack&&!_isDashing)
-        {
-            _anim.SetBool("isAttack", true);
-            _anim.SetBool("isDashing",false);
+            _anim.SetBool("isDashing", true);
             _anim.SetBool("isGrounded", false);
             _anim.SetBool("isFalling", false);
             _anim.SetBool("WallGrab", false);
@@ -455,27 +447,22 @@ public class SpeedPlayerController : MonoBehaviour
         else
         {
             _anim.SetBool("isDashing", false);
-            _anim.SetBool("isAttack",false);
 
-            if ((_horizontalDirection < 0f && _facingRight || _horizontalDirection > 0f && !_facingRight) &&
-                !_wallGrab && !_wallSlide)
+            if ((_horizontalDirection < 0f && _facingRight || _horizontalDirection > 0f && !_facingRight) && !_wallGrab && !_wallSlide)
             {
                 Flip();
             }
-
-            if (_onGround || _onOneWayPlatform)
+            if (_onGround)
             {
                 _anim.SetBool("isGrounded", true);
                 _anim.SetBool("isFalling", false);
                 _anim.SetBool("WallGrab", false);
                 _anim.SetFloat("horizontalDirection", Mathf.Abs(_horizontalDirection));
-                _anim.SetBool("isJumping",false);
             }
             else
             {
                 _anim.SetBool("isGrounded", false);
             }
-
             if (_isJumping)
             {
                 _anim.SetBool("isJumping", true);
@@ -499,11 +486,11 @@ public class SpeedPlayerController : MonoBehaviour
                     _anim.SetBool("WallGrab", false);
                     _anim.SetFloat("verticalDirection", 0f);
                 }
+                
             }
         }
     }
-    */
-    #endregion
+#endregion
 
     #region 防撞角
 
@@ -659,6 +646,7 @@ public class SpeedPlayerController : MonoBehaviour
     IEnumerator MouseDown(float x,float y)
     {
         float dashStartTime = Time.time;
+        _isDashing = true;
 
         if (Input.GetMouseButtonDown(1))
         {
@@ -672,8 +660,8 @@ public class SpeedPlayerController : MonoBehaviour
             }
             else
             {
-                if (_facingRight) dir = new Vector2(M_pos.x, M_pos.y);
-                else dir = new Vector2(-M_pos.x, M_pos.y);
+                if (!_facingRight) dir = new Vector2(M_pos.x, M_pos.y);
+                else dir = new Vector2(M_pos.x, M_pos.y);
             }
 
             while (Time.time < dashStartTime + _dashLength)
@@ -683,9 +671,11 @@ public class SpeedPlayerController : MonoBehaviour
             }
         }
 
+        _isDashing = false;
+
     }
     #endregion
-    #region 打架
+    /*#region 打架
     void Attack()
     {
         if (Input.GetMouseButtonDown(0))
@@ -729,7 +719,7 @@ public class SpeedPlayerController : MonoBehaviour
 
         //Debug.Log(attacking);
     }
-    #endregion
+    #endregion*/
     private void OnTriggerEnter2D(Collider2D att)
     {
         foreach(Collider2D enemy in ArrayTriger)

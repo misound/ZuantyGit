@@ -67,7 +67,7 @@ public class OldPlayerController : MonoBehaviour
     private bool _isDashing;
     private bool _hasDashed;
     private bool _canDash => _dashBufferCounter > 0f && !_hasDashed;
-    
+
     
 
     [Header("Ground Collision Variables")] [SerializeField]
@@ -364,12 +364,14 @@ public class OldPlayerController : MonoBehaviour
 
     #region 腳色翻轉
 
-    void Flip()
+    public void Flip()
     {
         _facingRight = !_facingRight;
         transform.Rotate(0f, 180f, 0f);
     }
+    #endregion
 
+    #region Dash
     IEnumerator Dash(float x, float y)
     {
         
@@ -401,7 +403,7 @@ public class OldPlayerController : MonoBehaviour
 
         _isDashing = false;
     }
-
+    
 
     #endregion
 
