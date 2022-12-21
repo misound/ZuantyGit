@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 
 public class SpeedPlayerController : MonoBehaviour
@@ -107,8 +108,9 @@ public class SpeedPlayerController : MonoBehaviour
     public Collider2D LAttack;
     public Collider2D RAttack;
 
-    private Vector2 M_pos;
-    private Vector2 M_Center;
+    private Vector3 M_pos;
+    private Vector3 M_Center;
+    private Vector3 M_dir;
 
 
     float timer = 0; //計時器
@@ -148,11 +150,14 @@ public class SpeedPlayerController : MonoBehaviour
         {
             _dashBufferCounter -= Time.deltaTime;
         }
-        M_pos = Input.mousePosition;
-        M_Center = Camera.main.WorldToScreenPoint(transform.position);
-        M_pos.x = M_pos.x - M_Center.x;
-        M_pos.y = M_pos.y - M_Center.y;
-        
+        M_pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        M_Center = transform.position;
+        M_dir = M_pos - M_Center;
+         
+        //可以改用上面那個 Ex: M_pos.x可變成M_dir.x
+        M_pos.x -=  M_Center.x;
+        M_pos.y -=  M_Center.y;
+ 
     }
 
     private void FixedUpdate()
@@ -165,14 +170,17 @@ public class SpeedPlayerController : MonoBehaviour
         CanBeDropDown();
         CheckCollisions();
 
-        if (M_pos.x<=M_Center.x&&_facingRight&&_isDashing)
+        if (M_dir.x<0 &&_facingRight&&_isDashing)
         {
             Flip();
         }
-        if (M_Center.x<=M_pos.x&& !_facingRight&&_isDashing)
+        else if (M_dir.x>0&& !_facingRight&&_isDashing)
         {
             Flip();
         }
+
+       
+        
        
         if (_canDash) StartCoroutine(Dash(_horizontalDirection, _verticalDirection));
 
@@ -636,9 +644,6 @@ public class SpeedPlayerController : MonoBehaviour
         die = false;
         yield return new WaitForSecondsRealtime(0.5f);
         transform.position = spawnPoint.position;
-        
-
-
     }
 
     #endregion
