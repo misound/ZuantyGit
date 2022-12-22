@@ -109,6 +109,9 @@ public class SpeedPlayerController : MonoBehaviour
     [SerializeField]public LayerMask enemyLayers;
     [SerializeField]public int attackDamage = 40;
 
+    [Header("Attack")]
+    [SerializeField] public AudioSource Footstep;
+    [SerializeField] public bool isRunning;
     private Vector3 M_pos;
     private Vector3 M_Center;
     private Vector3 M_dir;
@@ -117,6 +120,7 @@ public class SpeedPlayerController : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
         _anim = GetComponent<Animator>();
+        Footstep = GetComponent<AudioSource>();
         Reborn();
 
     }
@@ -156,9 +160,9 @@ public class SpeedPlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        
 
-        //Attack();
+
+        Step();
         if (Input.GetMouseButtonDown(1))
         {
             StartCoroutine(MouseDown(_horizontalDirection, _verticalDirection));
@@ -643,7 +647,34 @@ public class SpeedPlayerController : MonoBehaviour
 
     #endregion
 
+    #region 音效
 
+    public void Step()
+    {
+        Footstep.volume = GameSetting.BGMAudio.BGM_audioSource.volume;
+        if (_horizontalDirection != 0)
+        {
+            isRunning = true;
+        }
+        else
+        {
+            isRunning = false;
+        }
+
+        if (isRunning)
+        {
+            if (!Footstep.isPlaying)
+            {
+                Footstep.Play();
+            }
+        }
+        else
+        {
+            Footstep.Stop();
+        }
+    }
+
+    #endregion
     #region 重生機制
 
     void Respawn()
@@ -710,7 +741,8 @@ public class SpeedPlayerController : MonoBehaviour
 
         foreach (Collider2D enemy in hitEnemy)
         {
-            enemy.GetComponent<Enemy>().TakeDamage(attackDamage);
+            //enemy.GetComponent<Enemy>().TakeDamage(attackDamage);
+            enemy.GetComponent<EnemyBomb>().TakeBombHealth(attackDamage);
         }
     }
 
@@ -722,6 +754,20 @@ public class SpeedPlayerController : MonoBehaviour
         }
         Gizmos.DrawWireSphere(attackPoint.position,attackRange);
     }
-    
+    public void save()
+    {
+        PlayerPrefs.SetFloat("x", transform.position.x);
+        PlayerPrefs.SetFloat("y", transform.position.y);
+        GameSetting.Save();
+
+    }
+
+    public void load()
+    {
+        Vector2 pos;
+        pos.x = PlayerPrefs.GetFloat("x");
+        pos.y = PlayerPrefs.GetFloat("y");
+        transform.position = pos;
+    }
     #endregion
 }

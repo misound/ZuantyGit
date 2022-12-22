@@ -8,9 +8,11 @@ public class EnemyBomb : MonoBehaviour
 
     [Header("Data")]
     [SerializeField] int HP;
+    [SerializeField] bool Die;
 
     [Header("Components")]
-    [SerializeField] public OldPlayerController playerController;
+    [SerializeField] public SpeedPlayerController playerController;
+    [SerializeField] public PlayerCombat PlayerAtks;
     [SerializeField] public Rigidbody2D rb;
     [SerializeField] public HealthBar PlayerHP;
 
@@ -60,11 +62,12 @@ public class EnemyBomb : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        HP = 1;
+        SetBombMaxHealth(HP = 100);
 
         mustPatrol = true;
-        playerController = FindObjectOfType<OldPlayerController>();
+        playerController = FindObjectOfType<SpeedPlayerController>();
         PlayerHP = FindObjectOfType<HealthBar>();
+        PlayerAtks = FindObjectOfType<PlayerCombat>();
 
         _isFacingRight = true;
 
@@ -81,21 +84,10 @@ public class EnemyBomb : MonoBehaviour
 
     private void FixedUpdate()
     {
-
+        
         rb.bodyType = RigidbodyType2D.Dynamic;
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            HP = 100;
-        }
-        if (playerController.transform.position.x < transform.position.x)
-        {
-            if(Input.GetKeyDown(KeyCode.I))
-            {
-                HP -= 50;
-            }
 
-        }
-        if(HP <= 0)
+        if (Die)
         {
             this.gameObject.SetActive(false);
         }
@@ -370,7 +362,21 @@ public class EnemyBomb : MonoBehaviour
     }
 
     #endregion
-    void SE() //音效
+    public void TakeBombHealth(int Damage)
+    {
+        HP -= Damage;
+        if (HP <= 0)
+        {
+            HP = 0;
+            Die = true;
+        }
+    }
+    public void SetBombMaxHealth(int MaxHeath)
+    {
+        MaxHeath = 100;
+        HP = MaxHeath;
+    }
+    public void SE() //音效
     {
         GameSetting.SEAudio.PlayBoom();
     }

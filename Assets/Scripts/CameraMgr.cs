@@ -12,7 +12,7 @@ public class CameraMgr : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        takeEnemy = FindObjectOfType<TakeEnemy>();
+        //takeEnemy = FindObjectOfType<TakeEnemy>();
         gameMgr = FindObjectOfType<GameMgr>();
 
     }
@@ -20,11 +20,11 @@ public class CameraMgr : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        VisualEffect();
+        //VisualEffect();
     }
     private void Update()
     {
-        VisualEffectPause();
+        //VisualEffectPause();
         if (gameMgr.pausestates > 0)
         {
             pauseblur += (1f / pastetime) * Time.unscaledDeltaTime;

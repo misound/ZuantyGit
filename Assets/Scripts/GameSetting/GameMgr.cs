@@ -8,8 +8,6 @@ using UnityEngine.EventSystems;
 
 public class GameMgr : MonoBehaviour
 {
-    int maxPlatform = 0;
-
     public OldPlayerController playerController;
     public TakeEnemy takeEnemy;
     public TitleMgr titleMgr;
@@ -37,8 +35,8 @@ public class GameMgr : MonoBehaviour
     [SerializeField] public Button VBack;
     [SerializeField] public Slider mainBGM;
     [SerializeField] public GameObject mainBGMSli;
-    //[SerializeField] public Slider mainSE;
-    //[SerializeField] public GameObject mainSESli;
+    [SerializeField] public Slider mainSE;
+    [SerializeField] public GameObject mainSESli;
     UnityEvent PauseEvent = new UnityEvent();
 
     public int pausestates;

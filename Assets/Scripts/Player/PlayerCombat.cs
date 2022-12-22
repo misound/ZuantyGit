@@ -38,6 +38,7 @@ public class PlayerCombat : MonoBehaviour
         foreach (Collider2D enemy in hitEnemy)
         {
             enemy.GetComponent<Enemy>().TakeDamage(attackDamage);
+            enemy.GetComponent<EnemyBomb>().TakeBombHealth(attackDamage);
         }
         TrangeRotate();
         

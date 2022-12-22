@@ -53,7 +53,7 @@ public class AudioMgr : MonoBehaviour
         }
 
 
-        Step();
+        //Step();
         if (enemyBomb.explosioned)
         {
             //PlayBoom();
@@ -68,8 +68,13 @@ public class AudioMgr : MonoBehaviour
         {
             Play(eAudio.BGM1);
         }
+        if (GUI.Button(new Rect(1860, 1000, 160, 100), "SE"))
+        {
+            //Play(eAudio.BGM2);
+            Debug.Log(GameSetting.BGMAudio.BGM_audioSource.volume);
+        }
     }
-    #region ���ֺ޲z
+    #region BGM管理
     public enum eAudio
     {
         BGM1,
@@ -93,8 +98,8 @@ public class AudioMgr : MonoBehaviour
         }
     }
     #endregion
-    #region �}�B�n
-    public void Step()
+    #region 玩家腳步聲
+    /*public void Step()
     {
         if(Playermoves == null)
         {
@@ -120,7 +125,7 @@ public class AudioMgr : MonoBehaviour
         {
             SE_audioSource.Stop();
         }
-    }
+    }*/
     #endregion
     public void PlayBoom()
     {
@@ -128,10 +133,10 @@ public class AudioMgr : MonoBehaviour
         {
             return;
         }
-        Play(eAudio.BGM2);
-        SE_audioSource = GetComponent<AudioSource>();
+        SE_audioSource.PlayOneShot(SE[1]);
+        //SE_audioSource = GetComponent<AudioSource>();
     }
-    #region BGM�j�p
+    #region BGM大小
     public void AudioBigSmall()
     {
         if (titleMgr != null && !BGMCheck)
@@ -147,15 +152,18 @@ public class AudioMgr : MonoBehaviour
         }
 
 
-        if (gameMgr != null && BGMCheck) //�ǻ��ܼ�
+        if (gameMgr != null && BGMCheck) //傳遞
         {
+            //gameMgr.mainBGM.value = GameSetting.AudioVolume;
             gameMgr.mainBGM.value = GameSetting.BGMAudio.BGM_audioSource.volume;
-            
+
+
             BGMCheck = false;
         }
-        if (gameMgr != null && !BGMCheck) //��X�ܥi���Ʊ�
+        if (gameMgr != null && !BGMCheck) //接收
         {
-            GameSetting.BGMAudio.BGM_audioSource.volume = gameMgr.mainBGM.value;
+            //GameSetting.AudioVolume = gameMgr.mainBGM.value;
+            GameSetting.BGMAudio.BGM_audioSource.volume  = gameMgr.mainBGM.value;
         }
 
     }
