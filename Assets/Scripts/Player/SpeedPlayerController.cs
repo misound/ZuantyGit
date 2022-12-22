@@ -65,11 +65,11 @@ public class SpeedPlayerController : MonoBehaviour
     [SerializeField] private float _dashSpeed = 15f;
     [SerializeField] private float _dashLength = .3f;
     [SerializeField] private float _dashBufferLength = .1f;
+    [SerializeField] private float dashCD=5f;
     private float _dashBufferCounter;
     public bool _isDashing;
     private bool _hasDashed;
-    private bool _canDash => _dashBufferCounter > 0f && !_hasDashed;
-    public bool _isAttack;
+    private bool _canDash => _dashBufferCounter > 0f && !_hasDashed&& dashCD==5;
 
     [Header("Ground Collision Variables")] [SerializeField]
     private float _groundRaycastLength;
@@ -103,19 +103,15 @@ public class SpeedPlayerController : MonoBehaviour
     [SerializeField] public LayerMask _trapLayer;
 
 
-    public GameObject atteck;
-    public Collider2D[] ArrayTriger;
-    public Collider2D LAttack;
-    public Collider2D RAttack;
+    [Header("Attack")]
+    [SerializeField]public Transform attackPoint;
+    [SerializeField]public float attackRange =0.5f;
+    [SerializeField]public LayerMask enemyLayers;
+    [SerializeField]public int attackDamage = 40;
 
     private Vector3 M_pos;
     private Vector3 M_Center;
     private Vector3 M_dir;
-
-
-    float timer = 0; //計時器
-    float Atime = 1.0f;  //攻擊中
-    bool attacking = false; //判斷是否攻擊中
 
     private void Start()
     {
@@ -123,9 +119,6 @@ public class SpeedPlayerController : MonoBehaviour
         _anim = GetComponent<Animator>();
         Reborn();
 
-        /*ArrayTriger = atteck.GetComponents<Collider2D>();
-        LAttack = ArrayTriger[0];
-        RAttack = ArrayTriger[1];*/
     }
 
     private void Update()
@@ -150,6 +143,7 @@ public class SpeedPlayerController : MonoBehaviour
         {
             _dashBufferCounter -= Time.deltaTime;
         }
+        
         M_pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         M_Center = transform.position;
         M_dir = M_pos - M_Center;
@@ -165,11 +159,39 @@ public class SpeedPlayerController : MonoBehaviour
         
 
         //Attack();
-        StartCoroutine(MouseDown(_horizontalDirection, _verticalDirection));
+        if (Input.GetMouseButtonDown(1))
+        {
+            StartCoroutine(MouseDown(_horizontalDirection, _verticalDirection));
+        }
+
+
+
+        Debug.Log(dashCD);
 
         CanBeDropDown();
         CheckCollisions();
+       
+        //攻擊
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            if (M_dir.x<0 &&_facingRight)
+            {
+                Attack();
+                Flip();
+            }
+            else if (M_dir.x>0&& !_facingRight)
+            {
+                Attack();
+                Flip();
+            }
+            else
+            {
+                Attack();
+            }
+            
+        }
 
+        //Dash翻轉
         if (M_dir.x<0 &&_facingRight&&_isDashing)
         {
             Flip();
@@ -182,7 +204,7 @@ public class SpeedPlayerController : MonoBehaviour
        
         
        
-        if (_canDash) StartCoroutine(Dash(_horizontalDirection, _verticalDirection));
+        //if (_canDash) StartCoroutine(Dash(_horizontalDirection, _verticalDirection));
 
         if (_isDashing)
         {
@@ -651,10 +673,10 @@ public class SpeedPlayerController : MonoBehaviour
     IEnumerator MouseDown(float x,float y)
     {
         float dashStartTime = Time.time;
+        
         _isDashing = true;
-
-        if (Input.GetMouseButtonDown(1))
-        {
+        
+            dashCD -= Time.deltaTime;
             _rb.velocity = Vector2.zero;
             _rb.gravityScale = 0f;
             _rb.drag = 0f;
@@ -674,62 +696,32 @@ public class SpeedPlayerController : MonoBehaviour
                 _rb.velocity = dir.normalized * _dashSpeed;
                 yield return null;
             }
-        }
 
-        _isDashing = false;
+            _isDashing = false;
 
     }
     #endregion
-    /*#region 打架
-    void Attack()
+    #region 打架
+    public void Attack()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (!attacking)
-            {
-                if(M_pos.x >= M_Center.x)
-                {
-                    RAttack.enabled = true;
-                    LAttack.enabled = false;
-                    attacking = true;
-                }
-                if (M_pos.x <= M_Center.x)
-                {
-                    RAttack.enabled = false;
-                    LAttack.enabled = true;
-                    attacking = true;
-                }
-            }
+        _anim.SetTrigger("Attack1");
 
-        }
-        if (attacking)
-        {
-            timer += Time.deltaTime;
-            if(timer >= Atime)
-            {
-                RAttack.enabled = false;
-                LAttack.enabled = false;
-                timer = 0;
-                attacking = false;
-            }
-        }
+        Collider2D[] hitEnemy=Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
 
-        if(RAttack.gameObject != null)
+        foreach (Collider2D enemy in hitEnemy)
         {
-            if (RAttack.gameObject.CompareTag("Enemy"))
-            {
-                Debug.Log("hitEnemy");
-            }
-        }
-
-        //Debug.Log(attacking);
-    }
-    #endregion*/
-    private void OnTriggerEnter2D(Collider2D att)
-    {
-        foreach(Collider2D enemy in ArrayTriger)
-        {
-            //Debug.Log("attack");
+            enemy.GetComponent<Enemy>().TakeDamage(attackDamage);
         }
     }
+
+    private void OnDrawGizmosSelected()
+    {
+        if (attackPoint == null)
+        {
+            return;
+        }
+        Gizmos.DrawWireSphere(attackPoint.position,attackRange);
+    }
+    
+    #endregion
 }

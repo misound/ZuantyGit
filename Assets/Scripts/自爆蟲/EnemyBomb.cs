@@ -87,19 +87,19 @@ public class EnemyBomb : MonoBehaviour
         {
             HP = 100;
         }
-        /*if (playerController.transform.position.x < transform.position.x)
+        if (playerController.transform.position.x < transform.position.x)
         {
             if(Input.GetKeyDown(KeyCode.I))
             {
                 HP -= 50;
             }
 
-        }*/
+        }
         if(HP <= 0)
         {
             this.gameObject.SetActive(false);
         }
-        //Debug.Log(HP);
+        Debug.Log(HP);
         Animation();
         if (mustPatrol)
         {
