@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7727312617718913821}
   - component: {fileID: 29585459595375112}
   - component: {fileID: 1580006051035574770}
+  - component: {fileID: 854063065534182544}
   m_Layer: 0
   m_Name: gorundlight (2)
   m_TagString: Untagged
@@ -52,7 +53,7 @@ SpriteShapeRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 987e40876095a954e8fdd890267effbb, type: 2}
-  - {fileID: 2100000, guid: 987e40876095a954e8fdd890267effbb, type: 2}
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -73,7 +74,7 @@ SpriteShapeRenderer:
   m_SortingLayerID: -1640107581
   m_SortingLayer: -7
   m_SortingOrder: 145
-  m_Color: {r: 0.6367924, g: 1, b: 0.9904009, a: 0.20784314}
+  m_Color: {r: 0.6367924, g: 1, b: 0.9904009, a: 0.09803922}
   m_MaskInteraction: 0
   m_ShapeTexture: {fileID: 2800000, guid: b281b91a70a624a0da1c43adc1c30c7b, type: 3}
   m_Sprites:
@@ -87,8 +88,8 @@ SpriteShapeRenderer:
   - {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
   - {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
   m_LocalAABB:
-    m_Center: {x: 2.422102, y: -2.1215882, z: 0}
-    m_Extent: {x: 8.710702, y: 7.5694766, z: 0}
+    m_Center: {x: 2.4221034, y: -2.121583, z: 0}
+    m_Extent: {x: 5.161242, y: 4.4154167, z: 0}
 --- !u!114 &1580006051035574770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -108,7 +109,7 @@ MonoBehaviour:
       leftTangent: {x: 0, y: 0, z: 0}
       rightTangent: {x: 0, y: 0, z: 0}
       mode: 0
-      height: 1
+      height: 2
       bevelCutoff: 0
       bevelSize: 0
       spriteIndex: 0
@@ -118,7 +119,7 @@ MonoBehaviour:
       leftTangent: {x: 0, y: 0, z: 0}
       rightTangent: {x: 0, y: 0, z: 0}
       mode: 0
-      height: 1
+      height: 2
       bevelCutoff: 0
       bevelSize: 0
       spriteIndex: 0
@@ -138,5 +139,23 @@ MonoBehaviour:
   m_OptimizeCollider: 1
   m_OptimizeGeometry: 1
   m_EnableTangents: 0
-  m_GeometryCached: 0
+  m_GeometryCached: 1
   m_UTess2D: 0
+--- !u!114 &854063065534182544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6585545385649718255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa06092e0908a84585e814e7c214a51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MaxArrayCount: 5136
+  m_PosArray: []
+  m_Uv0Array: []
+  m_TanArray: []
+  m_IndexArray: 
+  m_GeomArray: []
