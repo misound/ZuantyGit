@@ -109,7 +109,7 @@ public class SpeedPlayerController : MonoBehaviour
     [SerializeField]public LayerMask enemyLayers;
     [SerializeField]public int attackDamage = 40;
 
-    [Header("Attack")]
+    [Header("Audio")]
     [SerializeField] public AudioSource Footstep;
     [SerializeField] public bool isRunning;
     private Vector3 M_pos;
@@ -155,6 +155,49 @@ public class SpeedPlayerController : MonoBehaviour
         //可以改用上面那個 Ex: M_pos.x可變成M_dir.x
         M_pos.x -=  M_Center.x;
         M_pos.y -=  M_Center.y;
+        
+        //Attack
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            if (M_dir.x<0 &&_facingRight)
+            {
+                Attack();
+                Flip();
+                Debug.Log("Attack");
+            }
+            else if (M_dir.x>0&& !_facingRight)
+            {
+                Attack();
+                Flip();
+                Debug.Log("Attack2");
+            }
+            else
+            {
+                Attack();
+                Debug.Log("Attack3");
+            }
+            
+        }
+        //Dash
+        if (Input.GetMouseButtonDown(1))
+        {
+            if (M_dir.x<0 &&_facingRight)
+            {
+                Flip();
+                StartCoroutine(MouseDown(M_dir.x, M_dir.y));
+            }
+            else if (M_dir.x>0&& !_facingRight)
+            {
+                Flip();
+                StartCoroutine(MouseDown(M_dir.x, M_dir.y));
+            }
+            else
+            {
+                StartCoroutine(MouseDown(M_dir.x, M_dir.y));
+            }
+            
+        }
+
  
     }
 
@@ -162,54 +205,12 @@ public class SpeedPlayerController : MonoBehaviour
     {
 
 
-        Step();
-        if (Input.GetMouseButtonDown(1))
-        {
-            StartCoroutine(MouseDown(_horizontalDirection, _verticalDirection));
-        }
-
-
-
-        Debug.Log(dashCD);
-
+        //Step();
+        
         CanBeDropDown();
         CheckCollisions();
-       
-        //攻擊
-        if (Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            if (M_dir.x<0 &&_facingRight)
-            {
-                Attack();
-                Flip();
-            }
-            else if (M_dir.x>0&& !_facingRight)
-            {
-                Attack();
-                Flip();
-            }
-            else
-            {
-                Attack();
-            }
-            
-        }
-
-        //Dash翻轉
-        if (M_dir.x<0 &&_facingRight&&_isDashing)
-        {
-            Flip();
-        }
-        else if (M_dir.x>0&& !_facingRight&&_isDashing)
-        {
-            Flip();
-        }
-
-       
         
-       
-        //if (_canDash) StartCoroutine(Dash(_horizontalDirection, _verticalDirection));
-
+        
         if (_isDashing)
         {
             return;
@@ -486,7 +487,7 @@ public class SpeedPlayerController : MonoBehaviour
             {
                 Flip();
             }
-            if (_onGround)
+            if (_onGround||_onOneWayPlatform)
             {
                 _anim.SetBool("isGrounded", true);
                 _anim.SetBool("isFalling", false);
@@ -743,6 +744,7 @@ public class SpeedPlayerController : MonoBehaviour
         {
             //enemy.GetComponent<Enemy>().TakeDamage(attackDamage);
             enemy.GetComponent<EnemyBomb>().TakeBombHealth(attackDamage);
+            Debug.Log("觸發");
         }
     }
 
@@ -759,7 +761,6 @@ public class SpeedPlayerController : MonoBehaviour
         PlayerPrefs.SetFloat("x", transform.position.x);
         PlayerPrefs.SetFloat("y", transform.position.y);
         GameSetting.Save();
-
     }
 
     public void load()
@@ -769,5 +770,15 @@ public class SpeedPlayerController : MonoBehaviour
         pos.y = PlayerPrefs.GetFloat("y");
         transform.position = pos;
     }
+    #endregion
+
+    #region 死亡
+
+    void Die()
+    {
+        
+    }
+    
+
     #endregion
 }
