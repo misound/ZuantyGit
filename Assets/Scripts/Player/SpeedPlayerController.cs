@@ -83,8 +83,8 @@ public class SpeedPlayerController : MonoBehaviour
     public bool _onWall;
     private bool _onRightWall;
 
-    [Header("Corner Correction Variables")] [SerializeField]
-    private float _topRaycastLength;
+    [Header("Corner Correction Variables")] 
+    [SerializeField] private float _topRaycastLength;
     [SerializeField] private Vector3 _edgeRaycastOffset;
     [SerializeField] private Vector3 _innerRaycastOffset;
     private bool _canCornerCorrect;
@@ -108,6 +108,10 @@ public class SpeedPlayerController : MonoBehaviour
     [SerializeField]public float attackRange =0.5f;
     [SerializeField]public LayerMask enemyLayers;
     [SerializeField]public int attackDamage = 40;
+    [SerializeField] public WallEnemy wallEnemy;
+    [SerializeField] public float MoveToTime;
+    [SerializeField] private Collider2D atkL;
+    [SerializeField] private Collider2D atkR;
 
     [Header("Audio")]
     [SerializeField] public AudioSource Footstep;
@@ -121,6 +125,7 @@ public class SpeedPlayerController : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _anim = GetComponent<Animator>();
         Footstep = GetComponent<AudioSource>();
+        wallEnemy = GetComponent<WallEnemy>();
         Reborn();
 
     }
@@ -196,6 +201,11 @@ public class SpeedPlayerController : MonoBehaviour
                 StartCoroutine(MouseDown(M_dir.x, M_dir.y));
             }
             
+        }
+        //擊殺瞬移
+        if (Input.GetMouseButtonDown(1) && wallEnemy.beChoose)
+        {
+            KillingSpree();
         }
 
  
@@ -772,6 +782,41 @@ public class SpeedPlayerController : MonoBehaviour
     }
     #endregion
 
+    #region 擊殺衝刺
+
+    public void KillingSpree()
+    {
+        float distoEnemy = Vector3.Distance(transform.position, wallEnemy.transform.position);
+        Vector2 direction = wallEnemy.transform.position - transform.position;
+        
+        if (wallEnemy.beChoose)
+        {
+            _rb.velocity = Vector2.zero;
+            _rb.gravityScale = 0f;
+            _rb.drag = 0f;
+            _rb.AddForceAtPosition(direction*MoveToTime,wallEnemy.transform.position);
+        }
+        
+        //float distoEnemy = Vector3.Distance(transform.position, takeEnemy.EnemyTargets.transform.position);
+        //Vector2 direction = takeEnemy.EnemyTargets.transform.position - transform.position;
+        
+        /*if (takeEnemy.slaind && distoEnemy > 0.2f)
+        {
+            _rb.velocity = Vector2.zero;
+            _rb.gravityScale = 0f;
+            _rb.drag = 0f;
+            _rb.AddForceAtPosition(direction * MovetoTime, takeEnemy.EnemyTargets.transform.position);
+        }
+        if (takeEnemy.slaind && distoEnemy <= 0.2f)
+        {
+            KilllingTime = true;
+            Invoke("DoSlowMotion", SlowDelay);
+            _rb.AddForceAtPosition(direction * KillDash, takeEnemy.EnemyTargets.transform.position);
+            takeEnemy.slaind = false;
+        }*/
+    }
+
+    #endregion
     #region 死亡
 
     void Die()

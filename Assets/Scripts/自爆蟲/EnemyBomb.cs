@@ -335,7 +335,7 @@ public class EnemyBomb : MonoBehaviour
             }
         }
     }
-    #endregion\
+    #endregion
     #region 動畫
 
     public void Animation()
