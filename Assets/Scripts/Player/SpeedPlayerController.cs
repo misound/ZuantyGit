@@ -21,6 +21,7 @@ public class SpeedPlayerController : MonoBehaviour
     [SerializeField] private LayerMask _wallLayer;
     [SerializeField] private LayerMask _cornerCorrectLayer;
     [SerializeField] public LayerMask _onOneWayPlatformLayerMask;
+    [SerializeField] public LayerMask wallEnemyLayer;
 
     [Header("Movement Variables")] [SerializeField]
     private float _movementAcceleration = 70f;
@@ -112,6 +113,8 @@ public class SpeedPlayerController : MonoBehaviour
     [SerializeField] public float MoveToTime;
     [SerializeField] private Collider2D atkL;
     [SerializeField] private Collider2D atkR;
+    [SerializeField] private float checkWallEnemyRange;
+    [SerializeField] public bool wallEnemyIn;
 
     [Header("Audio")]
     [SerializeField] public AudioSource Footstep;
@@ -168,18 +171,16 @@ public class SpeedPlayerController : MonoBehaviour
             {
                 Attack();
                 Flip();
-                Debug.Log("Attack");
             }
             else if (M_dir.x>0&& !_facingRight)
             {
                 Attack();
                 Flip();
-                Debug.Log("Attack2");
             }
             else
             {
                 Attack();
-                Debug.Log("Attack3");
+
             }
             
         }
@@ -203,9 +204,14 @@ public class SpeedPlayerController : MonoBehaviour
             
         }
         //擊殺瞬移
-        if (Input.GetMouseButtonDown(1) && wallEnemy.beChoose)
+        /*if (Input.GetMouseButtonDown(1) && wallEnemy.beChoose)
         {
             KillingSpree();
+        }*/
+
+        if (wallEnemyIn)
+        {
+            Debug.Log("IN");
         }
 
  
@@ -602,12 +608,14 @@ public class SpeedPlayerController : MonoBehaviour
                      _trapLayer) ||
                  Physics2D.Raycast(transform.position - _groundRaycastOffset, Vector2.down, _groundRaycastLength,
                      _trapLayer);
+        
+        
 
     }
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.green;
+        Gizmos.color = Color.yellow;
 
         //Ground Check
         Gizmos.DrawLine(transform.position + _groundRaycastOffset,
@@ -639,8 +647,10 @@ public class SpeedPlayerController : MonoBehaviour
             Vector3.right * _topRaycastLength);
 
         //Wall Check
-        Gizmos.DrawLine(transform.position, transform.position + Vector3.right * _wallRaycastLength);
-        Gizmos.DrawLine(transform.position, transform.position + Vector3.left * _wallRaycastLength);
+        Gizmos.DrawLine(new Vector3(transform.position.x,transform.position.y+1f), new Vector3(transform.position.x,transform.position.y+1f) + Vector3.right * _wallRaycastLength);
+        Gizmos.DrawLine(new Vector3(transform.position.x,transform.position.y+1f), new Vector3(transform.position.x,transform.position.y+1f) + Vector3.left * _wallRaycastLength);
+        
+        
     }
 
     #endregion
@@ -754,7 +764,6 @@ public class SpeedPlayerController : MonoBehaviour
         {
             //enemy.GetComponent<Enemy>().TakeDamage(attackDamage);
             enemy.GetComponent<EnemyBomb>().TakeBombHealth(attackDamage);
-            Debug.Log("觸發");
         }
     }
 
@@ -783,18 +792,25 @@ public class SpeedPlayerController : MonoBehaviour
     #endregion
 
     #region 擊殺衝刺
+    
 
     public void KillingSpree()
     {
-        float distoEnemy = Vector3.Distance(transform.position, wallEnemy.transform.position);
-        Vector2 direction = wallEnemy.transform.position - transform.position;
         
+        float distEnemy = Vector3.Distance(transform.position, wallEnemy.transform.position);
+        Vector2 direction = wallEnemy.transform.position - transform.position;
+        Collider2D[] hitwallEnemy=Physics2D.OverlapCircleAll(new Vector2(transform.position.x,transform.position.y+1), checkWallEnemyRange, wallEnemyLayer);
         if (wallEnemy.beChoose)
         {
-            _rb.velocity = Vector2.zero;
-            _rb.gravityScale = 0f;
-            _rb.drag = 0f;
-            _rb.AddForceAtPosition(direction*MoveToTime,wallEnemy.transform.position);
+            foreach (Collider2D wallEnemy in hitwallEnemy)
+            {
+                Debug.Log("IN");
+                _rb.velocity = Vector2.zero;
+                _rb.gravityScale = 0f;
+                _rb.drag = 0f;
+                _rb.AddForceAtPosition(direction*MoveToTime,wallEnemy.transform.position);
+            }
+           
         }
         
         //float distoEnemy = Vector3.Distance(transform.position, takeEnemy.EnemyTargets.transform.position);
@@ -826,4 +842,5 @@ public class SpeedPlayerController : MonoBehaviour
     
 
     #endregion
+    
 }
