@@ -13,11 +13,12 @@ public class Elevator : MonoBehaviour
     public bool playerIn;
     public AudioSource switchOn;
     public bool moveUp;
-    
-    
-   
-    
-    
+    public bool oneTime;
+
+
+
+
+
     void Start()
     {
         transform.position = startingPoint.position;
@@ -52,7 +53,12 @@ public class Elevator : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, endingPoint.position, speed*Time.deltaTime);
             
         }
-       
+        if (transform.position == endingPoint.position && oneTime)
+        {
+
+            Destroy(this);
+
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -79,12 +85,13 @@ public class Elevator : MonoBehaviour
 
     IEnumerator DelaySwitchOnStart()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(2);
         moveUp = false;
     }
     IEnumerator DelaySwitchOnEnd()
     {
-        yield return new WaitForSeconds(1);
+
+        yield return new WaitForSeconds(2);
         moveUp = true;
     }
     

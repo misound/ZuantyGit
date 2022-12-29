@@ -626,7 +626,7 @@ RectTransform:
   m_LocalScale: {x: 0.8142448, y: 0.8142448, z: 0.8142448}
   m_Children: []
   m_Father: {fileID: 1824984091}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1310,7 +1310,7 @@ RectTransform:
   m_LocalScale: {x: 1.5576, y: 1.5576, z: 1.5576}
   m_Children: []
   m_Father: {fileID: 1824984091}
-  m_RootOrder: 5
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1776,11 +1776,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 576390207}
+  - {fileID: 1861257195}
+  - {fileID: 1297169512}
   - {fileID: 322102714}
   - {fileID: 2018739321}
   - {fileID: 2035126312}
-  - {fileID: 1861257195}
-  - {fileID: 1297169512}
   m_Father: {fileID: 1003610847}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1809,7 +1809,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: fdd439119b217e742b235daa485e1052, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f02c82c2a1e525745945a6cc9e509180, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1932,7 +1932,7 @@ RectTransform:
   m_LocalScale: {x: 0.17544428, y: 0.17544428, z: 0.17544428}
   m_Children: []
   m_Father: {fileID: 1824984091}
-  m_RootOrder: 4
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2044,7 +2044,7 @@ RectTransform:
   m_LocalScale: {x: 0.77531, y: 0.77531, z: 0.77531}
   m_Children: []
   m_Father: {fileID: 1824984091}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2170,6 +2170,7 @@ MonoBehaviour:
   gameMgr: {fileID: 0}
   titleMgr: {fileID: 0}
   Playermoves: {fileID: 0}
+  enemyBomb: {fileID: 0}
   BGMCheck: 1
   BGM:
   - {fileID: 8300000, guid: fb96daa001883754abe99cb3d9c8bb0b, type: 3}
@@ -2412,7 +2413,7 @@ RectTransform:
   m_LocalScale: {x: 0.7589175, y: 0.7589175, z: 0.7589175}
   m_Children: []
   m_Father: {fileID: 1824984091}
-  m_RootOrder: 3
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

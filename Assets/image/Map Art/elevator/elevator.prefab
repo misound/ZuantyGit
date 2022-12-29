@@ -155,12 +155,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f490be569bb733d4e959da41e50c57d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1.93
+  speed: 3
   startingPoint: {fileID: 5053299250912461260}
   endingPoint: {fileID: 0}
   playerIn: 0
   switchOn: {fileID: 2345538112980272932}
   moveUp: 1
+  oneTime: 0
 --- !u!82 &2345538112980272932
 AudioSource:
   m_ObjectHideFlags: 0
@@ -443,7 +444,7 @@ MonoBehaviour:
   - {x: -2.2369995, y: -1.5560508, z: 0}
   m_ShapePathHash: -2094966001
   m_Mesh: {fileID: 0}
-  m_InstanceId: 138210
+  m_InstanceId: 389156
 --- !u!1 &5053299250912461263
 GameObject:
   m_ObjectHideFlags: 0
@@ -530,7 +531,7 @@ MonoBehaviour:
   - {x: -0.29871273, y: -0.23486137, z: 0}
   m_ShapePathHash: -1832481315
   m_Mesh: {fileID: 0}
-  m_InstanceId: 138216
+  m_InstanceId: 389162
 --- !u!1 &5053299251360716877
 GameObject:
   m_ObjectHideFlags: 0
@@ -598,7 +599,7 @@ MonoBehaviour:
   - {x: 4.032423, y: -6.2348146, z: 0}
   m_ShapePathHash: 1890034199
   m_Mesh: {fileID: 0}
-  m_InstanceId: 138226
+  m_InstanceId: 389172
 --- !u!1 &5053299251430613050
 GameObject:
   m_ObjectHideFlags: 0

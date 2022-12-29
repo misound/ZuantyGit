@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 7727312617718913821}
   - component: {fileID: 29585459595375112}
   - component: {fileID: 1580006051035574770}
-  - component: {fileID: 854063065534182544}
   m_Layer: 0
   m_Name: gorundlight (2)
   m_TagString: Untagged
@@ -139,23 +138,5 @@ MonoBehaviour:
   m_OptimizeCollider: 1
   m_OptimizeGeometry: 1
   m_EnableTangents: 0
-  m_GeometryCached: 1
+  m_GeometryCached: 0
   m_UTess2D: 0
---- !u!114 &854063065534182544
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6585545385649718255}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9aa06092e0908a84585e814e7c214a51, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MaxArrayCount: 5136
-  m_PosArray: []
-  m_Uv0Array: []
-  m_TanArray: []
-  m_IndexArray: 
-  m_GeomArray: []
