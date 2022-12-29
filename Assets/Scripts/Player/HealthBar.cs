@@ -28,7 +28,7 @@ public class HealthBar : MonoBehaviour
         if(health <= 0)
         {
             health = 0;
-            Debug.Log("§A¦º¤F");
+            //Debug.Log("ï¿½Aï¿½ï¿½ï¿½F");
         }
     }
     private void Start()

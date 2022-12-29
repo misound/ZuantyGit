@@ -109,7 +109,7 @@ public class SpeedPlayerController : MonoBehaviour
     [SerializeField]public float attackRange =0.5f;
     [SerializeField]public LayerMask enemyLayers;
     [SerializeField]public int attackDamage = 40;
-    [SerializeField] public WallEnemy wallEnemy;
+    [SerializeField] public MousePos mousePos;
     [SerializeField] public float MoveToTime;
     [SerializeField] private Collider2D atkL;
     [SerializeField] private Collider2D atkR;
@@ -128,7 +128,7 @@ public class SpeedPlayerController : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _anim = GetComponent<Animator>();
         Footstep = GetComponent<AudioSource>();
-        wallEnemy = GetComponent<WallEnemy>();
+        mousePos = FindObjectOfType<MousePos>();
         Reborn();
 
     }
@@ -187,34 +187,51 @@ public class SpeedPlayerController : MonoBehaviour
         //Dash
         if (Input.GetMouseButtonDown(1))
         {
-            if (M_dir.x<0 &&_facingRight)
+            if (wallEnemyIn&& mousePos.onWallEnemy)
             {
-                Flip();
-                StartCoroutine(MouseDown(M_dir.x, M_dir.y));
-            }
-            else if (M_dir.x>0&& !_facingRight)
-            {
-                Flip();
-                StartCoroutine(MouseDown(M_dir.x, M_dir.y));
+                if (M_dir.x < 0 && _facingRight)
+                {
+                    Flip();
+                    KillingSpree();
+                    Debug.Log("沙沙沙");
+
+                }
+                else if (M_dir.x > 0 && !_facingRight)
+                {
+                    Flip();
+                    KillingSpree();
+                    Debug.Log("沙沙沙");
+
+                }
+                else
+                {
+                    KillingSpree();
+                    Debug.Log("沙沙沙");
+
+                }
+
             }
             else
             {
-                StartCoroutine(MouseDown(M_dir.x, M_dir.y));
+                if (M_dir.x < 0 && _facingRight)
+                {
+                    Flip();
+                    //StartCoroutine(MouseDown(M_dir.x, M_dir.y));
+                }
+                else if (M_dir.x > 0 && !_facingRight)
+                {
+                    Flip();
+                    //StartCoroutine(MouseDown(M_dir.x, M_dir.y));
+                }
+                else
+                {
+                    //StartCoroutine(MouseDown(M_dir.x, M_dir.y));
+                }
             }
-            
-        }
-        //擊殺瞬移
-        /*if (Input.GetMouseButtonDown(1) && wallEnemy.beChoose)
-        {
-            KillingSpree();
-        }*/
-
-        if (wallEnemyIn)
-        {
-            Debug.Log("IN");
         }
 
- 
+
+
     }
 
     private void FixedUpdate()
@@ -797,21 +814,14 @@ public class SpeedPlayerController : MonoBehaviour
     public void KillingSpree()
     {
         
-        float distEnemy = Vector3.Distance(transform.position, wallEnemy.transform.position);
-        Vector2 direction = wallEnemy.transform.position - transform.position;
-        Collider2D[] hitwallEnemy=Physics2D.OverlapCircleAll(new Vector2(transform.position.x,transform.position.y+1), checkWallEnemyRange, wallEnemyLayer);
-        if (wallEnemy.beChoose)
-        {
-            foreach (Collider2D wallEnemy in hitwallEnemy)
-            {
-                Debug.Log("IN");
-                _rb.velocity = Vector2.zero;
-                _rb.gravityScale = 0f;
-                _rb.drag = 0f;
-                _rb.AddForceAtPosition(direction*MoveToTime,wallEnemy.transform.position);
-            }
+        Vector2 direction = mousePos.transform.position - transform.position;
+        
+        _rb.velocity = Vector2.zero;
+        _rb.gravityScale = 0f;
+        _rb.drag = 0f;
+        _rb.AddForceAtPosition(new Vector3(direction.x,direction.y-2f)*MoveToTime,mousePos.transform.position);
            
-        }
+        
         
         //float distoEnemy = Vector3.Distance(transform.position, takeEnemy.EnemyTargets.transform.position);
         //Vector2 direction = takeEnemy.EnemyTargets.transform.position - transform.position;
@@ -842,5 +852,20 @@ public class SpeedPlayerController : MonoBehaviour
     
 
     #endregion
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.isTrigger != true && other.CompareTag("WallEnemy"))
+        {
+            wallEnemyIn = true;
+        }
+    }
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.isTrigger != true && other.CompareTag("WallEnemy"))
+        {
+            wallEnemyIn = false;
+        }
+    }
     
 }
