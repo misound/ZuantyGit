@@ -86,7 +86,7 @@ public class TitleMgr : MonoBehaviour
     }
     public void Play()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(5);
     }
     public void Option()
     {

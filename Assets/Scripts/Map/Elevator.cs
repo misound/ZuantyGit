@@ -14,6 +14,8 @@ public class Elevator : MonoBehaviour
     public AudioSource switchOn;
     public bool moveUp;
     public bool oneTime;
+    public GameObject _eKey;
+   
 
 
 
@@ -21,9 +23,11 @@ public class Elevator : MonoBehaviour
 
     void Start()
     {
+       
         transform.position = startingPoint.position;
         moveUp = false;
         playerIn = false;
+        _eKey.SetActive(false);
     }
 
 
@@ -51,7 +55,7 @@ public class Elevator : MonoBehaviour
         else if (moveUp)
         {
             transform.position = Vector3.MoveTowards(transform.position, endingPoint.position, speed*Time.deltaTime);
-            
+
         }
         if (transform.position == endingPoint.position && oneTime)
         {
@@ -59,6 +63,11 @@ public class Elevator : MonoBehaviour
             Destroy(this);
 
         }
+        if (transform.position == endingPoint.position || transform.position == startingPoint.position && playerIn)
+        {
+            _eKey.SetActive(true);
+        }
+        else { _eKey.SetActive(false); }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

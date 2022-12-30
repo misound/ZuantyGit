@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Animations;
+using UnityEngine.SceneManagement;
 
 public class TimeControl : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class TimeControl : MonoBehaviour
     [SerializeField] private Collider2D  _canPlay;
     bool isPause;
     bool isEnd;
-
+    public int i;   
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +31,10 @@ public class TimeControl : MonoBehaviour
     public void IsEnd()
     {
         Destroy(_timeline);
+    }
+    public void nextLevel()
+    {
+        SceneManager.LoadScene(i);
     }
 
     public void OnTriggerEnter2D(Collider2D other)
