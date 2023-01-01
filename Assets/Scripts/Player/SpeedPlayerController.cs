@@ -216,16 +216,16 @@ public class SpeedPlayerController : MonoBehaviour
                 if (M_dir.x < 0 && _facingRight)
                 {
                     Flip();
-                    //StartCoroutine(MouseDown(M_dir.x, M_dir.y));
+                    StartCoroutine(MouseDown(M_dir.x, M_dir.y));
                 }
                 else if (M_dir.x > 0 && !_facingRight)
                 {
                     Flip();
-                    //StartCoroutine(MouseDown(M_dir.x, M_dir.y));
+                    StartCoroutine(MouseDown(M_dir.x, M_dir.y));
                 }
                 else
                 {
-                    //StartCoroutine(MouseDown(M_dir.x, M_dir.y));
+                    StartCoroutine(MouseDown(M_dir.x, M_dir.y));
                 }
             }
         }
