@@ -23,12 +23,15 @@ public class NewSMgr : MonoBehaviour
         PlayerPrefs.SetString("DoorT", "false");
         PlayerPrefs.SetString("DoorT01", "true");
         string json = PlayerPrefs.GetString("data");
+        string json2 = PlayerPrefs.GetString("data2");
         GameSetting.DList = JsonConvert.DeserializeObject<IList<Itemdata>>(json);
+        GameSetting.WList = JsonConvert.DeserializeObject<IList<AtkWData>>(json2);
+
     }
 
     private void Start()
     {
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < GameSetting.DList.Count; i++)
         {
             GameObject temp = Instantiate(DoorPrefab, DPos[i].transform);
             temp.transform.position = DPos[i].transform.position;
@@ -37,16 +40,16 @@ public class NewSMgr : MonoBehaviour
             CanAtkDoor door = temp.GetComponent<CanAtkDoor>();
             door.SetDoorData(GameSetting.DList[i]);
         }
-        for (int i = 0; i < GameSetting.DList.Count; i++)
+        for (int i = 0; i < GameSetting.WList.Count; i++)
         {
             GameObject temp = Instantiate(AWPrefab, AWPos[i].transform);
             temp.transform.position = AWPos[i].transform.position;
             temp.transform.localScale = Vector3.one;
-            temp.gameObject.name = GameSetting.DList[2+i].AWName;
+            temp.gameObject.name = GameSetting.WList[i].AWName;
             AtkWallHandler wall = temp.GetComponent<AtkWallHandler>();
-            wall.SetWallData(GameSetting.DList[2+i]);
+            wall.SetWallData(GameSetting.WList[i]);
         }
-        Debug.Log(GameSetting.DList.Count);
+        Debug.Log(GameSetting.WList.Count);
     }
 
     private void Update()
@@ -70,9 +73,15 @@ public class NewSMgr : MonoBehaviour
 
         result.Add(new Itemdata() { Name = "D1-1", States = bool.Parse((PlayerPrefs.GetString("DoorT01"))) });
         result.Add(new Itemdata() { Name = "D1-2", States = bool.Parse((PlayerPrefs.GetString("DoorT"))) });
-
+        return result;
+    }
+    public IList<AtkWData> FakeData2()
+    {
+        IList<AtkWData> result = new List<AtkWData>();
         
-        result.Add(new Itemdata() { AWName = "AW1-1", AWStates = bool.Parse((PlayerPrefs.GetString("DoorT"))) });
+        result.Add(new AtkWData() { AWName = "AW1-1", AWStates = bool.Parse((PlayerPrefs.GetString("DoorT"))) });
+        result.Add(new AtkWData() { AWName = "AW1-2", AWStates = bool.Parse((PlayerPrefs.GetString("DoorT01"))) });
+
         return result;
     }
 
@@ -87,7 +96,9 @@ public class NewSMgr : MonoBehaviour
     private void Btn1()
     {
         var data1 = FakeData1();
+        var data2 = FakeData2();
         string json = JsonConvert.SerializeObject(data1);
+        string json2 = JsonConvert.SerializeObject(data2);
         SpeedPlayerController SPC = GameObject.FindObjectOfType<SpeedPlayerController>();
 
         Vector3 pos = SPC.transform.position;
@@ -96,6 +107,7 @@ public class NewSMgr : MonoBehaviour
         PlayerPrefs.SetFloat("x", GameSetting.Playerposx);
         PlayerPrefs.SetFloat("y", GameSetting.Playerposy);
         PlayerPrefs.SetString("data", json);
+        PlayerPrefs.SetString("data2", json2);
         PlayerPrefs.Save();
     }
 

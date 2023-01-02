@@ -837,7 +837,8 @@ public class SpeedPlayerController : MonoBehaviour
 
     void Die()
     {
-        
+        GameSetting.Load();
+        transform.position = GameSetting.Playerpos;
     }
     
 

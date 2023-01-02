@@ -21,7 +21,7 @@ public class AtkWallHandler : MonoBehaviour
 
     private bool _isDirty = false;
 
-    private Itemdata _data;
+    private AtkWData _data;
 
 
     // Start is called before the first frame update
@@ -39,6 +39,7 @@ public class AtkWallHandler : MonoBehaviour
     {
         if (AWBreak)
         {
+            
             Particle.GetComponent<ParticleSystem>().Play();
             WallBody.SetActive(false);
         }
@@ -46,6 +47,7 @@ public class AtkWallHandler : MonoBehaviour
         if (AWBroken)
         {
             WallBody.SetActive(false);
+            Particle.GetComponent<ParticleSystem>().Stop();
         }
 
         if (_isDirty)
@@ -87,7 +89,7 @@ public class AtkWallHandler : MonoBehaviour
         _isDirty = true;
     }
 
-    public void SetWallData(Itemdata data)
+    public void SetWallData(AtkWData data)
     {
         _data = data;
         _isDirty = true;

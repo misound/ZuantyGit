@@ -17,6 +17,7 @@ public static class GameSetting
     public static int PlayerHP;
 
     public static IList<Itemdata> DList;
+    public static IList<AtkWData> WList;
     
     public static void Save() 
     {

@@ -52,13 +52,6 @@ public class AudioMgr : MonoBehaviour
             gameMgr = FindObjectOfType<GameMgr>();
         }
 
-
-        //Step();
-        if (enemyBomb.explosioned)
-        {
-            //PlayBoom();
-        }
-
         AudioBigSmall();
     }
 
@@ -87,45 +80,19 @@ public class AudioMgr : MonoBehaviour
         switch (audio)
         {
             case eAudio.BGM1:
-                BGM_audioSource.PlayOneShot(BGM[1]);
+                BGM_audioSource.PlayOneShot(BGM[0]);
                 break;
             case eAudio.BGM2:
                 SE_audioSource.PlayOneShot(SE[1]);
+                break;
+            case eAudio.SE3:
+                SE_audioSource.PlayOneShot(SE[2]);
                 break;
             default:
                 Debug.LogError("NONE DEF");
                 break;
         }
     }
-    #endregion
-    #region 玩家腳步聲
-    /*public void Step()
-    {
-        if(Playermoves == null)
-        {
-            return;
-        }
-        if (Playermoves._horizontalDirection != 0)
-        {
-            Playermoves.isRunning = true;
-        }
-        else
-        {
-            Playermoves.isRunning = false;
-        }
-
-        if (Playermoves.isRunning)
-        {
-            if (!SE_audioSource.isPlaying)
-            {
-                SE_audioSource.PlayOneShot(SE[0]);
-            }
-        }
-        else
-        {
-            SE_audioSource.Stop();
-        }
-    }*/
     #endregion
     public void PlayBoom()
     {
@@ -134,7 +101,7 @@ public class AudioMgr : MonoBehaviour
             return;
         }
         SE_audioSource.PlayOneShot(SE[1]);
-        //SE_audioSource = GetComponent<AudioSource>();
+        
     }
     #region BGM大小
     public void AudioBigSmall()
