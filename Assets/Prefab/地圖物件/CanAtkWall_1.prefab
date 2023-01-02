@@ -116,7 +116,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: -0.25, y: 0}
@@ -142,6 +142,7 @@ GameObject:
   m_Component:
   - component: {fileID: 708523290441197272}
   - component: {fileID: 250036222755391179}
+  - component: {fileID: 8282592818203926771}
   m_Layer: 6
   m_Name: CanAtkWall_1_colider
   m_TagString: Untagged
@@ -216,6 +217,32 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &8282592818203926771
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2201025332145599799}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.65555555, y: 2.6555555}
+    newSize: {x: 0.65555555, y: 2.4728363}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 2
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.65555555, y: 2.6555555}
+  m_EdgeRadius: 0
 --- !u!1 &3326756696711148929
 GameObject:
   m_ObjectHideFlags: 0
@@ -5293,4 +5320,4 @@ MonoBehaviour:
   - {x: -0.025992895, y: 1.1184845, z: 0}
   m_ShapePathHash: 1732426259
   m_Mesh: {fileID: 0}
-  m_InstanceId: 222274
+  m_InstanceId: 226758
