@@ -187,7 +187,7 @@ public class SpeedPlayerController : MonoBehaviour
             
         }
         //Dash
-        if (Input.GetButtonDown("Fire2")&&_canDash&&_onGround)
+        if (Input.GetButtonDown("Fire2")&&_canDash)
         {
             if (wallEnemyIn&& mousePos.onWallEnemy)
             {
