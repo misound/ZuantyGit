@@ -34,7 +34,7 @@ public class HealthBar : MonoBehaviour
     }
     private void Start()
     {
-        
+        SetMaxHealth(GameSetting.PlayerHP = 100);
     }
     private void Update()
     {
@@ -57,7 +57,7 @@ public class HealthBar : MonoBehaviour
         }
         if (GUI.Button(new Rect(100, 240, 160, 100), "MaxHP"))
         {
-            SetMaxHealth(GameSetting.PlayerHP = 100);
+            
         }
     }
 }

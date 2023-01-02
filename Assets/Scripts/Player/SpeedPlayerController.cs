@@ -779,8 +779,21 @@ public class SpeedPlayerController : MonoBehaviour
 
         foreach (Collider2D enemy in hitEnemy)
         {
-            //enemy.GetComponent<Enemy>().TakeDamage(attackDamage);
-            enemy.GetComponent<EnemyBomb>().TakeBombHealth(attackDamage);
+            if (enemy.GetComponent<EnemyBomb>() != null)
+            {
+                enemy.GetComponent<EnemyBomb>().TakeBombHealth(attackDamage);
+            }
+            else if(enemy.GetComponent<CanAtkDoor>() != null)
+            {
+                enemy.GetComponent<CanAtkDoor>().TakeDoorHP(attackDamage);
+            }
+            else
+            {
+                Debug.Log("沒啥好打的");
+            }
+
+
+
         }
     }
 
