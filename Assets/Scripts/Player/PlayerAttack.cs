@@ -10,7 +10,7 @@ public class PlayerAttack : MonoBehaviour
 
     private Animator _anim;
 
-    private PolygonCollider2D atkCol;
+    private Collider2D atkCol;
 
     public float startTime;
 
@@ -19,7 +19,8 @@ public class PlayerAttack : MonoBehaviour
     void Start()
     {
         _anim = GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>();
-        atkCol = GetComponent<PolygonCollider2D>();
+        atkCol = GetComponent<Collider2D>();
+        atkCol.enabled = false;
     }
 
     // Update is called once per frame 
