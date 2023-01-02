@@ -787,6 +787,10 @@ public class SpeedPlayerController : MonoBehaviour
             {
                 enemy.GetComponent<CanAtkDoor>().TakeDoorHP(attackDamage);
             }
+            else if(enemy.GetComponent<AtkWallHandler>() != null)
+            {
+                enemy.GetComponent<AtkWallHandler>().TakeAtkWHP(attackDamage);
+            }
             else
             {
                 Debug.Log("沒啥好打的");

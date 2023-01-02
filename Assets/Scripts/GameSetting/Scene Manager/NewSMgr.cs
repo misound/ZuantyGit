@@ -10,9 +10,11 @@ using Vector3 = UnityEngine.Vector3;
 public class NewSMgr : MonoBehaviour
 {
     public GameObject DoorPrefab;
+    public GameObject AWPrefab;
     public GameObject[] CheckPoint;
 
     public GameObject[] DPos;
+    public GameObject[] AWPos;
 
 
     // Start is called before the first frame update
@@ -26,7 +28,7 @@ public class NewSMgr : MonoBehaviour
 
     private void Start()
     {
-        for (int i = 0; i < GameSetting.DList.Count; i++)
+        for (int i = 0; i < 2; i++)
         {
             GameObject temp = Instantiate(DoorPrefab, DPos[i].transform);
             temp.transform.position = DPos[i].transform.position;
@@ -35,7 +37,15 @@ public class NewSMgr : MonoBehaviour
             CanAtkDoor door = temp.GetComponent<CanAtkDoor>();
             door.SetDoorData(GameSetting.DList[i]);
         }
-
+        for (int i = 0; i < GameSetting.DList.Count; i++)
+        {
+            GameObject temp = Instantiate(AWPrefab, AWPos[i].transform);
+            temp.transform.position = AWPos[i].transform.position;
+            temp.transform.localScale = Vector3.one;
+            temp.gameObject.name = GameSetting.DList[2+i].AWName;
+            AtkWallHandler wall = temp.GetComponent<AtkWallHandler>();
+            wall.SetWallData(GameSetting.DList[2+i]);
+        }
         Debug.Log(GameSetting.DList.Count);
     }
 
@@ -61,6 +71,8 @@ public class NewSMgr : MonoBehaviour
         result.Add(new Itemdata() { Name = "D1-1", States = bool.Parse((PlayerPrefs.GetString("DoorT01"))) });
         result.Add(new Itemdata() { Name = "D1-2", States = bool.Parse((PlayerPrefs.GetString("DoorT"))) });
 
+        
+        result.Add(new Itemdata() { AWName = "AW1-1", AWStates = bool.Parse((PlayerPrefs.GetString("DoorT"))) });
         return result;
     }
 

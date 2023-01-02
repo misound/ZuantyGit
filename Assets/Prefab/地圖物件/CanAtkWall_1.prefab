@@ -10,7 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2495455254744638413}
   - component: {fileID: 3291448140877474445}
-  m_Layer: 0
+  - component: {fileID: 3895699981696139863}
+  - component: {fileID: 7881150636852063954}
+  m_Layer: 6
   m_Name: CanAtkWall_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -84,6 +86,52 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &3895699981696139863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1730465160087401374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 414c7373726ae074dab78d4805d3c413, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AWHP: 100
+  AWDie: 0
+  WallBody: {fileID: 2201025332145599799}
+  playerController: {fileID: 0}
+  AWBreak: 0
+  AWBroken: 0
+  AWName: 
+  Particle: {fileID: 8049140116462296940}
+--- !u!61 &7881150636852063954
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1730465160087401374}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.25, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0.4, z: 0, w: 0.6}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.4444444, y: 3}
+    newSize: {x: 1.4538456, y: 2.5841916}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 2
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.56, y: 2.4}
+  m_EdgeRadius: 0
 --- !u!1 &2201025332145599799
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,7 +142,7 @@ GameObject:
   m_Component:
   - component: {fileID: 708523290441197272}
   - component: {fileID: 250036222755391179}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: CanAtkWall_1_colider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -179,7 +227,7 @@ GameObject:
   - component: {fileID: 6762937901972432072}
   - component: {fileID: 4888154159828218121}
   - component: {fileID: 4969840441278178879}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: gorundlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -329,7 +377,7 @@ GameObject:
   - component: {fileID: 2520223827652556518}
   - component: {fileID: 4332274276217066448}
   - component: {fileID: 6412254034176731501}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: door_effect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5199,7 +5247,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9101589552557261071}
   - component: {fileID: 4072561905172512404}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: CanAtkWall_1Shadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5245,4 +5293,4 @@ MonoBehaviour:
   - {x: -0.025992895, y: 1.1184845, z: 0}
   m_ShapePathHash: 1732426259
   m_Mesh: {fileID: 0}
-  m_InstanceId: 262628
+  m_InstanceId: 222274
