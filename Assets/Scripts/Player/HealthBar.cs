@@ -8,16 +8,15 @@ public class HealthBar : MonoBehaviour
     public Slider slider;
     public Gradient gradient;
     public Image fill;
-    private int dmgg = 20;
 
-
-    private bool isDirty = false;
+    private bool _isDirty = false;
 
     public void SetMaxHealth(int health)
     {
         slider.maxValue = health;
         slider.value = health;
-
+        GameSetting.PlayerHP = health;
+        _isDirty = true;
         fill.color = gradient.Evaluate(1f);
     }
 
@@ -28,19 +27,21 @@ public class HealthBar : MonoBehaviour
         if(health <= 0)
         {
             health = 0;
-            //Debug.Log("�A���F");
+            Debug.Log("你死了");
         }
+
+        _isDirty = true;
     }
     private void Start()
     {
-        SetMaxHealth(GameSetting.PlayerHP = 100);
+        
     }
     private void Update()
     {
-        if (isDirty)
+        if (_isDirty)
         {
             SetHealth(GameSetting.PlayerHP);
-            isDirty = false;
+            _isDirty = false;
         }
     }
     private void OnGUI()
@@ -51,18 +52,12 @@ public class HealthBar : MonoBehaviour
         }
         if (GUI.Button(new Rect(100, 160, 160, 100), "Load"))
         {
+            _isDirty = true;
             GameSetting.Load();
-            isDirty = true;
         }
         if (GUI.Button(new Rect(100, 240, 160, 100), "MaxHP"))
         {
             SetMaxHealth(GameSetting.PlayerHP = 100);
         }
-        if (GUI.Button(new Rect(100, 320, 160, 100), "-HP"))
-        {
-            GameSetting.PlayerHP -= dmgg;
-            SetHealth(GameSetting.PlayerHP);
-        }
-
     }
 }

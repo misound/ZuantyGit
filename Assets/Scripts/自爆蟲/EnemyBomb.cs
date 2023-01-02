@@ -8,6 +8,7 @@ public class EnemyBomb : MonoBehaviour
 
     [Header("Data")]
     [SerializeField] int HP;
+    [SerializeField] int Atk;
     [SerializeField] bool Die;
 
     [Header("Components")]
@@ -293,7 +294,7 @@ public class EnemyBomb : MonoBehaviour
             explosion = false;
             foreach (Collider2D player in hit)
             {
-                GameSetting.PlayerHP -= 30;
+                GameSetting.PlayerHP -= Atk;
                 PlayerHP.SetHealth(GameSetting.PlayerHP);
                 break;
             }
@@ -379,38 +380,6 @@ public class EnemyBomb : MonoBehaviour
     public void SE() //音效
     {
         GameSetting.SEAudio.PlayBoom();
-    }
-    void CheckGroundR()
-    {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right * Checkwallrange, 5, 1 << LayerMask.NameToLayer("Ground"));
-        if (hit.collider != null)
-        {
-            if (hit.collider.gameObject.CompareTag("Untagged"))
-            {
-                //mustTurn = true;
-            }
-        }
-        else
-        {
-
-        }
-
-    }
-    void CheckGroundL()
-    {
-        RaycastHit2D hitL = Physics2D.Raycast(transform.position, Vector2.left * Checkwallrange, 5, 1 << LayerMask.NameToLayer("Ground"));
-        if (hitL.collider != null)
-        {
-            if (hitL.collider.gameObject.CompareTag("Untagged"))
-            {
-                //mustTurn = true;
-
-            }
-        }
-        else
-        {
-
-        }
     }
 
 }
