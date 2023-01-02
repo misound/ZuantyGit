@@ -70,7 +70,7 @@ public class SpeedPlayerController : MonoBehaviour
     private float _dashBufferCounter;
     public bool _isDashing;
     private bool _hasDashed;
-    private bool _canDash => _dashBufferCounter > 0f && !_hasDashed&& dashCD==5;
+    private bool _canDash=true;
 
     [Header("Ground Collision Variables")] [SerializeField]
     private float _groundRaycastLength;
@@ -187,7 +187,7 @@ public class SpeedPlayerController : MonoBehaviour
             
         }
         //Dash
-        if (Input.GetButtonDown("Fire2"))
+        if (Input.GetButtonDown("Fire2")&&_canDash&&_onGround)
         {
             if (wallEnemyIn&& mousePos.onWallEnemy)
             {
@@ -711,6 +711,7 @@ public class SpeedPlayerController : MonoBehaviour
     #region 滑鼠移動
     IEnumerator MouseDown(float x,float y)
     {
+        _canDash = false;
         float dashStartTime = Time.time;
         
         _isDashing = true;
@@ -737,6 +738,8 @@ public class SpeedPlayerController : MonoBehaviour
             }
 
             _isDashing = false;
+            yield return new WaitForSeconds(dashCD);
+            _canDash = true;
 
     }
     #endregion

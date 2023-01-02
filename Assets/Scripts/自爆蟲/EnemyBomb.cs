@@ -85,7 +85,6 @@ public class EnemyBomb : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Debug.Log(HP);
         rb.bodyType = RigidbodyType2D.Dynamic;
 
         if (Die)
