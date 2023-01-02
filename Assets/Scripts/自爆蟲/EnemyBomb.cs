@@ -85,14 +85,13 @@ public class EnemyBomb : MonoBehaviour
 
     private void FixedUpdate()
     {
-        
+        Debug.Log(HP);
         rb.bodyType = RigidbodyType2D.Dynamic;
 
         if (Die)
         {
             this.gameObject.SetActive(false);
         }
-        Debug.Log(HP);
         Animation();
         if (mustPatrol)
         {

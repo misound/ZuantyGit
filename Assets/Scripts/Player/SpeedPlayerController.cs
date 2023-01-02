@@ -103,18 +103,19 @@ public class SpeedPlayerController : MonoBehaviour
     [SerializeField] public bool inTrap;
     [SerializeField] public LayerMask _trapLayer;
 
+    [Header("DashAttack")]
+    [SerializeField] public bool isKilling;
+    [SerializeField] public float airForce = 5f;
+    [SerializeField] public bool wallEnemyIn;
+
 
     [Header("Attack")]
     [SerializeField]public Transform attackPoint;
-    [SerializeField]public float attackRange =0.5f;
     [SerializeField]public LayerMask enemyLayers;
-    [SerializeField]public int attackDamage = 40;
     [SerializeField] public MousePos mousePos;
-    [SerializeField] public float MoveToTime;
-    [SerializeField] private Collider2D atkL;
-    [SerializeField] private Collider2D atkR;
-    [SerializeField] private float checkWallEnemyRange;
-    [SerializeField] public bool wallEnemyIn;
+    
+    [SerializeField] public PlayerAttack playerAttack;
+
 
     [Header("Audio")]
     [SerializeField] public AudioSource Footstep;
@@ -129,6 +130,7 @@ public class SpeedPlayerController : MonoBehaviour
         _anim = GetComponent<Animator>();
         Footstep = GetComponent<AudioSource>();
         mousePos = FindObjectOfType<MousePos>();
+        playerAttack = FindObjectOfType<PlayerAttack>();
         Reborn();
 
     }
@@ -165,52 +167,51 @@ public class SpeedPlayerController : MonoBehaviour
         M_pos.y -=  M_Center.y;
         
         //Attack
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetButtonDown("Fire1"))
         {
             if (M_dir.x<0 &&_facingRight)
             {
-                Attack();
+                playerAttack.Attack();
                 Flip();
             }
             else if (M_dir.x>0&& !_facingRight)
             {
-                Attack();
+                playerAttack.Attack();
                 Flip();
             }
             else
             {
-                Attack();
+                playerAttack.Attack();
 
             }
             
         }
         //Dash
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetButtonDown("Fire2"))
         {
             if (wallEnemyIn&& mousePos.onWallEnemy)
             {
                 if (M_dir.x < 0 && _facingRight)
                 {
                     Flip();
-                    KillingSpree();
-                    Debug.Log("沙沙沙");
+                    StartCoroutine(KillDash(mousePos.enemyPos.x,mousePos.enemyPos.y));
+            
+                    
 
                 }
                 else if (M_dir.x > 0 && !_facingRight)
                 {
                     Flip();
-                    KillingSpree();
-                    Debug.Log("沙沙沙");
-
+                    StartCoroutine(KillDash(mousePos.enemyPos.x,mousePos.enemyPos.y));
+                    
                 }
                 else
                 {
-                    KillingSpree();
-                    Debug.Log("沙沙沙");
-
+                    StartCoroutine(KillDash(mousePos.enemyPos.x,mousePos.enemyPos.y));
                 }
 
             }
+
             else
             {
                 if (M_dir.x < 0 && _facingRight)
@@ -462,37 +463,6 @@ public class SpeedPlayerController : MonoBehaviour
     {
         _facingRight = !_facingRight;
         transform.Rotate(0f, 180f, 0f);
-    }
-
-    IEnumerator Dash(float x, float y)
-    {
-        _isDashing = true;
-        float dashStartTime = Time.time;
-        _hasDashed = true;
-        _isJumping = false;
-
-        _rb.velocity = Vector2.zero;
-        _rb.gravityScale = 0f;
-        _rb.drag = 0f;
-
-        Vector2 dir;
-        if (x != 0f || y != 0f)
-        {
-            dir = new Vector2(x,y);
-        }
-        else
-        {
-            if (_facingRight) dir = new Vector2(1f, 0f);
-            else dir = new Vector2(-1f, 0f);
-        }
-
-        while (Time.time < dashStartTime + _dashLength)
-        {
-            _rb.velocity = dir.normalized * _dashSpeed;
-            yield return null;
-        }
-
-        _isDashing = false;
     }
 
 
@@ -771,9 +741,20 @@ public class SpeedPlayerController : MonoBehaviour
     }
     #endregion
     #region 打架
-    public void Attack()
+    /*public void Attack()
     {
-        _anim.SetTrigger("Attack1");
+
+        if (Input.GetButtonDown("Fire1"))
+        {
+            atkR.enabled = true;
+            _anim.SetTrigger("Attack1");
+            StartCoroutine(disableHitBox());
+            
+        }
+        
+        
+        
+        
 
         Collider2D[] hitEnemy=Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
 
@@ -795,20 +776,16 @@ public class SpeedPlayerController : MonoBehaviour
             {
                 Debug.Log("沒啥好打的");
             }
-
-
-
+            
         }
-    }
 
-    private void OnDrawGizmosSelected()
-    {
-        if (attackPoint == null)
+        IEnumerator disableHitBox()
         {
-            return;
+            yield return new WaitForSeconds(time);
+            atkR.enabled = false; 
         }
-        Gizmos.DrawWireSphere(attackPoint.position,attackRange);
-    }
+    }*/
+    
     public void save()
     {
         PlayerPrefs.SetFloat("x", transform.position.x);
@@ -827,36 +804,29 @@ public class SpeedPlayerController : MonoBehaviour
 
     #region 擊殺衝刺
     
-
-    public void KillingSpree()
+    IEnumerator KillDash(float x,float y)
     {
+        float dashStartTime = Time.time;
         
-        Vector2 direction = mousePos.transform.position - transform.position;
+        isKilling = true;
         
+        dashCD -= Time.deltaTime;
         _rb.velocity = Vector2.zero;
         _rb.gravityScale = 0f;
         _rb.drag = 0f;
-        _rb.AddForceAtPosition(new Vector3(direction.x,direction.y-2f)*MoveToTime,mousePos.transform.position);
-           
+        Vector2 dir = new Vector2(x - transform.position.x, y - transform.position.y);
         
-        
-        //float distoEnemy = Vector3.Distance(transform.position, takeEnemy.EnemyTargets.transform.position);
-        //Vector2 direction = takeEnemy.EnemyTargets.transform.position - transform.position;
-        
-        /*if (takeEnemy.slaind && distoEnemy > 0.2f)
+
+        while (Time.time < dashStartTime + 0.05)
         {
-            _rb.velocity = Vector2.zero;
-            _rb.gravityScale = 0f;
-            _rb.drag = 0f;
-            _rb.AddForceAtPosition(direction * MovetoTime, takeEnemy.EnemyTargets.transform.position);
+            _rb.velocity = dir.normalized * airForce;
+            yield return null;
         }
-        if (takeEnemy.slaind && distoEnemy <= 0.2f)
-        {
-            KilllingTime = true;
-            Invoke("DoSlowMotion", SlowDelay);
-            _rb.AddForceAtPosition(direction * KillDash, takeEnemy.EnemyTargets.transform.position);
-            takeEnemy.slaind = false;
-        }*/
+
+        transform.position = new Vector3(mousePos.enemyPos.x, mousePos.enemyPos.y);
+
+        isKilling = false;
+
     }
 
     #endregion
@@ -876,6 +846,8 @@ public class SpeedPlayerController : MonoBehaviour
         {
             wallEnemyIn = true;
         }
+        
+        
     }
     private void OnTriggerExit2D(Collider2D other)
     {
