@@ -107,6 +107,8 @@ public class SpeedPlayerController : MonoBehaviour
     [SerializeField] public bool isKilling;
     [SerializeField] public float airForce = 5f;
     [SerializeField] public bool wallEnemyIn;
+    [SerializeField] public bool hasDashL;
+    public bool hasDashR;
 
 
     [Header("Attack")]
@@ -231,6 +233,15 @@ public class SpeedPlayerController : MonoBehaviour
             }
         }
 
+        if (hasDashR)
+        {
+            StartCoroutine(KillDashFallR());
+        }
+        else if(hasDashL)
+        {
+            StartCoroutine(KillDashFallL());
+        }
+
 
 
     }
@@ -245,11 +256,11 @@ public class SpeedPlayerController : MonoBehaviour
         CheckCollisions();
         
         
-        if (_isDashing)
+        if (_isDashing||isKilling)
         {
             return;
         }
-        if (!_isDashing)
+        if (!_isDashing||!isKilling)
         {
             if (_canMove)
             {
@@ -268,6 +279,7 @@ public class SpeedPlayerController : MonoBehaviour
                 _hangTimeCounter = _hangTime;
                 _hasDashed = false;
             }
+            
             else
             {
                 ApplyAirLinearDrag();
@@ -827,9 +839,34 @@ public class SpeedPlayerController : MonoBehaviour
         }
 
         transform.position = new Vector3(mousePos.enemyPos.x, mousePos.enemyPos.y);
-
+        if (dir.x>0)
+        {
+            hasDashR = true;
+        }
+        else if (dir.x<0)
+        {
+            hasDashL = true;
+        }
+        
         isKilling = false;
 
+    }
+
+    IEnumerator KillDashFallR()
+    {
+        _rb.drag = 0;
+        _rb.gravityScale = 0;
+        _rb.velocity = Vector2.right*2;
+        yield return new WaitForSeconds(0.5f);
+        hasDashR = false;
+    }
+    IEnumerator KillDashFallL()
+    {
+        _rb.drag = 0;
+        _rb.gravityScale = 0;
+        _rb.velocity = Vector2.left*2;
+        yield return new WaitForSeconds(0.5f);
+        hasDashL = false;
     }
 
     #endregion
