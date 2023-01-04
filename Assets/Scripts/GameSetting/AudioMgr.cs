@@ -36,6 +36,8 @@ public class AudioMgr : MonoBehaviour
         }
         BGM_audioSource = Array_audioSource[0];
         SE_audioSource = Array_audioSource[1];
+        BGM_audioSource.PlayOneShot(BGM[0]);
+        BGM_audioSource.loop = true;
     }
     private void Start()
     {
@@ -51,7 +53,6 @@ public class AudioMgr : MonoBehaviour
             titleMgr = FindObjectOfType<TitleMgr>();
             gameMgr = FindObjectOfType<GameMgr>();
         }
-
         AudioBigSmall();
     }
 

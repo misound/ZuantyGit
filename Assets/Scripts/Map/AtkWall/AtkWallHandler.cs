@@ -6,7 +6,6 @@ using UnityEngine.Serialization;
 public class AtkWallHandler : MonoBehaviour
 {
     [Header("Data")] [SerializeField] private int AWHP;
-    [SerializeField] bool AWDie;
 
     public GameObject WallBody;
     public SpeedPlayerController playerController;
@@ -38,16 +37,18 @@ public class AtkWallHandler : MonoBehaviour
     void Update()
     {
         if (AWBreak)
-        {
-            
+        { 
             Particle.GetComponent<ParticleSystem>().Play();
             WallBody.SetActive(false);
+            if (Particle.GetComponent<ParticleSystem>().isPlaying) 
+                Particle.GetComponent<ParticleSystem>().Stop();
+            //Particle.GetComponent<ParticleSystem>().Stop();
         }
 
         if (AWBroken)
         {
             WallBody.SetActive(false);
-            Particle.GetComponent<ParticleSystem>().Stop();
+            //Particle.GetComponent<ParticleSystem>().Stop();
         }
 
         if (_isDirty)
@@ -72,6 +73,8 @@ public class AtkWallHandler : MonoBehaviour
         {
             AWHP = 0;
             AWBreak = true;
+            _data.AWStates = true;
+            _isDirty = true;
         }
     }
 

@@ -20,6 +20,7 @@ public class NewSMgr : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        Btn1();
         PlayerPrefs.SetString("DoorT", "false");
         PlayerPrefs.SetString("DoorT01", "true");
         string json = PlayerPrefs.GetString("data");
@@ -99,6 +100,8 @@ public class NewSMgr : MonoBehaviour
         var data2 = FakeData2();
         string json = JsonConvert.SerializeObject(data1);
         string json2 = JsonConvert.SerializeObject(data2);
+        PlayerPrefs.SetString("data", json);
+        PlayerPrefs.SetString("data2", json2);
         SpeedPlayerController SPC = GameObject.FindObjectOfType<SpeedPlayerController>();
 
         Vector3 pos = SPC.transform.position;

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using UnityEngine;
 
 public static class GameSetting
@@ -30,6 +31,10 @@ public static class GameSetting
 
     public static void Load()
     {
+        string json = PlayerPrefs.GetString("data");
+        string json2 = PlayerPrefs.GetString("data2");
+        DList = JsonConvert.DeserializeObject<IList<Itemdata>>(json);
+        WList = JsonConvert.DeserializeObject<IList<AtkWData>>(json2);
         AudioReady = bool.Parse(PlayerPrefs.GetString("AudioReady", "false"));
         Playerpos.x = PlayerPrefs.GetFloat("x");
         Playerpos.y = PlayerPrefs.GetFloat("y");

@@ -16,9 +16,13 @@ public class S1Mgr : MonoBehaviour
     private void Awake()
     {
         //PlayerPrefs.DeleteAll();
-        
-        PlayerPrefs.SetString("DoorT", "false");
-        PlayerPrefs.SetString("DoorT01", "true");
+        ResetItem();
+        PlayerPrefs.SetString("D1-1S", "false");
+        PlayerPrefs.SetString("AW1-1S", "false");
+        PlayerPrefs.SetString("AW1-2S", "false");
+        PlayerPrefs.SetString("AW1-3S", "false");
+        PlayerPrefs.SetString("AW1-4S", "false");
+        PlayerPrefs.SetString("AW1-5S", "false");
         string json = PlayerPrefs.GetString("data");
         string json2 = PlayerPrefs.GetString("data2");
         GameSetting.DList = JsonConvert.DeserializeObject<IList<Itemdata>>(json);
@@ -27,7 +31,6 @@ public class S1Mgr : MonoBehaviour
 
     private void Start()
     {
-        
         for (int i = 0; i < GameSetting.DList.Count; i++)
         {
             GameObject temp = Instantiate(DoorPrefab, DPos[i].transform);
@@ -37,6 +40,7 @@ public class S1Mgr : MonoBehaviour
             CanAtkDoor door = temp.GetComponent<CanAtkDoor>();
             door.SetDoorData(GameSetting.DList[i]);
         }
+
         for (int i = 0; i < GameSetting.WList.Count; i++)
         {
             GameObject temp = Instantiate(AWPrefab, AWPos[i].transform);
@@ -46,42 +50,55 @@ public class S1Mgr : MonoBehaviour
             AtkWallHandler wall = temp.GetComponent<AtkWallHandler>();
             wall.SetWallData(GameSetting.WList[i]);
         }
+
         Debug.Log(GameSetting.WList.Count);
     }
-    
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
             CheckPoints();
         }
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            GameSetting.Load();
+            load();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            ResetItem();
+        }
     }
+
     public IList<Itemdata> FakeData1()
     {
         IList<Itemdata> result = new List<Itemdata>();
 
-        result.Add(new Itemdata() { Name = "D1-1", States = bool.Parse((PlayerPrefs.GetString("DoorT01"))) });
+        result.Add(new Itemdata() { Name = "D1-1", States = bool.Parse((PlayerPrefs.GetString("D1-1S"))) });
         return result;
     }
+
     public IList<AtkWData> FakeData2()
     {
         IList<AtkWData> result = new List<AtkWData>();
-        
-        result.Add(new AtkWData() { AWName = "AW1-1", AWStates = bool.Parse((PlayerPrefs.GetString("DoorT"))) });
-        result.Add(new AtkWData() { AWName = "AW1-2", AWStates = bool.Parse((PlayerPrefs.GetString("DoorT01"))) });
-        result.Add(new AtkWData() { AWName = "AW1-3", AWStates = bool.Parse((PlayerPrefs.GetString("DoorT01"))) });
-        result.Add(new AtkWData() { AWName = "AW1-4", AWStates = bool.Parse((PlayerPrefs.GetString("DoorT01"))) });
-        result.Add(new AtkWData() { AWName = "AW1-5", AWStates = bool.Parse((PlayerPrefs.GetString("DoorT01"))) });
+
+        result.Add(new AtkWData() { AWName = "AW1-1", AWStates = bool.Parse((PlayerPrefs.GetString("AW1-1S"))) });
+        result.Add(new AtkWData() { AWName = "AW1-2", AWStates = bool.Parse((PlayerPrefs.GetString("AW1-2S"))) });
+        result.Add(new AtkWData() { AWName = "AW1-3", AWStates = bool.Parse((PlayerPrefs.GetString("AW1-3S"))) });
+        result.Add(new AtkWData() { AWName = "AW1-4", AWStates = bool.Parse((PlayerPrefs.GetString("AW1-4S"))) });
+        result.Add(new AtkWData() { AWName = "AW1-5", AWStates = bool.Parse((PlayerPrefs.GetString("AW1-5S"))) });
 
         return result;
     }
-    
+
     private void Save()
     {
-        var data1 = FakeData1();
-        var data2 = FakeData2();
-        string json = JsonConvert.SerializeObject(data1);
-        string json2 = JsonConvert.SerializeObject(data2);
+
+        string json = JsonConvert.SerializeObject(GameSetting.DList);
+        string json2 = JsonConvert.SerializeObject(GameSetting.WList);
         SpeedPlayerController SPC = GameObject.FindObjectOfType<SpeedPlayerController>();
 
         Vector3 pos = SPC.transform.position;
@@ -93,7 +110,7 @@ public class S1Mgr : MonoBehaviour
         PlayerPrefs.SetString("data2", json2);
         PlayerPrefs.Save();
     }
-    
+
     void CheckPoints()
     {
         for (int i = 0; i < CheckPoint.Length; i++)
@@ -121,6 +138,13 @@ public class S1Mgr : MonoBehaviour
         }
     }
 
+    private void load()
+    {
+        SpeedPlayerController SPC = GameObject.FindObjectOfType<SpeedPlayerController>();
+
+        SPC.transform.position = GameSetting.Playerpos;
+    }
+
     private void OnDrawGizmos()
     {
         for (int i = 0; i < CheckPoint.Length; i++)
@@ -128,5 +152,15 @@ public class S1Mgr : MonoBehaviour
             Gizmos.DrawRay(CheckPoint[i].transform.position, Vector3.right * 2);
             Gizmos.DrawRay(CheckPoint[i].transform.position, Vector3.left * 2);
         }
+    }
+
+    private void ResetItem()
+    {
+        var data1 = FakeData1();
+        var data2 = FakeData2();
+        string json = JsonConvert.SerializeObject(data1);
+        string json2 = JsonConvert.SerializeObject(data2);
+        PlayerPrefs.SetString("data", json);
+        PlayerPrefs.SetString("data2", json2);
     }
 }
