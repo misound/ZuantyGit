@@ -40,15 +40,12 @@ public class AtkWallHandler : MonoBehaviour
         { 
             Particle.GetComponent<ParticleSystem>().Play();
             WallBody.SetActive(false);
-            if (Particle.GetComponent<ParticleSystem>().isPlaying) 
-                Particle.GetComponent<ParticleSystem>().Stop();
-            //Particle.GetComponent<ParticleSystem>().Stop();
         }
 
         if (AWBroken)
         {
             WallBody.SetActive(false);
-            //Particle.GetComponent<ParticleSystem>().Stop();
+            Particle.GetComponent<ParticleSystem>().Stop();
         }
 
         if (_isDirty)

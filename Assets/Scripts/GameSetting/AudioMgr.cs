@@ -53,6 +53,11 @@ public class AudioMgr : MonoBehaviour
             titleMgr = FindObjectOfType<TitleMgr>();
             gameMgr = FindObjectOfType<GameMgr>();
         }
+
+        if (!BGM_audioSource.isPlaying)
+        {
+            BGM_audioSource.PlayOneShot(BGM[0]);
+        }
         AudioBigSmall();
     }
 
