@@ -11,7 +11,7 @@ public class TimeControl : MonoBehaviour
     [SerializeField] private GameObject _timeline;
     [SerializeField] private Collider2D  _canPlay;
     bool isPause;
-    bool isEnd;
+   
     public int i;   
 
     // Start is called before the first frame update
@@ -19,7 +19,7 @@ public class TimeControl : MonoBehaviour
     {
         if (_playableDirector == null) { _playableDirector = GetComponent<PlayableDirector>(); }
         isPause = false;
-        isEnd = false;
+       
     }
     public void talkPauseTimeline()
     {
