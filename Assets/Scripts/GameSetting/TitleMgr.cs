@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -115,5 +116,25 @@ public class TitleMgr : MonoBehaviour
     public void Quit()
     {
         Application.Quit();
+    }
+
+    private void OnGUI()
+    {
+        if (GUI.Button(new Rect(50, 50, 160, 100), "Level1"))
+        {
+            SceneManager.LoadScene("level_1_testColillder");
+        }
+        if (GUI.Button(new Rect(50, 150, 160, 100), "Level2"))
+        {
+            SceneManager.LoadScene("level_2");
+        }
+        if (GUI.Button(new Rect(50, 250, 160, 100), "Level3"))
+        {
+            SceneManager.LoadScene("level_3");
+        }
+        if (GUI.Button(new Rect(50, 350, 160, 100), "Boss關卡"))
+        {
+            SceneManager.LoadScene("BOSS");
+        }
     }
 }

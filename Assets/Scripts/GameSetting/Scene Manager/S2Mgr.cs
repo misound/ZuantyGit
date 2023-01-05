@@ -14,7 +14,6 @@ public class S2Mgr : MonoBehaviour
 
     private void Awake()
     {
-        ResetItem();
         PlayerPrefs.SetString("D2-1S", "false");
         PlayerPrefs.SetString("D2-2S", "false");
         PlayerPrefs.SetString("D2-3S", "false");
@@ -27,6 +26,7 @@ public class S2Mgr : MonoBehaviour
         PlayerPrefs.SetString("AW2-2S", "false");
         PlayerPrefs.SetString("AW2-3S", "false");
         PlayerPrefs.SetString("AW2-4S", "false");
+        ResetItem();
         string json = PlayerPrefs.GetString("data");
         string json2 = PlayerPrefs.GetString("data2");
         GameSetting.DList = JsonConvert.DeserializeObject<IList<Itemdata>>(json);

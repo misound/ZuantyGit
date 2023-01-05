@@ -16,13 +16,13 @@ public class S1Mgr : MonoBehaviour
     private void Awake()
     {
         //PlayerPrefs.DeleteAll();
-        ResetItem();
         PlayerPrefs.SetString("D1-1S", "false");
         PlayerPrefs.SetString("AW1-1S", "false");
         PlayerPrefs.SetString("AW1-2S", "false");
         PlayerPrefs.SetString("AW1-3S", "false");
         PlayerPrefs.SetString("AW1-4S", "false");
         PlayerPrefs.SetString("AW1-5S", "false");
+        ResetItem();
         string json = PlayerPrefs.GetString("data");
         string json2 = PlayerPrefs.GetString("data2");
         GameSetting.DList = JsonConvert.DeserializeObject<IList<Itemdata>>(json);

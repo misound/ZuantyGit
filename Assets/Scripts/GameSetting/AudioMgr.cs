@@ -60,19 +60,7 @@ public class AudioMgr : MonoBehaviour
         }
         AudioBigSmall();
     }
-
-    private void OnGUI()
-    {
-        if (GUI.Button(new Rect(100, 1000, 160, 100), "BGM1"))
-        {
-            Play(eAudio.BGM1);
-        }
-        if (GUI.Button(new Rect(1860, 1000, 160, 100), "SE"))
-        {
-            //Play(eAudio.BGM2);
-            Debug.Log(GameSetting.BGMAudio.BGM_audioSource.volume);
-        }
-    }
+    
     #region BGM管理
     public enum eAudio
     {
