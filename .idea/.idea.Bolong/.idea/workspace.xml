@@ -38,6 +38,14 @@
     </option>
   </component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
+    <configuration name="Standalone Player" type="RunUnityExe" factoryName="Unity Executable">
+      <option name="EXE_PATH" value="$USER_HOME$/Desktop\slamander.exe" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="C:\Users\24544\Desktop" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <method v="2" />
+    </configuration>
     <configuration name="UnitTests (batch mode)" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="D:\Unity\Editor\Unity.exe" />
       <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath C:\Users\24544\Desktop\Bolong -testResults Logs/results.xml -testPlatform EditMode -debugCodeOptimization" />
@@ -83,7 +91,7 @@
       <workItem from="1672668713406" duration="1976000" />
       <workItem from="1672672388456" duration="6053000" />
       <workItem from="1672736530742" duration="28984000" />
-      <workItem from="1672913896234" duration="3098000" />
+      <workItem from="1672913896234" duration="3231000" />
     </task>
     <servers />
   </component>
