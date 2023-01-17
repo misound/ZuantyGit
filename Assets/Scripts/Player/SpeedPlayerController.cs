@@ -169,27 +169,39 @@ public class SpeedPlayerController : MonoBehaviour
         M_pos.y -=  M_Center.y;
         
         //Attack
+        playerAttack.AttackCount();
         if (Input.GetButtonDown("Fire1"))
         {
+            if (playerAttack.cooldown<=1||playerAttack.cooldown>=0)
+            {
+                playerAttack.cooldown = 1f;
+            }
+            playerAttack.isAttack = true;
+            
+            if (playerAttack.combo<=4||playerAttack.combo==0)
+            {
+                playerAttack.combo += 1;
+            }
+            
             if (M_dir.x<0 &&_facingRight)
             {
-                playerAttack.Attack();
+                playerAttack.MeleeAttack();
                 Flip();
             }
             else if (M_dir.x>0&& !_facingRight)
             {
-                playerAttack.Attack();
+                playerAttack.MeleeAttack();
                 Flip();
             }
             else
             {
-                playerAttack.Attack();
+                playerAttack.MeleeAttack();
 
             }
             
         }
         //Dash
-        if (Input.GetButtonDown("Fire2")&&_canDash)
+        if (Input.GetButtonDown("Fire2")&&_canDash) 
         {
             if (wallEnemyIn&& mousePos.onWallEnemy)
             {
@@ -231,6 +243,8 @@ public class SpeedPlayerController : MonoBehaviour
                     StartCoroutine(MouseDown(M_dir.x, M_dir.y));
                 }
             }
+            
+            
         }
 
         if (hasDashR)
