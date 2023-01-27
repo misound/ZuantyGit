@@ -18,16 +18,27 @@ public class NewSMgr : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Awake()
+    void Awake() //開始做有無資料的判斷式 //做出第一次進去與第二次進去(含以後)後面讀取資料的判斷式
     {
-        Btn1();
-        PlayerPrefs.SetString("DoorT", "false");
-        PlayerPrefs.SetString("DoorT01", "true");
+        
+
+
+        
+        
         string json = PlayerPrefs.GetString("data");
         string json2 = PlayerPrefs.GetString("data2");
         GameSetting.DList = JsonConvert.DeserializeObject<IList<Itemdata>>(json);
         GameSetting.WList = JsonConvert.DeserializeObject<IList<AtkWData>>(json2);
+        
+        NewSItem Item = (NewSItem)Factory.reset("NS");
+        GameSetting.DList = Item.FakeData1();
+        GameSetting.WList = Item.FakeData2();
 
+        //Btn1();
+        /*PlayerPrefs.SetString("DoorT", "false");
+        PlayerPrefs.SetString("DoorT01", "false");
+        PlayerPrefs.SetString("Wall", "false");
+        PlayerPrefs.SetString("Wall1", "false");*/
     }
 
     private void Start()
@@ -41,6 +52,7 @@ public class NewSMgr : MonoBehaviour
             CanAtkDoor door = temp.GetComponent<CanAtkDoor>();
             door.SetDoorData(GameSetting.DList[i]);
         }
+
         for (int i = 0; i < GameSetting.WList.Count; i++)
         {
             GameObject temp = Instantiate(AWPrefab, AWPos[i].transform);
@@ -50,6 +62,7 @@ public class NewSMgr : MonoBehaviour
             AtkWallHandler wall = temp.GetComponent<AtkWallHandler>();
             wall.SetWallData(GameSetting.WList[i]);
         }
+
         Debug.Log(GameSetting.WList.Count);
     }
 
@@ -68,23 +81,6 @@ public class NewSMgr : MonoBehaviour
         }
     }
 
-    public IList<Itemdata> FakeData1()
-    {
-        IList<Itemdata> result = new List<Itemdata>();
-
-        result.Add(new Itemdata() { Name = "D1-1", States = bool.Parse((PlayerPrefs.GetString("DoorT01"))) });
-        result.Add(new Itemdata() { Name = "D1-2", States = bool.Parse((PlayerPrefs.GetString("DoorT"))) });
-        return result;
-    }
-    public IList<AtkWData> FakeData2()
-    {
-        IList<AtkWData> result = new List<AtkWData>();
-        
-        result.Add(new AtkWData() { AWName = "AW1-1", AWStates = bool.Parse((PlayerPrefs.GetString("DoorT"))) });
-        result.Add(new AtkWData() { AWName = "AW1-2", AWStates = bool.Parse((PlayerPrefs.GetString("DoorT01"))) });
-
-        return result;
-    }
 
     private void OnGUI()
     {
@@ -96,10 +92,8 @@ public class NewSMgr : MonoBehaviour
 
     private void Btn1()
     {
-        var data1 = FakeData1();
-        var data2 = FakeData2();
-        string json = JsonConvert.SerializeObject(data1);
-        string json2 = JsonConvert.SerializeObject(data2);
+        string json = JsonConvert.SerializeObject(GameSetting.DList);
+        string json2 = JsonConvert.SerializeObject(GameSetting.WList);
         PlayerPrefs.SetString("data", json);
         PlayerPrefs.SetString("data2", json2);
         SpeedPlayerController SPC = GameObject.FindObjectOfType<SpeedPlayerController>();
@@ -133,6 +127,8 @@ public class NewSMgr : MonoBehaviour
                     GameSetting.Playerposy = pos.y;
                     PlayerPrefs.SetFloat("x", GameSetting.Playerposx);
                     PlayerPrefs.SetFloat("y", GameSetting.Playerposy);
+                    string json = JsonConvert.SerializeObject(GameSetting.DList);
+                    string json2 = JsonConvert.SerializeObject(GameSetting.WList);
                     PlayerPrefs.Save();
                 }
             }
@@ -145,6 +141,8 @@ public class NewSMgr : MonoBehaviour
                     GameSetting.Playerposy = pos.y;
                     PlayerPrefs.SetFloat("x", GameSetting.Playerposx);
                     PlayerPrefs.SetFloat("y", GameSetting.Playerposy);
+                    string json = JsonConvert.SerializeObject(GameSetting.DList);
+                    string json2 = JsonConvert.SerializeObject(GameSetting.WList);
                     PlayerPrefs.Save();
                 }
             }

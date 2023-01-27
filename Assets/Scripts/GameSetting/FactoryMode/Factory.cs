@@ -1,0 +1,25 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Factory
+{
+    public static IItem reset(string Secne)
+    {
+        switch (Secne)
+        {
+            case "S1":
+                return new S1Item();
+            case "S2":
+                return new S2Item();
+            case "S3":
+                return new S3Item();
+            case "NS":
+                return new NewSItem();
+            default:
+                break;
+        }
+
+        return null;
+    }
+}
