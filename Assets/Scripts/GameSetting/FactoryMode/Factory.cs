@@ -16,6 +16,8 @@ public class Factory
                 return new S3Item();
             case "NS":
                 return new NewSItem();
+            case "SS":
+                return new SSItem();
             default:
                 break;
         }

@@ -7,9 +7,9 @@ public class FacLoadTester : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        S1Item s1Item = (S1Item)Factory.reset("S1");
+        SSItem ssItem = (SSItem)Factory.reset("SS");
         
-        s1Item.saysomething();
+        ssItem.saysomething();
         
         S2Item s2Item = (S2Item)Factory.reset("S2");
         
