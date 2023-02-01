@@ -9,9 +9,12 @@ using Vector3 = UnityEngine.Vector3;
 
 public class NewSMgr : MonoBehaviour
 {
+    private bool Entered = false;
+
     public GameObject DoorPrefab;
     public GameObject AWPrefab;
     public GameObject[] CheckPoint;
+    public GameObject EnterPoint;
 
     public GameObject[] DPos;
     public GameObject[] AWPos;
@@ -21,24 +24,24 @@ public class NewSMgr : MonoBehaviour
     void Awake() //開始做有無資料的判斷式 //做出第一次進去與第二次進去(含以後)後面讀取資料的判斷式
     {
         
-
-
-        
-        
-        string json = PlayerPrefs.GetString("data");
-        string json2 = PlayerPrefs.GetString("data2");
-        GameSetting.DList = JsonConvert.DeserializeObject<IList<Itemdata>>(json);
-        GameSetting.WList = JsonConvert.DeserializeObject<IList<AtkWData>>(json2);
-        
         NewSItem Item = (NewSItem)Factory.reset("NS");
         GameSetting.DList = Item.FakeData1();
         GameSetting.WList = Item.FakeData2();
+        //Item.saysomething();
+        string json = JsonConvert.SerializeObject(GameSetting.DList);
+        string json2 = JsonConvert.SerializeObject(GameSetting.WList);
+        Entered = bool.Parse((PlayerPrefs.GetString("S1Enter")));
+
+        if (Entered)
+        {
+            json = PlayerPrefs.GetString("data");
+            json2 = PlayerPrefs.GetString("data2");
+            GameSetting.DList = JsonConvert.DeserializeObject<IList<Itemdata>>(json);
+            GameSetting.WList = JsonConvert.DeserializeObject<IList<AtkWData>>(json2);
+        }
+
 
         //Btn1();
-        /*PlayerPrefs.SetString("DoorT", "false");
-        PlayerPrefs.SetString("DoorT01", "false");
-        PlayerPrefs.SetString("Wall", "false");
-        PlayerPrefs.SetString("Wall1", "false");*/
     }
 
     private void Start()
@@ -62,8 +65,6 @@ public class NewSMgr : MonoBehaviour
             AtkWallHandler wall = temp.GetComponent<AtkWallHandler>();
             wall.SetWallData(GameSetting.WList[i]);
         }
-
-        Debug.Log(GameSetting.WList.Count);
     }
 
     private void Update()
@@ -73,6 +74,7 @@ public class NewSMgr : MonoBehaviour
             CheckPoints();
         }
 
+        EnterCheck();
         if (Input.GetKeyDown(KeyCode.I))
         {
             GameSetting.Load();
@@ -149,6 +151,48 @@ public class NewSMgr : MonoBehaviour
         }
     }
 
+    void EnterCheck()
+    {
+        RaycastHit2D hitR = Physics2D.Raycast(EnterPoint.transform.position, Vector3.right * 2, 2,
+            1 << LayerMask.NameToLayer("Default"));
+        RaycastHit2D hit = Physics2D.Raycast(EnterPoint.transform.position, Vector3.left * 2, 2,
+            1 << LayerMask.NameToLayer("Default"));
+        if (hit.collider != null)
+        {
+            if (hit.collider.gameObject.CompareTag("Player"))
+            {
+                PlayerPrefs.SetString("S1Enter", "true");
+                Debug.Log("我要進來了");
+            }
+        }
+
+        if (hitR.collider != null)
+        {
+            if (hitR.collider.gameObject.CompareTag("Player"))
+            {
+                PlayerPrefs.SetString("S1Enter", "true");
+                Debug.Log("我要進來了");
+            }
+
+        }
+    }
+    public IList<Itemdata> CakeData1()
+    {
+        IList<Itemdata> result = new List<Itemdata>();
+
+        result.Add(new Itemdata() { Name = "D1-1", States = bool.Parse((PlayerPrefs.GetString("DN-1S"))) });
+        result.Add(new Itemdata() { Name = "D1-2", States = bool.Parse((PlayerPrefs.GetString("DN-1S"))) });
+        return result;
+    }
+    public IList<AtkWData> CakeData2()
+    {
+        IList<AtkWData> result = new List<AtkWData>();
+        
+        result.Add(new AtkWData() { AWName = "AW1-1", AWStates = bool.Parse((PlayerPrefs.GetString("AWN-1S"))) });
+        result.Add(new AtkWData() { AWName = "AW1-2", AWStates = bool.Parse((PlayerPrefs.GetString("AWN-1S"))) });
+
+        return result;
+    }
     private void OnDrawGizmos()
     {
         for (int i = 0; i < CheckPoint.Length; i++)
