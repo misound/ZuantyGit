@@ -11,9 +11,12 @@ public class S2Mgr : MonoBehaviour
 
     public GameObject[] DPos;
     public GameObject[] AWPos;
+    
+    private bool EnteredS2 = false;
 
     private void Awake()
     {
+        EnteredS2 = bool.Parse((PlayerPrefs.GetString("S2Enter")));
         PlayerPrefs.SetString("D2-1S", "false");
         PlayerPrefs.SetString("D2-2S", "false");
         PlayerPrefs.SetString("D2-3S", "false");
@@ -26,11 +29,21 @@ public class S2Mgr : MonoBehaviour
         PlayerPrefs.SetString("AW2-2S", "false");
         PlayerPrefs.SetString("AW2-3S", "false");
         PlayerPrefs.SetString("AW2-4S", "false");
-        ResetItem();
-        string json = PlayerPrefs.GetString("data");
-        string json2 = PlayerPrefs.GetString("data2");
-        GameSetting.DList = JsonConvert.DeserializeObject<IList<Itemdata>>(json);
-        GameSetting.WList = JsonConvert.DeserializeObject<IList<AtkWData>>(json2);
+        if (EnteredS2)
+        {
+            GameSetting.DList = CakeData1();
+            GameSetting.WList = CakeData2();
+            string json = PlayerPrefs.GetString("data");
+            string json2 = PlayerPrefs.GetString("data2");
+            GameSetting.DList = JsonConvert.DeserializeObject<IList<Itemdata>>(json);
+            GameSetting.WList = JsonConvert.DeserializeObject<IList<AtkWData>>(json2);
+        }
+        else if (!EnteredS2)
+        {
+            S2Item S2Item = (S2Item)Factory.reset("S2");
+            GameSetting.DList = S2Item.FakeData1();
+            GameSetting.WList = S2Item.FakeData2();
+        }
 
     }
 
@@ -71,14 +84,9 @@ public class S2Mgr : MonoBehaviour
             GameSetting.Load();
             load();
         }
-
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            ResetItem();
-        }
     }
 
-    public IList<Itemdata> FakeData1()
+    public IList<Itemdata> CakeData1()
     {
         IList<Itemdata> result = new List<Itemdata>();
 
@@ -94,7 +102,7 @@ public class S2Mgr : MonoBehaviour
         return result;
     }
 
-    public IList<AtkWData> FakeData2()
+    public IList<AtkWData> CakeData2()
     {
         IList<AtkWData> result = new List<AtkWData>();
 
@@ -136,6 +144,7 @@ public class S2Mgr : MonoBehaviour
                 if (hit.collider.gameObject.CompareTag("Player"))
                 {
                     Save();
+                    PlayerPrefs.SetString("S2Enter", "true");
                     PlayerPrefs.Save();
                 }
             }
@@ -144,6 +153,7 @@ public class S2Mgr : MonoBehaviour
                 if (hitR.collider.gameObject.CompareTag("Player"))
                 {
                     Save();
+                    PlayerPrefs.SetString("S2Enter", "true");
                     PlayerPrefs.Save();
                 }
             }
@@ -164,16 +174,5 @@ public class S2Mgr : MonoBehaviour
             Gizmos.DrawRay(CheckPoint[i].transform.position, Vector3.right * 2);
             Gizmos.DrawRay(CheckPoint[i].transform.position, Vector3.left * 2);
         }
-    }
-
-    private void ResetItem()
-    {
-        var data1 = FakeData1();
-        var data2 = FakeData2();
-        string json = JsonConvert.SerializeObject(data1);
-        string json2 = JsonConvert.SerializeObject(data2);
-        PlayerPrefs.SetString("data", json);
-        PlayerPrefs.SetString("data2", json2);
-        
     }
 }

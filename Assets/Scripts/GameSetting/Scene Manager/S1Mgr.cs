@@ -13,12 +13,19 @@ public class S1Mgr : MonoBehaviour
     public GameObject[] DPos;
     public GameObject[] AWPos;
 
-    public bool Entered = false;
+    private bool EnteredS1 = false;
 
     private void Awake()
     {   //判斷是否為新遊戲
-        Entered = bool.Parse((PlayerPrefs.GetString("S1Enter")));
-        if (Entered)
+        
+        EnteredS1 = bool.Parse((PlayerPrefs.GetString("S1Enter")));
+        PlayerPrefs.SetString("D1-1S", "false");
+        PlayerPrefs.SetString("AW1-1S", "false");
+        PlayerPrefs.SetString("AW1-2S", "false");
+        PlayerPrefs.SetString("AW1-3S", "false");
+        PlayerPrefs.SetString("AW1-4S", "false");
+        PlayerPrefs.SetString("AW1-5S", "false");
+        if (EnteredS1)
         {
             GameSetting.DList = CakeData1();
             GameSetting.WList = CakeData2();
@@ -27,7 +34,7 @@ public class S1Mgr : MonoBehaviour
             GameSetting.DList = JsonConvert.DeserializeObject<IList<Itemdata>>(json);
             GameSetting.WList = JsonConvert.DeserializeObject<IList<AtkWData>>(json2);
         }
-        else if (!Entered)
+        else if (!EnteredS1)
         {
             S1Item S1Item = (S1Item)Factory.reset("S1");
             GameSetting.DList = S1Item.FakeData1();
