@@ -608,8 +608,8 @@ public class SpeedPlayerController : MonoBehaviour
                                 _cornerCorrectLayer);
 
         //Wall Collisions
-        _onWall = Physics2D.Raycast(transform.position, Vector2.right, _wallRaycastLength, _wallLayer) ||
-                  Physics2D.Raycast(transform.position, Vector2.left, _wallRaycastLength, _wallLayer);
+        _onWall = Physics2D.Raycast(new Vector2(transform.position.x,transform.position.y+1f), Vector2.right, _wallRaycastLength, _wallLayer) ||
+                  Physics2D.Raycast(new Vector2(transform.position.x,transform.position.y+1f), Vector2.left, _wallRaycastLength, _wallLayer);
         _onRightWall = Physics2D.Raycast(transform.position, Vector2.right, _wallRaycastLength, _wallLayer);
         //OneWayPlatform Collisions
         _onOneWayPlatform = Physics2D.Raycast(transform.position + _oneWayRaycastOffset, Vector2.down,
