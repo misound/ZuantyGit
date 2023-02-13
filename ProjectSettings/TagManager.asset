@@ -41,13 +41,19 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: farbackground
+    uniqueID: 3398203951
+    locked: 0
   - name: background2
     uniqueID: 759189533
     locked: 0
   - name: background1
     uniqueID: 2654859715
     locked: 0
-  - name: player
+  - name: mainCharater
+    uniqueID: 274972283
+    locked: 0
+  - name: enemy
     uniqueID: 3479352335
     locked: 0
   - name: basemap
@@ -61,9 +67,6 @@ TagManager:
     locked: 0
   - name: UI
     uniqueID: 353312013
-    locked: 0
-  - name: fistrender
-    uniqueID: 3398203951
     locked: 0
   - name: Default
     uniqueID: 0
