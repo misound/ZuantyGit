@@ -70,7 +70,12 @@ public class SpeedPlayerController : MonoBehaviour
     private float _dashBufferCounter;
     public bool _isDashing;
     private bool _hasDashed;
-    private bool _canDash=true;
+
+    [Header("Dash CD UI")] 
+    public Image dashImage;
+    public float dashCoolDown = 5;
+    public bool canDash;
+
 
     [Header("Ground Collision Variables")] [SerializeField]
     private float _groundRaycastLength;
@@ -128,6 +133,7 @@ public class SpeedPlayerController : MonoBehaviour
 
     private void Start()
     {
+        dashImage.fillAmount = 0;
         _rb = GetComponent<Rigidbody2D>();
         _anim = GetComponent<Animator>();
         Footstep = GetComponent<AudioSource>();
@@ -139,6 +145,15 @@ public class SpeedPlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (!canDash)
+        {
+            dashImage.fillAmount -= 1 / dashCoolDown * Time.deltaTime;
+            if (dashImage.fillAmount<=0)
+            {
+                dashImage.fillAmount = 0;
+                canDash = true;
+            }
+        }
         _horizontalDirection = GetInput().x;
         _verticalDirection = GetInput().y;
         if (Input.GetButtonDown("Jump"))
@@ -201,7 +216,7 @@ public class SpeedPlayerController : MonoBehaviour
             
         }
         //Dash
-        if (Input.GetButtonDown("Fire2")&&_canDash) 
+        if (Input.GetButtonDown("Fire2")&&canDash) 
         {
             if (wallEnemyIn&& mousePos.onWallEnemy)
             {
@@ -225,9 +240,10 @@ public class SpeedPlayerController : MonoBehaviour
                 }
 
             }
-
-            else
+            else 
             {
+                canDash = false;
+                dashImage.fillAmount = 1;
                 if (M_dir.x < 0 && _facingRight)
                 {
                     Flip();
@@ -238,7 +254,7 @@ public class SpeedPlayerController : MonoBehaviour
                     Flip();
                     StartCoroutine(MouseDown(M_dir.x, M_dir.y));
                 }
-                else
+                else 
                 {
                     StartCoroutine(MouseDown(M_dir.x, M_dir.y));
                 }
@@ -737,12 +753,10 @@ public class SpeedPlayerController : MonoBehaviour
     #region 滑鼠移動
     IEnumerator MouseDown(float x,float y)
     {
-        _canDash = false;
         float dashStartTime = Time.time;
         
         _isDashing = true;
         
-            dashCD -= Time.deltaTime;
             _rb.velocity = Vector2.zero;
             _rb.gravityScale = 0f;
             _rb.drag = 0f;
@@ -764,9 +778,6 @@ public class SpeedPlayerController : MonoBehaviour
             }
 
             _isDashing = false;
-            yield return new WaitForSeconds(dashCD);
-            _canDash = true;
-
     }
     #endregion
     #region 打架
@@ -838,8 +849,6 @@ public class SpeedPlayerController : MonoBehaviour
         float dashStartTime = Time.time;
         
         isKilling = true;
-        
-        dashCD -= Time.deltaTime;
         _rb.velocity = Vector2.zero;
         _rb.gravityScale = 0f;
         _rb.drag = 0f;
@@ -909,6 +918,25 @@ public class SpeedPlayerController : MonoBehaviour
         if (other.isTrigger != true && other.CompareTag("WallEnemy"))
         {
             wallEnemyIn = false;
+        }
+    }
+
+    void dashCDUI()
+    {
+        if (Input.GetButtonDown("Fire2")&&canDash)
+        {
+            canDash = false;
+            dashImage.fillAmount = 1;
+        }
+
+        if (!canDash)
+        {
+            dashImage.fillAmount -= 1 / dashCoolDown * Time.deltaTime;
+            if (dashImage.fillAmount<=0)
+            {
+                dashImage.fillAmount = 0;
+                canDash = true;
+            }
         }
     }
     
