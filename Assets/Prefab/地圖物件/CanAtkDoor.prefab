@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 7681421184584061618}
   - component: {fileID: 7681421184584061619}
   - component: {fileID: 7681421184584061616}
-  m_Layer: 8
+  - component: {fileID: 3842274280195148965}
+  m_Layer: 14
   m_Name: CanAtkDoor_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71,7 +72,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1652483533
-  m_SortingLayer: -4
+  m_SortingLayer: -3
   m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: a1ae550816d30d84abf6b6b05c2dd0c7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -121,6 +122,32 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 0.5388889, y: 1.1611111}
   m_Direction: 0
+--- !u!114 &3842274280195148965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7681421184584061622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_HasRenderer: 1
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 1
+  m_ApplyToSortingLayers: 2f7a8cca1d50402dc3f13d9e7bbe63100fb462cf0f5d32cf331a819d1b99409f0d1d0f1500000000
+  m_ShapePath:
+  - {x: -0.106871575, y: -0.27259684, z: 0}
+  - {x: 0.102541775, y: -0.050055385, z: 0}
+  - {x: 0.074318945, y: 0.57168627, z: 0}
+  - {x: -0.100599855, y: 0.57492745, z: 0}
+  m_ShapePathHash: 2085369985
+  m_Mesh: {fileID: 0}
+  m_InstanceId: -366680
 --- !u!1 &7681421184610455814
 GameObject:
   m_ObjectHideFlags: 0
@@ -133,7 +160,8 @@ GameObject:
   - component: {fileID: 7681421184610455810}
   - component: {fileID: 7681421184610455811}
   - component: {fileID: 7681421184610455808}
-  m_Layer: 8
+  - component: {fileID: 3002124292346963057}
+  m_Layer: 14
   m_Name: CanAtkDoor_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -192,7 +220,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1652483533
-  m_SortingLayer: -4
+  m_SortingLayer: -3
   m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: 4e4d55b5653c224419ea77ed9b0699a8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -242,6 +270,32 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 0.5555556, y: 1.1277778}
   m_Direction: 0
+--- !u!114 &3002124292346963057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7681421184610455814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_HasRenderer: 1
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 1
+  m_ApplyToSortingLayers: 2f7a8cca1d50402dc3f13d9e7bbe63100fb462cf0f5d32cf331a819d1b99409f0d1d0f1500000000
+  m_ShapePath:
+  - {x: -0.10893321, y: -0.56951714, z: 0}
+  - {x: 0.0826523, y: -0.5727582, z: 0}
+  - {x: 0.09833163, y: 0.45780778, z: 0}
+  - {x: -0.102661476, y: 0.2666253, z: 0}
+  m_ShapePathHash: 1348089279
+  m_Mesh: {fileID: 0}
+  m_InstanceId: -366684
 --- !u!1 &7681421185173113902
 GameObject:
   m_ObjectHideFlags: 0
@@ -254,7 +308,8 @@ GameObject:
   - component: {fileID: 7681421185173113898}
   - component: {fileID: 7681421185173113899}
   - component: {fileID: 7681421185173113896}
-  m_Layer: 8
+  - component: {fileID: 9039430957974257695}
+  m_Layer: 14
   m_Name: CanAtkDoor_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -313,7 +368,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1652483533
-  m_SortingLayer: -4
+  m_SortingLayer: -3
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: b87301786f6aac346b068f658d7365f8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -363,6 +418,32 @@ CapsuleCollider2D:
   m_Offset: {x: -0.0018157959, y: 0}
   m_Size: {x: 0.36021423, y: 1.1666666}
   m_Direction: 0
+--- !u!114 &9039430957974257695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7681421185173113902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_HasRenderer: 1
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 1
+  m_ApplyToSortingLayers: 2f7a8cca1d50402dc3f13d9e7bbe63100fb462cf0f5d32cf331a819d1b99409f0d1d0f1500000000
+  m_ShapePath:
+  - {x: -0.12559988, y: -0.58896136, z: 0}
+  - {x: 0.09931895, y: -0.59220254, z: 0}
+  - {x: 0.09931895, y: 0.574464, z: 0}
+  - {x: -0.12559988, y: 0.5777052, z: 0}
+  m_ShapePathHash: 0
+  m_Mesh: {fileID: 0}
+  m_InstanceId: -366688
 --- !u!1 &7681421185941944033
 GameObject:
   m_ObjectHideFlags: 0
@@ -374,7 +455,7 @@ GameObject:
   - component: {fileID: 7681421185941944032}
   - component: {fileID: 7681421185941944045}
   - component: {fileID: 7681421185941944035}
-  m_Layer: 8
+  m_Layer: 14
   m_Name: CanAtkDoor_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -433,7 +514,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1652483533
-  m_SortingLayer: -4
+  m_SortingLayer: -3
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: a26d6f7fa774b814fbbe166e8b1153ab, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -473,7 +554,7 @@ GameObject:
   - component: {fileID: 7681421186345239924}
   - component: {fileID: 1323508877}
   - component: {fileID: 6319251377536698740}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: CanAtkDoor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -662,6 +743,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: gorundlight (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6585545385649718255, guid: 18daabc1c06fe3c44b04bc8a22829055,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7727312617718913821, guid: 18daabc1c06fe3c44b04bc8a22829055,
         type: 3}
