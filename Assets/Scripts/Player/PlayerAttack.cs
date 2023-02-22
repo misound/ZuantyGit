@@ -12,6 +12,7 @@ public class PlayerAttack : MonoBehaviour
     private Collider2D atkCol;
     public float startTime;
     public float endTime;
+    public bool recover;
 
     [Header("Atk Combo")] 
     [SerializeField] public float cooldown;
@@ -75,9 +76,11 @@ public class PlayerAttack : MonoBehaviour
             StartCoroutine(startHitBox());
         }
         
+        
     }
     IEnumerator startHitBox()
     {
+        recover = true;
         yield return new WaitForSeconds(startTime);
         atkCol.enabled = true;
         StartCoroutine(disableHitBox());
@@ -87,6 +90,7 @@ public class PlayerAttack : MonoBehaviour
     {
         yield return new WaitForSeconds(endTime);
         atkCol.enabled = false;
+        recover = false;
     }
 
     private void OnTriggerEnter2D(Collider2D other)

@@ -380,4 +380,19 @@ public class EnemyBomb : MonoBehaviour
         GameSetting.SEAudio.PlayBoom();
     }
 
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.tag=="Player")
+        {
+            StartCoroutine(BeAttack());
+        }
+    }
+
+    IEnumerator BeAttack()
+    {
+        WannaBoom = false;
+        rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y + 5);
+        yield return new WaitForSecondsRealtime(6);
+        WannaBoom = true;
+    }
 }
