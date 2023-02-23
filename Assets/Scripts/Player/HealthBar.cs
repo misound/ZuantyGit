@@ -27,7 +27,7 @@ public class HealthBar : MonoBehaviour
         if(health <= 0)
         {
             health = 0;
-            Debug.Log("你死了");
+            GameSetting.Respawn();
         }
 
         _isDirty = true;
@@ -46,19 +46,14 @@ public class HealthBar : MonoBehaviour
     }
     private void OnGUI()
     {
-        /*if (GUI.Button(new Rect(100, 80, 160, 100), "SAVE"))
-        {
-            GameSetting.Save();
-        }
-        if (GUI.Button(new Rect(100, 160, 160, 100), "Load"))
-        {
-            _isDirty = true;
-            GameSetting.Load();
-        }*/
         if (GUI.Button(new Rect(100, 240, 160, 100), "MaxHP"))
         {
             SetMaxHealth(GameSetting.PlayerHP = 100);
             _isDirty = true;
+        }
+        if (GUI.Button(new Rect(100, 960, 160, 100), "-HP"))
+        {
+            SetHealth(GameSetting.PlayerHP -= 60);
         }
     }
 }

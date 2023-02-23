@@ -17,17 +17,20 @@ public class SSItem : IItem
         Debug.Log("我是開始廠景");
         PlayerPrefs.SetString("S1Enter", "false");
         PlayerPrefs.SetString("S2Enter", "false");
+        PlayerPrefs.SetString("S3Enter", "false");
     }
 
     public IList<Itemdata> FakeData1()
     {
         return null;
     }
+
     public IList<AtkWData> FakeData2()
     {
         return null;
     }
 }
+
 public class S1Item : IItem
 {
     public void saysomething()
@@ -42,6 +45,7 @@ public class S1Item : IItem
         result.Add(new Itemdata() { Name = "D1-1", States = false });
         return result;
     }
+
     public IList<AtkWData> FakeData2()
     {
         IList<AtkWData> result = new List<AtkWData>();
@@ -55,12 +59,14 @@ public class S1Item : IItem
         return result;
     }
 }
+
 public class S2Item : IItem
 {
     public void saysomething()
     {
         Debug.Log("我是第二個廠景");
     }
+
     public IList<Itemdata> FakeData1()
     {
         IList<Itemdata> result = new List<Itemdata>();
@@ -76,6 +82,7 @@ public class S2Item : IItem
 
         return result;
     }
+
     public IList<AtkWData> FakeData2()
     {
         IList<AtkWData> result = new List<AtkWData>();
@@ -88,41 +95,60 @@ public class S2Item : IItem
         return result;
     }
 }
+
 public class S3Item : IItem
 {
     public void saysomething()
     {
         Debug.Log("我是第三個場景");
     }
+
     public IList<Itemdata> FakeData1()
     {
         return null;
     }
+
     public IList<AtkWData> FakeData2()
     {
-        return null;
+        IList<AtkWData> result = new List<AtkWData>();
+
+        result.Add(new AtkWData() { AWName = "AW1-1", AWStates = false });
+        result.Add(new AtkWData() { AWName = "AW1-2", AWStates = false });
+        result.Add(new AtkWData() { AWName = "AW1-3", AWStates = false });
+        result.Add(new AtkWData() { AWName = "AW1-4", AWStates = false });
+        result.Add(new AtkWData() { AWName = "AW1-5", AWStates = false });
+        result.Add(new AtkWData() { AWName = "AW1-6", AWStates = false });
+        result.Add(new AtkWData() { AWName = "AW1-7", AWStates = false });
+        result.Add(new AtkWData() { AWName = "AW1-8", AWStates = false });
+        result.Add(new AtkWData() { AWName = "AW1-9", AWStates = false });
+        result.Add(new AtkWData() { AWName = "AW1-10", AWStates = false });
+
+        return result;
     }
 }
+
 public class NewSItem : IItem
 {
     public void saysomething()
     {
         Debug.Log("我是新的場景");
     }
+
     public IList<Itemdata> FakeData1()
     {
         IList<Itemdata> result = new List<Itemdata>();
 
-        result.Add(new Itemdata() { Name = "D1-1", States = false });
-        result.Add(new Itemdata() { Name = "D1-2", States = false });
+        result.Add(new Itemdata() { Name = "DN-1", States = false });
+        result.Add(new Itemdata() { Name = "DN-2", States = false });
         return result;
     }
+
     public IList<AtkWData> FakeData2()
     {
         IList<AtkWData> result = new List<AtkWData>();
-        
-        result.Add(new AtkWData() { AWName = "AW1-1", AWStates = false });
-        result.Add(new AtkWData() { AWName = "AW1-2", AWStates = false });
+
+        result.Add(new AtkWData() { AWName = "AWN-1", AWStates = false });
+        result.Add(new AtkWData() { AWName = "AWN-2", AWStates = false });
 
         return result;
     }
