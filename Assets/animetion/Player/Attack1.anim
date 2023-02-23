@@ -241,7 +241,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_IsActive
-    path: "\u5716\u5C64 3"
+    path: PlayerAttackEffect
     classID: 1
     script: {fileID: 0}
   - curve:
@@ -278,7 +278,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Color.a
-    path: "\u5716\u5C64 3"
+    path: PlayerAttackEffect
     classID: 212
     script: {fileID: 0}
   m_PPtrCurves:
@@ -309,7 +309,7 @@ AnimationClip:
     - time: 0.33333334
       value: {fileID: 21300000, guid: 5a6f0777d1ecaf54082c2870fc0f4a6f, type: 3}
     attribute: m_Sprite
-    path: "\u5716\u5C64 3"
+    path: PlayerAttackEffect
     classID: 212
     script: {fileID: 0}
   m_SampleRate: 12
@@ -369,14 +369,14 @@ AnimationClip:
       customType: 26
       isPPtrCurve: 0
     - serializedVersion: 2
-      path: 4238003234
+      path: 2789590527
       attribute: 2086281974
       script: {fileID: 0}
       typeID: 1
       customType: 0
       isPPtrCurve: 0
     - serializedVersion: 2
-      path: 4238003234
+      path: 2789590527
       attribute: 304273561
       script: {fileID: 0}
       typeID: 212
@@ -390,7 +390,7 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     - serializedVersion: 2
-      path: 4238003234
+      path: 2789590527
       attribute: 0
       script: {fileID: 0}
       typeID: 212
@@ -788,7 +788,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_IsActive
-    path: "\u5716\u5C64 3"
+    path: PlayerAttackEffect
     classID: 1
     script: {fileID: 0}
   - curve:
@@ -825,7 +825,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Color.a
-    path: "\u5716\u5C64 3"
+    path: PlayerAttackEffect
     classID: 212
     script: {fileID: 0}
   m_EulerEditorCurves:
