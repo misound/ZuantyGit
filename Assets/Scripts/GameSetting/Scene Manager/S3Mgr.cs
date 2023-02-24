@@ -40,7 +40,7 @@ public class S3Mgr : MonoBehaviour
         }
         else if (!EnteredS3)
         {
-            S1Item S3Item = (S1Item)Factory.reset("S3");
+            S3Item S3Item = (S3Item)Factory.reset("S3");
             //GameSetting.DList = S3Item.FakeData1();
             GameSetting.WList = S3Item.FakeData2();
         }
