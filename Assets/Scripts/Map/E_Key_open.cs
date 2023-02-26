@@ -5,26 +5,38 @@ using UnityEngine;
 public class E_Key_open : MonoBehaviour
 {
     [SerializeField] private GameObject plsOpenThis;
-    [SerializeField] private Collider2D _collider;
+    [SerializeField] private Collider2D colliderTriiger;
     [SerializeField] private GameObject teaching;
-    private bool _playIn = false;
+    private bool playIn = false;
+    private bool hasType = true;
+
+    
 
     // Start is called before the first frame update
     void Start()
     {
+        if (teaching == null)
+        {
+            hasType = false;
+           
+        }
         plsOpenThis.SetActive(false);
-        teaching.SetActive(false);
-        
+        if (hasType == true)
+        {
+            teaching.SetActive(false);
+            
+        }
+
     }
 
     // Update is called once per frame
     void Update()
     {
         boolscenes();
-    }
+    }  
      void boolscenes()
     {
-        if (_playIn && Input.GetKeyDown(KeyCode.E))
+        if (playIn && Input.GetKeyDown(KeyCode.E))
         {
             plsOpenThis.SetActive(true);
         }
@@ -33,8 +45,12 @@ public class E_Key_open : MonoBehaviour
     {
         if (_collider.gameObject.tag == "Player")
         {
-            teaching.SetActive(true);
-            _playIn = true;
+            if (hasType) 
+            {
+                teaching.SetActive(true);
+            }
+            
+            playIn = true;
             
         }
 
@@ -43,7 +59,10 @@ public class E_Key_open : MonoBehaviour
     {
         if (_collider.gameObject.tag == "Player")
         {
-            teaching.SetActive(false);
+            if (hasType)
+            {
+                teaching.SetActive(false);
+            }
         }
             
     }
