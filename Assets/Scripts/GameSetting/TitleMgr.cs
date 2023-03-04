@@ -44,7 +44,7 @@ public class TitleMgr : MonoBehaviour
         VoBackBtn.onClick.AddListener(VolumeBack);
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(PlayBtn);
-        Cursor.visible = false;
+        Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
 
         //audioMgr = FindObjectOfType<AudioMgr>();
@@ -119,7 +119,7 @@ public class TitleMgr : MonoBehaviour
     }
 
     private void OnGUI()
-    {/*
+    {
         if (GUI.Button(new Rect(50, 50, 160, 100), "Level1"))
         {
             SceneManager.LoadScene("level_1_testColillder");
@@ -135,6 +135,6 @@ public class TitleMgr : MonoBehaviour
         if (GUI.Button(new Rect(50, 350, 160, 100), "Boss關卡"))
         {
             SceneManager.LoadScene("BOSS");
-        }*/
+        }
     }
 }

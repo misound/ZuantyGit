@@ -19,9 +19,14 @@ public class NewSMgr : MonoBehaviour
     public GameObject[] DPos;
     public GameObject[] AWPos;
 
+    public GameObject Line;
+
+    public int FallDmg = 30;
+
+    public HealthBar PlayerHP;
 
     // Start is called before the first frame update
-    void Awake() 
+    void Awake()
     {
         NewSItem Item = (NewSItem)Factory.reset("NS");
         GameSetting.DList = Item.FakeData1();
@@ -49,6 +54,8 @@ public class NewSMgr : MonoBehaviour
             AtkWallHandler wall = temp.GetComponent<AtkWallHandler>();
             wall.SetWallData(GameSetting.WList[i]);
         }
+
+        PlayerHP = FindObjectOfType<HealthBar>();
     }
 
     private void Update()
@@ -57,7 +64,10 @@ public class NewSMgr : MonoBehaviour
         {
             CheckPoints();
         }
+
         TempPoint();
+
+        StartCoroutine(FallLine());
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
@@ -65,6 +75,7 @@ public class NewSMgr : MonoBehaviour
             SpeedPlayerController SPC = FindObjectOfType<SpeedPlayerController>();
             SPC.transform.position = GameSetting.Playerpos;
         }
+
         Debug.Log(GameSetting.Level);
     }
 
@@ -139,7 +150,7 @@ public class NewSMgr : MonoBehaviour
     void TempPoint()
     {
         SpeedPlayerController SPC = GameObject.FindObjectOfType<SpeedPlayerController>();
-        
+
         for (int i = 0; i < RespawnPoint.Length; i++)
         {
             RaycastHit2D hitR = Physics2D.Raycast(RespawnPoint[i].transform.position, Vector3.right * 2, 2,
@@ -176,10 +187,50 @@ public class NewSMgr : MonoBehaviour
                     GameSetting.Save();
                     PlayerPrefs.Save();
                 }
-
             }
         }
     }
+
+
+    IEnumerator FallLine()
+    {
+        SpeedPlayerController SPC = GameObject.FindObjectOfType<SpeedPlayerController>();
+
+        RaycastHit2D hitR = Physics2D.Raycast(Line.transform.position, Vector3.right * 20000, 20000,
+            1 << LayerMask.NameToLayer("Default"));
+        RaycastHit2D hit = Physics2D.Raycast(Line.transform.position, Vector3.left * 20000, 20000,
+            1 << LayerMask.NameToLayer("Default"));
+
+
+        if (hit.collider != null)
+        {
+            if (hit.collider.gameObject.CompareTag("Player"))
+            {
+                SPC.transform.position = new Vector3(Line.transform.position.x, Line.transform.position.y - 10);
+                yield return new WaitForSeconds(3f);
+                GameSetting.FallOut();
+                GameSetting.PlayerHP -= FallDmg;
+                PlayerHP.SetHealth(GameSetting.PlayerHP);
+                SPC.transform.position = GameSetting.Playerpos;
+            }
+        }
+
+        if (hitR.collider != null)
+        {
+            if (hitR.collider.gameObject.CompareTag("Player"))
+            {
+                SPC.transform.position = new Vector3(Line.transform.position.x, Line.transform.position.y - 10);
+                yield return new WaitForSeconds(3f);
+                GameSetting.FallOut();
+                GameSetting.PlayerHP -= FallDmg;
+                PlayerHP.SetHealth(GameSetting.PlayerHP);
+                SPC.transform.position = GameSetting.Playerpos;
+            }
+        }
+
+        yield return null;
+    }
+
     public IList<Itemdata> CakeData1()
     {
         IList<Itemdata> result = new List<Itemdata>();
@@ -188,15 +239,17 @@ public class NewSMgr : MonoBehaviour
         result.Add(new Itemdata() { Name = "D1-2", States = bool.Parse((PlayerPrefs.GetString("DN-1S"))) });
         return result;
     }
+
     public IList<AtkWData> CakeData2()
     {
         IList<AtkWData> result = new List<AtkWData>();
-        
+
         result.Add(new AtkWData() { AWName = "AW1-1", AWStates = bool.Parse((PlayerPrefs.GetString("AWN-1S"))) });
         result.Add(new AtkWData() { AWName = "AW1-2", AWStates = bool.Parse((PlayerPrefs.GetString("AWN-1S"))) });
 
         return result;
     }
+
     private void OnDrawGizmos()
     {
         for (int i = 0; i < CheckPoint.Length; i++)
@@ -204,10 +257,14 @@ public class NewSMgr : MonoBehaviour
             Gizmos.DrawRay(CheckPoint[i].transform.position, Vector3.right * 2);
             Gizmos.DrawRay(CheckPoint[i].transform.position, Vector3.left * 2);
         }
+
         for (int i = 0; i < RespawnPoint.Length; i++)
         {
             Gizmos.DrawRay(RespawnPoint[i].transform.position, Vector3.right * 1);
             Gizmos.DrawRay(RespawnPoint[i].transform.position, Vector3.left * 1);
         }
+
+        Gizmos.DrawRay(Line.transform.position, Vector3.left * 20000);
+        Gizmos.DrawRay(Line.transform.position, Vector3.right * 20000);
     }
 }

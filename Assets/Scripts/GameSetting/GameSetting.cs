@@ -56,7 +56,7 @@ public static class GameSetting
         Playerpos.x = PlayerPrefs.GetFloat("x");
         Playerpos.y = PlayerPrefs.GetFloat("y");
         PlayerHP = PlayerPrefs.GetInt("PlayerHP");
-        BGMAudio.BGM_audioSource.volume = PlayerPrefs.GetFloat("BGMV");
+        //BGMAudio.BGM_audioSource.volume = PlayerPrefs.GetFloat("BGMV");
     }
     
     public static void FallOut()
@@ -65,12 +65,10 @@ public static class GameSetting
         string json2 = PlayerPrefs.GetString("data2");
         DList = JsonConvert.DeserializeObject<IList<Itemdata>>(json);
         WList = JsonConvert.DeserializeObject<IList<AtkWData>>(json2);
-        AudioReady = bool.Parse(PlayerPrefs.GetString("AudioReady", "false"));
-        SceneManager.LoadScene(PlayerPrefs.GetString("level"));
         Playerpos.x = PlayerPrefs.GetFloat("Tempx");
         Playerpos.y = PlayerPrefs.GetFloat("Tempy");
-        PlayerHP = PlayerPrefs.GetInt("PlayerHP");
-        BGMAudio.BGM_audioSource.volume = PlayerPrefs.GetFloat("BGMV");
+        //PlayerHP = PlayerPrefs.GetInt("PlayerHP");
+        //BGMAudio.BGM_audioSource.volume = PlayerPrefs.GetFloat("BGMV");
     }
 
     public static void OptionSave()
