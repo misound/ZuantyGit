@@ -10,36 +10,64 @@ public class LoopMap : MonoBehaviour
     [SerializeField] private Transform reloadPoint;
     [SerializeField] private Transform endPoint;
     [SerializeField] private PlayableDirector playTimeline;
-    private bool reloadPlase = false;
-    private bool canPlayTimeline = false;
- 
+    [SerializeField] private GameObject moveplan;
+    [SerializeField] private GameObject canloopObj;
+    [SerializeField] private float speed;
+    [SerializeField] private bool reload = true;
+    
+    [SerializeField] private bool canloop = false;
+
     // Start is called before the first frame update
     void Start()
     {
-
+        if (playTimeline == null) 
+        {
+            playTimeline = null; 
+        }
+        if (moveplan == null|| canloopObj == null)
+        {
+            moveplan = null;
+            canloopObj = null;
+        }
     }
     private void Bool()
     {
-        if (moveGroup.transform == endPoint.transform)
+        if (moveplan.transform.position == canloopObj.transform.position)
         {
-            bool playTimelime = true;
+            canloop = true;
         }
-        if (moveGroup.transform == reloadPoint)
+        
+        
+        if (canloop)
         {
-            bool reloadplase = true;
-        }
-        if (reloadPlase)
-        {
-            moveGroup.transform.position = startPoint.transform.position;
-        }
-        if (canPlayTimeline)
-        {
-            playTimeline.Play();
-            canPlayTimeline = false;
+            if (reload)
+            {
+                moveGroup.transform.position = Vector3.MoveTowards(moveGroup.transform.position, reloadPoint.position, speed * Time.deltaTime);
+                if (moveGroup.transform.position == reloadPoint.transform.position)
+                {
+                    moveGroup.transform.position = startPoint.transform.position;
+                }
+
+            }
+            else
+            {
+                moveGroup.transform.position = Vector3.MoveTowards(moveGroup.transform.position, endPoint.position, speed * Time.deltaTime);
+                if (moveGroup.transform.position == endPoint.transform.position)
+                {
+                    
+                    playTimeline.Play();
+                    canloop = false;
+                }
+
+            }
+           
+            
+
         }
 
     }
-    private void OnCollisionEnter2D(Collision2D ReloadPoint)
+   
+    private void OnCollisionEnter2D(Collision2D collision)
     {
        
     }
@@ -50,6 +78,7 @@ public class LoopMap : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        Bool();
+      
     }
 }
