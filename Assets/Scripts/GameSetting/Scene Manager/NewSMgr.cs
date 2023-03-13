@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using UnityEngine;
 using Vector3 = UnityEngine.Vector3;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class NewSMgr : MonoBehaviour
 {
@@ -19,7 +20,7 @@ public class NewSMgr : MonoBehaviour
     public GameObject[] DPos;
     public GameObject[] AWPos;
 
-    public GameObject Line;
+    public GameObject[] FallingLine;
 
     public int FallDmg = 30;
 
@@ -153,9 +154,9 @@ public class NewSMgr : MonoBehaviour
 
         for (int i = 0; i < RespawnPoint.Length; i++)
         {
-            RaycastHit2D hitR = Physics2D.Raycast(RespawnPoint[i].transform.position, Vector3.right * 2, 2,
+            RaycastHit2D hitR = Physics2D.Raycast(RespawnPoint[i].transform.position, Vector3.right * 1, 2,
                 1 << LayerMask.NameToLayer("Default"));
-            RaycastHit2D hit = Physics2D.Raycast(RespawnPoint[i].transform.position, Vector3.left * 2, 2,
+            RaycastHit2D hit = Physics2D.Raycast(RespawnPoint[i].transform.position, Vector3.left * 1, 2,
                 1 << LayerMask.NameToLayer("Default"));
             if (hit.collider != null)
             {
@@ -196,39 +197,47 @@ public class NewSMgr : MonoBehaviour
     {
         SpeedPlayerController SPC = GameObject.FindObjectOfType<SpeedPlayerController>();
 
-        RaycastHit2D hitR = Physics2D.Raycast(Line.transform.position, Vector3.right * 20000, 20000,
-            1 << LayerMask.NameToLayer("Default"));
-        RaycastHit2D hit = Physics2D.Raycast(Line.transform.position, Vector3.left * 20000, 20000,
-            1 << LayerMask.NameToLayer("Default"));
-
-
-        if (hit.collider != null)
+        for (int i = 0; i < FallingLine.Length; i++)
         {
-            if (hit.collider.gameObject.CompareTag("Player"))
-            {
-                SPC.transform.position = new Vector3(Line.transform.position.x, Line.transform.position.y - 10);
-                yield return new WaitForSeconds(3f);
-                GameSetting.FallOut();
-                GameSetting.PlayerHP -= FallDmg;
-                PlayerHP.SetHealth(GameSetting.PlayerHP);
-                SPC.transform.position = GameSetting.Playerpos;
-            }
-        }
+            RaycastHit2D hitR = Physics2D.Raycast(FallingLine[i].transform.position, Vector3.right * 10, 10,
+                1 << LayerMask.NameToLayer("Default"));
+            RaycastHit2D hit = Physics2D.Raycast(FallingLine[i].transform.position, Vector3.left * 10, 10,
+                1 << LayerMask.NameToLayer("Default"));
 
-        if (hitR.collider != null)
-        {
-            if (hitR.collider.gameObject.CompareTag("Player"))
-            {
-                SPC.transform.position = new Vector3(Line.transform.position.x, Line.transform.position.y - 10);
-                yield return new WaitForSeconds(3f);
-                GameSetting.FallOut();
-                GameSetting.PlayerHP -= FallDmg;
-                PlayerHP.SetHealth(GameSetting.PlayerHP);
-                SPC.transform.position = GameSetting.Playerpos;
-            }
-        }
 
-        yield return null;
+            if (hit.collider != null)
+            {
+                if (hit.collider.gameObject.CompareTag("Player"))
+                {
+                    SPC.transform.position = new Vector3
+                    (FallingLine[i].transform.position.x,
+                        FallingLine[i].transform.position.y - 10);
+                    yield return new WaitForSeconds(3f);
+                    GameSetting.FallOut();
+                    GameSetting.PlayerHP -= FallDmg;
+                    PlayerHP.SetHealth(GameSetting.PlayerHP);
+                    SPC.transform.position = GameSetting.Playerpos;
+                }
+            }
+
+            if (hitR.collider != null)
+            {
+                if (hitR.collider.gameObject.CompareTag("Player"))
+                {
+                    SPC.transform.position = new Vector3
+                        (FallingLine[i].transform.position.x,
+                            FallingLine[i].transform.position.y - 10);
+
+                    yield return new WaitForSeconds(3f);
+                    GameSetting.FallOut();
+                    GameSetting.PlayerHP -= FallDmg;
+                    PlayerHP.SetHealth(GameSetting.PlayerHP);
+                    SPC.transform.position = GameSetting.Playerpos;
+                }
+            }
+
+            yield return null;
+        }
     }
 
     public IList<Itemdata> CakeData1()
@@ -264,7 +273,10 @@ public class NewSMgr : MonoBehaviour
             Gizmos.DrawRay(RespawnPoint[i].transform.position, Vector3.left * 1);
         }
 
-        Gizmos.DrawRay(Line.transform.position, Vector3.left * 20000);
-        Gizmos.DrawRay(Line.transform.position, Vector3.right * 20000);
+        for (int i = 0; i < FallingLine.Length; i++)
+        {
+            Gizmos.DrawRay(FallingLine[i].transform.position, Vector3.left * 10);
+            Gizmos.DrawRay(FallingLine[i].transform.position, Vector3.right * 10);
+        }
     }
 }

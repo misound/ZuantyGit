@@ -4,15 +4,19 @@ using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Animations;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class TimeControl : MonoBehaviour
 {
     [SerializeField] private PlayableDirector _playableDirector;
     [SerializeField] private GameObject _timeline;
     [SerializeField] private Collider2D  _canPlay;
+
+    public GameObject LoadingPerson;
+    
     bool isPause;
    
-    public int i;   
+    public int sceneIndex;   
 
     // Start is called before the first frame update
     void Start()
@@ -34,7 +38,9 @@ public class TimeControl : MonoBehaviour
     }
     public void nextLevel()
     {
-        SceneManager.LoadScene(i);
+        //SceneManager.LoadScene(i);
+
+        StartCoroutine(StartLV1Loading(sceneIndex));
     }
 
     public void OnTriggerEnter2D(Collider2D other)
@@ -45,7 +51,10 @@ public class TimeControl : MonoBehaviour
             _playableDirector.Play();
         }
     }
-  
+    public void Activeperson()
+    {
+        LoadingPerson.SetActive(true);
+    }
 
     private void PlayTalk()
     {
@@ -60,12 +69,25 @@ public class TimeControl : MonoBehaviour
             }
         }
     }
-
-
-    // Update is called once per frame
+    
     void Update()
     {
         PlayTalk();
         
+    }
+
+    IEnumerator StartLV1Loading(int SceneIndex)
+    {
+        AsyncOperation operation = SceneManager.LoadSceneAsync(SceneIndex);
+
+        
+        
+        while (!operation.isDone)
+        {
+            float progress = Mathf.Clamp01(operation.progress / .9f);
+            yield return null;
+        }
+        
+
     }
 }

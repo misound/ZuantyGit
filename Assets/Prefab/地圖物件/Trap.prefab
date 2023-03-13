@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6531865162617151521}
   - component: {fileID: 6531865162617151520}
   - component: {fileID: 7879206237605989583}
+  - component: {fileID: 247463895504371334}
   m_Layer: 13
   m_Name: Trap
   m_TagString: Untagged
@@ -71,7 +72,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1652483533
-  m_SortingLayer: -4
+  m_SortingLayer: -3
   m_SortingOrder: 0
   m_Sprite: {fileID: -6900447036038727648, guid: cafd20a641f479d4f83f636c92bc1ab0,
     type: 3}
@@ -130,3 +131,15 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &247463895504371334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6531865162617151523}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e83eb3a6eb5711f449b27d917f82fa80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
