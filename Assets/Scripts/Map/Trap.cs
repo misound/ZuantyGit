@@ -26,7 +26,7 @@ public class Trap : MonoBehaviour
     {
         if (other.GetComponent<SpeedPlayerController>() != null)
         {
-            other.GetComponent<SpeedPlayerController>().TakeDmg();
+           // other.GetComponent<SpeedPlayerController>().TakeDmg();
         }
     }
 }
