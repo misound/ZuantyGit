@@ -51,7 +51,7 @@ public class SpeedPlayerController : MonoBehaviour
     private int _extraJumpsValue;
     private float _hangTimeCounter;
     private float _jumpBufferCounter;
-    private bool _canJump => _jumpBufferCounter > 0f && (_hangTimeCounter > 0f || _extraJumpsValue > 0 || _onWall);
+    private bool _canJump =>_jumpBufferCounter > 0f && (_hangTimeCounter > 0f || _extraJumpsValue > 0 || _onWall);
     public bool _isJumping = false;
 
     [Header("Wall Movement Variables")] 
@@ -155,6 +155,8 @@ public class SpeedPlayerController : MonoBehaviour
                 canDash = true;
             }
         }
+
+        
         _horizontalDirection = GetInput().x;
         _verticalDirection = GetInput().y;
         if (Input.GetButtonDown("Jump"))
@@ -315,29 +317,32 @@ public class SpeedPlayerController : MonoBehaviour
                 ApplyAirLinearDrag();
                 FallMultiplier();
                 _hangTimeCounter -= Time.fixedDeltaTime;
-                if (!_onWall || _rb.velocity.y < 0f ) _isJumping = false;
+                if (_rb.velocity.y < 0f ) _isJumping = false;
             }
 
+            
             if (_canJump)
             {
-                if (_onWall && !_onGround && !_onOneWayPlatform)
-                {
-                    if (_onRightWall && _horizontalDirection > 0f || !_onRightWall && _horizontalDirection < 0f)
+                    if (_onWall && !_onGround && !_onOneWayPlatform)
                     {
-                        StartCoroutine(NeutralWallJump());
+                        if (_onRightWall && _horizontalDirection > 0f || !_onRightWall && _horizontalDirection < 0f)
+                        {
+                            StartCoroutine(NeutralWallJump());
+                        }
+                        else
+                        {
+                            WallJump();
+                        }
+
+                        Flip();
                     }
                     else
                     {
-                        WallJump();
+                        Jump(Vector2.up);
                     }
-
-                    Flip();
-                }
-                else
-                {
-                    Jump(Vector2.up);
-                }
             }
+            
+            
 
             if (!_isJumping)
             {
@@ -412,6 +417,7 @@ public class SpeedPlayerController : MonoBehaviour
             _hangTimeCounter = 0f;
             _jumpBufferCounter = 0f;
             _isJumping = true;
+            Debug.Log("jump");
         
         
     }
@@ -551,6 +557,7 @@ public class SpeedPlayerController : MonoBehaviour
                 {
                     _anim.SetBool("isGrounded", true);
                     _anim.SetBool("isFalling", false);
+                    _anim.SetBool("isJumping",false);
                     _anim.SetBool("WallGrab", false);
                     _anim.SetFloat("horizontalDirection", Mathf.Abs(_horizontalDirection));
                 }
@@ -560,7 +567,9 @@ public class SpeedPlayerController : MonoBehaviour
                 }
                 if (_isJumping)
                 {
+                    Debug.Log("JUMP1");
                     _anim.SetBool("isJumping", true);
+                    _anim.SetBool("isGrounded", false);
                     _anim.SetBool("isFalling", false);
                     _anim.SetBool("WallGrab", false);
                     _anim.SetFloat("verticalDirection", 0f);
