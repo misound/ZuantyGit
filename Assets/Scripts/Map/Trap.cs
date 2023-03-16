@@ -19,14 +19,23 @@ public class Trap : MonoBehaviour
     {
         
     }
-
-    //問碰到陷阱後的演出
+    
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.GetComponent<SpeedPlayerController>() != null)
         {
+            other.GetComponent<SpeedPlayerController>().InTrap = false;
+            Vector2 direction = transform.position - other.GetComponent<SpeedPlayerController>().transform.position;
             other.GetComponent<SpeedPlayerController>().TakeDmg();
+            if (other.GetComponent<SpeedPlayerController>().transform.position.x >= transform.position.x)
+            {
+                other.GetComponent<SpeedPlayerController>()._rb.velocity = new Vector2(-3, 20);
+            }
+            else if(other.GetComponent<SpeedPlayerController>().transform.position.x <= transform.position.x)
+            {
+                other.GetComponent<SpeedPlayerController>()._rb.velocity = new Vector2(3, 20);
+            }
         }
     }
 }
