@@ -103,9 +103,8 @@ public class SpeedPlayerController : MonoBehaviour
     [SerializeField] public bool _onOneWayPlatform;
     [SerializeField] public float DownwardDistance;
 
-    [Header("Respawn")] [SerializeField] public Transform spawnPoint;
-    [SerializeField] public bool die;
-    [SerializeField] public bool inTrap;
+    [Header("Trap")]
+    [SerializeField] public bool InTrap;
     [SerializeField] public LayerMask _trapLayer;
 
     [Header("DashAttack")]
@@ -139,8 +138,6 @@ public class SpeedPlayerController : MonoBehaviour
         Footstep = GetComponent<AudioSource>();
         mousePos = FindObjectOfType<MousePos>();
         playerAttack = FindObjectOfType<PlayerAttack>();
-        Reborn();
-
     }
 
     private void Update()
@@ -357,10 +354,6 @@ public class SpeedPlayerController : MonoBehaviour
         {
             CornerCorrect(_rb.velocity.y);
         }
-
-
-        //重生
-        Respawn();
 
     }
 
@@ -660,14 +653,6 @@ public class SpeedPlayerController : MonoBehaviour
                                 _oneWayRaycastLength, _onOneWayPlatformLayerMask) ||
                             Physics2D.Raycast(transform.position - _oneWayRaycastOffset, Vector2.down,
                                 _oneWayRaycastLength, _onOneWayPlatformLayerMask);
-        //Trap Collisions
-        inTrap = Physics2D.Raycast(transform.position + _groundRaycastOffset, Vector2.down, _groundRaycastLength,
-                     _trapLayer) ||
-                 Physics2D.Raycast(transform.position - _groundRaycastOffset, Vector2.down, _groundRaycastLength,
-                     _trapLayer);
-        
-        
-
     }
 
     private void OnDrawGizmos()
@@ -750,31 +735,6 @@ public class SpeedPlayerController : MonoBehaviour
         {
             Footstep.Stop();
         }
-    }
-
-    #endregion
-    #region 重生機制
-
-    void Respawn()
-    {
-
-        if (inTrap)
-        {
-            die = true;
-        }
-
-        if (die)
-        {
-            StartCoroutine(Reborn());
-        }
-        
-    }
-
-    IEnumerator Reborn()
-    {
-        die = false;
-        yield return new WaitForSecondsRealtime(0.5f);
-        transform.position = spawnPoint.position;
     }
 
     #endregion
@@ -921,16 +881,6 @@ public class SpeedPlayerController : MonoBehaviour
     }
 
     #endregion
-    #region 死亡
-
-    void Die()
-    {
-        GameSetting.Load();
-        transform.position = GameSetting.Playerpos;
-    }
-    
-
-    #endregion
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -967,5 +917,15 @@ public class SpeedPlayerController : MonoBehaviour
             }
         }
     }
-    
+
+    public void TakeDmg()
+    {
+        InTrap = true;
+        if (InTrap)
+        {
+            
+            InTrap = false;
+        }
+        FindObjectOfType<HealthBar>().SetHealth(GameSetting.PlayerHP -= FindObjectOfType<Trap>().TrapDmg);
+    }
 }

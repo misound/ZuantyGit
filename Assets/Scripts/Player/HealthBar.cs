@@ -18,6 +18,7 @@ public class HealthBar : MonoBehaviour
         GameSetting.PlayerHP = health;
         _isDirty = true;
         fill.color = gradient.Evaluate(1f);
+        PlayerPrefs.SetInt("PlayerHP", health);
     }
 
     public void SetHealth(int health)
