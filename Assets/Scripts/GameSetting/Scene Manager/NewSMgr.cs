@@ -26,6 +26,8 @@ public class NewSMgr : MonoBehaviour
 
     public HealthBar PlayerHP;
 
+    public float FallSec = 3.0f;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -212,7 +214,7 @@ public class NewSMgr : MonoBehaviour
                     SPC.transform.position = new Vector3
                     (FallingLine[i].transform.position.x,
                         FallingLine[i].transform.position.y - 10);
-                    yield return new WaitForSeconds(3f);
+                    yield return new WaitForSeconds(FallSec);
                     GameSetting.FallOut();
                     GameSetting.PlayerHP -= FallDmg;
                     PlayerHP.SetHealth(GameSetting.PlayerHP);
@@ -228,7 +230,7 @@ public class NewSMgr : MonoBehaviour
                         (FallingLine[i].transform.position.x,
                             FallingLine[i].transform.position.y - 10);
 
-                    yield return new WaitForSeconds(3f);
+                    yield return new WaitForSeconds(FallSec);
                     GameSetting.FallOut();
                     GameSetting.PlayerHP -= FallDmg;
                     PlayerHP.SetHealth(GameSetting.PlayerHP);

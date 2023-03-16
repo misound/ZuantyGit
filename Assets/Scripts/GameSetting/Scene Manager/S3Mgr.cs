@@ -19,6 +19,7 @@ public class S3Mgr : MonoBehaviour
     {   //判斷是否為新遊戲
         
         EnteredS3 = bool.Parse((PlayerPrefs.GetString("S3Enter")));
+        PlayerPrefs.SetString("D3-1S", "false");
         PlayerPrefs.SetString("AW3-1S", "false");
         PlayerPrefs.SetString("AW3-2S", "false");
         PlayerPrefs.SetString("AW3-3S", "false");
@@ -31,17 +32,17 @@ public class S3Mgr : MonoBehaviour
         PlayerPrefs.SetString("AW3-10S", "false");
         if (EnteredS3)
         {
-            //GameSetting.DList = CakeData1();
+            GameSetting.DList = CakeData1();
             GameSetting.WList = CakeData2();
-            //string json = PlayerPrefs.GetString("data");
+            string json = PlayerPrefs.GetString("data");
             string json2 = PlayerPrefs.GetString("data2");
-            //GameSetting.DList = JsonConvert.DeserializeObject<IList<Itemdata>>(json);
+            GameSetting.DList = JsonConvert.DeserializeObject<IList<Itemdata>>(json);
             GameSetting.WList = JsonConvert.DeserializeObject<IList<AtkWData>>(json2);
         }
         else if (!EnteredS3)
         {
             S3Item S3Item = (S3Item)Factory.reset("S3");
-            //GameSetting.DList = S3Item.FakeData1();
+            GameSetting.DList = S3Item.FakeData1();
             GameSetting.WList = S3Item.FakeData2();
         }
 
@@ -49,7 +50,7 @@ public class S3Mgr : MonoBehaviour
 
     private void Start()
     {   //生產可破壞物件
-        /*for (int i = 0; i < GameSetting.DList.Count; i++)
+        for (int i = 0; i < GameSetting.DList.Count; i++)
         {
             GameObject temp = Instantiate(DoorPrefab, DPos[i].transform);
             temp.transform.position = DPos[i].transform.position;
@@ -57,7 +58,7 @@ public class S3Mgr : MonoBehaviour
             temp.gameObject.name = GameSetting.DList[i].Name;
             CanAtkDoor door = temp.GetComponent<CanAtkDoor>();
             door.SetDoorData(GameSetting.DList[i]);
-        }*/
+        }
 
         for (int i = 0; i < GameSetting.WList.Count; i++)
         {
@@ -90,7 +91,7 @@ public class S3Mgr : MonoBehaviour
         {
             IList<Itemdata> result = new List<Itemdata>();
     
-            result.Add(new Itemdata() { Name = "D1-1", States = bool.Parse((PlayerPrefs.GetString("D1-1S"))) });
+            result.Add(new Itemdata() { Name = "D3-1", States = bool.Parse((PlayerPrefs.GetString("D3-1S"))) });
             return result;
         }
     
@@ -98,16 +99,16 @@ public class S3Mgr : MonoBehaviour
         {
             IList<AtkWData> result = new List<AtkWData>();
     
-            result.Add(new AtkWData() { AWName = "AW1-1", AWStates = bool.Parse((PlayerPrefs.GetString("AW1-1S"))) });
-            result.Add(new AtkWData() { AWName = "AW1-2", AWStates = bool.Parse((PlayerPrefs.GetString("AW1-2S"))) });
-            result.Add(new AtkWData() { AWName = "AW1-3", AWStates = bool.Parse((PlayerPrefs.GetString("AW1-3S"))) });
-            result.Add(new AtkWData() { AWName = "AW1-4", AWStates = bool.Parse((PlayerPrefs.GetString("AW1-4S"))) });
-            result.Add(new AtkWData() { AWName = "AW1-5", AWStates = bool.Parse((PlayerPrefs.GetString("AW1-5S"))) });
-            result.Add(new AtkWData() { AWName = "AW1-6", AWStates = bool.Parse((PlayerPrefs.GetString("AW1-6S"))) });
-            result.Add(new AtkWData() { AWName = "AW1-7", AWStates = bool.Parse((PlayerPrefs.GetString("AW1-7S"))) });
-            result.Add(new AtkWData() { AWName = "AW1-8", AWStates = bool.Parse((PlayerPrefs.GetString("AW1-8S"))) });
-            result.Add(new AtkWData() { AWName = "AW1-9", AWStates = bool.Parse((PlayerPrefs.GetString("AW1-9S"))) });
-            result.Add(new AtkWData() { AWName = "AW1-10", AWStates = bool.Parse((PlayerPrefs.GetString("AW1-10S"))) });
+            result.Add(new AtkWData() { AWName = "AW3-1", AWStates = bool.Parse((PlayerPrefs.GetString("AW3-1S"))) });
+            result.Add(new AtkWData() { AWName = "AW3-2", AWStates = bool.Parse((PlayerPrefs.GetString("AW3-2S"))) });
+            result.Add(new AtkWData() { AWName = "AW3-3", AWStates = bool.Parse((PlayerPrefs.GetString("AW3-3S"))) });
+            result.Add(new AtkWData() { AWName = "AW3-4", AWStates = bool.Parse((PlayerPrefs.GetString("AW3-4S"))) });
+            result.Add(new AtkWData() { AWName = "AW3-5", AWStates = bool.Parse((PlayerPrefs.GetString("AW3-5S"))) });
+            result.Add(new AtkWData() { AWName = "AW3-6", AWStates = bool.Parse((PlayerPrefs.GetString("AW3-6S"))) });
+            result.Add(new AtkWData() { AWName = "AW3-7", AWStates = bool.Parse((PlayerPrefs.GetString("AW3-7S"))) });
+            result.Add(new AtkWData() { AWName = "AW3-8", AWStates = bool.Parse((PlayerPrefs.GetString("AW3-8S"))) });
+            result.Add(new AtkWData() { AWName = "AW3-9", AWStates = bool.Parse((PlayerPrefs.GetString("AW3-9S"))) });
+            result.Add(new AtkWData() { AWName = "AW3-10", AWStates = bool.Parse((PlayerPrefs.GetString("AW3-10S"))) });
             
             return result;
         }
@@ -116,7 +117,7 @@ public class S3Mgr : MonoBehaviour
     #region 存檔管理
     private void Save()
         {
-            //string json = JsonConvert.SerializeObject(GameSetting.DList);
+            string json = JsonConvert.SerializeObject(GameSetting.DList);
             string json2 = JsonConvert.SerializeObject(GameSetting.WList);
             SpeedPlayerController SPC = GameObject.FindObjectOfType<SpeedPlayerController>();
     
@@ -125,7 +126,7 @@ public class S3Mgr : MonoBehaviour
             GameSetting.Playerposy = pos.y;
             PlayerPrefs.SetFloat("x", GameSetting.Playerposx);
             PlayerPrefs.SetFloat("y", GameSetting.Playerposy);
-            //PlayerPrefs.SetString("data", json);
+            PlayerPrefs.SetString("data", json);
             PlayerPrefs.SetString("data2", json2);
             PlayerPrefs.Save();
         }
@@ -143,7 +144,7 @@ public class S3Mgr : MonoBehaviour
                     if (hit.collider.gameObject.CompareTag("Player"))
                     {
                         Save();
-                        PlayerPrefs.SetString("S1Enter", "true");
+                        PlayerPrefs.SetString("S3Enter", "true");
                         PlayerPrefs.Save();
                     }
                 }
@@ -152,7 +153,7 @@ public class S3Mgr : MonoBehaviour
                     if (hitR.collider.gameObject.CompareTag("Player"))
                     {
                         Save();
-                        PlayerPrefs.SetString("S1Enter", "true");
+                        PlayerPrefs.SetString("S3Enter", "true");
                         PlayerPrefs.Save();
                     }
                 }

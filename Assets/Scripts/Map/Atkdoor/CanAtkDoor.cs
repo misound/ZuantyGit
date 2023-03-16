@@ -46,6 +46,7 @@ public class CanAtkDoor : MonoBehaviour
             DoorBody[0].SetActive(false);
             DoorBody[1].SetActive(false);
             DoorBody[2].SetActive(false);
+            DoorBody[3].SetActive(false);
         }
 
         if (_isDirty)
@@ -84,6 +85,7 @@ public class CanAtkDoor : MonoBehaviour
         DoorBody[0].GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         DoorBody[1].GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         DoorBody[2].GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+        DoorBody[3].SetActive(false);
         DisOn = true;
     }
 
