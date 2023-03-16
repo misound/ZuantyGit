@@ -27,6 +27,7 @@ public class PlayerAttack : MonoBehaviour
         _anim = GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>();
         atkCol = GetComponent<Collider2D>();
         combo = 0;
+        atkCol.enabled = false;
     }
 
     // Update is called once per frame 
