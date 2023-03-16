@@ -11,7 +11,6 @@ public class Elevator : MonoBehaviour
     public Transform startingPoint;
     public Transform  endingPoint;
     public bool playerIn;
-    public AudioSource switchOn;
     public bool moveUp;
     public bool oneTime;
     public GameObject _eKey;
@@ -23,7 +22,6 @@ public class Elevator : MonoBehaviour
 
     void Start()
     {
-       
         transform.position = startingPoint.position;
         moveUp = false;
         playerIn = false;
