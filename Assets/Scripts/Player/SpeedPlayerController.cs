@@ -410,9 +410,8 @@ public class SpeedPlayerController : MonoBehaviour
             _hangTimeCounter = 0f;
             _jumpBufferCounter = 0f;
             _isJumping = true;
-            Debug.Log("jump");
-        
-        
+
+
     }
 
     #endregion
@@ -560,7 +559,6 @@ public class SpeedPlayerController : MonoBehaviour
                 }
                 if (_isJumping)
                 {
-                    Debug.Log("JUMP1");
                     _anim.SetBool("isJumping", true);
                     _anim.SetBool("isGrounded", false);
                     _anim.SetBool("isFalling", false);
