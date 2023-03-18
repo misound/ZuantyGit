@@ -9,8 +9,8 @@ public class EnemyBomb : MonoBehaviour
     [Header("Data")]
     [SerializeField] int HP;
     [SerializeField] int Atk;
-    [SerializeField] bool Die;
-
+    [SerializeField] private GameObject Deadbody;
+    
     [Header("Components")]
     [SerializeField] public SpeedPlayerController playerController;
     [SerializeField] public PlayerCombat PlayerAtks;
@@ -25,6 +25,7 @@ public class EnemyBomb : MonoBehaviour
     [SerializeField] public float VariableSpeed;
     [SerializeField] public float Patrolspeed;
     [SerializeField] public float Boomspeed;
+    [SerializeField] public float MaxBoomspeed;
     [SerializeField] public float Jumpforce;
 
     [Header("Ray Range")]
@@ -47,13 +48,16 @@ public class EnemyBomb : MonoBehaviour
     [Header("Explotion")]
     [SerializeField] public float Boomtime;
     [SerializeField] public float timer;
-    [SerializeField] private bool isstarttime;
     [SerializeField] public float BoomRange;
     [SerializeField] public bool explosion;
     [SerializeField] public bool explosionReady;
     [SerializeField] public bool explosioned = false;
     [SerializeField] public float Dietime;
     [SerializeField] public float Dietimer;
+    
+    [Header("DieStatus")]
+    [SerializeField] private bool Onhit;
+    [SerializeField] bool Die;
 
     public LayerMask playerlayer;
 
@@ -89,6 +93,10 @@ public class EnemyBomb : MonoBehaviour
 
         if (Die)
         {
+            GameObject temp = Instantiate(Deadbody);
+            temp.transform.parent = transform.parent;
+            temp.transform.localPosition = transform.localPosition;
+            temp.transform.localScale = transform.localScale;
             this.gameObject.SetActive(false);
         }
         Animation();
@@ -117,7 +125,12 @@ public class EnemyBomb : MonoBehaviour
             }
         }
 
-
+        if (Onhit)
+        {
+            
+            Boomspeed += (1f / 0.05f) * Time.unscaledDeltaTime;
+            Boomspeed = Mathf.Clamp(Boomspeed, 0f, MaxBoomspeed);
+        }
     }
 
     // Update is called once per frame
@@ -128,7 +141,7 @@ public class EnemyBomb : MonoBehaviour
         else
             mustPatrol = true;
     }
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.green;
         Gizmos.DrawRay(CheckpointR.transform.position, Vector2.down * CheckGroundRange);
@@ -303,6 +316,7 @@ public class EnemyBomb : MonoBehaviour
 
         if (explosioned) //發射粒子並讓自爆重停在原地爆炸
         {
+            GetComponent<CircleCollider2D>().enabled = false;
             rb.gravityScale = 0f;
             rb.drag = 4 + Time.deltaTime;
             Particles[0].GetComponent<ParticleSystem>().Play();
@@ -361,38 +375,45 @@ public class EnemyBomb : MonoBehaviour
     }
 
     #endregion
-    public void TakeBombHealth(int Damage)
-    {
-        HP -= Damage;
-        if (HP <= 0)
-        {
-            HP = 0;
-            Die = true;
-        }
-    }
-    public void SetBombMaxHealth(int MaxHeath)
-    {
-        MaxHeath = 100;
-        HP = MaxHeath;
-    }
-    public void SE() //音效
-    {
-        GameSetting.SEAudio.PlayBoom();
-    }
+    #region 生命
 
-    private void OnTriggerEnter2D(Collider2D col)
-    {
-        if (col.tag=="Player")
+        public void TakeBombHealth(int Damage)
         {
-            StartCoroutine(BeAttack());
+            HP -= Damage;
+            if (HP <= 0)
+            {
+                HP = 0;
+                Die = true;
+            }
         }
-    }
+        public void SetBombMaxHealth(int MaxHeath)
+        {
+            MaxHeath = 100;
+            HP = MaxHeath;
+        }
+        public void SE() //音效
+        {
+            GameSetting.SEAudio.PlayBoom();
+        }
 
-    IEnumerator BeAttack()
-    {
-        WannaBoom = false;
-        rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y + 5);
-        yield return new WaitForSecondsRealtime(6);
-        WannaBoom = true;
-    }
+    #endregion
+    #region 被攻擊處理
+
+        private void OnTriggerEnter2D(Collider2D col)
+        {
+            if (col.tag=="Player")
+            {
+                BeAttack();
+            }
+        }
+    
+        void BeAttack()
+        {
+            rb.AddForce(new Vector2(-10000,10),ForceMode2D.Force);
+            Boomspeed = Patrolspeed;
+            Onhit = true;
+        }
+
+    #endregion
+
 }

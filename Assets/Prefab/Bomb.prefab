@@ -71,10 +71,10 @@ GameObject:
   - component: {fileID: 7571057974633431838}
   - component: {fileID: 7571057974633431839}
   - component: {fileID: 7571057974633431836}
-  - component: {fileID: 7571057974633431837}
   - component: {fileID: 7571057974633431824}
   - component: {fileID: 7571057974633431825}
   - component: {fileID: 7571057974633431827}
+  - component: {fileID: 6460427152519261418}
   m_Layer: 9
   m_Name: Bomb
   m_TagString: Enemy
@@ -171,32 +171,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!61 &7571057974633431837
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7571057974633431834}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.44, y: 1.44}
-    newSize: {x: 3.6, y: 3.6}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
 --- !u!111 &7571057974633431824
 Animation:
   m_ObjectHideFlags: 0
@@ -246,7 +220,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HP: 100
   Atk: 34
-  Die: 0
+  Deadbody: {fileID: 0}
   playerController: {fileID: 0}
   PlayerAtks: {fileID: 0}
   rb: {fileID: 7571057974633431836}
@@ -256,6 +230,7 @@ MonoBehaviour:
   VariableSpeed: 0
   Patrolspeed: 1
   Boomspeed: 5
+  MaxBoomspeed: 0
   Jumpforce: 14.17
   CheckGroundRange: 0.1
   CheckPlayerRange: 10
@@ -271,13 +246,15 @@ MonoBehaviour:
   _anim: {fileID: 7571057974633431825}
   Boomtime: 0.37
   timer: 0
-  isstarttime: 0
   BoomRange: 1.4
   explosion: 0
   explosionReady: 0
   explosioned: 0
   Dietime: 4.47
   Dietimer: 0
+  Onhit: 0
+  Die: 0
+  OnHhitToDie: 0
   playerlayer:
     serializedVersion: 2
     m_Bits: 1
@@ -286,6 +263,22 @@ MonoBehaviour:
   - {fileID: 3435911717201986402}
   - {fileID: 3435911718350136513}
   - {fileID: 3435911718658084545}
+--- !u!58 &6460427152519261418
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7571057974633431834}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!1001 &1518407560
 PrefabInstance:
   m_ObjectHideFlags: 0

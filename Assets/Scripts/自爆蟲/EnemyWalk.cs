@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class EnemyWalk : MonoBehaviour
 {
+    [Header("Data")] 
+    [SerializeField] public int HP;
+    [SerializeField] public int Atk;
+        
     // Start is called before the first frame update
     void Start()
     {
@@ -14,5 +18,19 @@ public class EnemyWalk : MonoBehaviour
     void Update()
     {
         
+    }
+
+    enum Status
+    {
+        
+    }
+
+    void StatusSwitcher(Status status)
+    {
+        switch (status)
+        {
+            default:
+                break;
+        }
     }
 }
