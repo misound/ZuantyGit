@@ -55,8 +55,10 @@ public class EnemyBomb : MonoBehaviour
     [SerializeField] public float Dietime;
     [SerializeField] public float Dietimer;
     
-    [Header("DieStatus")]
+    [Header("OnhitStatus")]
     [SerializeField] private bool Onhit;
+    [SerializeField] public float Knockback;
+    [SerializeField] public float KnockbackHeight;
     [SerializeField] bool Die;
 
     public LayerMask playerlayer;
@@ -409,7 +411,14 @@ public class EnemyBomb : MonoBehaviour
     
         void BeAttack()
         {
-            rb.AddForce(new Vector2(-10000,10),ForceMode2D.Force);
+            if (transform.position.x < playerController.transform.position.x)
+            {
+                rb.AddForce(new Vector2(-Knockback,KnockbackHeight),ForceMode2D.Force);
+            }
+            if (transform.position.x > playerController.transform.position.x)
+            {
+                rb.AddForce(new Vector2(Knockback,KnockbackHeight),ForceMode2D.Force);
+            }
             Boomspeed = Patrolspeed;
             Onhit = true;
         }
