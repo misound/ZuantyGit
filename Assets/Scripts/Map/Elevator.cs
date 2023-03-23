@@ -57,7 +57,7 @@ public class Elevator : MonoBehaviour
         }
         if (transform.position == endingPoint.position && oneTime)
         {
-
+            _eKey.SetActive(false);
             Destroy(this);
 
         }

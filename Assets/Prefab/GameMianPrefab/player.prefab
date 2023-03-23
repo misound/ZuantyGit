@@ -58,8 +58,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensity: 1
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
-  m_PointLightInnerRadius: 5
-  m_PointLightOuterRadius: 18
+  m_PointLightInnerRadius: 0
+  m_PointLightOuterRadius: 6
   m_PointLightDistance: 3
   m_PointLightQuality: 1
   m_ShapeLightParametricSides: 5
@@ -168,7 +168,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 0.3
   m_LightVolumeOpacity: 0
-  m_ApplyToSortingLayers: c3f13d9e1d50402d331a819d
+  m_ApplyToSortingLayers: 331a819dc3f13d9e
   m_LightCookieSprite: {fileID: 0}
   m_UseNormalMap: 0
   m_LightOrder: 0
@@ -177,7 +177,7 @@ MonoBehaviour:
   m_ShadowVolumeIntensity: 0
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
-  m_PointLightInnerRadius: 2
+  m_PointLightInnerRadius: 0
   m_PointLightOuterRadius: 15
   m_PointLightDistance: 3
   m_PointLightQuality: 1
@@ -326,7 +326,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: a46fa3a44c27c0f47bb949d48786015d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -347,7 +347,8 @@ SpriteRenderer:
   m_SortingLayerID: 274972283
   m_SortingLayer: -7
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: f2f354c2516b2ca4aab50525af5db019, type: 3}
+  m_Sprite: {fileID: -7862696957465280627, guid: 00e252981e2297642b76a103e7960bfd,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -527,9 +528,7 @@ MonoBehaviour:
   checkRadius: 0
   _onOneWayPlatform: 0
   DownwardDistance: -2
-  spawnPoint: {fileID: 0}
-  die: 0
-  inTrap: 0
+  InTrap: 0
   _trapLayer:
     serializedVersion: 2
     m_Bits: 0
@@ -780,7 +779,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3866515650493914045}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.7699966, y: -0.62000084, z: 0}
+  m_LocalPosition: {x: -1.804, y: -0.002, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3691158419869026782}
@@ -1059,7 +1058,7 @@ MonoBehaviour:
   m_ShadowVolumeIntensity: 1
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
-  m_PointLightInnerRadius: 2
+  m_PointLightInnerRadius: 0
   m_PointLightOuterRadius: 6
   m_PointLightDistance: 3
   m_PointLightQuality: 1
