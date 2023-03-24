@@ -105,23 +105,26 @@ public class S3Item : IItem
 
     public IList<Itemdata> FakeData1()
     {
-        return null;
+        IList<Itemdata> result = new List<Itemdata>();
+        
+        result.Add(new Itemdata() { Name = "D3-1", States = false });
+        return result;
     }
 
     public IList<AtkWData> FakeData2()
     {
         IList<AtkWData> result = new List<AtkWData>();
 
-        result.Add(new AtkWData() { AWName = "AW1-1", AWStates = false });
-        result.Add(new AtkWData() { AWName = "AW1-2", AWStates = false });
-        result.Add(new AtkWData() { AWName = "AW1-3", AWStates = false });
-        result.Add(new AtkWData() { AWName = "AW1-4", AWStates = false });
-        result.Add(new AtkWData() { AWName = "AW1-5", AWStates = false });
-        result.Add(new AtkWData() { AWName = "AW1-6", AWStates = false });
-        result.Add(new AtkWData() { AWName = "AW1-7", AWStates = false });
-        result.Add(new AtkWData() { AWName = "AW1-8", AWStates = false });
-        result.Add(new AtkWData() { AWName = "AW1-9", AWStates = false });
-        result.Add(new AtkWData() { AWName = "AW1-10", AWStates = false });
+        result.Add(new AtkWData() { AWName = "AW3-1", AWStates = false });
+        result.Add(new AtkWData() { AWName = "AW3-2", AWStates = false });
+        result.Add(new AtkWData() { AWName = "AW3-3", AWStates = false });
+        result.Add(new AtkWData() { AWName = "AW3-4", AWStates = false });
+        result.Add(new AtkWData() { AWName = "AW3-5", AWStates = false });
+        result.Add(new AtkWData() { AWName = "AW3-6", AWStates = false });
+        result.Add(new AtkWData() { AWName = "AW3-7", AWStates = false });
+        result.Add(new AtkWData() { AWName = "AW3-8", AWStates = false });
+        result.Add(new AtkWData() { AWName = "AW3-9", AWStates = false });
+        result.Add(new AtkWData() { AWName = "AW3-10", AWStates = false });
 
         return result;
     }

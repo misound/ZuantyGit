@@ -9,7 +9,10 @@ public class PlayerAttack : MonoBehaviour
     public int atkDamage=40;
 
     private Animator _anim;
-    private Collider2D atkCol;
+    public Collider2D[] atkCol;
+    public Collider2D atkCol1;
+    public Collider2D atkCol2;
+    public Collider2D atkCol3;
     public float startTime;
     public float endTime;
     public bool recover;
@@ -25,9 +28,20 @@ public class PlayerAttack : MonoBehaviour
     void Start()
     {
         _anim = GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>();
-        atkCol = GetComponent<Collider2D>();
+
+        atkCol = GetComponents<Collider2D>();
+
+        atkCol1 = atkCol[0];
+        atkCol2 = atkCol[1];
+        atkCol3 = atkCol[2];
+
+        for (int i = 0; i < 3; i++)
+        {
+            atkCol[i].enabled = false;
+        }
+        
         combo = 0;
-        atkCol.enabled = false;
+
     }
 
     // Update is called once per frame 
@@ -58,39 +72,67 @@ public class PlayerAttack : MonoBehaviour
         if (combo==0)
         {
             _anim.SetTrigger("Attack1");
-            StartCoroutine(startHitBox());
+            StartCoroutine(startHitBox1());
         }
         else if(combo==1&& cooldown>=0)
         {
             _anim.SetTrigger("Attack2");
-            StartCoroutine(startHitBox());
+            StartCoroutine(startHitBox2());
         }
         else if(combo==2&& cooldown>=0)
         {
             _anim.SetTrigger("Attack3");
-            StartCoroutine(startHitBox());
+            StartCoroutine(startHitBox3());
         }
         else if (combo>=maxCombo)
         {
             combo = 0;
             _anim.SetTrigger("Attack1");
-            StartCoroutine(startHitBox());
+            StartCoroutine(startHitBox1());
         }
         
         
     }
-    IEnumerator startHitBox()
+    IEnumerator startHitBox1()
     {
         recover = true;
         yield return new WaitForSeconds(startTime);
-        atkCol.enabled = true;
-        StartCoroutine(disableHitBox());
+        atkCol[0].enabled = true;
+        StartCoroutine(disableHitBox1());
     }
 
-    IEnumerator disableHitBox()
+    IEnumerator disableHitBox1()
     {
         yield return new WaitForSeconds(endTime);
-        atkCol.enabled = false;
+        atkCol[0].enabled = false;
+        recover = false;
+    }
+    IEnumerator startHitBox2()
+    {
+        recover = true;
+        yield return new WaitForSeconds(startTime);
+        atkCol[1].enabled = true;
+        StartCoroutine(disableHitBox2());
+    }
+
+    IEnumerator disableHitBox2()
+    {
+        yield return new WaitForSeconds(endTime);
+        atkCol[1].enabled = false;
+        recover = false;
+    }
+    IEnumerator startHitBox3()
+    {
+        recover = true;
+        yield return new WaitForSeconds(startTime);
+        atkCol[2].enabled = true;
+        StartCoroutine(disableHitBox3());
+    }
+
+    IEnumerator disableHitBox3()
+    {
+        yield return new WaitForSeconds(endTime);
+        atkCol[2].enabled = false;
         recover = false;
     }
 
