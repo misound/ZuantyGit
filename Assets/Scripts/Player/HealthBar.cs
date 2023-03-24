@@ -47,12 +47,12 @@ public class HealthBar : MonoBehaviour
     }
     private void OnGUI()
     {
-        if (GUI.Button(new Rect(100, 240, 160, 100), "MaxHP"))
+        //if (GUI.Button(new Rect(100, 240, 160, 100), "MaxHP"))
         {
             SetMaxHealth(GameSetting.PlayerHP = 100);
             _isDirty = true;
         }
-        if (GUI.Button(new Rect(100, 960, 160, 100), "-HP"))
+        //if (GUI.Button(new Rect(100, 960, 160, 100), "-HP"))
         {
             SetHealth(GameSetting.PlayerHP -= 60);
         }
