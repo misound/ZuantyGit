@@ -541,7 +541,7 @@ MonoBehaviour:
   attackPoint: {fileID: 3691158420677850561}
   enemyLayers:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 16960
   mousePos: {fileID: 0}
   playerAttack: {fileID: 3691158420677850591}
   Footstep: {fileID: 3691158419869026776}
@@ -683,7 +683,7 @@ GameObject:
   - component: {fileID: 801182075406579247}
   m_Layer: 1
   m_Name: playATKAera
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -714,7 +714,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1271a15c72f480a4394cc4fa2c517317, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  atkDamage: 1000
+  atkDamage: 35
   atkCol: []
   atkCol1: {fileID: 0}
   atkCol2: {fileID: 0}
@@ -772,7 +772,7 @@ PolygonCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -807,7 +807,7 @@ PolygonCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
