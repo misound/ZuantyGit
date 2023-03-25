@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 414c7373726ae074dab78d4805d3c413, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AWHP: 100
+  AWHP: 10
   WallBody: {fileID: 2201025332145599799}
   playerController: {fileID: 0}
   AWBreak: 0
@@ -5123,7 +5123,7 @@ SpriteShapeRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1640107581
-  m_SortingLayer: -7
+  m_SortingLayer: -8
   m_SortingOrder: 120
   m_Color: {r: 1, g: 0, b: 0, a: 0.1764706}
   m_MaskInteraction: 0
