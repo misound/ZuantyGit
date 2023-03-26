@@ -5,19 +5,23 @@ using UnityEngine;
 public class AtkTeach : MonoBehaviour
 {
     // Start is called before the first frame update
-    [SerializeField] private GameObject AA;
-    [SerializeField] private GameObject BB;
+    [SerializeField] private GameObject teachEnemy;
+    [SerializeField] private GameObject timeLine;
+    private bool enemyIsDie = false;
+    
     void Start()
     {
-        BB.SetActive(false);
+        timeLine.SetActive(false);
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(AA == null)
+        if(!teachEnemy || teachEnemy.GetComponent<EnemyBomb>().explosioned)
         {
-            BB.SetActive(true);
+            timeLine.SetActive(true);
+            Debug.Log("AAAA");
         }
     }
 }
