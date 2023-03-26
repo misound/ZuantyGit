@@ -10,13 +10,14 @@ public class doorControl : MonoBehaviour
     public Transform elevatorEnd;
     public Transform elevatorPoint;
     private Animator elevatorAnim;
+    private GameObject player;
     // Start is called before the first frame update
     void Start()
     {
         elevatorIn = false;
         canOpen = false;
         elevatorAnim = GetComponent<Animator>();
-    }
+        player = GameObject.Find("player");    }
 
     // Update is called once per frame
     void Update()
@@ -33,14 +34,14 @@ public class doorControl : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player" )
+        if (player)
         {
             canOpen = true;
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player" )
+        if (player)
         {
             canOpen = false;
         }
