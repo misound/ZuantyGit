@@ -59,7 +59,7 @@ public class EnemyBomb : MonoBehaviour
     [SerializeField] private bool Onhit;
     [SerializeField] public float Knockback;
     [SerializeField] public float KnockbackHeight;
-    [SerializeField] bool Die;
+    [SerializeField] public bool Die;
 
     public LayerMask playerlayer;
 

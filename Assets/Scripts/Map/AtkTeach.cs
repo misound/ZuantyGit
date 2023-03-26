@@ -18,7 +18,7 @@ public class AtkTeach : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!teachEnemy || teachEnemy.GetComponent<EnemyBomb>().explosioned)
+        if(teachEnemy.GetComponent<EnemyBomb>().Die|| teachEnemy.GetComponent<EnemyBomb>().explosioned)
         {
             timeLine.SetActive(true);
             Debug.Log("AAAA");
