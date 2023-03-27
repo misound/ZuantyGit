@@ -113,6 +113,7 @@ public class SpeedPlayerController : MonoBehaviour
     [SerializeField] public bool wallEnemyIn;
     [SerializeField] public bool hasDashL;
     public bool hasDashR;
+    public Raycast raycast;
 
 
     [Header("Attack")]
@@ -216,7 +217,7 @@ public class SpeedPlayerController : MonoBehaviour
         {
             if (wallEnemyIn&& mousePos.onWallEnemy)
             {
-                if (M_dir.x < 0 && _facingRight)
+                if (M_dir.x < 0 && _facingRight&&!playerAttack.hitWall)
                 {
                     Flip();
                     StartCoroutine(KillDash(mousePos.enemyPos.x,mousePos.enemyPos.y));
@@ -517,7 +518,7 @@ public class SpeedPlayerController : MonoBehaviour
     {
         if (playerAttack.recover)
         {
-            _anim.SetBool("isDashing", false);
+            //_anim.SetTrigger("isDashing");
             _anim.SetBool("isGrounded", false);
             _anim.SetBool("isFalling", false);
             _anim.SetBool("WallGrab", false);
@@ -529,7 +530,7 @@ public class SpeedPlayerController : MonoBehaviour
         {
             if (_isDashing)
             {
-                _anim.SetBool("isDashing", true);
+                _anim.SetTrigger("isDashing");
                 _anim.SetBool("isGrounded", false);
                 _anim.SetBool("isFalling", false);
                 _anim.SetBool("WallGrab", false);
@@ -539,7 +540,7 @@ public class SpeedPlayerController : MonoBehaviour
             }
             else
             {
-                _anim.SetBool("isDashing", false);
+                //_anim.SetBool("isDashing", false);
 
                 if ((_horizontalDirection < 0f && _facingRight || _horizontalDirection > 0f && !_facingRight) && !_wallGrab && !_wallSlide)
                 {
