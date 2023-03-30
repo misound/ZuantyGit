@@ -61,10 +61,22 @@ public class Elevator : MonoBehaviour
             Destroy(this);
 
         }
+        
         if (transform.position == endingPoint.position || transform.position == startingPoint.position && playerIn)
         {
-            _eKey.SetActive(true);
+            if (transform.position == endingPoint.position && oneTime)
+            {
+                _eKey.SetActive(false);
+            }
+            else
+            {
+                _eKey.SetActive(true);
+            }
+            
+           
+              
         }
+       
         else { _eKey.SetActive(false); }
     }
 

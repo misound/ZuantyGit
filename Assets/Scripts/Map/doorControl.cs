@@ -34,14 +34,14 @@ public class doorControl : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (player)
+        if (collision.gameObject.name == "player")
         {
             canOpen = true;
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (player)
+        if (collision.gameObject.name == "player")
         {
             canOpen = false;
         }

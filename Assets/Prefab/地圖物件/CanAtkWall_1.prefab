@@ -5139,8 +5139,8 @@ SpriteShapeRenderer:
   - {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
   - {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
   m_LocalAABB:
-    m_Center: {x: 0.22954422, y: 0.016036749, z: 0}
-    m_Extent: {x: 0.9914878, y: 2.0832212, z: 0}
+    m_Center: {x: 0.22954422, y: 0.016112685, z: 0}
+    m_Extent: {x: 0.9898214, y: 1.9632897, z: 0}
 --- !u!114 &4969840441278178879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6745,11 +6745,13 @@ ParticleSystem:
         type: 3}
     - sprite: {fileID: -8191017193028590533, guid: d8945997b72229943b000e5eb4f2d4da,
         type: 3}
-    - sprite: {fileID: -5950929970884691165, guid: d8945997b72229943b000e5eb4f2d4da,
+    - sprite: {fileID: 3378858880303037693, guid: d8945997b72229943b000e5eb4f2d4da,
         type: 3}
     - sprite: {fileID: 1932008595608285980, guid: d8945997b72229943b000e5eb4f2d4da,
         type: 3}
     - sprite: {fileID: -2375873603205433115, guid: d8945997b72229943b000e5eb4f2d4da,
+        type: 3}
+    - sprite: {fileID: 2416577754969428018, guid: d8945997b72229943b000e5eb4f2d4da,
         type: 3}
     flipU: 0
     flipV: 0
@@ -10130,4 +10132,4 @@ MonoBehaviour:
   - {x: 0.45303813, y: 1.5412585, z: 0}
   m_ShapePathHash: 297453898
   m_Mesh: {fileID: 0}
-  m_InstanceId: 310716
+  m_InstanceId: 112188
