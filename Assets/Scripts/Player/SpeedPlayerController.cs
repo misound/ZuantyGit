@@ -113,7 +113,7 @@ public class SpeedPlayerController : MonoBehaviour
     [SerializeField] public bool wallEnemyIn;
     [SerializeField] public bool hasDashL;
     public bool hasDashR;
-    public Raycast raycast;
+    //public Raycast raycast;
 
 
     [Header("Attack")]
@@ -217,7 +217,7 @@ public class SpeedPlayerController : MonoBehaviour
         {
             if (wallEnemyIn&& mousePos.onWallEnemy)
             {
-                if (M_dir.x < 0 && _facingRight&&!playerAttack.hitWall)
+                if (M_dir.x < 0 && _facingRight/*&&!playerAttack.hitWall*/)
                 {
                     Flip();
                     StartCoroutine(KillDash(mousePos.enemyPos.x,mousePos.enemyPos.y));
@@ -926,5 +926,10 @@ public class SpeedPlayerController : MonoBehaviour
             InTrap = false;
         }
         FindObjectOfType<HealthBar>().SetHealth(GameSetting.PlayerHP -= FindObjectOfType<Trap>().TrapDmg);
+    }
+
+    public void TakeDmgFromWalk()
+    {
+        FindObjectOfType<HealthBar>().SetHealth(GameSetting.PlayerHP -= FindObjectOfType<EnemyWalk>().Atk);
     }
 }

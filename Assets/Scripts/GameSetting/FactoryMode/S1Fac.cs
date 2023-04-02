@@ -18,6 +18,7 @@ public class SSItem : IItem
         PlayerPrefs.SetString("S1Enter", "false");
         PlayerPrefs.SetString("S2Enter", "false");
         PlayerPrefs.SetString("S3Enter", "false");
+        PlayerPrefs.SetString("S4Enter", "false");
     }
 
     public IList<Itemdata> FakeData1()
@@ -130,6 +131,37 @@ public class S3Item : IItem
     }
 }
 
+public class S4Item : IItem
+{
+    public void saysomething()
+    {
+        Debug.Log("我是第四個場景");
+    }
+
+    public IList<Itemdata> FakeData1()
+    {
+        IList<Itemdata> result = new List<Itemdata>();
+        
+        result.Add(new Itemdata() { Name = "D4-1", States = false });
+        return result;
+    }
+
+    public IList<AtkWData> FakeData2()
+    {
+        IList<AtkWData> result = new List<AtkWData>();
+
+        result.Add(new AtkWData() { AWName = "AW4-1", AWStates = false });
+        result.Add(new AtkWData() { AWName = "AW4-2", AWStates = false });
+        result.Add(new AtkWData() { AWName = "AW4-3", AWStates = false });
+        result.Add(new AtkWData() { AWName = "AW4-4", AWStates = false });
+        result.Add(new AtkWData() { AWName = "AW4-5", AWStates = false });
+        result.Add(new AtkWData() { AWName = "AW4-6", AWStates = false });
+
+        return result;
+    }
+}
+
+
 public class NewSItem : IItem
 {
     public void saysomething()
@@ -155,4 +187,5 @@ public class NewSItem : IItem
 
         return result;
     }
+    
 }

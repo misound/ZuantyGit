@@ -14,6 +14,8 @@ public class Factory
                 return new S2Item();
             case "S3":
                 return new S3Item();
+            case "S4":
+                return new S4Item();
             case "NS":
                 return new NewSItem();
             case "SS":

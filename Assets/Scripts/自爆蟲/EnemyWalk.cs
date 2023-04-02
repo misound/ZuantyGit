@@ -6,19 +6,21 @@ using UnityEngine.Serialization;
 
 public class EnemyWalk : MonoBehaviour
 {
-    [Header("Data")] [SerializeField] public int HP;
+    [Header("Data")] 
+    [SerializeField] public int HP;
     [SerializeField] public int Atk;
 
-    [Header("Components")] [SerializeField]
-    public SpeedPlayerController playerController;
-
+    [Header("Components")] 
+    [SerializeField] public SpeedPlayerController playerController;
     [SerializeField] public Rigidbody2D rb;
     [SerializeField] public HealthBar PlayerHP;
 
-    [Header("CheckGround Point")] [SerializeField]
-    public Vector3 CheckGround;
+    [Header("Check Point")] 
+    [SerializeField] public Vector3 CheckGround;
+    [SerializeField] public GameObject AtkPoint;
 
-    [Header("Speed")] [SerializeField] public float VariableSpeed;
+    [Header("Speed")] 
+    [SerializeField] public float VariableSpeed;
     [SerializeField] public float PatrolSpeed;
     [SerializeField] public float HuntSpeed;
 
@@ -28,19 +30,28 @@ public class EnemyWalk : MonoBehaviour
     [SerializeField] private bool _chase;
     [SerializeField] private bool _isFacingRight;
     [SerializeField] private bool hitwall;
+    [SerializeField] public bool Atking;
+    
+    
 
-    [Header("Ray Range")] [SerializeField] public float CheckGroundRange;
+    [Header("Ray Range")] 
+    [SerializeField] public float CheckGroundRange;
     [SerializeField] public float CheckPlayerRange;
     [SerializeField] public float CheckWallRange;
     [SerializeField] public float AttackRange;
+    [SerializeField] public float AttackingRange;
     [SerializeField] public float WarningRange;
 
-    [Header("Layer")] [SerializeField] public LayerMask GroundLayer;
+    [Header("Layer")] 
+    [SerializeField] public LayerMask GroundLayer;
     [SerializeField] public LayerMask WallLayer;
     [SerializeField] public LayerMask PlayerLayer;
     
     [Header("Animation")]
     [SerializeField] public Animator _anim;
+
+    [Header("sec")] 
+    [SerializeField] public float AniSecs;
 
     private float distance;
 
@@ -155,12 +166,6 @@ public class EnemyWalk : MonoBehaviour
             rb.velocity = new Vector2(VariableSpeed, rb.velocity.y);
         }
         
-        distance = Vector2.Distance(transform.position, playerController.transform.position);
-        if (distance < WarningRange)
-        {
-            _chase = true;
-            mustPatrol = false;
-        }
     }
 
     #endregion
@@ -209,6 +214,9 @@ public class EnemyWalk : MonoBehaviour
         {
             if (hit.collider.gameObject.CompareTag("Player"))
             {
+                _isFacingRight = true;
+                _chase = true;
+                mustPatrol = false;
                 StatusSwitcher(Status.Warning);
             }
         }
@@ -222,6 +230,9 @@ public class EnemyWalk : MonoBehaviour
         {
             if (hit.collider.gameObject.CompareTag("Player"))
             {
+                _isFacingRight = false;
+                _chase = true;
+                mustPatrol = false;
                 StatusSwitcher(Status.Warning);
             }
         }
@@ -236,19 +247,40 @@ public class EnemyWalk : MonoBehaviour
         {
             rb.velocity = new Vector2(HuntSpeed, rb.velocity.y);
             _isFacingRight = true;
+            FlipToR();
         }
 
         if (transform.position.x > playerController.transform.position.x)
         {
             rb.velocity = new Vector2(-HuntSpeed, rb.velocity.y);
             _isFacingRight = false;
+            FlipToL();
         }
-
+        
         distance = Vector2.Distance(transform.position, playerController.transform.position);
 
         if (distance < AttackRange)
-        {
-            StatusSwitcher(Status.Attack);
+        {        
+            RaycastHit2D hitL = Physics2D.Raycast(transform.position, Vector2.right * CheckPlayerRange
+                , CheckPlayerRange, PlayerLayer);
+            if (hitL.collider != null)
+            {
+                if (hitL.collider.gameObject.CompareTag("Player"))
+                {
+                    StatusSwitcher(Status.Attack);
+                }
+            }
+        
+            RaycastHit2D hitR = Physics2D.Raycast(transform.position, Vector2.left * CheckPlayerRange
+                , CheckPlayerRange, PlayerLayer);
+            if (hitR.collider != null)
+            {
+                if (hitR.collider.gameObject.CompareTag("Player"))
+                {
+                    StatusSwitcher(Status.Attack);
+                }
+            }
+
         }
 
         if (distance > WarningRange)
@@ -262,8 +294,8 @@ public class EnemyWalk : MonoBehaviour
         mustPatrol = false;
         _chase = false;
         rb.drag = 100000f;
-        yield return new WaitForSeconds(2f);
-        Debug.Log("揮空氣");
+        yield return new WaitForSeconds(AniSecs);
+
         distance = Vector2.Distance(transform.position, playerController.transform.position);
 
         if (transform.position.x < playerController.transform.position.x)
@@ -275,7 +307,7 @@ public class EnemyWalk : MonoBehaviour
         {
             _isFacingRight = false;
         }
-        
+
         if (distance <= WarningRange)
         {
             _chase = true;
@@ -284,8 +316,20 @@ public class EnemyWalk : MonoBehaviour
         {
             mustPatrol = true;
         }
+
     }
 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.GetComponent<SpeedPlayerController>() != null)
+        {
+            
+            other.GetComponent<SpeedPlayerController>().TakeDmgFromWalk();
+            GameSetting.PlayerHP -= Atk;
+            PlayerHP.SetHealth(GameSetting.PlayerHP);
+        }
+        Debug.Log("被攻擊");
+    }
 
     void Animation()
     {
@@ -305,16 +349,20 @@ public class EnemyWalk : MonoBehaviour
     }
     private void OnDrawGizmosSelected()
     {
+        Gizmos.color = Color.green;
         Gizmos.DrawRay(transform.position + CheckGround, Vector2.down * CheckGroundRange);
         Gizmos.DrawRay(transform.position - CheckGround, Vector2.down * CheckGroundRange);
-
-        Gizmos.DrawRay(transform.position + new Vector3(0, 0.05f, 0), Vector2.left * CheckPlayerRange);
-        Gizmos.DrawRay(transform.position + new Vector3(0, 0.05f, 0), Vector2.right * CheckPlayerRange);
-
         Gizmos.DrawRay(transform.position - new Vector3(0, 0.05f, 0), Vector2.left * CheckWallRange);
         Gizmos.DrawRay(transform.position - new Vector3(0, 0.05f, 0), Vector2.right * CheckWallRange);
 
+        Gizmos.color = Color.blue;
+        Gizmos.DrawRay(transform.position + new Vector3(0, 0.05f, 0), Vector2.left * CheckPlayerRange);
+        Gizmos.DrawRay(transform.position + new Vector3(0, 0.05f, 0), Vector2.right * CheckPlayerRange);
+
+        Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, WarningRange);
+        Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, AttackRange);
     }
+    
 }
