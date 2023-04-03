@@ -9,9 +9,19 @@ public class S1Mgr : MonoBehaviour
     public GameObject DoorPrefab;
     public GameObject AWPrefab;
     public GameObject[] CheckPoint;
+    public GameObject[] RespawnPoint;
 
     public GameObject[] DPos;
     public GameObject[] AWPos;
+    
+    
+    public GameObject[] FallingLine;
+
+    public int FallDmg = 30;
+    
+    public float FallSec = 3.0f;
+    
+    public HealthBar PlayerHP;
 
     private bool EnteredS1 = false;
 
@@ -64,6 +74,8 @@ public class S1Mgr : MonoBehaviour
             AtkWallHandler wall = temp.GetComponent<AtkWallHandler>();
             wall.SetWallData(GameSetting.WList[i]);
         }
+        
+        PlayerHP = FindObjectOfType<HealthBar>();
     }
 
     void Update()
@@ -78,6 +90,9 @@ public class S1Mgr : MonoBehaviour
             GameSetting.Load();
             load();
         }
+        StartCoroutine(FallLine());
+        
+        TempPoint();
     }
 
     #region 第一關可破壞物件資料
@@ -161,12 +176,115 @@ public class S1Mgr : MonoBehaviour
         }
 
     #endregion
+    
+    void TempPoint()
+    {
+        SpeedPlayerController SPC = GameObject.FindObjectOfType<SpeedPlayerController>();
+
+        for (int i = 0; i < RespawnPoint.Length; i++)
+        {
+            RaycastHit2D hitR = Physics2D.Raycast(RespawnPoint[i].transform.position, Vector3.right * 1, 2,
+                1 << LayerMask.NameToLayer("Default"));
+            RaycastHit2D hit = Physics2D.Raycast(RespawnPoint[i].transform.position, Vector3.left * 1, 2,
+                1 << LayerMask.NameToLayer("Default"));
+            if (hit.collider != null)
+            {
+                if (hit.collider.gameObject.CompareTag("Player"))
+                {
+                    GameSetting.Playerpos = SPC.transform.position;
+                    GameSetting.Playerposx = GameSetting.Playerpos.x;
+                    GameSetting.Playerposy = GameSetting.Playerpos.y;
+                    PlayerPrefs.SetFloat("Tempx", GameSetting.Playerposx);
+                    PlayerPrefs.SetFloat("Tempy", GameSetting.Playerposy);
+                    string json = JsonConvert.SerializeObject(GameSetting.DList);
+                    string json2 = JsonConvert.SerializeObject(GameSetting.WList);
+                    GameSetting.Save();
+                    PlayerPrefs.Save();
+                }
+            }
+
+            if (hitR.collider != null)
+            {
+                if (hitR.collider.gameObject.CompareTag("Player"))
+                {
+                    Vector3 pos = SPC.transform.position;
+                    GameSetting.Playerposx = pos.x;
+                    GameSetting.Playerposy = pos.y;
+                    PlayerPrefs.SetFloat("Tempx", GameSetting.Playerposx);
+                    PlayerPrefs.SetFloat("Tempy", GameSetting.Playerposy);
+                    string json = JsonConvert.SerializeObject(GameSetting.DList);
+                    string json2 = JsonConvert.SerializeObject(GameSetting.WList);
+                    GameSetting.Save();
+                    PlayerPrefs.Save();
+                }
+            }
+        }
+    }
+    
+    IEnumerator FallLine()
+    {
+        SpeedPlayerController SPC = GameObject.FindObjectOfType<SpeedPlayerController>();
+
+        for (int i = 0; i < FallingLine.Length; i++)
+        {
+            RaycastHit2D hitR = Physics2D.Raycast(FallingLine[i].transform.position, Vector3.right * 10, 10,
+                1 << LayerMask.NameToLayer("Default"));
+            RaycastHit2D hit = Physics2D.Raycast(FallingLine[i].transform.position, Vector3.left * 10, 10,
+                1 << LayerMask.NameToLayer("Default"));
+
+
+            if (hit.collider != null)
+            {
+                if (hit.collider.gameObject.CompareTag("Player"))
+                {
+                    SPC.transform.position = new Vector3
+                    (FallingLine[i].transform.position.x,
+                        FallingLine[i].transform.position.y - 10);
+                    yield return new WaitForSeconds(FallSec);
+                    GameSetting.FallOut();
+                    GameSetting.PlayerHP -= FallDmg;
+                    PlayerHP.SetHealth(GameSetting.PlayerHP);
+                    SPC.transform.position = GameSetting.Playerpos;
+                }
+            }
+
+            if (hitR.collider != null)
+            {
+                if (hitR.collider.gameObject.CompareTag("Player"))
+                {
+                    SPC.transform.position = new Vector3
+                    (FallingLine[i].transform.position.x,
+                        FallingLine[i].transform.position.y - 10);
+
+                    yield return new WaitForSeconds(FallSec);
+                    GameSetting.FallOut();
+                    GameSetting.PlayerHP -= FallDmg;
+                    PlayerHP.SetHealth(GameSetting.PlayerHP);
+                    SPC.transform.position = GameSetting.Playerpos;
+                }
+            }
+
+            yield return null;
+        }
+    }
     private void OnDrawGizmos()
     {
         for (int i = 0; i < CheckPoint.Length; i++)
         {
             Gizmos.DrawRay(CheckPoint[i].transform.position, Vector3.right * 2);
             Gizmos.DrawRay(CheckPoint[i].transform.position, Vector3.left * 2);
+        }
+        
+        for (int i = 0; i < RespawnPoint.Length; i++)
+        {
+            Gizmos.DrawRay(RespawnPoint[i].transform.position, Vector3.right * 1);
+            Gizmos.DrawRay(RespawnPoint[i].transform.position, Vector3.left * 1);
+        }
+        
+        for (int i = 0; i < FallingLine.Length; i++)
+        {
+            Gizmos.DrawRay(FallingLine[i].transform.position, Vector3.left * 10);
+            Gizmos.DrawRay(FallingLine[i].transform.position, Vector3.right * 10);
         }
     }
 }
