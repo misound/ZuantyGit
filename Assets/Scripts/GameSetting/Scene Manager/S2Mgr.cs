@@ -93,6 +93,7 @@ public class S2Mgr : MonoBehaviour
             load();
         }
         StartCoroutine(FallLine());
+        TempPoint();
     }
 
     public IList<Itemdata> CakeData1()
@@ -169,7 +170,7 @@ public class S2Mgr : MonoBehaviour
         }
     }
     
-        void TempPoint()
+    void TempPoint()
     {
         SpeedPlayerController SPC = GameObject.FindObjectOfType<SpeedPlayerController>();
 
