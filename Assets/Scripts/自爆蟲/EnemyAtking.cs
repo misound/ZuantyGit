@@ -11,6 +11,7 @@ public class EnemyAtking : MonoBehaviour
     [SerializeField] public EnemyWalk Walk;
     [SerializeField] public HealthBar PlayerHP;
     // Start is called before the first frame update
+
     void Start()
     {
         //Walk = gameObject.GetComponent<EnemyWalk>();
@@ -45,6 +46,7 @@ public class EnemyAtking : MonoBehaviour
             //GameSetting.PlayerHP -= WalkAtkDmg;
             //PlayerHP.SetHealth(GameSetting.PlayerHP);
         }
-        Debug.Log("被攻擊");
+
+        Walk.CDing = true;
     }
 }

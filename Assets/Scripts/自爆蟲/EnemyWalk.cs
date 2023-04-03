@@ -39,7 +39,6 @@ public class EnemyWalk : MonoBehaviour
     [SerializeField] public float CheckPlayerRange;
     [SerializeField] public float CheckWallRange;
     [SerializeField] public float AttackRange;
-    [SerializeField] public float AttackingRange;
     [SerializeField] public float WarningRange;
 
     [Header("Layer")] 
@@ -50,10 +49,12 @@ public class EnemyWalk : MonoBehaviour
     [Header("Animation")]
     [SerializeField] public Animator _anim;
 
-    [Header("sec")] 
+    [Header("CoolDown")] 
     [SerializeField] public float AniSecs;
+    [SerializeField] public bool CDing;
 
     private float distance;
+    public float timer = 0f;
 
     // Start is called before the first frame update
     void Start()
@@ -73,15 +74,35 @@ public class EnemyWalk : MonoBehaviour
         if (mustPatrol)
         {
             StatusSwitcher(Status.Patrol);
-
         }
 
         if (_chase)
         {
             StatusSwitcher(Status.Warning);
-
         }
 
+
+        if (CDing)
+        {
+            timer += Time.deltaTime;
+            rb.drag = 100000f;
+            _anim.SetBool("walk",false);
+            _anim.SetBool("chase",false);
+            _anim.SetBool("attack",false);
+            _anim.SetBool("CD",true);
+        }
+        else
+        {
+            _anim.SetBool("CD",false);
+        }
+        
+        if (timer >= AniSecs)
+        {
+            rb.drag = 2.5f;
+            timer = 0f;
+            CDing = false;
+        } 
+        
         Animation();
     }
 
@@ -296,6 +317,7 @@ public class EnemyWalk : MonoBehaviour
         rb.drag = 100000f;
         yield return new WaitForSeconds(AniSecs);
 
+        
         distance = Vector2.Distance(transform.position, playerController.transform.position);
 
         if (transform.position.x < playerController.transform.position.x)
@@ -316,19 +338,17 @@ public class EnemyWalk : MonoBehaviour
         {
             mustPatrol = true;
         }
-
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.GetComponent<SpeedPlayerController>() != null)
         {
-            
+            //CDing = true;
             other.GetComponent<SpeedPlayerController>().TakeDmgFromWalk();
             GameSetting.PlayerHP -= Atk;
             PlayerHP.SetHealth(GameSetting.PlayerHP);
         }
-        Debug.Log("被攻擊");
     }
 
     void Animation()

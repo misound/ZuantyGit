@@ -55,7 +55,7 @@ public static class GameSetting
         AudioReady = bool.Parse(PlayerPrefs.GetString("AudioReady", "false"));
         Playerpos.x = PlayerPrefs.GetFloat("x");
         Playerpos.y = PlayerPrefs.GetFloat("y");
-        PlayerHP = PlayerPrefs.GetInt("PlayerHP");
+        //PlayerHP = PlayerPrefs.GetInt("PlayerHP");
         //BGMAudio.BGM_audioSource.volume = PlayerPrefs.GetFloat("BGMV");
     }
     
