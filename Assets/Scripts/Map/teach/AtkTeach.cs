@@ -21,7 +21,7 @@ public class AtkTeach : MonoBehaviour
         if(teachEnemy.GetComponent<EnemyBomb>().Die|| teachEnemy.GetComponent<EnemyBomb>().explosioned)
         {
             timeLine.SetActive(true);
-            Debug.Log("AAAA");
+            timeLine = null;
         }
     }
 }
