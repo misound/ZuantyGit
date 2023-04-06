@@ -518,7 +518,7 @@ public class SpeedPlayerController : MonoBehaviour
     {
         if (playerAttack.recover)
         {
-            //_anim.SetTrigger("isDashing");
+            _anim.SetBool("isDashing",false);
             _anim.SetBool("isGrounded", false);
             _anim.SetBool("isFalling", false);
             _anim.SetBool("WallGrab", false);
@@ -530,7 +530,7 @@ public class SpeedPlayerController : MonoBehaviour
         {
             if (_isDashing)
             {
-                _anim.SetTrigger("isDashing");
+                _anim.SetBool("isDashing",true);
                 _anim.SetBool("isGrounded", false);
                 _anim.SetBool("isFalling", false);
                 _anim.SetBool("WallGrab", false);
@@ -540,7 +540,7 @@ public class SpeedPlayerController : MonoBehaviour
             }
             else
             {
-                //_anim.SetBool("isDashing", false);
+                _anim.SetBool("isDashing", false);
 
                 if ((_horizontalDirection < 0f && _facingRight || _horizontalDirection > 0f && !_facingRight) && !_wallGrab && !_wallSlide)
                 {
