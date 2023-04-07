@@ -384,6 +384,7 @@ public class EnemyBomb : MonoBehaviour
             HP -= Damage;
             if (HP <= 0)
             {
+                SE_DIE();
                 HP = 0;
                 Die = true;
             }
@@ -393,10 +394,23 @@ public class EnemyBomb : MonoBehaviour
             MaxHeath = 100;
             HP = MaxHeath;
         }
-        public void SE() //音效
+        public void SE_BOOM() //音效
         {
-            GameSetting.SEAudio.PlayBoom();
+            GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_BoomBloom);
         }
+        public void SE_RUN() //音效
+        {
+            GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_BoomRun);
+        }
+        public void SE_DIE() //音效
+        {
+            GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_BoomDie);
+        }
+        public void SE_5by5() //音效
+        {
+            GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_BoomAtk);
+        }
+        
 
     #endregion
     #region 被攻擊處理

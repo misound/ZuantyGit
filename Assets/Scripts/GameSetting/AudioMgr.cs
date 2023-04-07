@@ -66,7 +66,10 @@ public class AudioMgr : MonoBehaviour
     {
         BGM1,
         BGM2,
-        SE3,
+        SE_BoomRun,
+        SE_BoomBloom,
+        SE_BoomAtk,
+        SE_BoomDie,
     }
 
     public void Play(eAudio audio)
@@ -79,8 +82,17 @@ public class AudioMgr : MonoBehaviour
             case eAudio.BGM2:
                 SE_audioSource.PlayOneShot(SE[1]);
                 break;
-            case eAudio.SE3:
-                SE_audioSource.PlayOneShot(SE[2]);
+            case eAudio.SE_BoomRun:
+                SE_audioSource.PlayOneShot(SE[4]);
+                break;
+            case eAudio.SE_BoomBloom:
+                SE_audioSource.PlayOneShot(SE[5]);
+                break;
+            case eAudio.SE_BoomAtk:
+                SE_audioSource.PlayOneShot(SE[6]);
+                break;
+            case eAudio.SE_BoomDie:
+                SE_audioSource.PlayOneShot(SE[7]);
                 break;
             default:
                 Debug.LogError("NONE DEF");
