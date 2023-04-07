@@ -22,6 +22,7 @@ public class AtkTeach : MonoBehaviour
         {
             timeLine.SetActive(true);
             timeLine = null;
+            Destroy(this);
         }
     }
 }
