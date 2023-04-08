@@ -76,6 +76,11 @@ public class S1Mgr : MonoBehaviour
         }
         
         PlayerHP = FindObjectOfType<HealthBar>();
+
+        if (GameSetting.PlayerHP <= 0)
+        {
+            PlayerHP.SetMaxHealth(GameSetting.PlayerHP);
+        }
     }
 
     void Update()
@@ -240,8 +245,9 @@ public class S1Mgr : MonoBehaviour
                     SPC.transform.position = new Vector3
                     (FallingLine[i].transform.position.x,
                         FallingLine[i].transform.position.y - 10);
+                    GameSetting.Falling = true;
                     yield return new WaitForSeconds(FallSec);
-                    GameSetting.FallOut();
+                    GameSetting.Falled = true;
                     GameSetting.PlayerHP -= FallDmg;
                     PlayerHP.SetHealth(GameSetting.PlayerHP);
                     SPC.transform.position = GameSetting.Playerpos;
@@ -255,9 +261,9 @@ public class S1Mgr : MonoBehaviour
                     SPC.transform.position = new Vector3
                     (FallingLine[i].transform.position.x,
                         FallingLine[i].transform.position.y - 10);
-
+                    GameSetting.Falling = true;
                     yield return new WaitForSeconds(FallSec);
-                    GameSetting.FallOut();
+                    GameSetting.Falled = true;
                     GameSetting.PlayerHP -= FallDmg;
                     PlayerHP.SetHealth(GameSetting.PlayerHP);
                     SPC.transform.position = GameSetting.Playerpos;

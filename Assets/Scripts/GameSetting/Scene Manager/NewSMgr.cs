@@ -79,6 +79,11 @@ public class NewSMgr : MonoBehaviour
             SPC.transform.position = GameSetting.Playerpos;
         }
 
+
+        if (GameSetting.Falled)
+        {
+            GameSetting.FallOut();
+        }
         Debug.Log(GameSetting.Level);
     }
 
@@ -214,8 +219,9 @@ public class NewSMgr : MonoBehaviour
                     SPC.transform.position = new Vector3
                     (FallingLine[i].transform.position.x,
                         FallingLine[i].transform.position.y - 10);
+                    GameSetting.Falling = true;
                     yield return new WaitForSeconds(FallSec);
-                    GameSetting.FallOut();
+                    GameSetting.Falled = true;
                     GameSetting.PlayerHP -= FallDmg;
                     PlayerHP.SetHealth(GameSetting.PlayerHP);
                     SPC.transform.position = GameSetting.Playerpos;
@@ -229,9 +235,9 @@ public class NewSMgr : MonoBehaviour
                     SPC.transform.position = new Vector3
                         (FallingLine[i].transform.position.x,
                             FallingLine[i].transform.position.y - 10);
-
+                    GameSetting.Falling = true;
                     yield return new WaitForSeconds(FallSec);
-                    GameSetting.FallOut();
+                    GameSetting.Falled = true;
                     GameSetting.PlayerHP -= FallDmg;
                     PlayerHP.SetHealth(GameSetting.PlayerHP);
                     SPC.transform.position = GameSetting.Playerpos;

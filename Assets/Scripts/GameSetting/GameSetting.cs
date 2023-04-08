@@ -22,6 +22,9 @@ public static class GameSetting
     public static IList<AtkWData> WList;
 
     public static string Level;
+
+    public static bool Falling = false;
+    public static bool Falled = false;
     
     public static void Save() 
     {
@@ -67,6 +70,8 @@ public static class GameSetting
         WList = JsonConvert.DeserializeObject<IList<AtkWData>>(json2);
         Playerpos.x = PlayerPrefs.GetFloat("Tempx");
         Playerpos.y = PlayerPrefs.GetFloat("Tempy");
+        Falling = false;
+        Falled = false;
         //PlayerHP = PlayerPrefs.GetInt("PlayerHP");
         //BGMAudio.BGM_audioSource.volume = PlayerPrefs.GetFloat("BGMV");
     }

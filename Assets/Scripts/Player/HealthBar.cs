@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class HealthBar : MonoBehaviour
 {
     public Slider slider;
     public Gradient gradient;
     public Image fill;
+    
 
     private bool _isDirty = false;
 
@@ -23,11 +25,14 @@ public class HealthBar : MonoBehaviour
 
     public void SetHealth(int health)
     {
+        SpeedPlayerController SPC = GameObject.FindObjectOfType<SpeedPlayerController>();
+        
         slider.value = health;
         fill.color = gradient.Evaluate(slider.normalizedValue);
         if(health <= 0)
         {
             health = 0;
+            SPC.transform.position = GameSetting.Playerpos;
             GameSetting.Respawn();
         }
 

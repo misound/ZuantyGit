@@ -72,16 +72,19 @@ public class PlayerAttack : MonoBehaviour
         if (combo==0)
         {
             _anim.SetTrigger("Attack1");
+            GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_Player_Attack_01);
             StartCoroutine(startHitBox1());
         }
         else if(combo==1&& cooldown>=0)
         {
             _anim.SetTrigger("Attack2");
+            GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_Player_Attack_02);
             StartCoroutine(startHitBox2());
         }
         else if(combo==2&& cooldown>=0)
         {
             _anim.SetTrigger("Attack3");
+            GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_Player_Attack_03);
             StartCoroutine(startHitBox3());
         }
         else if (combo>=maxCombo)

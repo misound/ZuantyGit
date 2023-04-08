@@ -154,6 +154,7 @@ public class SpeedPlayerController : MonoBehaviour
             }
         }
 
+        Step();
         
         _horizontalDirection = GetInput().x;
         _verticalDirection = GetInput().y;
@@ -736,6 +737,19 @@ public class SpeedPlayerController : MonoBehaviour
         }
     }
 
+    public void Atk01()
+    {
+        GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_Player_Attack_01);
+    }
+    public void Atk02()
+    {
+        GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_Player_Attack_02);
+    }
+    public void Atk03()
+    {
+        GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_Player_Attack_03);
+    }
+
     #endregion
     #region 滑鼠移動
     IEnumerator MouseDown(float x,float y)
@@ -765,67 +779,6 @@ public class SpeedPlayerController : MonoBehaviour
             }
 
             _isDashing = false;
-    }
-    #endregion
-    #region 打架
-    /*public void Attack()
-    {
-
-        if (Input.GetButtonDown("Fire1"))
-        {
-            atkR.enabled = true;
-            _anim.SetTrigger("Attack1");
-            StartCoroutine(disableHitBox());
-            
-        }
-        
-        
-        
-        
-
-        Collider2D[] hitEnemy=Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
-
-        foreach (Collider2D enemy in hitEnemy)
-        {
-            if (enemy.GetComponent<EnemyBomb>() != null)
-            {
-                enemy.GetComponent<EnemyBomb>().TakeBombHealth(attackDamage);
-            }
-            else if(enemy.GetComponent<CanAtkDoor>() != null)
-            {
-                enemy.GetComponent<CanAtkDoor>().TakeDoorHP(attackDamage);
-            }
-            else if(enemy.GetComponent<AtkWallHandler>() != null)
-            {
-                enemy.GetComponent<AtkWallHandler>().TakeAtkWHP(attackDamage);
-            }
-            else
-            {
-                Debug.Log("沒啥好打的");
-            }
-            
-        }
-
-        IEnumerator disableHitBox()
-        {
-            yield return new WaitForSeconds(time);
-            atkR.enabled = false; 
-        }
-    }*/
-    
-    public void save()
-    {
-        PlayerPrefs.SetFloat("x", transform.position.x);
-        PlayerPrefs.SetFloat("y", transform.position.y);
-        GameSetting.Save();
-    }
-
-    public void load()
-    {
-        Vector2 pos;
-        pos.x = PlayerPrefs.GetFloat("x");
-        pos.y = PlayerPrefs.GetFloat("y");
-        transform.position = pos;
     }
     #endregion
 
