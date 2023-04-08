@@ -373,7 +373,7 @@ TextureImporter:
     second: main charater glue _lookback_1
   - first:
       213: -592635176230866981
-    second: main charater glue _130
+    second: main charater glue _Die_2
   - first:
       213: -3671221491574212926
     second: main charater glue _getup_2
@@ -392,6 +392,24 @@ TextureImporter:
   - first:
       213: 721878909016029820
     second: main charater glue _getup_7
+  - first:
+      213: 7295554021423047679
+    second: main charater glue _Die_1
+  - first:
+      213: -6444035583920731221
+    second: main charater glue _Die_3
+  - first:
+      213: 6074342883823749105
+    second: main charater glue _Die_4
+  - first:
+      213: -9102725225097621301
+    second: main charater glue _Die_5
+  - first:
+      213: -7946113704358032178
+    second: main charater glue _Die_7
+  - first:
+      213: -8688355387760268489
+    second: main charater glue _Die_6
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -3211,15 +3229,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: main charater glue _130
+      name: main charater glue _Die_2
       rect:
         serializedVersion: 2
-        x: 4500
-        y: 4066
-        width: 1
+        x: 5200
+        y: 3366
+        width: 700
         height: 700
-      alignment: 9
-      pivot: {x: 0.47, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -3320,7 +3338,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 7000
-        y: 4071
+        y: 4066
         width: 500
         height: 700
       alignment: 9
@@ -3340,8 +3358,8 @@ TextureImporter:
       name: main charater glue _getup_7
       rect:
         serializedVersion: 2
-        x: 7505
-        y: 4077
+        x: 7500
+        y: 4066
         width: 500
         height: 700
       alignment: 9
@@ -3353,6 +3371,132 @@ TextureImporter:
       bones: []
       spriteID: c7a3fb60b01a40a00800000000000000
       internalID: 721878909016029820
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: main charater glue _Die_1
+      rect:
+        serializedVersion: 2
+        x: 4500
+        y: 3366
+        width: 700
+        height: 700
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ff3e79e9ab30f3560800000000000000
+      internalID: 7295554021423047679
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: main charater glue _Die_3
+      rect:
+        serializedVersion: 2
+        x: 5900
+        y: 3366
+        width: 700
+        height: 700
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bab8d6447cf2296a0800000000000000
+      internalID: -6444035583920731221
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: main charater glue _Die_4
+      rect:
+        serializedVersion: 2
+        x: 6600
+        y: 3366
+        width: 700
+        height: 700
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1f78c3a6ba66c4450800000000000000
+      internalID: 6074342883823749105
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: main charater glue _Die_5
+      rect:
+        serializedVersion: 2
+        x: 7300
+        y: 3366
+        width: 700
+        height: 700
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bc09116d2af9ca180800000000000000
+      internalID: -9102725225097621301
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: main charater glue _Die_7
+      rect:
+        serializedVersion: 2
+        x: 7300
+        y: 2666
+        width: 700
+        height: 700
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ecc40eaafabb9b190800000000000000
+      internalID: -7946113704358032178
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: main charater glue _Die_6
+      rect:
+        serializedVersion: 2
+        x: 6600
+        y: 2666
+        width: 700
+        height: 700
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 73ba236cec2cc6780800000000000000
+      internalID: -8688355387760268489
       vertices: []
       indices: 
       edges: []
