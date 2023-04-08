@@ -17,6 +17,7 @@ public class HealthBar : MonoBehaviour
     {
         slider.maxValue = health;
         slider.value = health;
+        health = 100;
         GameSetting.PlayerHP = health;
         _isDirty = true;
         fill.color = gradient.Evaluate(1f);

@@ -11,21 +11,25 @@ public class S4Mgr : MonoBehaviour
 
     public GameObject[] DPos;
     public GameObject[] AWPos;
+    
+    public HealthBar PlayerHP;
 
-    private bool EnteredS3 = false;
+    private bool EnteredS4 = false;
+    
+    
 
     private void Awake()
     {   //判斷是否為新遊戲
         
-        EnteredS3 = bool.Parse((PlayerPrefs.GetString("S4Enter")));
+        EnteredS4 = bool.Parse((PlayerPrefs.GetString("S4Enter")));
         PlayerPrefs.SetString("D4-1S", "false");
         PlayerPrefs.SetString("AW4-1S", "false");
         PlayerPrefs.SetString("AW4-2S", "false");
         PlayerPrefs.SetString("AW4-3S", "false");
         PlayerPrefs.SetString("AW4-4S", "false");
-        PlayerPrefs.SetString("AW3-5S", "false");
+        PlayerPrefs.SetString("AW4-5S", "false");
         PlayerPrefs.SetString("AW4-6S", "false");
-        if (EnteredS3)
+        if (EnteredS4)
         {
             GameSetting.DList = CakeData1();
             GameSetting.WList = CakeData2();
@@ -34,13 +38,20 @@ public class S4Mgr : MonoBehaviour
             GameSetting.DList = JsonConvert.DeserializeObject<IList<Itemdata>>(json);
             GameSetting.WList = JsonConvert.DeserializeObject<IList<AtkWData>>(json2);
         }
-        else if (!EnteredS3)
+        else if (!EnteredS4)
         {
             S4Item S4Item = (S4Item)Factory.reset("S4");
             GameSetting.DList = S4Item.FakeData1();
             GameSetting.WList = S4Item.FakeData2();
         }
 
+        PlayerHP = FindObjectOfType<HealthBar>();
+
+        if (GameSetting.PlayerHP <= 0)
+        {
+            PlayerHP.SetMaxHealth(GameSetting.PlayerHP = PlayerPrefs.GetInt("PlayerHP"));
+        }
+        
     }
 
     private void Start()
@@ -71,12 +82,6 @@ public class S4Mgr : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             CheckPoints();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            GameSetting.Load();
-            load();
         }
     }
 
@@ -149,16 +154,6 @@ public class S4Mgr : MonoBehaviour
                     }
                 }
             }
-        }
-
-    #endregion
-    #region 讀檔(但只讀位置)
-
-        private void load()
-        {
-            SpeedPlayerController SPC = GameObject.FindObjectOfType<SpeedPlayerController>();
-    
-            SPC.transform.position = GameSetting.Playerpos;
         }
 
     #endregion

@@ -79,7 +79,7 @@ public class S1Mgr : MonoBehaviour
 
         if (GameSetting.PlayerHP <= 0)
         {
-            PlayerHP.SetMaxHealth(GameSetting.PlayerHP);
+            PlayerHP.SetMaxHealth(GameSetting.PlayerHP = PlayerPrefs.GetInt("PlayerHP"));
         }
     }
 
@@ -88,12 +88,6 @@ public class S1Mgr : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             CheckPoints();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            GameSetting.Load();
-            load();
         }
         StartCoroutine(FallLine());
         
@@ -171,17 +165,7 @@ public class S1Mgr : MonoBehaviour
         }
 
     #endregion
-    #region 讀檔(但只讀位置)
 
-        private void load()
-        {
-            SpeedPlayerController SPC = GameObject.FindObjectOfType<SpeedPlayerController>();
-    
-            SPC.transform.position = GameSetting.Playerpos;
-        }
-
-    #endregion
-    
     void TempPoint()
     {
         SpeedPlayerController SPC = GameObject.FindObjectOfType<SpeedPlayerController>();

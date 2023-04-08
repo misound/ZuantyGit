@@ -12,6 +12,8 @@ public class S3Mgr : MonoBehaviour
 
     public GameObject[] DPos;
     public GameObject[] AWPos;
+    
+    public HealthBar PlayerHP;
 
     private bool EnteredS3 = false;
 
@@ -46,6 +48,12 @@ public class S3Mgr : MonoBehaviour
             GameSetting.WList = S3Item.FakeData2();
         }
 
+        PlayerHP = FindObjectOfType<HealthBar>();
+
+        if (GameSetting.PlayerHP <= 0)
+        {
+            PlayerHP.SetMaxHealth(GameSetting.PlayerHP = PlayerPrefs.GetInt("PlayerHP"));
+        }
     }
 
     private void Start()
@@ -76,12 +84,6 @@ public class S3Mgr : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             CheckPoints();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            GameSetting.Load();
-            load();
         }
     }
 
@@ -161,16 +163,7 @@ public class S3Mgr : MonoBehaviour
         }
 
     #endregion
-    #region 讀檔(但只讀位置)
 
-        private void load()
-        {
-            SpeedPlayerController SPC = GameObject.FindObjectOfType<SpeedPlayerController>();
-    
-            SPC.transform.position = GameSetting.Playerpos;
-        }
-
-    #endregion
     private void OnDrawGizmos()
     {
         for (int i = 0; i < CheckPoint.Length; i++)

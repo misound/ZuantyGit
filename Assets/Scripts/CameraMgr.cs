@@ -40,7 +40,6 @@ public class CameraMgr : MonoBehaviour
     private void Update()
     {
         VisualEffectPause();
-        VisualEffectFall();
         VisualEffectDieReturn();
         if (gameMgr.pausestates > 0)
         {
@@ -59,6 +58,7 @@ public class CameraMgr : MonoBehaviour
         
         if (GameSetting.Falling)
         {
+            VisualEffectFall();
             Fallblur += (1f / Falltime) * Time.unscaledDeltaTime;
             Fallblur = Mathf.Clamp(Fallblur, 0f, 20f);
             
@@ -71,6 +71,7 @@ public class CameraMgr : MonoBehaviour
 
         if (GameSetting.Falled)
         {
+            VisualEffectFall();
             Fallblur -= (1f / Falltime) * Time.unscaledDeltaTime * 50;
             Fallblur = Mathf.Clamp(Fallblur, 0f, 20f);
             
@@ -92,14 +93,19 @@ public class CameraMgr : MonoBehaviour
             Camera_R = Mathf.Clamp(Camera_R, 0.08410467f, 1f);
             
             Camera_G -= (1f / Deadtime) * Time.unscaledDeltaTime;
-            Camera_G = Mathf.Clamp(Camera_G, 0.1320755f, 0f);
+            Camera_G = Mathf.Clamp(Camera_G, 0f, 0.1320755f);
             
             Camera_B -= (1f / Deadtime) * Time.unscaledDeltaTime;
-            Camera_B = Mathf.Clamp(Camera_B, 0.1320755f, 0f);
+            Camera_B = Mathf.Clamp(Camera_B, 0f, 0.1320755f);
             
             DeadEffect += (1f / Deadtime) * Time.unscaledDeltaTime;
             DeadEffect = Mathf.Clamp(DeadEffect, 0.1f, 1f);
-            BlackScreen.color = new Color(0.0f, 0.0f, 0.0f, Blackscreenalpha);
+
+            if (!GameSetting.Falling && !GameSetting.Falled)
+            {
+                BlackScreen.color = new Color(0.0f, 0.0f, 0.0f, Blackscreenalpha);
+            }
+
         }
         else if (GameSetting.PlayerHP > 0)
         {
@@ -111,15 +117,22 @@ public class CameraMgr : MonoBehaviour
             DeadEffect -= (1f / Deadtime) * Time.unscaledDeltaTime;
             DeadEffect = Mathf.Clamp(DeadEffect, 0.1f, 1f);
             
-            Blackscreenalpha -= (1f / Blackscreentime) * Time.unscaledDeltaTime * 2;
-            Blackscreenalpha = Mathf.Clamp(Blackscreenalpha, 0f, 1f);
-            BlackScreen.color = new Color(0.0f, 0.0f, 0.0f, Blackscreenalpha);
+            if (!GameSetting.Falling && !GameSetting.Falled)
+            {
+                Blackscreenalpha -= (1f / Blackscreentime) * Time.unscaledDeltaTime * 2;
+                Blackscreenalpha = Mathf.Clamp(Blackscreenalpha, 0f, 1f);
+                BlackScreen.color = new Color(0.0f, 0.0f, 0.0f, Blackscreenalpha);
+            }
+
         }
 
         if (DeadEffect >= 1)
         {
-            Blackscreenalpha += (1f / Blackscreentime) * Time.unscaledDeltaTime;
-            Blackscreenalpha = Mathf.Clamp(Blackscreenalpha, 0f, 1f);
+            if (!GameSetting.Falling && !GameSetting.Falled)
+            {
+                Blackscreenalpha += (1f / Blackscreentime) * Time.unscaledDeltaTime;
+                Blackscreenalpha = Mathf.Clamp(Blackscreenalpha, 0f, 1f);
+            }
         }
 
     }

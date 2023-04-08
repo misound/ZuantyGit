@@ -143,6 +143,7 @@ public class PlayerAttack : MonoBehaviour
     {
         if (other.GetComponent<EnemyBomb>() != null)
         {
+            GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_Player_Hit);
             other.GetComponent<EnemyBomb>().TakeBombHealth(atkDamage);
         }
         else if (other.GetComponent<CanAtkDoor>() != null)

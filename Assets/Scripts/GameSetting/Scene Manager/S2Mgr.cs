@@ -78,6 +78,11 @@ public class S2Mgr : MonoBehaviour
         }
         
         PlayerHP = FindObjectOfType<HealthBar>();
+
+        if (GameSetting.PlayerHP <= 0)
+        {
+            PlayerHP.SetMaxHealth(GameSetting.PlayerHP = PlayerPrefs.GetInt("PlayerHP"));
+        }
     }
 
     void Update()
@@ -85,12 +90,6 @@ public class S2Mgr : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             CheckPoints();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            GameSetting.Load();
-            load();
         }
         StartCoroutine(FallLine());
         TempPoint();
@@ -212,13 +211,6 @@ public class S2Mgr : MonoBehaviour
                 }
             }
         }
-    }
-
-    private void load()
-    {
-        SpeedPlayerController SPC = GameObject.FindObjectOfType<SpeedPlayerController>();
-
-        SPC.transform.position = GameSetting.Playerpos;
     }
 
     IEnumerator FallLine()
