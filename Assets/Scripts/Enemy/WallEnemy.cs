@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class WallEnemy : MonoBehaviour
 {
     public SpriteRenderer sp;
+    public GameObject aim;
     public MousePos mousePos;
     public SpeedPlayerController speedPlayerController;
     public bool beChoose;
@@ -21,18 +22,19 @@ public class WallEnemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (mousePos.onWallEnemy && speedPlayerController.wallEnemyIn&& beChoose)
+        /*if (mousePos.onWallEnemy && speedPlayerController.wallEnemyIn&& beChoose)
         {
-            sp.color = new Color(1, 0, 0, 1);
+            aim.SetActive(true);
         }
         else
         {
-            sp.color = new Color(1, 1, 1, 1);
+            aim.SetActive(false);
         }
+        
         if ( speedPlayerController.isKilling&& mousePos.onWallEnemy&&beChoose)
         {
             gameObject.SetActive(false);
-        }
+        }*/
         
     }
 

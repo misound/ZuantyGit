@@ -1,13 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
 
     public int atkDamage=40;
-
+    public SpeedPlayerController speedPlayerController;
     private Animator _anim;
     public Collider2D[] atkCol;
     public Collider2D atkCol1;
@@ -16,18 +17,28 @@ public class PlayerAttack : MonoBehaviour
     public float startTime;
     public float endTime;
     public bool recover;
+    public bool canKill;
 
     [Header("Atk Combo")] 
     [SerializeField] public float cooldown;
     [SerializeField] public float attackTimer;
     [SerializeField] public int combo;
     [SerializeField] public int maxCombo = 3;
-
     [SerializeField] public bool isAttack;
+
+    [Header("Ray")] 
+    public LayerMask wall;
+    public LayerMask enemy;
+    public float distance;
+    private Vector3 M_pos;
+    private Vector3 M_Center;
+    private Vector3 M_dir;
+    
     // Start is called before the first frame update
     void Start()
     {
         _anim = GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>();
+        speedPlayerController = GetComponent<SpeedPlayerController>();
 
         atkCol = GetComponents<Collider2D>();
 
@@ -47,6 +58,11 @@ public class PlayerAttack : MonoBehaviour
     // Update is called once per frame 
     void Update()
     {
+    }
+
+    private void FixedUpdate()
+    {
+        CheckRay();
     }
 
     public void AttackCount()
@@ -72,19 +88,16 @@ public class PlayerAttack : MonoBehaviour
         if (combo==0)
         {
             _anim.SetTrigger("Attack1");
-            GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_Player_Attack_01);
             StartCoroutine(startHitBox1());
         }
         else if(combo==1&& cooldown>=0)
         {
             _anim.SetTrigger("Attack2");
-            GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_Player_Attack_02);
             StartCoroutine(startHitBox2());
         }
         else if(combo==2&& cooldown>=0)
         {
             _anim.SetTrigger("Attack3");
-            GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_Player_Attack_03);
             StartCoroutine(startHitBox3());
         }
         else if (combo>=maxCombo)
@@ -143,7 +156,6 @@ public class PlayerAttack : MonoBehaviour
     {
         if (other.GetComponent<EnemyBomb>() != null)
         {
-            GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_Player_Hit);
             other.GetComponent<EnemyBomb>().TakeBombHealth(atkDamage);
         }
         else if (other.GetComponent<CanAtkDoor>() != null)
@@ -159,5 +171,37 @@ public class PlayerAttack : MonoBehaviour
             Debug.Log("沒啥好打的");
         }
     }
+
+    public void CheckRay()
+    {
+        M_pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        M_Center = transform.position;
+        M_dir = M_pos - M_Center;
+        RaycastHit2D[] hit2D = Physics2D.RaycastAll(transform.position, M_dir, distance,wall);
+        Debug.DrawRay(M_Center,M_dir,Color.cyan);
+
+        for (int i = 0; i < hit2D.Length; i++)
+        {
+            if (hit2D[i].collider!=null &&hit2D[i].collider.tag!="Player")
+            {
+                if (hit2D[0].collider.CompareTag("WallEnemy"))
+                {
+                    canKill = true;
+                }
+                else
+                {
+                    canKill=false;
+                }
+            }
+        }
+
+        Debug.Log(hit2D[0].collider.name);
+
+
+        
+
+    }
+
+    
     
 }

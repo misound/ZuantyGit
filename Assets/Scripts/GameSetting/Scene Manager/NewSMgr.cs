@@ -84,7 +84,6 @@ public class NewSMgr : MonoBehaviour
         {
             GameSetting.FallOut();
         }
-        Debug.Log(GameSetting.Level);
     }
 
 

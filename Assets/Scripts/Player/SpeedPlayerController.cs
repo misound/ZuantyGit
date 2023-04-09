@@ -143,6 +143,10 @@ public class SpeedPlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (canDash&& mousePos.onWallEnemy&& playerAttack.canKill&& Input.GetButtonDown("Fire2"))
+        {
+            Debug.Log("KillDash");
+        }
         
         if (!canDash)
         {
@@ -216,9 +220,9 @@ public class SpeedPlayerController : MonoBehaviour
         //Dash
         if (Input.GetButtonDown("Fire2")&&canDash) 
         {
-            if (wallEnemyIn&& mousePos.onWallEnemy)
+            if (playerAttack.canKill&& mousePos.onWallEnemy)
             {
-                if (M_dir.x < 0 && _facingRight/*&&!playerAttack.hitWall*/)
+                if (M_dir.x < 0 && _facingRight)
                 {
                     Flip();
                     StartCoroutine(KillDash(mousePos.enemyPos.x,mousePos.enemyPos.y));
@@ -714,7 +718,7 @@ public class SpeedPlayerController : MonoBehaviour
 
     public void Step()
     {
-        Footstep.volume = GameSetting.BGMAudio.BGM_audioSource.volume;
+        //Footstep.volume = GameSetting.BGMAudio.BGM_audioSource.volume;
         if (_horizontalDirection != 0)
         {
             isRunning = true;
