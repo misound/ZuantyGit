@@ -74,6 +74,9 @@ public class AudioMgr : MonoBehaviour
         SE_Player_Attack_02,
         SE_Player_Attack_03,
         SE_Player_Hit,
+        SE_Elevator,
+        SE_Atk_Door_Broken,
+        SE_Atk_Wall_Broken,
     }
 
     public void Play(eAudio audio)
@@ -85,6 +88,9 @@ public class AudioMgr : MonoBehaviour
                 break;
             case eAudio.BGM2:
                 SE_audioSource.PlayOneShot(SE[1]);
+                break;
+            case eAudio.SE_Elevator:
+                SE_audioSource.PlayOneShot(SE[2]);
                 break;
             case eAudio.SE_BoomRun:
                 SE_audioSource.PlayOneShot(SE[4]);
@@ -109,6 +115,12 @@ public class AudioMgr : MonoBehaviour
                 break;
             case eAudio.SE_Player_Hit:
                 SE_audioSource.PlayOneShot(SE[11]);
+                break;
+            case eAudio.SE_Atk_Door_Broken:
+                SE_audioSource.PlayOneShot(SE[12]);
+                break;
+            case eAudio.SE_Atk_Wall_Broken:
+                SE_audioSource.PlayOneShot(SE[13]);
                 break;
             default:
                 Debug.LogError("NONE DEF");

@@ -66,6 +66,7 @@ public class CanAtkDoor : MonoBehaviour
         DoorHP -= dmg;
         if (DoorHP <= 0)
         {
+            GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_Atk_Door_Broken);
             DoorHP = 0;
             Open = true;
         }

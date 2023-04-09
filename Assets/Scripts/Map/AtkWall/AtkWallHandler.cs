@@ -68,6 +68,7 @@ public class AtkWallHandler : MonoBehaviour
         AWHP -= dmg;
         if (AWHP <= 0)
         {
+            GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_Atk_Wall_Broken);
             AWHP = 0;
             AWBreak = true;
             _data.AWStates = true;

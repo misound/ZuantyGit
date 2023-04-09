@@ -35,13 +35,13 @@ public class Elevator : MonoBehaviour
         if (transform.position == endingPoint.position&& Input.GetKeyDown(KeyCode.E)&&playerIn)
         {
             
-            //GameSetting.SEAudio.Play(AudioMgr.eAudio.SE3);
+            GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_Elevator);
             StartCoroutine(DelaySwitchOnStart());
 
         }
         else if (transform.position == startingPoint.position&& Input.GetKeyDown(KeyCode.E)&&playerIn)
         {
-            //GameSetting.SEAudio.Play(AudioMgr.eAudio.SE3);
+            GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_Elevator);
             StartCoroutine(DelaySwitchOnEnd());
         }
         if (moveUp == false)
