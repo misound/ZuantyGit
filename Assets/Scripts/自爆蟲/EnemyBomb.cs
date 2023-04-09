@@ -16,6 +16,10 @@ public class EnemyBomb : MonoBehaviour
     [SerializeField] public PlayerCombat PlayerAtks;
     [SerializeField] public Rigidbody2D rb;
     [SerializeField] public HealthBar PlayerHP;
+    [SerializeField] public GameObject Wounds;
+    [SerializeField] public float Wounds_x;
+    [SerializeField] public float Wounds_y;
+    
 
     [Header("Check Points")]
     [SerializeField] public GameObject CheckpointR;
@@ -59,6 +63,8 @@ public class EnemyBomb : MonoBehaviour
     [SerializeField] private bool Onhit;
     [SerializeField] public float Knockback;
     [SerializeField] public float KnockbackHeight;
+    [SerializeField] public float HitColor;
+    [SerializeField] public float HitColorReturn;
     [SerializeField] public bool Die;
 
     public LayerMask playerlayer;
@@ -132,6 +138,20 @@ public class EnemyBomb : MonoBehaviour
             
             Boomspeed += (1f / 0.05f) * Time.unscaledDeltaTime;
             Boomspeed = Mathf.Clamp(Boomspeed, 0f, MaxBoomspeed);
+
+            HitColor += (1f / HitColorReturn) * Time.unscaledDeltaTime;
+            HitColor = Mathf.Clamp(HitColor, 0f, 1f);
+            
+            Wounds_x -= (1f / HitColorReturn) * Time.unscaledDeltaTime;
+            Wounds_x = Mathf.Clamp(Wounds_x, 0f, 1f);
+            
+            Wounds_y -= (1f / HitColorReturn) * Time.unscaledDeltaTime;
+            Wounds_y = Mathf.Clamp(Wounds_y, 0f, 1f);
+
+            Wounds.transform.localScale = new Vector2(Wounds_x, Wounds_y);
+            
+            GetComponent<SpriteRenderer>().color = new Color(1f, HitColor, HitColor, 1f);
+
         }
     }
 
@@ -434,6 +454,9 @@ public class EnemyBomb : MonoBehaviour
                 rb.AddForce(new Vector2(Knockback,KnockbackHeight),ForceMode2D.Force);
             }
             Boomspeed = Patrolspeed;
+            HitColor = 0f;
+            Wounds_x = 1f;
+            Wounds_y = 1f;
             Onhit = true;
         }
 

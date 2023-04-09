@@ -258,6 +258,9 @@ MonoBehaviour:
   PlayerAtks: {fileID: 0}
   rb: {fileID: 7571057974633431836}
   PlayerHP: {fileID: 0}
+  Wounds: {fileID: 8067129067286398176}
+  Wounds_x: 0
+  Wounds_y: 0
   CheckpointR: {fileID: 7571057974319316268}
   CheckpointL: {fileID: 7571057973478652903}
   VariableSpeed: 0
@@ -288,6 +291,8 @@ MonoBehaviour:
   Onhit: 0
   Knockback: 3000
   KnockbackHeight: 80
+  HitColor: 0
+  HitColorReturn: 0.1
   Die: 0
   playerlayer:
     serializedVersion: 2
@@ -338,8 +343,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8067129067286398176}
   m_LocalRotation: {x: -0, y: -0, z: 0.32754275, w: 0.9448364}
-  m_LocalPosition: {x: -0.055, y: -0.034, z: 0}
-  m_LocalScale: {x: 0.68631, y: 0.68631, z: 0.68631}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0, y: 0, z: 1}
   m_Children: []
   m_Father: {fileID: 7571057974633431838}
   m_RootOrder: 1
