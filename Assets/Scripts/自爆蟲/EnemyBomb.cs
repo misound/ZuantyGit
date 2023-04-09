@@ -5,34 +5,34 @@ using UnityEngine;
 
 public class EnemyBomb : MonoBehaviour
 {
-
-    [Header("Data")]
+    [Header("Data")] 
     [SerializeField] int HP;
     [SerializeField] int Atk;
     [SerializeField] private GameObject Deadbody;
-    
-    [Header("Components")]
+
+    [Header("Components")] 
     [SerializeField] public SpeedPlayerController playerController;
+
     [SerializeField] public PlayerCombat PlayerAtks;
     [SerializeField] public Rigidbody2D rb;
     [SerializeField] public HealthBar PlayerHP;
     [SerializeField] public GameObject Wounds;
-    [SerializeField] public float Wounds_x;
-    [SerializeField] public float Wounds_y;
-    
+    [SerializeField] private float Wounds_x;
+    [SerializeField] private float Wounds_y;
 
-    [Header("Check Points")]
+
+    [Header("Check Points")] 
     [SerializeField] public GameObject CheckpointR;
     [SerializeField] public GameObject CheckpointL;
 
-    [Header("Speed")]
+    [Header("Speed")] 
     [SerializeField] public float VariableSpeed;
     [SerializeField] public float Patrolspeed;
     [SerializeField] public float Boomspeed;
     [SerializeField] public float MaxBoomspeed;
     [SerializeField] public float Jumpforce;
 
-    [Header("Ray Range")]
+    [Header("Ray Range")] 
     [SerializeField] public float CheckGroundRange;
     [SerializeField] public float CheckPlayerRange;
     [SerializeField] public float Checkwallrange;
@@ -46,10 +46,10 @@ public class EnemyBomb : MonoBehaviour
     [SerializeField] private bool hitwall;
     [SerializeField] private bool WannaBoom;
 
-    [Header("Animation")]
+    [Header("Animation")] 
     [SerializeField] public Animator _anim;
 
-    [Header("Explotion")]
+    [Header("Explotion")] 
     [SerializeField] public float Boomtime;
     [SerializeField] public float timer;
     [SerializeField] public float BoomRange;
@@ -58,8 +58,8 @@ public class EnemyBomb : MonoBehaviour
     [SerializeField] public bool explosioned = false;
     [SerializeField] public float Dietime;
     [SerializeField] public float Dietimer;
-    
-    [Header("OnhitStatus")]
+
+    [Header("OnhitStatus")] 
     [SerializeField] private bool Onhit;
     [SerializeField] public float Knockback;
     [SerializeField] public float KnockbackHeight;
@@ -72,6 +72,7 @@ public class EnemyBomb : MonoBehaviour
     public GameObject[] Particles;
 
     float distance;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -107,6 +108,7 @@ public class EnemyBomb : MonoBehaviour
             temp.transform.localScale = transform.localScale;
             this.gameObject.SetActive(false);
         }
+
         Animation();
         if (mustPatrol)
         {
@@ -114,6 +116,7 @@ public class EnemyBomb : MonoBehaviour
             _anim.SetBool("isAttack", false);
             _anim.SetBool("explosion", false);
         }
+
         if (_isFacingRight)
             CheckPlayerR();
         if (!_isFacingRight)
@@ -135,23 +138,21 @@ public class EnemyBomb : MonoBehaviour
 
         if (Onhit)
         {
-            
             Boomspeed += (1f / 0.05f) * Time.unscaledDeltaTime;
             Boomspeed = Mathf.Clamp(Boomspeed, 0f, MaxBoomspeed);
 
             HitColor += (1f / HitColorReturn) * Time.unscaledDeltaTime;
             HitColor = Mathf.Clamp(HitColor, 0f, 1f);
-            
+
             Wounds_x -= (1f / HitColorReturn) * Time.unscaledDeltaTime;
             Wounds_x = Mathf.Clamp(Wounds_x, 0f, 1f);
-            
+
             Wounds_y -= (1f / HitColorReturn) * Time.unscaledDeltaTime;
             Wounds_y = Mathf.Clamp(Wounds_y, 0f, 1f);
 
             Wounds.transform.localScale = new Vector2(Wounds_x, Wounds_y);
-            
-            GetComponent<SpriteRenderer>().color = new Color(1f, HitColor, HitColor, 1f);
 
+            GetComponent<SpriteRenderer>().color = new Color(1f, HitColor, HitColor, 1f);
         }
     }
 
@@ -163,6 +164,7 @@ public class EnemyBomb : MonoBehaviour
         else
             mustPatrol = true;
     }
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.green;
@@ -180,18 +182,25 @@ public class EnemyBomb : MonoBehaviour
     }
 
     #region 巡邏
+
     public void Patrol()
     {
-        mustTurn = Physics2D.Raycast(CheckpointR.transform.position, Vector2.down * CheckGroundRange, CheckGroundRange, 1 << LayerMask.NameToLayer("Ground"))
-            && !Physics2D.Raycast(CheckpointL.transform.position, Vector2.down * CheckGroundRange, CheckGroundRange, 1 << LayerMask.NameToLayer("Ground"));
+        mustTurn = Physics2D.Raycast(CheckpointR.transform.position, Vector2.down * CheckGroundRange, CheckGroundRange,
+                       1 << LayerMask.NameToLayer("Ground"))
+                   && !Physics2D.Raycast(CheckpointL.transform.position, Vector2.down * CheckGroundRange,
+                       CheckGroundRange, 1 << LayerMask.NameToLayer("Ground"));
 
-        mustTurn = !Physics2D.Raycast(CheckpointR.transform.position, Vector2.down * CheckGroundRange, CheckGroundRange, 1 << LayerMask.NameToLayer("Ground"))
-            && Physics2D.Raycast(CheckpointL.transform.position, Vector2.down * CheckGroundRange, CheckGroundRange, 1 << LayerMask.NameToLayer("Ground"));
+        mustTurn = !Physics2D.Raycast(CheckpointR.transform.position, Vector2.down * CheckGroundRange, CheckGroundRange,
+                       1 << LayerMask.NameToLayer("Ground"))
+                   && Physics2D.Raycast(CheckpointL.transform.position, Vector2.down * CheckGroundRange,
+                       CheckGroundRange, 1 << LayerMask.NameToLayer("Ground"));
 
         hitwall = Physics2D.Raycast(transform.position, Vector2.right * Checkwallrange, Checkwallrange,
-                1 << LayerMask.NameToLayer("Ground") | 1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("EnemyColliderWall"))
-            || Physics2D.Raycast(transform.position, Vector2.left * Checkwallrange, Checkwallrange,
-                1 << LayerMask.NameToLayer("Ground") | 1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("EnemyColliderWall"));
+                      1 << LayerMask.NameToLayer("Ground") | 1 << LayerMask.NameToLayer("Wall") |
+                      1 << LayerMask.NameToLayer("EnemyColliderWall"))
+                  || Physics2D.Raycast(transform.position, Vector2.left * Checkwallrange, Checkwallrange,
+                      1 << LayerMask.NameToLayer("Ground") | 1 << LayerMask.NameToLayer("Wall") |
+                      1 << LayerMask.NameToLayer("EnemyColliderWall"));
 
         if (mustTurn)
         {
@@ -200,6 +209,7 @@ public class EnemyBomb : MonoBehaviour
             else
                 FlipToR();
         }
+
         if (hitwall)
         {
             if (_isFacingRight)
@@ -207,12 +217,14 @@ public class EnemyBomb : MonoBehaviour
             else
                 FlipToR();
         }
+
         if (_isFacingRight)
         {
             transform.localScale = new Vector2(-1, transform.localScale.y);
             rb.velocity = new Vector2(Patrolspeed, rb.velocity.y);
             //speed = Mathf.Abs(speed);
         }
+
         if (!_isFacingRight)
         {
             transform.localScale = new Vector2(1, transform.localScale.y);
@@ -220,6 +232,7 @@ public class EnemyBomb : MonoBehaviour
             rb.velocity = new Vector2(VariableSpeed, rb.velocity.y);
         }
     }
+
     #endregion
     #region 角色翻轉
 
@@ -233,9 +246,11 @@ public class EnemyBomb : MonoBehaviour
             transform.localScale = new Vector2(1, transform.localScale.y);
             VariableSpeed = -VariableSpeed;
         }
+
         mustTurn = false;
         hitwall = false;
     }
+
     void FlipToR()
     {
         if (!_isFacingRight)
@@ -246,31 +261,38 @@ public class EnemyBomb : MonoBehaviour
             transform.localScale = new Vector2(-1, transform.localScale.y);
             VariableSpeed = Mathf.Abs(VariableSpeed);
         }
+
         mustTurn = false;
         hitwall = false;
     }
+
     #endregion
     #region 攻擊玩家
+
     public void Attack()
     {
         if (explosioned) //以下不動作
         {
             return;
         }
+
         rb.gravityScale = 4f;
         if (rb.velocity.y != 0f)
             rb.drag = 2.5f;
 
-        CanJump = Physics2D.Raycast(transform.position, Vector2.down * Checkwallrange, Checkwallrange, 1 << LayerMask.NameToLayer("Ground"));
+        CanJump = Physics2D.Raycast(transform.position, Vector2.down * Checkwallrange, Checkwallrange,
+            1 << LayerMask.NameToLayer("Ground"));
         distance = Vector2.Distance(transform.position, playerController.transform.position);
 
-        if (CanJump && distance - UnstoppableRange < 0.6 && distance - UnstoppableRange > 0.4 && (playerController.transform.position.y + 1f) > transform.position.y)
+        if (CanJump && distance - UnstoppableRange < 0.6 && distance - UnstoppableRange > 0.4 &&
+            (playerController.transform.position.y + 1f) > transform.position.y)
         {
             rb.velocity = new Vector2(rb.velocity.x, Jumpforce);
             explosionReady = true;
         }
 
-        if (CanJump && distance - UnstoppableRange < 0.6 && distance - UnstoppableRange > 0.4 && (playerController.transform.position.y + 1f) < transform.position.y)
+        if (CanJump && distance - UnstoppableRange < 0.6 && distance - UnstoppableRange > 0.4 &&
+            (playerController.transform.position.y + 1f) < transform.position.y)
         {
             explosionReady = true;
         }
@@ -282,6 +304,7 @@ public class EnemyBomb : MonoBehaviour
             {
                 rb.velocity = new Vector2(-Boomspeed * 2, rb.velocity.y);
             }
+
             _isFacingRight = false;
             transform.localScale = new Vector2(1, transform.localScale.y);
         }
@@ -304,10 +327,13 @@ public class EnemyBomb : MonoBehaviour
         {
             explosionReady = true;
         }
+
         mustPatrol = false;
     }
+
     #endregion
     #region 藝術
+
     private void Explooooootion()
     {
         if (explosionReady) //計時器
@@ -346,11 +372,14 @@ public class EnemyBomb : MonoBehaviour
             Particles[2].GetComponent<ParticleSystem>().Play();
         }
     }
+
     #endregion
     #region 檢查玩家
+
     private void CheckPlayerR()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right * CheckPlayerRange, CheckPlayerRange, 1 << LayerMask.NameToLayer("Default") | 1 << LayerMask.NameToLayer("Ground"));
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right * CheckPlayerRange, CheckPlayerRange,
+            1 << LayerMask.NameToLayer("Default") | 1 << LayerMask.NameToLayer("Ground"));
         if (hit.collider != null)
         {
             if (hit.collider.gameObject.CompareTag("Player"))
@@ -359,9 +388,11 @@ public class EnemyBomb : MonoBehaviour
             }
         }
     }
+
     private void CheckPlayerL()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.left * CheckPlayerRange, CheckPlayerRange, 1 << LayerMask.NameToLayer("Default") | 1 << LayerMask.NameToLayer("Ground"));
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.left * CheckPlayerRange, CheckPlayerRange,
+            1 << LayerMask.NameToLayer("Default") | 1 << LayerMask.NameToLayer("Ground"));
         if (hit.collider != null)
         {
             if (hit.collider.gameObject.CompareTag("Player"))
@@ -370,6 +401,7 @@ public class EnemyBomb : MonoBehaviour
             }
         }
     }
+
     #endregion
     #region 動畫
 
@@ -399,67 +431,72 @@ public class EnemyBomb : MonoBehaviour
     #endregion
     #region 生命
 
-        public void TakeBombHealth(int Damage)
+    public void TakeBombHealth(int Damage)
+    {
+        HP -= Damage;
+        if (HP <= 0)
         {
-            HP -= Damage;
-            if (HP <= 0)
-            {
-                SE_DIE();
-                HP = 0;
-                Die = true;
-            }
+            SE_DIE();
+            HP = 0;
+            Die = true;
         }
-        public void SetBombMaxHealth(int MaxHeath)
-        {
-            MaxHeath = 100;
-            HP = MaxHeath;
-        }
-        public void SE_BOOM() //音效
-        {
-            GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_BoomBloom);
-        }
-        public void SE_RUN() //音效
-        {
-            GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_BoomRun);
-        }
-        public void SE_DIE() //音效
-        {
-            GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_BoomDie);
-        }
-        public void SE_5by5() //音效
-        {
-            GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_BoomAtk);
-        }
-        
+    }
+
+    public void SetBombMaxHealth(int MaxHeath)
+    {
+        MaxHeath = 100;
+        HP = MaxHeath;
+    }
+
+    #endregion
+    #region 音效
+
+    public void SE_BOOM() //音效
+    {
+        GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_BoomBloom);
+    }
+    public void SE_RUN() //音效
+    {
+        GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_BoomRun);
+    }
+    public void SE_DIE() //音效
+    {
+        GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_BoomDie);
+    }
+    public void SE_5by5() //音效
+    {
+        GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_BoomAtk);
+    }
 
     #endregion
     #region 被攻擊處理
 
-        private void OnTriggerEnter2D(Collider2D col)
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.tag == "Player")
         {
-            if (col.tag=="Player")
-            {
-                BeAttack();
-            }
+            BeAttack();
         }
-    
-        void BeAttack()
+    }
+
+    void BeAttack()
+    {
+        if (transform.position.x < playerController.transform.position.x)
         {
-            if (transform.position.x < playerController.transform.position.x)
-            {
-                rb.AddForce(new Vector2(-Knockback,KnockbackHeight),ForceMode2D.Force);
-            }
-            if (transform.position.x > playerController.transform.position.x)
-            {
-                rb.AddForce(new Vector2(Knockback,KnockbackHeight),ForceMode2D.Force);
-            }
-            Boomspeed = Patrolspeed;
-            HitColor = 0f;
-            Wounds_x = 1f;
-            Wounds_y = 1f;
-            Onhit = true;
+            rb.AddForce(new Vector2(-Knockback, KnockbackHeight), ForceMode2D.Force);
         }
+
+        if (transform.position.x > playerController.transform.position.x)
+        {
+            rb.AddForce(new Vector2(Knockback, KnockbackHeight), ForceMode2D.Force);
+        }
+
+        Boomspeed = Patrolspeed;
+        HitColor = 0f;
+        Wounds_x = 1f;
+        Wounds_y = 1f;
+        Onhit = true;
+    }
 
     #endregion
-
 }

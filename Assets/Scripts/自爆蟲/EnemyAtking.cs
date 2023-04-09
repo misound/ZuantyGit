@@ -43,8 +43,8 @@ public class EnemyAtking : MonoBehaviour
         {
             //根據動畫做collider的開關
             other.GetComponent<SpeedPlayerController>().TakeDmgFromWalk();
-            //GameSetting.PlayerHP -= WalkAtkDmg;
-            //PlayerHP.SetHealth(GameSetting.PlayerHP);
+            GameSetting.PlayerHP -= WalkAtkDmg;
+            PlayerHP.SetHealth(GameSetting.PlayerHP);
         }
 
         Walk.CDing = true;

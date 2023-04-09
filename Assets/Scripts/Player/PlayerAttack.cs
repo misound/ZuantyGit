@@ -158,6 +158,10 @@ public class PlayerAttack : MonoBehaviour
         {
             other.GetComponent<EnemyBomb>().TakeBombHealth(atkDamage);
         }
+        if (other.GetComponent<EnemyWalk>() != null)
+        {
+            other.GetComponent<EnemyWalk>().TakeWalkHealth(atkDamage);
+        }
         else if (other.GetComponent<CanAtkDoor>() != null)
         {
             other.GetComponent<CanAtkDoor>().TakeDoorHP(atkDamage);
@@ -195,7 +199,7 @@ public class PlayerAttack : MonoBehaviour
             }
         }
 
-        Debug.Log(hit2D[0].collider.name);
+        //Debug.Log(hit2D[0].collider.name);
 
 
         

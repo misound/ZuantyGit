@@ -5077,8 +5077,12 @@ MonoBehaviour:
   playerController: {fileID: 0}
   rb: {fileID: 0}
   PlayerHP: {fileID: 0}
+  Deadbody: {fileID: 4500249624007130031, guid: 39543cd5d1bc51b49af756c9026c3a1d,
+    type: 3}
+  Wounds: {fileID: 3627015584632245349}
+  Wounds_x: 0
+  Wounds_y: 0
   CheckGround: {x: 0.56, y: 0, z: 0}
-  AtkPoint: {fileID: 1491945036274501926}
   VariableSpeed: 0
   PatrolSpeed: 3
   HuntSpeed: 10.5
@@ -5102,9 +5106,15 @@ MonoBehaviour:
   PlayerLayer:
     serializedVersion: 2
     m_Bits: 1
-  _anim: {fileID: 0}
+  Onhit: 0
+  Knockback: 500
+  KnockbackHeight: 0
+  HitColor: 0
+  HitColorReturn: 0.1
+  Die: 0
   AniSecs: 1.1
   CDing: 0
+  _anim: {fileID: 0}
   timer: 0
 --- !u!95 &1491945037522400992
 Animator:
@@ -5174,7 +5184,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7839139301994639797
 Transform:
   m_ObjectHideFlags: 0
@@ -5184,7 +5194,7 @@ Transform:
   m_GameObject: {fileID: 3627015584632245349}
   m_LocalRotation: {x: -0, y: -0, z: 0.59576464, w: 0.803159}
   m_LocalPosition: {x: -0.581, y: 0.697, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 1}
   m_Children: []
   m_Father: {fileID: 1491945037522400995}
   m_RootOrder: 1

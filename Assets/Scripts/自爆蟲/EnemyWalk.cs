@@ -14,10 +14,13 @@ public class EnemyWalk : MonoBehaviour
     [SerializeField] public SpeedPlayerController playerController;
     [SerializeField] public Rigidbody2D rb;
     [SerializeField] public HealthBar PlayerHP;
+    [SerializeField] private GameObject Deadbody;
+    [SerializeField] public GameObject Wounds;
+    [SerializeField] private float Wounds_x;
+    [SerializeField] private float Wounds_y;
 
     [Header("Check Point")] 
     [SerializeField] public Vector3 CheckGround;
-    [SerializeField] public GameObject AtkPoint;
 
     [Header("Speed")] 
     [SerializeField] public float VariableSpeed;
@@ -46,13 +49,21 @@ public class EnemyWalk : MonoBehaviour
     [SerializeField] public LayerMask WallLayer;
     [SerializeField] public LayerMask PlayerLayer;
     
-    [Header("Animation")]
-    [SerializeField] public Animator _anim;
-
+    [Header("OnhitStatus")]
+    [SerializeField] private bool Onhit;
+    [SerializeField] public float Knockback;
+    [SerializeField] public float KnockbackHeight;
+    [SerializeField] public float HitColor;
+    [SerializeField] public float HitColorReturn;
+    [SerializeField] public bool Die;
+    
     [Header("CoolDown")] 
     [SerializeField] public float AniSecs;
     [SerializeField] public bool CDing;
-
+    
+    [Header("Animation")]
+    [SerializeField] public Animator _anim;
+    
     private float distance;
     public float timer = 0f;
 
@@ -85,7 +96,7 @@ public class EnemyWalk : MonoBehaviour
         if (CDing)
         {
             timer += Time.deltaTime;
-            rb.drag = 100000f;
+            //rb.drag = 100000f;
             _anim.SetBool("walk",false);
             _anim.SetBool("chase",false);
             _anim.SetBool("attack",false);
@@ -104,6 +115,35 @@ public class EnemyWalk : MonoBehaviour
         } 
         
         Animation();
+    }
+
+    private void FixedUpdate()
+    {
+        if (Die)
+        {
+            GameObject temp = Instantiate(Deadbody);
+            temp.transform.parent = transform.parent;
+            temp.transform.localPosition = transform.localPosition;
+            temp.transform.localScale = transform.localScale;
+            this.gameObject.SetActive(false);
+        }
+        
+        if (Onhit)
+        {
+
+            HitColor += (1f / HitColorReturn) * Time.unscaledDeltaTime;
+            HitColor = Mathf.Clamp(HitColor, 0f, 1f);
+
+            Wounds_x -= (1f / HitColorReturn) * Time.unscaledDeltaTime;
+            Wounds_x = Mathf.Clamp(Wounds_x, 0f, 1f);
+
+            Wounds_y -= (1f / HitColorReturn) * Time.unscaledDeltaTime;
+            Wounds_y = Mathf.Clamp(Wounds_y, 0f, 1f);
+
+            Wounds.transform.localScale = new Vector2(Wounds_x, Wounds_y);
+
+            GetComponent<SpriteRenderer>().color = new Color(1f, HitColor, HitColor, 1f);
+        }
     }
 
     enum Status
@@ -190,7 +230,6 @@ public class EnemyWalk : MonoBehaviour
     }
 
     #endregion
-
     #region 角色翻轉
 
     void FlipToL()
@@ -224,7 +263,6 @@ public class EnemyWalk : MonoBehaviour
     }
 
     #endregion
-
     #region 檢查玩家
 
     void CheckPlayerR()
@@ -260,112 +298,176 @@ public class EnemyWalk : MonoBehaviour
     }
 
     #endregion
+    #region 追擊
 
-    void Chase()
+        void Chase()
+        {
+            rb.drag = 2.5f;
+            if (transform.position.x < playerController.transform.position.x)
+            {
+                rb.velocity = new Vector2(HuntSpeed, rb.velocity.y);
+                _isFacingRight = true;
+                FlipToR();
+            }
+    
+            if (transform.position.x > playerController.transform.position.x)
+            {
+                rb.velocity = new Vector2(-HuntSpeed, rb.velocity.y);
+                _isFacingRight = false;
+                FlipToL();
+            }
+            
+            distance = Vector2.Distance(transform.position, playerController.transform.position);
+    
+            if (distance < AttackRange)
+            {        
+                RaycastHit2D hitL = Physics2D.Raycast(transform.position, Vector2.right * CheckPlayerRange
+                    , CheckPlayerRange, PlayerLayer);
+                if (hitL.collider != null)
+                {
+                    if (hitL.collider.gameObject.CompareTag("Player"))
+                    {
+                        StatusSwitcher(Status.Attack);
+                    }
+                }
+            
+                RaycastHit2D hitR = Physics2D.Raycast(transform.position, Vector2.left * CheckPlayerRange
+                    , CheckPlayerRange, PlayerLayer);
+                if (hitR.collider != null)
+                {
+                    if (hitR.collider.gameObject.CompareTag("Player"))
+                    {
+                        StatusSwitcher(Status.Attack);
+                    }
+                }
+    
+            }
+    
+            if (distance > WarningRange)
+            {
+                StatusSwitcher(Status.Patrol);
+            }
+        }
+
+    #endregion
+    #region 攻擊
+
+        IEnumerator Attack()
+        {
+            mustPatrol = false;
+            _chase = false;
+            //rb.drag = 100000f;
+            yield return new WaitForSeconds(AniSecs);
+    
+            
+            distance = Vector2.Distance(transform.position, playerController.transform.position);
+    
+            if (transform.position.x < playerController.transform.position.x)
+            {
+                _isFacingRight = true;
+            }
+    
+            if (transform.position.x > playerController.transform.position.x)
+            {
+                _isFacingRight = false;
+            }
+    
+            if (distance <= WarningRange)
+            {
+                _chase = true;
+            }
+            else
+            {
+                mustPatrol = true;
+            }
+        }
+
+    #endregion
+    #region 動畫
+
+        void Animation()
+        {
+            if (mustPatrol)
+            {
+                _anim.SetBool("walk",true);
+                _anim.SetBool("chase",false);
+                _anim.SetBool("attack",false);
+            }
+    
+            if (_chase)
+            {
+                _anim.SetBool("chase",true);
+                _anim.SetBool("walk",false);
+                _anim.SetBool("attack",false);
+            }
+        }
+
+    #endregion
+    #region 生命
+
+    public void TakeWalkHealth(int Damage)
     {
-        rb.drag = 2.5f;
-        if (transform.position.x < playerController.transform.position.x)
+        HP -= Damage;
+        if (HP <= 0)
         {
-            rb.velocity = new Vector2(HuntSpeed, rb.velocity.y);
-            _isFacingRight = true;
-            FlipToR();
-        }
-
-        if (transform.position.x > playerController.transform.position.x)
-        {
-            rb.velocity = new Vector2(-HuntSpeed, rb.velocity.y);
-            _isFacingRight = false;
-            FlipToL();
-        }
-        
-        distance = Vector2.Distance(transform.position, playerController.transform.position);
-
-        if (distance < AttackRange)
-        {        
-            RaycastHit2D hitL = Physics2D.Raycast(transform.position, Vector2.right * CheckPlayerRange
-                , CheckPlayerRange, PlayerLayer);
-            if (hitL.collider != null)
-            {
-                if (hitL.collider.gameObject.CompareTag("Player"))
-                {
-                    StatusSwitcher(Status.Attack);
-                }
-            }
-        
-            RaycastHit2D hitR = Physics2D.Raycast(transform.position, Vector2.left * CheckPlayerRange
-                , CheckPlayerRange, PlayerLayer);
-            if (hitR.collider != null)
-            {
-                if (hitR.collider.gameObject.CompareTag("Player"))
-                {
-                    StatusSwitcher(Status.Attack);
-                }
-            }
-
-        }
-
-        if (distance > WarningRange)
-        {
-            StatusSwitcher(Status.Patrol);
+            
+            HP = 0;
+            Die = true;
         }
     }
 
-    IEnumerator Attack()
+    public void SetWalkMaxHealth(int MaxHeath)
     {
-        mustPatrol = false;
-        _chase = false;
-        rb.drag = 100000f;
-        yield return new WaitForSeconds(AniSecs);
-
-        
-        distance = Vector2.Distance(transform.position, playerController.transform.position);
-
-        if (transform.position.x < playerController.transform.position.x)
-        {
-            _isFacingRight = true;
-        }
-
-        if (transform.position.x > playerController.transform.position.x)
-        {
-            _isFacingRight = false;
-        }
-
-        if (distance <= WarningRange)
-        {
-            _chase = true;
-        }
-        else
-        {
-            mustPatrol = true;
-        }
+        MaxHeath = 100;
+        HP = MaxHeath;
     }
 
+    #endregion
+    #region 音效
+
+    public void SE_BOOM() //音效
+    {
+        GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_BoomBloom);
+    }
+    public void SE_RUN() //音效
+    {
+        GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_BoomRun);
+    }
+    public void SE_DIE() //音效
+    {
+        GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_BoomDie);
+    }
+    public void SE_5by5() //音效
+    {
+        GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_BoomAtk);
+    }
+
+    #endregion
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.GetComponent<SpeedPlayerController>() != null)
+        if (other.GetComponent<PlayerAttack>() != null)
         {
-            //CDing = true;
-            other.GetComponent<SpeedPlayerController>().TakeDmgFromWalk();
-            GameSetting.PlayerHP -= Atk;
-            PlayerHP.SetHealth(GameSetting.PlayerHP);
+            BeAttack();
+            
+            HitColor = 0f;
+            Wounds_x = 1f;
+            Wounds_y = 1f;
         }
     }
-
-    void Animation()
+    void BeAttack()
     {
-        if (mustPatrol)
+        if (transform.position.x < playerController.transform.position.x)
         {
-            _anim.SetBool("walk",true);
-            _anim.SetBool("chase",false);
-            _anim.SetBool("attack",false);
+            rb.AddForce(new Vector2(-Knockback, KnockbackHeight), ForceMode2D.Force);
         }
 
-        if (_chase)
+        if (transform.position.x > playerController.transform.position.x)
         {
-            _anim.SetBool("chase",true);
-            _anim.SetBool("walk",false);
-            _anim.SetBool("attack",false);
+            rb.AddForce(new Vector2(Knockback, KnockbackHeight), ForceMode2D.Force);
         }
+        
+
+        Onhit = true;
     }
     private void OnDrawGizmosSelected()
     {
