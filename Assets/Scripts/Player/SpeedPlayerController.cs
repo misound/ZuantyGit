@@ -154,7 +154,10 @@ public class SpeedPlayerController : MonoBehaviour
             if (dashImage.fillAmount<=0)
             {
                 dashImage.fillAmount = 0;
-                canDash = true;
+                if (_onGround||_onOneWayPlatform||_onWall)
+                {
+                    canDash = true;
+                }
             }
         }
 
