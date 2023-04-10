@@ -232,8 +232,9 @@ public class S2Mgr : MonoBehaviour
                     SPC.transform.position = new Vector3
                     (FallingLine[i].transform.position.x,
                         FallingLine[i].transform.position.y - 10);
+                    GameSetting.Falling = true;
                     yield return new WaitForSeconds(FallSec);
-                    GameSetting.FallOut();
+                    GameSetting.Falled = true;
                     GameSetting.PlayerHP -= FallDmg;
                     PlayerHP.SetHealth(GameSetting.PlayerHP);
                     SPC.transform.position = GameSetting.Playerpos;
@@ -247,9 +248,9 @@ public class S2Mgr : MonoBehaviour
                     SPC.transform.position = new Vector3
                     (FallingLine[i].transform.position.x,
                         FallingLine[i].transform.position.y - 10);
-
+                    GameSetting.Falling = true;
                     yield return new WaitForSeconds(FallSec);
-                    GameSetting.FallOut();
+                    GameSetting.Falled = true;
                     GameSetting.PlayerHP -= FallDmg;
                     PlayerHP.SetHealth(GameSetting.PlayerHP);
                     SPC.transform.position = GameSetting.Playerpos;
