@@ -4945,7 +4945,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86e61b2f3dc4f6845a191dddbaf45a28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WalkAtkDmg: 34
+  WalkAtkDmg: 20
   col: {fileID: 0}
   Walk: {fileID: 1491945037522400927}
   PlayerHP: {fileID: 0}
@@ -5192,8 +5192,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3627015584632245349}
-  m_LocalRotation: {x: -0, y: -0, z: 0.59576464, w: 0.803159}
-  m_LocalPosition: {x: -0.581, y: 0.697, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: 0.41117826, w: 0.911555}
+  m_LocalPosition: {x: -0.39, y: 0.19, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 1}
   m_Children: []
   m_Father: {fileID: 1491945037522400995}
@@ -5218,7 +5218,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 7682292210c2cf1419b17d9dc02d4ded, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

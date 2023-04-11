@@ -169,7 +169,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -815614961
-  m_SortingLayer: -5
+  m_SortingLayer: -4
   m_SortingOrder: 117
   m_Sprite: {fileID: 21300000, guid: 41d1262cd2777164a9221f95fee5289c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -270,7 +270,7 @@ MonoBehaviour:
   Jumpforce: 14.17
   CheckGroundRange: 0.1
   CheckPlayerRange: 6
-  Checkwallrange: 6.75
+  Checkwallrange: 0.8
   UnstoppableRange: 2.5
   WarningRange: 10
   mustTurn: 0
@@ -292,7 +292,7 @@ MonoBehaviour:
   Knockback: 3000
   KnockbackHeight: 80
   HitColor: 0
-  HitColorReturn: 0.1
+  HitColorReturn: 0.15
   Die: 0
   playerlayer:
     serializedVersion: 2
@@ -368,7 +368,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 7682292210c2cf1419b17d9dc02d4ded, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -387,7 +387,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1655377775
-  m_SortingLayer: -4
+  m_SortingLayer: 2
   m_SortingOrder: 19
   m_Sprite: {fileID: 21300000, guid: 674b390dcff23c347a1503dd46900d18, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
