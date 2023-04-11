@@ -12,6 +12,7 @@ public class HealthBar : MonoBehaviour
     public Image fill;
 
     private CameraMgr _cameraMgr;
+    public SpeedPlayerController speedPlayerController;
 
 
     private bool _isDirty = false;
@@ -40,7 +41,8 @@ public class HealthBar : MonoBehaviour
         {
             SpeedPlayerController SPC = GameObject.FindObjectOfType<SpeedPlayerController>(); 
             if (_cameraMgr.Blackscreenalpha >= 1)
-            { 
+            {
+                speedPlayerController.playerDead = true;
                 SPC.transform.position = GameSetting.Playerpos; 
                 GameSetting.Respawn();
             }
@@ -68,6 +70,7 @@ public class HealthBar : MonoBehaviour
         if(health <= 0)
         {
             health = 0;
+            
         }
         PlayerPrefs.SetInt("PlayerHP", health);
         _isDirty = true;
