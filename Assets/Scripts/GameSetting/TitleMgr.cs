@@ -25,7 +25,7 @@ public class TitleMgr : MonoBehaviour
     public GameObject VolumeUI;
 
     public Slider TBGMSli;
-    //public Slider TSESli;
+    public Slider TSESli;
 
     public GameMgr gameMgr;
     private AudioMgr audioMgr;
@@ -54,8 +54,8 @@ public class TitleMgr : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //GameSetting.BGMAudio.MBGM.volume =TBGMSli.value;
-        //audioMgr.MBGM.volume = gameMgr.mainBGM.value = TSESli.value;
+
+        
     }
     public enum eTitleStates
     {

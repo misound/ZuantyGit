@@ -81,5 +81,6 @@ public static class GameSetting
     {
         PlayerPrefs.SetString("AudioReady", AudioReady.ToString());
         PlayerPrefs.SetFloat("BGMV", BGMAudio.BGM_audioSource.volume);
+        PlayerPrefs.SetFloat("SEV", SEAudio.SE_audioSource.volume);
     }
 }

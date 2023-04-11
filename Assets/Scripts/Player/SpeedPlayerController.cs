@@ -607,8 +607,11 @@ public class SpeedPlayerController : MonoBehaviour
                 
             }
         }
-        
-        
+
+        if (playerDead!=true)
+        {
+            _anim.SetBool("Dead",false);
+        }
     }
 #endregion
 

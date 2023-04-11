@@ -86,6 +86,9 @@ public class S3Mgr : MonoBehaviour
             AtkWallHandler wall = temp.GetComponent<AtkWallHandler>();
             wall.SetWallData(GameSetting.WList[i]);
         }
+        
+        
+        FindObjectOfType<AudioMgr>().BGMCheck = true;
     }
 
     void Update()

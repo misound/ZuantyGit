@@ -89,6 +89,9 @@ public class S2Mgr : MonoBehaviour
         PlayerHP = FindObjectOfType<HealthBar>();
         PlayerHP.SetHealth(GameSetting.PlayerHP = PlayerPrefs.GetInt("PlayerHP"));
 
+        
+        FindObjectOfType<AudioMgr>().BGMCheck = true;
+        
         if (GameSetting.PlayerHP <= 0)
         {
             PlayerHP.SetMaxHealth(GameSetting.PlayerHP = PlayerPrefs.GetInt("PlayerHP"));

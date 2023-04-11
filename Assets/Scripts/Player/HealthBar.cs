@@ -42,7 +42,6 @@ public class HealthBar : MonoBehaviour
             SpeedPlayerController SPC = GameObject.FindObjectOfType<SpeedPlayerController>(); 
             if (_cameraMgr.Blackscreenalpha >= 1)
             {
-                speedPlayerController.playerDead = true;
                 SPC.transform.position = GameSetting.Playerpos; 
                 GameSetting.Respawn();
             }
