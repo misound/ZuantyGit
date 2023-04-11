@@ -12,9 +12,9 @@ public class S2Mgr : MonoBehaviour
 
     public GameObject[] DPos;
     public GameObject[] AWPos;
-    
+
     private bool EnteredS2 = false;
-    
+
     public GameObject[] FallingLine;
 
     public int FallDmg = 30;
@@ -46,6 +46,15 @@ public class S2Mgr : MonoBehaviour
             string json2 = PlayerPrefs.GetString("data2");
             GameSetting.DList = JsonConvert.DeserializeObject<IList<Itemdata>>(json);
             GameSetting.WList = JsonConvert.DeserializeObject<IList<AtkWData>>(json2);
+
+
+            /*回檔測試，但未處理其他場景的互動
+            PlayerHP = FindObjectOfType<HealthBar>();
+            PlayerHP.SetMaxHealth(GameSetting.PlayerHP = PlayerPrefs.GetInt("PlayerHP"));
+            //GameSetting.Load();
+            
+            SpeedPlayerController SPC = GameObject.FindObjectOfType<SpeedPlayerController>();
+            SPC.transform.position = GameSetting.Playerpos;*/
         }
         else if (!EnteredS2)
         {
@@ -76,8 +85,9 @@ public class S2Mgr : MonoBehaviour
             AtkWallHandler wall = temp.GetComponent<AtkWallHandler>();
             wall.SetWallData(GameSetting.WList[i]);
         }
-        
+
         PlayerHP = FindObjectOfType<HealthBar>();
+        PlayerHP.SetHealth(GameSetting.PlayerHP = PlayerPrefs.GetInt("PlayerHP"));
 
         if (GameSetting.PlayerHP <= 0)
         {
@@ -91,9 +101,12 @@ public class S2Mgr : MonoBehaviour
         {
             CheckPoints();
         }
+
         StartCoroutine(FallLine());
         TempPoint();
     }
+
+    #region 第二關可破壞物件資料
 
     public IList<Itemdata> CakeData1()
     {
@@ -123,9 +136,12 @@ public class S2Mgr : MonoBehaviour
         return result;
     }
 
-    private void Save()
-    {
+    #endregion
 
+    #region 存檔管理
+
+    public void Save()
+    {
         string json = JsonConvert.SerializeObject(GameSetting.DList);
         string json2 = JsonConvert.SerializeObject(GameSetting.WList);
         SpeedPlayerController SPC = GameObject.FindObjectOfType<SpeedPlayerController>();
@@ -140,7 +156,7 @@ public class S2Mgr : MonoBehaviour
         PlayerPrefs.Save();
     }
 
-    void CheckPoints()
+    public void CheckPoints()
     {
         for (int i = 0; i < CheckPoint.Length; i++)
         {
@@ -168,8 +184,8 @@ public class S2Mgr : MonoBehaviour
             }
         }
     }
-    
-    void TempPoint()
+
+    public void TempPoint()
     {
         SpeedPlayerController SPC = GameObject.FindObjectOfType<SpeedPlayerController>();
 
@@ -212,6 +228,10 @@ public class S2Mgr : MonoBehaviour
             }
         }
     }
+
+    #endregion
+
+    #region 掉落處理
 
     IEnumerator FallLine()
     {
@@ -260,7 +280,10 @@ public class S2Mgr : MonoBehaviour
             yield return null;
         }
     }
-    
+
+    #endregion
+
+
     private void OnDrawGizmos()
     {
         for (int i = 0; i < CheckPoint.Length; i++)
@@ -268,13 +291,13 @@ public class S2Mgr : MonoBehaviour
             Gizmos.DrawRay(CheckPoint[i].transform.position, Vector3.right * 2);
             Gizmos.DrawRay(CheckPoint[i].transform.position, Vector3.left * 2);
         }
-        
+
         for (int i = 0; i < RespawnPoint.Length; i++)
         {
             Gizmos.DrawRay(RespawnPoint[i].transform.position, Vector3.right * 1);
             Gizmos.DrawRay(RespawnPoint[i].transform.position, Vector3.left * 1);
         }
-        
+
         for (int i = 0; i < FallingLine.Length; i++)
         {
             Gizmos.DrawRay(FallingLine[i].transform.position, Vector3.left * 10);
