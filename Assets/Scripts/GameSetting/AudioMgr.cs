@@ -44,7 +44,7 @@ public class AudioMgr : MonoBehaviour
 
     private void Start()
     {
-        
+        AudioBigSmall();
     }
 
     // Update is called once per frame

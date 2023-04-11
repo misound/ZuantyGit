@@ -112,6 +112,7 @@ public class PlayerAttack : MonoBehaviour
     IEnumerator startHitBox1()
     {
         recover = true;
+        GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_Player_Attack_01);
         yield return new WaitForSeconds(startTime);
         atkCol[0].enabled = true;
         StartCoroutine(disableHitBox1());
@@ -126,6 +127,7 @@ public class PlayerAttack : MonoBehaviour
     IEnumerator startHitBox2()
     {
         recover = true;
+        GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_Player_Attack_02);
         yield return new WaitForSeconds(startTime);
         atkCol[1].enabled = true;
         StartCoroutine(disableHitBox2());
@@ -140,6 +142,7 @@ public class PlayerAttack : MonoBehaviour
     IEnumerator startHitBox3()
     {
         recover = true;
+        GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_Player_Attack_03);
         yield return new WaitForSeconds(startTime);
         atkCol[2].enabled = true;
         StartCoroutine(disableHitBox3());
@@ -156,10 +159,12 @@ public class PlayerAttack : MonoBehaviour
     {
         if (other.GetComponent<EnemyBomb>() != null)
         {
+            GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_Player_Hit);
             other.GetComponent<EnemyBomb>().TakeBombHealth(atkDamage);
         }
         if (other.GetComponent<EnemyWalk>() != null)
         {
+            GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_Player_Hit);
             other.GetComponent<EnemyWalk>().TakeWalkHealth(atkDamage);
         }
         else if (other.GetComponent<CanAtkDoor>() != null)
