@@ -15,7 +15,7 @@ public class S3Mgr : MonoBehaviour
     public GameObject[] AWPos;
 
     public HealthBar PlayerHP;
-    
+
     public GameObject[] FallingLine;
 
     public int FallDmg = 30;
@@ -131,7 +131,7 @@ public class S3Mgr : MonoBehaviour
 
     #region 存檔管理
 
-    private void Save()
+    public void Save()
     {
         string json = JsonConvert.SerializeObject(GameSetting.DList);
         string json2 = JsonConvert.SerializeObject(GameSetting.WList);
@@ -147,7 +147,7 @@ public class S3Mgr : MonoBehaviour
         PlayerPrefs.Save();
     }
 
-    void CheckPoints()
+    public void CheckPoints()
     {
         for (int i = 0; i < CheckPoint.Length; i++)
         {
@@ -176,9 +176,7 @@ public class S3Mgr : MonoBehaviour
         }
     }
 
-    #endregion
-
-    void TempPoint()
+    public void TempPoint()
     {
         SpeedPlayerController SPC = GameObject.FindObjectOfType<SpeedPlayerController>();
 
@@ -221,6 +219,10 @@ public class S3Mgr : MonoBehaviour
             }
         }
     }
+
+    #endregion
+
+    #region 掉落處理
 
     IEnumerator FallLine()
     {
@@ -269,6 +271,9 @@ public class S3Mgr : MonoBehaviour
             yield return null;
         }
     }
+
+    #endregion
+
 
     private void OnDrawGizmos()
     {

@@ -11,16 +11,16 @@ public class S4Mgr : MonoBehaviour
 
     public GameObject[] DPos;
     public GameObject[] AWPos;
-    
+
     public HealthBar PlayerHP;
 
     private bool EnteredS4 = false;
-    
-    
+
 
     private void Awake()
-    {   //判斷是否為新遊戲
-        
+    {
+        //判斷是否為新遊戲
+
         EnteredS4 = bool.Parse((PlayerPrefs.GetString("S4Enter")));
         PlayerPrefs.SetString("D4-1S", "false");
         PlayerPrefs.SetString("AW4-1S", "false");
@@ -51,11 +51,11 @@ public class S4Mgr : MonoBehaviour
         {
             PlayerHP.SetMaxHealth(GameSetting.PlayerHP = PlayerPrefs.GetInt("PlayerHP"));
         }
-        
     }
 
     private void Start()
-    {   //生產可破壞物件
+    {
+        //生產可破壞物件
         for (int i = 0; i < GameSetting.DList.Count; i++)
         {
             GameObject temp = Instantiate(DoorPrefab, DPos[i].transform);
@@ -85,78 +85,81 @@ public class S4Mgr : MonoBehaviour
         }
     }
 
-    #region 第三關可破壞物件資料
+    #region 第四關可破壞物件資料
 
-        public IList<Itemdata> CakeData1()
-        {
-            IList<Itemdata> result = new List<Itemdata>();
-    
-            result.Add(new Itemdata() { Name = "D4-1", States = bool.Parse((PlayerPrefs.GetString("D4-1S"))) });
-            return result;
-        }
-    
-        public IList<AtkWData> CakeData2()
-        {
-            IList<AtkWData> result = new List<AtkWData>();
-    
-            result.Add(new AtkWData() { AWName = "AW4-1", AWStates = bool.Parse((PlayerPrefs.GetString("AW4-1S"))) });
-            result.Add(new AtkWData() { AWName = "AW4-2", AWStates = bool.Parse((PlayerPrefs.GetString("AW4-2S"))) });
-            result.Add(new AtkWData() { AWName = "AW4-3", AWStates = bool.Parse((PlayerPrefs.GetString("AW4-3S"))) });
-            result.Add(new AtkWData() { AWName = "AW4-4", AWStates = bool.Parse((PlayerPrefs.GetString("AW4-4S"))) });
-            result.Add(new AtkWData() { AWName = "AW4-5", AWStates = bool.Parse((PlayerPrefs.GetString("AW4-5S"))) });
-            result.Add(new AtkWData() { AWName = "AW4-6", AWStates = bool.Parse((PlayerPrefs.GetString("AW4-6S"))) });
-            
-            return result;
-        }
+    public IList<Itemdata> CakeData1()
+    {
+        IList<Itemdata> result = new List<Itemdata>();
+
+        result.Add(new Itemdata() { Name = "D4-1", States = bool.Parse((PlayerPrefs.GetString("D4-1S"))) });
+        return result;
+    }
+
+    public IList<AtkWData> CakeData2()
+    {
+        IList<AtkWData> result = new List<AtkWData>();
+
+        result.Add(new AtkWData() { AWName = "AW4-1", AWStates = bool.Parse((PlayerPrefs.GetString("AW4-1S"))) });
+        result.Add(new AtkWData() { AWName = "AW4-2", AWStates = bool.Parse((PlayerPrefs.GetString("AW4-2S"))) });
+        result.Add(new AtkWData() { AWName = "AW4-3", AWStates = bool.Parse((PlayerPrefs.GetString("AW4-3S"))) });
+        result.Add(new AtkWData() { AWName = "AW4-4", AWStates = bool.Parse((PlayerPrefs.GetString("AW4-4S"))) });
+        result.Add(new AtkWData() { AWName = "AW4-5", AWStates = bool.Parse((PlayerPrefs.GetString("AW4-5S"))) });
+        result.Add(new AtkWData() { AWName = "AW4-6", AWStates = bool.Parse((PlayerPrefs.GetString("AW4-6S"))) });
+
+        return result;
+    }
 
     #endregion
+
     #region 存檔管理
-    private void Save()
+
+    public void Save()
+    {
+        string json = JsonConvert.SerializeObject(GameSetting.DList);
+        string json2 = JsonConvert.SerializeObject(GameSetting.WList);
+        SpeedPlayerController SPC = GameObject.FindObjectOfType<SpeedPlayerController>();
+
+        Vector3 pos = SPC.transform.position;
+        GameSetting.Playerposx = pos.x;
+        GameSetting.Playerposy = pos.y;
+        PlayerPrefs.SetFloat("x", GameSetting.Playerposx);
+        PlayerPrefs.SetFloat("y", GameSetting.Playerposy);
+        PlayerPrefs.SetString("data", json);
+        PlayerPrefs.SetString("data2", json2);
+        PlayerPrefs.Save();
+    }
+
+    public void CheckPoints()
+    {
+        for (int i = 0; i < CheckPoint.Length; i++)
         {
-            string json = JsonConvert.SerializeObject(GameSetting.DList);
-            string json2 = JsonConvert.SerializeObject(GameSetting.WList);
-            SpeedPlayerController SPC = GameObject.FindObjectOfType<SpeedPlayerController>();
-    
-            Vector3 pos = SPC.transform.position;
-            GameSetting.Playerposx = pos.x;
-            GameSetting.Playerposy = pos.y;
-            PlayerPrefs.SetFloat("x", GameSetting.Playerposx);
-            PlayerPrefs.SetFloat("y", GameSetting.Playerposy);
-            PlayerPrefs.SetString("data", json);
-            PlayerPrefs.SetString("data2", json2);
-            PlayerPrefs.Save();
-        }
-    
-        void CheckPoints()
-        {
-            for (int i = 0; i < CheckPoint.Length; i++)
+            RaycastHit2D hitR = Physics2D.Raycast(CheckPoint[i].transform.position, Vector3.right * 2, 2,
+                1 << LayerMask.NameToLayer("Default"));
+            RaycastHit2D hit = Physics2D.Raycast(CheckPoint[i].transform.position, Vector3.left * 2, 2,
+                1 << LayerMask.NameToLayer("Default"));
+            if (hit.collider != null)
             {
-                RaycastHit2D hitR = Physics2D.Raycast(CheckPoint[i].transform.position, Vector3.right * 2, 2,
-                    1 << LayerMask.NameToLayer("Default"));
-                RaycastHit2D hit = Physics2D.Raycast(CheckPoint[i].transform.position, Vector3.left * 2, 2,
-                    1 << LayerMask.NameToLayer("Default"));
-                if (hit.collider != null)
+                if (hit.collider.gameObject.CompareTag("Player"))
                 {
-                    if (hit.collider.gameObject.CompareTag("Player"))
-                    {
-                        Save();
-                        PlayerPrefs.SetString("S4Enter", "true");
-                        PlayerPrefs.Save();
-                    }
+                    Save();
+                    PlayerPrefs.SetString("S4Enter", "true");
+                    PlayerPrefs.Save();
                 }
-                else if (hitR.collider != null)
+            }
+            else if (hitR.collider != null)
+            {
+                if (hitR.collider.gameObject.CompareTag("Player"))
                 {
-                    if (hitR.collider.gameObject.CompareTag("Player"))
-                    {
-                        Save();
-                        PlayerPrefs.SetString("S4Enter", "true");
-                        PlayerPrefs.Save();
-                    }
+                    Save();
+                    PlayerPrefs.SetString("S4Enter", "true");
+                    PlayerPrefs.Save();
                 }
             }
         }
+    }
 
     #endregion
+
     private void OnDrawGizmos()
     {
         for (int i = 0; i < CheckPoint.Length; i++)

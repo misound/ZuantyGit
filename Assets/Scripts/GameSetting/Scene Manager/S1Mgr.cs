@@ -13,21 +13,22 @@ public class S1Mgr : MonoBehaviour
 
     public GameObject[] DPos;
     public GameObject[] AWPos;
-    
-    
+
+
     public GameObject[] FallingLine;
 
     public int FallDmg = 30;
-    
+
     public float FallSec = 3.0f;
-    
+
     public HealthBar PlayerHP;
 
     private bool EnteredS1 = false;
 
     private void Awake()
-    {   //判斷是否為新遊戲
-        
+    {
+        //判斷是否為新遊戲
+
         EnteredS1 = bool.Parse((PlayerPrefs.GetString("S1Enter")));
         PlayerPrefs.SetString("D1-1S", "false");
         PlayerPrefs.SetString("AW1-1S", "false");
@@ -43,6 +44,14 @@ public class S1Mgr : MonoBehaviour
             string json2 = PlayerPrefs.GetString("data2");
             GameSetting.DList = JsonConvert.DeserializeObject<IList<Itemdata>>(json);
             GameSetting.WList = JsonConvert.DeserializeObject<IList<AtkWData>>(json2);
+
+            /*回檔測試，但未處理其他場景的互動
+            PlayerHP = FindObjectOfType<HealthBar>();
+            PlayerHP.SetMaxHealth(GameSetting.PlayerHP = PlayerPrefs.GetInt("PlayerHP"));
+            //GameSetting.Load();
+            
+            SpeedPlayerController SPC = GameObject.FindObjectOfType<SpeedPlayerController>();
+            SPC.transform.position = GameSetting.Playerpos;*/
         }
         else if (!EnteredS1)
         {
@@ -50,11 +59,11 @@ public class S1Mgr : MonoBehaviour
             GameSetting.DList = S1Item.FakeData1();
             GameSetting.WList = S1Item.FakeData2();
         }
-
     }
 
     private void Start()
-    {   //生產可破壞物件
+    {
+        //生產可破壞物件
         for (int i = 0; i < GameSetting.DList.Count; i++)
         {
             GameObject temp = Instantiate(DoorPrefab, DPos[i].transform);
@@ -74,12 +83,11 @@ public class S1Mgr : MonoBehaviour
             AtkWallHandler wall = temp.GetComponent<AtkWallHandler>();
             wall.SetWallData(GameSetting.WList[i]);
         }
-        
+
         PlayerHP = FindObjectOfType<HealthBar>();
 
         if (GameSetting.PlayerHP <= 0)
         {
-            PlayerHP.SetMaxHealth(GameSetting.PlayerHP = PlayerPrefs.GetInt("PlayerHP"));
         }
     }
 
@@ -89,84 +97,85 @@ public class S1Mgr : MonoBehaviour
         {
             CheckPoints();
         }
+
         StartCoroutine(FallLine());
-        
+
         TempPoint();
     }
 
     #region 第一關可破壞物件資料
 
-        public IList<Itemdata> CakeData1()
-        {
-            IList<Itemdata> result = new List<Itemdata>();
-    
-            result.Add(new Itemdata() { Name = "D1-1", States = bool.Parse((PlayerPrefs.GetString("D1-1S"))) });
-            return result;
-        }
-    
-        public IList<AtkWData> CakeData2()
-        {
-            IList<AtkWData> result = new List<AtkWData>();
-    
-            result.Add(new AtkWData() { AWName = "AW1-1", AWStates = bool.Parse((PlayerPrefs.GetString("AW1-1S"))) });
-            result.Add(new AtkWData() { AWName = "AW1-2", AWStates = bool.Parse((PlayerPrefs.GetString("AW1-2S"))) });
-            result.Add(new AtkWData() { AWName = "AW1-3", AWStates = bool.Parse((PlayerPrefs.GetString("AW1-3S"))) });
-            result.Add(new AtkWData() { AWName = "AW1-4", AWStates = bool.Parse((PlayerPrefs.GetString("AW1-4S"))) });
-            result.Add(new AtkWData() { AWName = "AW1-5", AWStates = bool.Parse((PlayerPrefs.GetString("AW1-5S"))) });
-    
-            return result;
-        }
+    public IList<Itemdata> CakeData1()
+    {
+        IList<Itemdata> result = new List<Itemdata>();
+
+        result.Add(new Itemdata() { Name = "D1-1", States = bool.Parse((PlayerPrefs.GetString("D1-1S"))) });
+        return result;
+    }
+
+    public IList<AtkWData> CakeData2()
+    {
+        IList<AtkWData> result = new List<AtkWData>();
+
+        result.Add(new AtkWData() { AWName = "AW1-1", AWStates = bool.Parse((PlayerPrefs.GetString("AW1-1S"))) });
+        result.Add(new AtkWData() { AWName = "AW1-2", AWStates = bool.Parse((PlayerPrefs.GetString("AW1-2S"))) });
+        result.Add(new AtkWData() { AWName = "AW1-3", AWStates = bool.Parse((PlayerPrefs.GetString("AW1-3S"))) });
+        result.Add(new AtkWData() { AWName = "AW1-4", AWStates = bool.Parse((PlayerPrefs.GetString("AW1-4S"))) });
+        result.Add(new AtkWData() { AWName = "AW1-5", AWStates = bool.Parse((PlayerPrefs.GetString("AW1-5S"))) });
+
+        return result;
+    }
 
     #endregion
+
     #region 存檔管理
-    private void Save()
+
+    public void Save()
+    {
+        string json = JsonConvert.SerializeObject(GameSetting.DList);
+        string json2 = JsonConvert.SerializeObject(GameSetting.WList);
+        SpeedPlayerController SPC = GameObject.FindObjectOfType<SpeedPlayerController>();
+
+        Vector3 pos = SPC.transform.position;
+        GameSetting.Playerposx = pos.x;
+        GameSetting.Playerposy = pos.y;
+        PlayerPrefs.SetFloat("x", GameSetting.Playerposx);
+        PlayerPrefs.SetFloat("y", GameSetting.Playerposy);
+        PlayerPrefs.SetString("data", json);
+        PlayerPrefs.SetString("data2", json2);
+        PlayerPrefs.Save();
+    }
+
+    public void CheckPoints()
+    {
+        for (int i = 0; i < CheckPoint.Length; i++)
         {
-            string json = JsonConvert.SerializeObject(GameSetting.DList);
-            string json2 = JsonConvert.SerializeObject(GameSetting.WList);
-            SpeedPlayerController SPC = GameObject.FindObjectOfType<SpeedPlayerController>();
-    
-            Vector3 pos = SPC.transform.position;
-            GameSetting.Playerposx = pos.x;
-            GameSetting.Playerposy = pos.y;
-            PlayerPrefs.SetFloat("x", GameSetting.Playerposx);
-            PlayerPrefs.SetFloat("y", GameSetting.Playerposy);
-            PlayerPrefs.SetString("data", json);
-            PlayerPrefs.SetString("data2", json2);
-            PlayerPrefs.Save();
-        }
-    
-        void CheckPoints()
-        {
-            for (int i = 0; i < CheckPoint.Length; i++)
+            RaycastHit2D hitR = Physics2D.Raycast(CheckPoint[i].transform.position, Vector3.right * 2, 2,
+                1 << LayerMask.NameToLayer("Default"));
+            RaycastHit2D hit = Physics2D.Raycast(CheckPoint[i].transform.position, Vector3.left * 2, 2,
+                1 << LayerMask.NameToLayer("Default"));
+            if (hit.collider != null)
             {
-                RaycastHit2D hitR = Physics2D.Raycast(CheckPoint[i].transform.position, Vector3.right * 2, 2,
-                    1 << LayerMask.NameToLayer("Default"));
-                RaycastHit2D hit = Physics2D.Raycast(CheckPoint[i].transform.position, Vector3.left * 2, 2,
-                    1 << LayerMask.NameToLayer("Default"));
-                if (hit.collider != null)
+                if (hit.collider.gameObject.CompareTag("Player"))
                 {
-                    if (hit.collider.gameObject.CompareTag("Player"))
-                    {
-                        Save();
-                        PlayerPrefs.SetString("S1Enter", "true");
-                        PlayerPrefs.Save();
-                    }
+                    Save();
+                    PlayerPrefs.SetString("S1Enter", "true");
+                    PlayerPrefs.Save();
                 }
-                else if (hitR.collider != null)
+            }
+            else if (hitR.collider != null)
+            {
+                if (hitR.collider.gameObject.CompareTag("Player"))
                 {
-                    if (hitR.collider.gameObject.CompareTag("Player"))
-                    {
-                        Save();
-                        PlayerPrefs.SetString("S1Enter", "true");
-                        PlayerPrefs.Save();
-                    }
+                    Save();
+                    PlayerPrefs.SetString("S1Enter", "true");
+                    PlayerPrefs.Save();
                 }
             }
         }
+    }
 
-    #endregion
-
-    void TempPoint()
+    public void TempPoint()
     {
         SpeedPlayerController SPC = GameObject.FindObjectOfType<SpeedPlayerController>();
 
@@ -209,7 +218,11 @@ public class S1Mgr : MonoBehaviour
             }
         }
     }
-    
+
+    #endregion
+
+    #region 掉落處理
+
     IEnumerator FallLine()
     {
         SpeedPlayerController SPC = GameObject.FindObjectOfType<SpeedPlayerController>();
@@ -257,6 +270,10 @@ public class S1Mgr : MonoBehaviour
             yield return null;
         }
     }
+
+    #endregion
+
+
     private void OnDrawGizmos()
     {
         for (int i = 0; i < CheckPoint.Length; i++)
@@ -264,13 +281,13 @@ public class S1Mgr : MonoBehaviour
             Gizmos.DrawRay(CheckPoint[i].transform.position, Vector3.right * 2);
             Gizmos.DrawRay(CheckPoint[i].transform.position, Vector3.left * 2);
         }
-        
+
         for (int i = 0; i < RespawnPoint.Length; i++)
         {
             Gizmos.DrawRay(RespawnPoint[i].transform.position, Vector3.right * 1);
             Gizmos.DrawRay(RespawnPoint[i].transform.position, Vector3.left * 1);
         }
-        
+
         for (int i = 0; i < FallingLine.Length; i++)
         {
             Gizmos.DrawRay(FallingLine[i].transform.position, Vector3.left * 10);

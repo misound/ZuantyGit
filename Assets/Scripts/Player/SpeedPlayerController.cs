@@ -12,20 +12,21 @@ using UnityEngine.Rendering;
 public class SpeedPlayerController : MonoBehaviour
 {
     
-    [Header("Components")] public Rigidbody2D _rb;
+    [Header("Components")] 
+    public Rigidbody2D _rb;
     public Animator _anim;
 
-    [Header("Layer Masks")] [SerializeField]
-    private LayerMask _groundLayer;
+    [Header("Layer Masks")] 
+    [SerializeField] private LayerMask _groundLayer;
 
     [SerializeField] private LayerMask _wallLayer;
     [SerializeField] private LayerMask _cornerCorrectLayer;
     [SerializeField] public LayerMask _onOneWayPlatformLayerMask;
     [SerializeField] public LayerMask wallEnemyLayer;
 
-    [Header("Movement Variables")] [SerializeField]
-    private float _movementAcceleration = 70f;
-
+    [Header("Movement Variables")]
+    [SerializeField] public bool playerDead;
+    [SerializeField] private float _movementAcceleration = 70f;
     [SerializeField] private float _maxMoveSpeed = 12f;
     [SerializeField] private float _groundLinearDrag = 7f;
     public float _horizontalDirection;
@@ -85,7 +86,6 @@ public class SpeedPlayerController : MonoBehaviour
 
     [Header("Wall Collision Variables")] [SerializeField]
     private float _wallRaycastLength;
-
     public bool _onWall;
     private bool _onRightWall;
 
@@ -139,6 +139,7 @@ public class SpeedPlayerController : MonoBehaviour
         Footstep = GetComponent<AudioSource>();
         mousePos = FindObjectOfType<MousePos>();
         playerAttack = FindObjectOfType<PlayerAttack>();
+        playerDead = false;
     }
 
     private void Update()
@@ -524,7 +525,18 @@ public class SpeedPlayerController : MonoBehaviour
     
     void Animation()
     {
-        if (playerAttack.recover)
+        if (playerDead)
+        {
+            _anim.SetBool("Dead",true);
+            _anim.SetBool("isDashing",false);
+            _anim.SetBool("isGrounded", false);
+            _anim.SetBool("isFalling", false);
+            _anim.SetBool("WallGrab", false);
+            _anim.SetBool("isJumping", false);
+            _anim.SetFloat("horizontalDirection", 0f);
+            _anim.SetFloat("verticalDirection", 0f);
+        }
+        else if (playerAttack.recover)
         {
             _anim.SetBool("isDashing",false);
             _anim.SetBool("isGrounded", false);
