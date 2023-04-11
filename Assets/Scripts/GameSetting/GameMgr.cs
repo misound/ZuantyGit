@@ -8,8 +8,6 @@ using UnityEngine.EventSystems;
 
 public class GameMgr : MonoBehaviour
 {
-    public OldPlayerController playerController;
-    public TakeEnemy takeEnemy;
     public TitleMgr titleMgr;
     private AudioMgr audioMgr;
 
@@ -51,9 +49,6 @@ public class GameMgr : MonoBehaviour
         OpBack.onClick.AddListener(Option);
         volume.onClick.AddListener(Volume);
         VBack.onClick.AddListener(VolumeBack);
-        playerController = FindObjectOfType<OldPlayerController>();
-        takeEnemy = FindObjectOfType<TakeEnemy>();
-        // audioMgr = FindObjectOfType<AudioMgr>();
         audioMgr = GameSetting.BGMAudio;
 
     }
@@ -61,8 +56,6 @@ public class GameMgr : MonoBehaviour
     {
         PauseStates();
         Pause();
-        //GameSetting.BGMAudio.MBGM.volume = mainBGM.value;
-        //M_BGM.volume = mainSE.value = titleMgr.TSESli.value;
     }
     private void FixedUpdate()
     {

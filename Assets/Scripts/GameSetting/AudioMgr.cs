@@ -11,13 +11,14 @@ public class AudioMgr : MonoBehaviour
 
     public GameMgr gameMgr;
     public TitleMgr titleMgr;
-    public OldPlayerController Playermoves;
-    public EnemyBomb enemyBomb;
 
-    public bool BGMCheck = false;
+    [SerializeField] public bool BGMCheck = false;
+    [SerializeField] public bool SECheck = false;
 
     public AudioClip[] BGM;
+
     public AudioClip[] SE;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -34,15 +35,16 @@ public class AudioMgr : MonoBehaviour
             GameSetting.SEAudio = this;
             GameSetting.AudioReady = true;
         }
+
         BGM_audioSource = Array_audioSource[0];
         SE_audioSource = Array_audioSource[1];
         BGM_audioSource.PlayOneShot(BGM[0]);
         BGM_audioSource.loop = true;
     }
+
     private void Start()
     {
-        Playermoves = FindObjectOfType<OldPlayerController>();
-        enemyBomb = FindObjectOfType<EnemyBomb>();
+        
     }
 
     // Update is called once per frame
@@ -58,10 +60,14 @@ public class AudioMgr : MonoBehaviour
         {
             BGM_audioSource.PlayOneShot(BGM[0]);
         }
+
+        Debug.Log(BGMCheck);
         AudioBigSmall();
+        //SEAudioBigSmall();
     }
-    
+
     #region BGM管理
+
     public enum eAudio
     {
         BGM1,
@@ -127,17 +133,21 @@ public class AudioMgr : MonoBehaviour
                 break;
         }
     }
+
     #endregion
+
     public void PlayBoom()
     {
         if (SE_audioSource == null)
         {
             return;
         }
+
         SE_audioSource.PlayOneShot(SE[1]);
-        
     }
+
     #region BGM大小
+
     public void AudioBigSmall()
     {
         if (titleMgr != null && !BGMCheck)
@@ -149,24 +159,61 @@ public class AudioMgr : MonoBehaviour
 
         if (titleMgr != null && BGMCheck)
         {
-            GameSetting.BGMAudio.BGM_audioSource.volume=titleMgr.TBGMSli.value;
+            GameSetting.BGMAudio.BGM_audioSource.volume = titleMgr.TBGMSli.value;
         }
 
 
         if (gameMgr != null && BGMCheck) //傳遞
         {
-            //gameMgr.mainBGM.value = GameSetting.AudioVolume;
+            
             gameMgr.mainBGM.value = GameSetting.BGMAudio.BGM_audioSource.volume;
 
 
             BGMCheck = false;
         }
+
         if (gameMgr != null && !BGMCheck) //接收
         {
-            //GameSetting.AudioVolume = gameMgr.mainBGM.value;
-            GameSetting.BGMAudio.BGM_audioSource.volume  = gameMgr.mainBGM.value;
+            
+            GameSetting.BGMAudio.BGM_audioSource.volume = gameMgr.mainBGM.value;
+        }
+    }
+
+    #endregion
+
+    #region SE大小
+
+    public void SEAudioBigSmall()
+    {
+        if (titleMgr != null && !SECheck)
+        {
+            titleMgr.TSESli.value = GameSetting.SEAudio.SE_audioSource.volume;
+
+            SECheck = true;
         }
 
+        if (titleMgr != null && SECheck)
+        {
+            GameSetting.SEAudio.SE_audioSource.volume = titleMgr.TSESli.value;
+        }
+
+
+        if (gameMgr != null && SECheck) //傳遞
+        {
+            //gameMgr.mainBGM.value = GameSetting.AudioVolume;
+            gameMgr.mainSE.value = GameSetting.SEAudio.SE_audioSource.volume;
+
+
+            SECheck = false;
+        }
+
+        if (gameMgr != null && !SECheck) //接收
+        {
+            //GameSetting.AudioVolume = gameMgr.mainBGM.value;
+            GameSetting.SEAudio.SE_audioSource.volume = gameMgr.mainSE.value;
+        }
+        
     }
+
     #endregion
 }

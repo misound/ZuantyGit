@@ -89,6 +89,8 @@ public class S1Mgr : MonoBehaviour
         if (GameSetting.PlayerHP <= 0)
         {
         }
+
+        FindObjectOfType<AudioMgr>().BGMCheck = true;
     }
 
     void Update()
