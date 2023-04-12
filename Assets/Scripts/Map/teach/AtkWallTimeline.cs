@@ -19,5 +19,6 @@ public class AtkWallTimeline : MonoBehaviour
         {
             noice.SetActive(true);
         }
+        
     }
 }
