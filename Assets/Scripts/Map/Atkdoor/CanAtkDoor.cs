@@ -11,6 +11,8 @@ public class CanAtkDoor : MonoBehaviour
     float distimer = 3f;
     bool DisOn = false;
 
+    public Collider2D My_col;
+
     public bool Open;
 
     private bool _isDirty = false;
@@ -87,6 +89,7 @@ public class CanAtkDoor : MonoBehaviour
         DoorBody[1].GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         DoorBody[2].GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         DoorBody[3].SetActive(false);
+        My_col.enabled = false;
         DisOn = true;
     }
 

@@ -87,7 +87,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1652483533
-  m_SortingLayer: -3
+  m_SortingLayer: -2
   m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: c8a2227567c59074b96ed9e78db602a4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -172,7 +172,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1652483533
-  m_SortingLayer: -3
+  m_SortingLayer: -2
   m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: a1ae550816d30d84abf6b6b05c2dd0c7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -247,7 +247,7 @@ MonoBehaviour:
   - {x: -0.100599855, y: 0.57492745, z: 0}
   m_ShapePathHash: 2085369985
   m_Mesh: {fileID: 0}
-  m_InstanceId: 106108
+  m_InstanceId: 2531652
 --- !u!1 &7681421184610455814
 GameObject:
   m_ObjectHideFlags: 0
@@ -320,7 +320,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1652483533
-  m_SortingLayer: -3
+  m_SortingLayer: -2
   m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: 4e4d55b5653c224419ea77ed9b0699a8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -395,7 +395,7 @@ MonoBehaviour:
   - {x: -0.102661476, y: 0.2666253, z: 0}
   m_ShapePathHash: 1348089279
   m_Mesh: {fileID: 0}
-  m_InstanceId: 106106
+  m_InstanceId: 2531650
 --- !u!1 &7681421185173113902
 GameObject:
   m_ObjectHideFlags: 0
@@ -468,7 +468,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1652483533
-  m_SortingLayer: -3
+  m_SortingLayer: -2
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: b87301786f6aac346b068f658d7365f8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -543,7 +543,7 @@ MonoBehaviour:
   - {x: -0.12559988, y: 0.5777052, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: 106160
+  m_InstanceId: 2531704
 --- !u!1 &7681421185941944033
 GameObject:
   m_ObjectHideFlags: 0
@@ -614,7 +614,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1652483533
-  m_SortingLayer: -3
+  m_SortingLayer: -2
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: a26d6f7fa774b814fbbe166e8b1153ab, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -699,6 +699,7 @@ MonoBehaviour:
   - {fileID: 7161143734743481222}
   DoorHP: 10
   playerController: {fileID: 0}
+  My_col: {fileID: 6319251377536698740}
   Open: 0
   DName: 
   Opened: 0

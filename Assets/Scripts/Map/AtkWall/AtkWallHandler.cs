@@ -8,6 +8,7 @@ public class AtkWallHandler : MonoBehaviour
     [Header("Data")] [SerializeField] private int AWHP;
 
     public GameObject WallBody;
+    public Collider2D My_Col;
     public SpeedPlayerController playerController;
 
     public bool AWBreak = false;
@@ -40,6 +41,7 @@ public class AtkWallHandler : MonoBehaviour
         { 
             Particle.GetComponent<ParticleSystem>().Play();
             WallBody.SetActive(false);
+            My_Col.enabled = false;
         }
 
         if (AWBroken)
