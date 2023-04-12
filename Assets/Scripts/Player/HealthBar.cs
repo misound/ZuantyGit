@@ -12,7 +12,6 @@ public class HealthBar : MonoBehaviour
     public Image fill;
 
     private CameraMgr _cameraMgr;
-    public SpeedPlayerController speedPlayerController;
 
 
     private bool _isDirty = false;
@@ -44,6 +43,7 @@ public class HealthBar : MonoBehaviour
             {
                 SPC.transform.position = GameSetting.Playerpos; 
                 GameSetting.Respawn();
+                SetMaxHealth(GameSetting.PlayerHP = 100);
             }
         }
 
