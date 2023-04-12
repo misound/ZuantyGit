@@ -48,13 +48,12 @@ public class S2Mgr : MonoBehaviour
             GameSetting.WList = JsonConvert.DeserializeObject<IList<AtkWData>>(json2);
 
 
-            /*回檔測試，但未處理其他場景的互動
-            PlayerHP = FindObjectOfType<HealthBar>();
-            PlayerHP.SetMaxHealth(GameSetting.PlayerHP = PlayerPrefs.GetInt("PlayerHP"));
+            //回檔測試，但未處理其他場景的互動
+
             //GameSetting.Load();
             
-            SpeedPlayerController SPC = GameObject.FindObjectOfType<SpeedPlayerController>();
-            SPC.transform.position = GameSetting.Playerpos;*/
+            //SpeedPlayerController SPC = GameObject.FindObjectOfType<SpeedPlayerController>();
+            //SPC.transform.position = GameSetting.Playerpos;
         }
         else if (!EnteredS2)
         {
@@ -62,6 +61,11 @@ public class S2Mgr : MonoBehaviour
             GameSetting.DList = S2Item.FakeData1();
             GameSetting.WList = S2Item.FakeData2();
         }
+        
+        PlayerHP = FindObjectOfType<HealthBar>();
+        PlayerHP.SetMaxHealth(GameSetting.PlayerHP = 100); //最高生命值
+        PlayerHP.GetHealth(GameSetting.PlayerHP = PlayerPrefs.GetInt("PlayerHP")); //讀取血量
+        PlayerHP.SetHealth(GameSetting.PlayerHP); //刷新當前血量
     }
 
     private void Start()
@@ -91,7 +95,7 @@ public class S2Mgr : MonoBehaviour
 
         
         FindObjectOfType<AudioMgr>().BGMCheck = true;
-        
+        FindObjectOfType<AudioMgr>().SECheck = true;
         if (GameSetting.PlayerHP <= 0)
         {
             PlayerHP.SetMaxHealth(GameSetting.PlayerHP = PlayerPrefs.GetInt("PlayerHP"));

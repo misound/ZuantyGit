@@ -76,8 +76,14 @@ public class S4Mgr : MonoBehaviour
             wall.SetWallData(GameSetting.WList[i]);
         }
         
+        PlayerHP = FindObjectOfType<HealthBar>();
+        PlayerHP.SetMaxHealth(GameSetting.PlayerHP = 100); //最高生命值
+        PlayerHP.GetHealth(GameSetting.PlayerHP = PlayerPrefs.GetInt("PlayerHP")); //讀取血量
+        PlayerHP.SetHealth(GameSetting.PlayerHP); //刷新當前血量
+        
         
         FindObjectOfType<AudioMgr>().BGMCheck = true;
+        FindObjectOfType<AudioMgr>().SECheck = true;
     }
 
     void Update()

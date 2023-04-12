@@ -66,12 +66,26 @@ public class HealthBar : MonoBehaviour
         slider.value = health;
         fill.color = gradient.Evaluate(slider.normalizedValue);
         GameSetting.PlayerHP = health;
+        if(health > 0)
+        {
+            PlayerPrefs.SetInt("PlayerHP", health);
+        }
         if(health <= 0)
         {
             health = 0;
-            
+            GameSetting.PlayerHP = health;
         }
-        PlayerPrefs.SetInt("PlayerHP", health);
+
+        _isDirty = true;
+    }
+    
+    public void GetHealth(int health)
+    {
+
+        slider.value = health;
+        fill.color = gradient.Evaluate(slider.normalizedValue);
+        GameSetting.PlayerHP = health;
+        PlayerPrefs.GetInt("PlayerHP", health);
         _isDirty = true;
     }
     private void OnGUI()

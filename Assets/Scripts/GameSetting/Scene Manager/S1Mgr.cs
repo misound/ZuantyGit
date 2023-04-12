@@ -91,6 +91,7 @@ public class S1Mgr : MonoBehaviour
         }
 
         FindObjectOfType<AudioMgr>().BGMCheck = true;
+        FindObjectOfType<AudioMgr>().SECheck = true;
     }
 
     void Update()

@@ -45,6 +45,7 @@ public class AudioMgr : MonoBehaviour
     private void Start()
     {
         AudioBigSmall();
+        SEAudioBigSmall();
     }
 
     // Update is called once per frame
@@ -61,9 +62,9 @@ public class AudioMgr : MonoBehaviour
             BGM_audioSource.PlayOneShot(BGM[0]);
         }
 
-        Debug.Log(BGMCheck);
+        //Debug.Log(BGMCheck);
         AudioBigSmall();
-        //SEAudioBigSmall();
+        SEAudioBigSmall();
     }
 
     #region BGM管理
@@ -200,16 +201,12 @@ public class AudioMgr : MonoBehaviour
 
         if (gameMgr != null && SECheck) //傳遞
         {
-            //gameMgr.mainBGM.value = GameSetting.AudioVolume;
             gameMgr.mainSE.value = GameSetting.SEAudio.SE_audioSource.volume;
-
-
             SECheck = false;
         }
 
         if (gameMgr != null && !SECheck) //接收
         {
-            //GameSetting.AudioVolume = gameMgr.mainBGM.value;
             GameSetting.SEAudio.SE_audioSource.volume = gameMgr.mainSE.value;
         }
         
