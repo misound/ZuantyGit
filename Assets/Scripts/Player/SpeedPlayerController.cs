@@ -719,7 +719,7 @@ public class SpeedPlayerController : MonoBehaviour
 
     public void Step()
     {
-        //Footstep.volume = GameSetting.BGMAudio.BGM_audioSource.volume;
+        Footstep.volume = GameSetting.SEAudio.SE_audioSource.volume;
         if (_horizontalDirection != 0)
         {
             isRunning = true;

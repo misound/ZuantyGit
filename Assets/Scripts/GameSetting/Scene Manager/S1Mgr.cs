@@ -59,6 +59,9 @@ public class S1Mgr : MonoBehaviour
             GameSetting.DList = S1Item.FakeData1();
             GameSetting.WList = S1Item.FakeData2();
         }
+        
+        PlayerHP = FindObjectOfType<HealthBar>();
+        PlayerHP.SetMaxHealth(GameSetting.PlayerHP = 100);
     }
 
     private void Start()
@@ -85,10 +88,6 @@ public class S1Mgr : MonoBehaviour
         }
 
         PlayerHP = FindObjectOfType<HealthBar>();
-
-        if (GameSetting.PlayerHP <= 0)
-        {
-        }
 
         FindObjectOfType<AudioMgr>().BGMCheck = true;
         FindObjectOfType<AudioMgr>().SECheck = true;
