@@ -26,6 +26,7 @@ public class SpeedPlayerController : MonoBehaviour
 
     [Header("Movement Variables")]
     [SerializeField] public bool playerDead;
+    [SerializeField] public bool Reallydead;
     [SerializeField] private float _movementAcceleration = 70f;
     [SerializeField] private float _maxMoveSpeed = 12f;
     [SerializeField] private float _groundLinearDrag = 7f;
@@ -281,7 +282,22 @@ public class SpeedPlayerController : MonoBehaviour
 
 
         //Step();
-        
+
+        if (GameSetting.PlayerHP <= 0)
+        {
+            playerDead = true;
+            /*Reallydead = true;
+            if (Reallydead)
+            {
+                playerDead = false;
+            }*/
+        }
+        else
+        {
+                        playerDead = false;
+                        Reallydead = false;
+        }
+
         CanBeDropDown();
         CheckCollisions();
         
