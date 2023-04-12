@@ -144,9 +144,13 @@ public class SpeedPlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (canDash&& mousePos.onWallEnemy&& playerAttack.canKill&& Input.GetButtonDown("Fire2"))
+        if (playerDead)
         {
-            Debug.Log("KillDash");
+            _anim.SetBool("Dead",true);
+        }
+        else
+        {
+            _anim.SetBool("Dead",false);
         }
         
         if (!canDash)
@@ -222,51 +226,43 @@ public class SpeedPlayerController : MonoBehaviour
             
         }
         //Dash
-        if (Input.GetButtonDown("Fire2")&&canDash) 
+        if (Input.GetButtonDown("Fire2")&&playerAttack.canKill&& mousePos.onWallEnemy) 
         {
-            if (playerAttack.canKill&& mousePos.onWallEnemy)
+            if (M_dir.x < 0 && _facingRight)
             {
-                if (M_dir.x < 0 && _facingRight)
-                {
-                    Flip();
-                    StartCoroutine(KillDash(mousePos.enemyPos.x,mousePos.enemyPos.y));
-            
-                    
+                Flip();
+                StartCoroutine(KillDash(mousePos.enemyPos.x,mousePos.enemyPos.y));
+            }
+            else if (M_dir.x > 0 && !_facingRight)
+            {
+                Flip();
+                StartCoroutine(KillDash(mousePos.enemyPos.x,mousePos.enemyPos.y));
+            }
+            else
+            {
+                StartCoroutine(KillDash(mousePos.enemyPos.x,mousePos.enemyPos.y));
+            }
 
-                }
-                else if (M_dir.x > 0 && !_facingRight)
-                {
-                    Flip();
-                    StartCoroutine(KillDash(mousePos.enemyPos.x,mousePos.enemyPos.y));
-                    
-                }
-                else
-                {
-                    StartCoroutine(KillDash(mousePos.enemyPos.x,mousePos.enemyPos.y));
-                }
-
+        }
+        
+        if (Input.GetButtonDown("Fire2")&&canDash)
+        {
+            canDash = false;
+            dashImage.fillAmount = 1;
+            if (M_dir.x < 0 && _facingRight)
+            {
+                Flip();
+                StartCoroutine(MouseDown(M_dir.x, M_dir.y));
+            }
+            else if (M_dir.x > 0 && !_facingRight)
+            {
+                Flip();
+                StartCoroutine(MouseDown(M_dir.x, M_dir.y));
             }
             else 
             {
-                canDash = false;
-                dashImage.fillAmount = 1;
-                if (M_dir.x < 0 && _facingRight)
-                {
-                    Flip();
-                    StartCoroutine(MouseDown(M_dir.x, M_dir.y));
-                }
-                else if (M_dir.x > 0 && !_facingRight)
-                {
-                    Flip();
-                    StartCoroutine(MouseDown(M_dir.x, M_dir.y));
-                }
-                else 
-                {
-                    StartCoroutine(MouseDown(M_dir.x, M_dir.y));
-                }
+                StartCoroutine(MouseDown(M_dir.x, M_dir.y));
             }
-            
-            
         }
 
         if (hasDashR)
@@ -277,9 +273,7 @@ public class SpeedPlayerController : MonoBehaviour
         {
             StartCoroutine(KillDashFallL());
         }
-
-
-
+        
     }
 
     private void FixedUpdate()
@@ -525,18 +519,7 @@ public class SpeedPlayerController : MonoBehaviour
     
     void Animation()
     {
-        if (playerDead)
-        {
-            _anim.SetBool("Dead",true);
-            _anim.SetBool("isDashing",false);
-            _anim.SetBool("isGrounded", false);
-            _anim.SetBool("isFalling", false);
-            _anim.SetBool("WallGrab", false);
-            _anim.SetBool("isJumping", false);
-            _anim.SetFloat("horizontalDirection", 0f);
-            _anim.SetFloat("verticalDirection", 0f);
-        }
-        else if (playerAttack.recover)
+        if (playerAttack.recover)
         {
             _anim.SetBool("isDashing",false);
             _anim.SetBool("isGrounded", false);
