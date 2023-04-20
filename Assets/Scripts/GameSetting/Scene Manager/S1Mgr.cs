@@ -22,6 +22,7 @@ public class S1Mgr : MonoBehaviour
     public float FallSec = 3.0f;
 
     public HealthBar PlayerHP;
+    public SpeedPlayerController SPC;
 
     private bool EnteredS1 = false;
 
@@ -36,6 +37,10 @@ public class S1Mgr : MonoBehaviour
         PlayerPrefs.SetString("AW1-3S", "false");
         PlayerPrefs.SetString("AW1-4S", "false");
         PlayerPrefs.SetString("AW1-5S", "false");
+        
+        PlayerHP = FindObjectOfType<HealthBar>();
+        SPC = FindObjectOfType<SpeedPlayerController>();
+        
         if (EnteredS1)
         {
             GameSetting.DList = CakeData1();
@@ -45,23 +50,24 @@ public class S1Mgr : MonoBehaviour
             GameSetting.DList = JsonConvert.DeserializeObject<IList<Itemdata>>(json);
             GameSetting.WList = JsonConvert.DeserializeObject<IList<AtkWData>>(json2);
 
-            /*回檔測試，但未處理其他場景的互動
-            PlayerHP = FindObjectOfType<HealthBar>();
-            PlayerHP.SetMaxHealth(GameSetting.PlayerHP = PlayerPrefs.GetInt("PlayerHP"));
-            //GameSetting.Load();
+            //回檔測試，但未處理其他場景的互動
             
-            SpeedPlayerController SPC = GameObject.FindObjectOfType<SpeedPlayerController>();
-            SPC.transform.position = GameSetting.Playerpos;*/
+            PlayerHP.SetMaxHealth(GameSetting.PlayerHP = 100); //最高生命值
+            PlayerHP.GetHealth(GameSetting.PlayerHP = PlayerPrefs.GetInt("PlayerHP")); //讀取血量
+            PlayerHP.SetHealth(GameSetting.PlayerHP); //刷新當前血量
+            GameSetting.Respawn();
+            SPC.transform.position = GameSetting.Playerpos;
         }
         else if (!EnteredS1)
         {
             S1Item S1Item = (S1Item)Factory.reset("S1");
             GameSetting.DList = S1Item.FakeData1();
             GameSetting.WList = S1Item.FakeData2();
+            
+            PlayerHP.SetMaxHealth(GameSetting.PlayerHP = 100);
         }
         
-        PlayerHP = FindObjectOfType<HealthBar>();
-        PlayerHP.SetMaxHealth(GameSetting.PlayerHP = 100);
+
     }
 
     private void Start()
@@ -86,8 +92,6 @@ public class S1Mgr : MonoBehaviour
             AtkWallHandler wall = temp.GetComponent<AtkWallHandler>();
             wall.SetWallData(GameSetting.WList[i]);
         }
-
-        PlayerHP = FindObjectOfType<HealthBar>();
 
         FindObjectOfType<AudioMgr>().BGMCheck = true;
         FindObjectOfType<AudioMgr>().SECheck = true;
@@ -136,7 +140,6 @@ public class S1Mgr : MonoBehaviour
     {
         string json = JsonConvert.SerializeObject(GameSetting.DList);
         string json2 = JsonConvert.SerializeObject(GameSetting.WList);
-        SpeedPlayerController SPC = GameObject.FindObjectOfType<SpeedPlayerController>();
 
         Vector3 pos = SPC.transform.position;
         GameSetting.Playerposx = pos.x;
@@ -179,7 +182,6 @@ public class S1Mgr : MonoBehaviour
 
     public void TempPoint()
     {
-        SpeedPlayerController SPC = GameObject.FindObjectOfType<SpeedPlayerController>();
 
         for (int i = 0; i < RespawnPoint.Length; i++)
         {
@@ -227,7 +229,6 @@ public class S1Mgr : MonoBehaviour
 
     IEnumerator FallLine()
     {
-        SpeedPlayerController SPC = GameObject.FindObjectOfType<SpeedPlayerController>();
 
         for (int i = 0; i < FallingLine.Length; i++)
         {
@@ -294,6 +295,27 @@ public class S1Mgr : MonoBehaviour
         {
             Gizmos.DrawRay(FallingLine[i].transform.position, Vector3.left * 10);
             Gizmos.DrawRay(FallingLine[i].transform.position, Vector3.right * 10);
+        }
+    }
+    
+    
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.GetComponent<SpeedPlayerController>() != null)
+        {
+            Vector3 pos = SPC.transform.position;
+            GameSetting.Playerposx = pos.x;
+            GameSetting.Playerposy = pos.y;
+            PlayerPrefs.SetFloat("x", GameSetting.Playerposx);
+            PlayerPrefs.SetFloat("y", GameSetting.Playerposy);
+            string json = JsonConvert.SerializeObject(GameSetting.DList);
+            string json2 = JsonConvert.SerializeObject(GameSetting.WList);
+            PlayerPrefs.SetString("data", json);
+            PlayerPrefs.SetString("data2", json2);
+            PlayerPrefs.SetString("S1Enter", "true");
+            Debug.Log("Saved!!!");
+            GameSetting.Save();
+            PlayerPrefs.Save();
         }
     }
 }

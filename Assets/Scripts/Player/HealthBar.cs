@@ -39,10 +39,12 @@ public class HealthBar : MonoBehaviour
         if (GameSetting.PlayerHP <= 0)
         {
             SpeedPlayerController SPC = GameObject.FindObjectOfType<SpeedPlayerController>(); 
+            
             if (_cameraMgr.Blackscreenalpha >= 1)
             {
-                SPC.transform.position = GameSetting.Playerpos; 
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
                 GameSetting.Respawn();
+                SPC.transform.position = GameSetting.Playerpos;
                 SetMaxHealth(GameSetting.PlayerHP = 100);
             }
         }

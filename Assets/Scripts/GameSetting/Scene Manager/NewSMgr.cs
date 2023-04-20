@@ -25,6 +25,7 @@ public class NewSMgr : MonoBehaviour
     public int FallDmg = 30;
 
     public HealthBar PlayerHP;
+    public SpeedPlayerController SPC;
 
     public float FallSec = 3.0f;
 
@@ -57,8 +58,16 @@ public class NewSMgr : MonoBehaviour
             AtkWallHandler wall = temp.GetComponent<AtkWallHandler>();
             wall.SetWallData(GameSetting.WList[i]);
         }
-
+        
         PlayerHP = FindObjectOfType<HealthBar>();
+        PlayerHP.SetMaxHealth(GameSetting.PlayerHP = PlayerPrefs.GetInt("PlayerHP"));
+
+        SPC = FindObjectOfType<SpeedPlayerController>();
+
+         //無法在新場景測試，需要到有關卡存檔認證的場景中測試
+
+         GameSetting.Respawn();
+         SPC.transform.position = GameSetting.Playerpos;
     }
 
     private void Update()
@@ -74,10 +83,11 @@ public class NewSMgr : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            GameSetting.Load();
-            SpeedPlayerController SPC = FindObjectOfType<SpeedPlayerController>();
+            GameSetting.Respawn();
             SPC.transform.position = GameSetting.Playerpos;
+            //GameSetting.Load();
         }
+
 
 
         if (GameSetting.Falled)
@@ -89,6 +99,7 @@ public class NewSMgr : MonoBehaviour
 
     private void OnGUI()
     {
+        return;
         if (GUI.Button(new Rect(1820, 160, 80, 50), "data1"))
         {
             Btn1();
@@ -101,7 +112,6 @@ public class NewSMgr : MonoBehaviour
         string json2 = JsonConvert.SerializeObject(GameSetting.WList);
         PlayerPrefs.SetString("data", json);
         PlayerPrefs.SetString("data2", json2);
-        SpeedPlayerController SPC = GameObject.FindObjectOfType<SpeedPlayerController>();
 
         Vector3 pos = SPC.transform.position;
         GameSetting.Playerposx = pos.x;
@@ -115,7 +125,7 @@ public class NewSMgr : MonoBehaviour
 
     void CheckPoints()
     {
-        SpeedPlayerController SPC = GameObject.FindObjectOfType<SpeedPlayerController>();
+        
 
         for (int i = 0; i < CheckPoint.Length; i++)
         {
@@ -156,7 +166,6 @@ public class NewSMgr : MonoBehaviour
 
     void TempPoint()
     {
-        SpeedPlayerController SPC = GameObject.FindObjectOfType<SpeedPlayerController>();
 
         for (int i = 0; i < RespawnPoint.Length; i++)
         {
@@ -201,7 +210,6 @@ public class NewSMgr : MonoBehaviour
 
     IEnumerator FallLine()
     {
-        SpeedPlayerController SPC = GameObject.FindObjectOfType<SpeedPlayerController>();
 
         for (int i = 0; i < FallingLine.Length; i++)
         {
@@ -284,6 +292,25 @@ public class NewSMgr : MonoBehaviour
         {
             Gizmos.DrawRay(FallingLine[i].transform.position, Vector3.left * 10);
             Gizmos.DrawRay(FallingLine[i].transform.position, Vector3.right * 10);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.GetComponent<SpeedPlayerController>() != null)
+        {
+            Vector3 pos = SPC.transform.position;
+            GameSetting.Playerposx = pos.x;
+            GameSetting.Playerposy = pos.y;
+            PlayerPrefs.SetFloat("x", GameSetting.Playerposx);
+            PlayerPrefs.SetFloat("y", GameSetting.Playerposy);
+            string json = JsonConvert.SerializeObject(GameSetting.DList);
+            string json2 = JsonConvert.SerializeObject(GameSetting.WList);
+            PlayerPrefs.SetString("data", json);
+            PlayerPrefs.SetString("data2", json2);
+            Debug.Log("Saved!!!");
+            GameSetting.Save();
+            PlayerPrefs.Save();
         }
     }
 }

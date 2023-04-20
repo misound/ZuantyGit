@@ -296,18 +296,13 @@ public class SpeedPlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Debug.Log(GameSetting.PlayerHP);
+
 
         //Step();
 
         if (GameSetting.PlayerHP <= 0)
         {
             playerDead = true;
-            /*Reallydead = true;
-            if (Reallydead)
-            {
-                playerDead = false;
-            }*/
             _rb.bodyType = RigidbodyType2D.Static;
         }
 
