@@ -24,6 +24,7 @@ public class TimeControl : MonoBehaviour
         if (_playableDirector == null) { _playableDirector = GetComponent<PlayableDirector>(); }
         isPause = false;
        
+       
     }
     public void talkPauseTimeline()
     {
@@ -65,10 +66,11 @@ public class TimeControl : MonoBehaviour
             {
                 Debug.Log("E");
                 _playableDirector.playableGraph.GetRootPlayable(0).SetSpeed(1);
-                isPause = false;
+                isPause = true;
             }
         }
     }
+  
     
     void Update()
     {

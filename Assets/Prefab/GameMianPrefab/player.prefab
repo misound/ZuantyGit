@@ -518,6 +518,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   playerDead: 0
+  Reallydead: 0
   _movementAcceleration: 70
   _maxMoveSpeed: 6
   _groundLinearDrag: 200
@@ -1377,6 +1378,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: dash Particle
+      objectReference: {fileID: 0}
+    - target: {fileID: 5792094916667032086, guid: ad1e7123bd13e944385f0b56702d9d1d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ad1e7123bd13e944385f0b56702d9d1d, type: 3}
