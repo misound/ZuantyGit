@@ -18,15 +18,11 @@ public class HealthBar : MonoBehaviour
     private void Awake()
     {
         _cameraMgr = FindObjectOfType<CameraMgr>();
-
     }
 
     private void Start()
     {
-        if (GameSetting.PlayerHP <= 0) 
-        { 
-            SetMaxHealth(GameSetting.PlayerHP = 100);
-        }
+
     }
     private void Update()
     {
@@ -36,17 +32,37 @@ public class HealthBar : MonoBehaviour
             _isDirty = false;
         }
 
-        if (GameSetting.PlayerHP <= 0)
+        if (GameSetting.PlayerHP <= 0 && !GameSetting.Falled && !GameSetting.Falling)
         {
             SpeedPlayerController SPC = GameObject.FindObjectOfType<SpeedPlayerController>(); 
             
             if (_cameraMgr.Blackscreenalpha >= 1)
             {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
                 GameSetting.Respawn();
-                SPC.transform.position = GameSetting.Playerpos;
-                SetMaxHealth(GameSetting.PlayerHP = 100);
+                //SPC.transform.position = GameSetting.Playerpos;
+                //SetMaxHealth(GameSetting.PlayerHP);
             }
+        }
+        else if (GameSetting.PlayerHP <= 0 && GameSetting.Falled && GameSetting.Falling)
+        {
+            if (_cameraMgr.Blackscreenalpha >= 1)
+            {
+                GameSetting.Respawn();
+                //SPC.transform.position = GameSetting.Playerpos;
+                //SetMaxHealth(GameSetting.PlayerHP);
+            }
+
+
+        }
+        else if (GameSetting.PlayerHP > 0 || GameSetting.Falled && GameSetting.Falling)
+        {
+            if (_cameraMgr.Blackscreenalpha >= 1)
+            {
+                GameSetting.FallOut();
+            }
+            
+
+
         }
 
     }
@@ -70,14 +86,17 @@ public class HealthBar : MonoBehaviour
         GameSetting.PlayerHP = health;
         if(health > 0)
         {
-            PlayerPrefs.SetInt("PlayerHP", health);
+            PlayerPrefs.SetInt("PlayerHP", GameSetting.PlayerHP);
+            GameSetting.PlayerHP = health;
         }
         if(health <= 0)
         {
             health = 0;
+            PlayerPrefs.SetInt("PlayerHP", GameSetting.PlayerHP);
             GameSetting.PlayerHP = health;
+            health = GameSetting.PlayerHP;
         }
-
+        
         _isDirty = true;
     }
     
@@ -86,8 +105,9 @@ public class HealthBar : MonoBehaviour
 
         slider.value = health;
         fill.color = gradient.Evaluate(slider.normalizedValue);
+        health = PlayerPrefs.GetInt("PlayerHP");
         GameSetting.PlayerHP = health;
-        PlayerPrefs.GetInt("PlayerHP", health);
+
         _isDirty = true;
     }
     private void OnGUI()

@@ -15,6 +15,7 @@ public class S3Mgr : MonoBehaviour
     public GameObject[] AWPos;
 
     public HealthBar PlayerHP;
+    public SpeedPlayerController SPC;
 
     public GameObject[] FallingLine;
 
@@ -26,8 +27,9 @@ public class S3Mgr : MonoBehaviour
 
     private void Awake()
     {
+        GameSetting.AudioReady = true;
+        
         //判斷是否為新遊戲
-
         EnteredS3 = bool.Parse((PlayerPrefs.GetString("S3Enter")));
         PlayerPrefs.SetString("D3-1S", "false");
         PlayerPrefs.SetString("AW3-1S", "false");
@@ -40,6 +42,10 @@ public class S3Mgr : MonoBehaviour
         PlayerPrefs.SetString("AW3-8S", "false");
         PlayerPrefs.SetString("AW3-9S", "false");
         PlayerPrefs.SetString("AW3-10S", "false");
+        
+        PlayerHP = FindObjectOfType<HealthBar>();
+        SPC = FindObjectOfType<SpeedPlayerController>();
+        
         if (EnteredS3)
         {
             GameSetting.DList = CakeData1();
@@ -48,19 +54,33 @@ public class S3Mgr : MonoBehaviour
             string json2 = PlayerPrefs.GetString("data2");
             GameSetting.DList = JsonConvert.DeserializeObject<IList<Itemdata>>(json);
             GameSetting.WList = JsonConvert.DeserializeObject<IList<AtkWData>>(json2);
+            
+            
+            GameSetting.Load();
+            
+            //回檔測試，但未處理其他場景的互動
+            if (GameSetting.PlayerHP <= 0) 
+            {
+                PlayerHP.SetMaxHealth(GameSetting.PlayerHP = 100); //最高生命值
+                PlayerHP.SetHealth(GameSetting.PlayerHP); //刷新當前血量
+            }
+            else if(GameSetting.PlayerHP > 0) 
+            {
+                PlayerHP.SetMaxHealth(GameSetting.PlayerHP = 100); //最高生命值
+                PlayerHP.GetHealth(GameSetting.PlayerHP = PlayerPrefs.GetInt("PlayerHP")); //讀取血量
+                PlayerHP.SetHealth(GameSetting.PlayerHP); //刷新當前血量
+            }
+            SPC.transform.position = GameSetting.Playerpos;
         }
         else if (!EnteredS3)
         {
             S3Item S3Item = (S3Item)Factory.reset("S3");
             GameSetting.DList = S3Item.FakeData1();
             GameSetting.WList = S3Item.FakeData2();
-        }
-
-        PlayerHP = FindObjectOfType<HealthBar>();
-
-        if (GameSetting.PlayerHP <= 0)
-        {
-            PlayerHP.SetMaxHealth(GameSetting.PlayerHP = PlayerPrefs.GetInt("PlayerHP"));
+            
+            PlayerHP.SetMaxHealth(GameSetting.PlayerHP = 100); //最高生命值
+            PlayerHP.GetHealth(GameSetting.PlayerHP = PlayerPrefs.GetInt("PlayerHP")); //讀取血量
+            PlayerHP.SetHealth(GameSetting.PlayerHP); //刷新當前血量
         }
     }
 
@@ -86,12 +106,7 @@ public class S3Mgr : MonoBehaviour
             AtkWallHandler wall = temp.GetComponent<AtkWallHandler>();
             wall.SetWallData(GameSetting.WList[i]);
         }
-        
-        PlayerHP = FindObjectOfType<HealthBar>();
-        PlayerHP.SetMaxHealth(GameSetting.PlayerHP = 100); //最高生命值
-        PlayerHP.GetHealth(GameSetting.PlayerHP = PlayerPrefs.GetInt("PlayerHP")); //讀取血量
-        PlayerHP.SetHealth(GameSetting.PlayerHP); //刷新當前血量
-        
+
         FindObjectOfType<AudioMgr>().BGMCheck = true;
         FindObjectOfType<AudioMgr>().SECheck = true;
     }
@@ -100,11 +115,11 @@ public class S3Mgr : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            CheckPoints();
+            //CheckPoints();
         }
 
         StartCoroutine(FallLine());
-        TempPoint();
+        //TempPoint();
     }
 
     #region 第三關可破壞物件資料
@@ -186,7 +201,6 @@ public class S3Mgr : MonoBehaviour
 
     public void TempPoint()
     {
-        SpeedPlayerController SPC = GameObject.FindObjectOfType<SpeedPlayerController>();
 
         for (int i = 0; i < RespawnPoint.Length; i++)
         {
@@ -234,7 +248,6 @@ public class S3Mgr : MonoBehaviour
 
     IEnumerator FallLine()
     {
-        SpeedPlayerController SPC = GameObject.FindObjectOfType<SpeedPlayerController>();
 
         for (int i = 0; i < FallingLine.Length; i++)
         {
@@ -289,6 +302,45 @@ public class S3Mgr : MonoBehaviour
         {
             Gizmos.DrawRay(CheckPoint[i].transform.position, Vector3.right * 2);
             Gizmos.DrawRay(CheckPoint[i].transform.position, Vector3.left * 2);
+        }
+    }
+    
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.GetComponent<SpeedPlayerController>() != null)
+        {
+            GameSetting.Playerpos = SPC.transform.position;
+            GameSetting.Playerposx = GameSetting.Playerpos.x;
+            GameSetting.Playerposy = GameSetting.Playerpos.y;
+            PlayerPrefs.SetFloat("Tempx", GameSetting.Playerposx);
+            PlayerPrefs.SetFloat("Tempy", GameSetting.Playerposy);
+            Debug.Log("AutoSaved!!!");
+            GameSetting.Save();
+            PlayerPrefs.Save();
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.GetComponent<SpeedPlayerController>() != null)
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                GameSetting.Playerpos = SPC.transform.position;
+                GameSetting.Playerposx = GameSetting.Playerpos.x;
+                GameSetting.Playerposy = GameSetting.Playerpos.y;
+                PlayerPrefs.SetFloat("x", GameSetting.Playerposx);
+                PlayerPrefs.SetFloat("y", GameSetting.Playerposy);
+                string json = JsonConvert.SerializeObject(GameSetting.DList);
+                string json2 = JsonConvert.SerializeObject(GameSetting.WList);
+                PlayerPrefs.SetString("data", json);
+                PlayerPrefs.SetString("data2", json2);
+                PlayerHP.SetMaxHealth(GameSetting.PlayerHP = 100); //最高生命值
+                PlayerPrefs.SetString("S3Enter", "true");
+                Debug.Log("Saved!!!");
+                GameSetting.Save();
+                PlayerPrefs.Save();
+            }
         }
     }
 }

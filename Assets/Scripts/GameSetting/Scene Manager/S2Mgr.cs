@@ -20,11 +20,14 @@ public class S2Mgr : MonoBehaviour
     public int FallDmg = 30;
 
     public HealthBar PlayerHP;
+    public SpeedPlayerController SPC;
 
     public float FallSec = 3.0f;
 
     private void Awake()
     {
+        GameSetting.AudioReady = true;
+        
         EnteredS2 = bool.Parse((PlayerPrefs.GetString("S2Enter")));
         PlayerPrefs.SetString("D2-1S", "false");
         PlayerPrefs.SetString("D2-2S", "false");
@@ -38,6 +41,10 @@ public class S2Mgr : MonoBehaviour
         PlayerPrefs.SetString("AW2-2S", "false");
         PlayerPrefs.SetString("AW2-3S", "false");
         PlayerPrefs.SetString("AW2-4S", "false");
+        
+        PlayerHP = FindObjectOfType<HealthBar>();
+        SPC = FindObjectOfType<SpeedPlayerController>();
+        
         if (EnteredS2)
         {
             GameSetting.DList = CakeData1();
@@ -47,25 +54,34 @@ public class S2Mgr : MonoBehaviour
             GameSetting.DList = JsonConvert.DeserializeObject<IList<Itemdata>>(json);
             GameSetting.WList = JsonConvert.DeserializeObject<IList<AtkWData>>(json2);
 
-
-            //回檔測試，但未處理其他場景的互動
-
-            //GameSetting.Load();
             
-            //SpeedPlayerController SPC = GameObject.FindObjectOfType<SpeedPlayerController>();
-            //SPC.transform.position = GameSetting.Playerpos;
+            GameSetting.Load();
+            
+            //回檔測試，但未處理其他場景的互動
+            if (GameSetting.PlayerHP <= 0) 
+            {
+                PlayerHP.SetMaxHealth(GameSetting.PlayerHP = 100); //最高生命值
+                PlayerHP.SetHealth(GameSetting.PlayerHP); //刷新當前血量
+            }
+            else if(GameSetting.PlayerHP > 0) 
+            {
+                PlayerHP.SetMaxHealth(GameSetting.PlayerHP = 100); //最高生命值
+                PlayerHP.GetHealth(GameSetting.PlayerHP = PlayerPrefs.GetInt("PlayerHP")); //讀取血量
+                PlayerHP.SetHealth(GameSetting.PlayerHP); //刷新當前血量
+            }
+            SPC.transform.position = GameSetting.Playerpos;
         }
         else if (!EnteredS2)
         {
             S2Item S2Item = (S2Item)Factory.reset("S2");
             GameSetting.DList = S2Item.FakeData1();
             GameSetting.WList = S2Item.FakeData2();
+            
+            PlayerHP.SetMaxHealth(GameSetting.PlayerHP = 100); //最高生命值
+            PlayerHP.GetHealth(GameSetting.PlayerHP = PlayerPrefs.GetInt("PlayerHP")); //讀取血量
+            PlayerHP.SetHealth(GameSetting.PlayerHP); //刷新當前血量
         }
         
-        PlayerHP = FindObjectOfType<HealthBar>();
-        PlayerHP.SetMaxHealth(GameSetting.PlayerHP = 100); //最高生命值
-        PlayerHP.GetHealth(GameSetting.PlayerHP = PlayerPrefs.GetInt("PlayerHP")); //讀取血量
-        PlayerHP.SetHealth(GameSetting.PlayerHP); //刷新當前血量
     }
 
     private void Start()
@@ -90,27 +106,19 @@ public class S2Mgr : MonoBehaviour
             wall.SetWallData(GameSetting.WList[i]);
         }
 
-        PlayerHP = FindObjectOfType<HealthBar>();
-        PlayerHP.SetHealth(GameSetting.PlayerHP = PlayerPrefs.GetInt("PlayerHP"));
-
-        
-        FindObjectOfType<AudioMgr>().BGMCheck = true;
+        FindObjectOfType<AudioMgr>().BGMCheck = true; //關卡間傳遞
         FindObjectOfType<AudioMgr>().SECheck = true;
-        if (GameSetting.PlayerHP <= 0)
-        {
-            PlayerHP.SetMaxHealth(GameSetting.PlayerHP = PlayerPrefs.GetInt("PlayerHP"));
-        }
     }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            CheckPoints();
+            //CheckPoints();
         }
 
         StartCoroutine(FallLine());
-        TempPoint();
+        //TempPoint();
     }
 
     #region 第二關可破壞物件資料
@@ -194,7 +202,6 @@ public class S2Mgr : MonoBehaviour
 
     public void TempPoint()
     {
-        SpeedPlayerController SPC = GameObject.FindObjectOfType<SpeedPlayerController>();
 
         for (int i = 0; i < RespawnPoint.Length; i++)
         {
@@ -242,7 +249,6 @@ public class S2Mgr : MonoBehaviour
 
     IEnumerator FallLine()
     {
-        SpeedPlayerController SPC = GameObject.FindObjectOfType<SpeedPlayerController>();
 
         for (int i = 0; i < FallingLine.Length; i++)
         {
@@ -309,6 +315,45 @@ public class S2Mgr : MonoBehaviour
         {
             Gizmos.DrawRay(FallingLine[i].transform.position, Vector3.left * 10);
             Gizmos.DrawRay(FallingLine[i].transform.position, Vector3.right * 10);
+        }
+    }
+    
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.GetComponent<SpeedPlayerController>() != null)
+        {
+            GameSetting.Playerpos = SPC.transform.position;
+            GameSetting.Playerposx = GameSetting.Playerpos.x;
+            GameSetting.Playerposy = GameSetting.Playerpos.y;
+            PlayerPrefs.SetFloat("Tempx", GameSetting.Playerposx);
+            PlayerPrefs.SetFloat("Tempy", GameSetting.Playerposy);
+            Debug.Log("AutoSaved!!!");
+            GameSetting.Save();
+            PlayerPrefs.Save();
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.GetComponent<SpeedPlayerController>() != null)
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                GameSetting.Playerpos = SPC.transform.position;
+                GameSetting.Playerposx = GameSetting.Playerpos.x;
+                GameSetting.Playerposy = GameSetting.Playerpos.y;
+                PlayerPrefs.SetFloat("x", GameSetting.Playerposx);
+                PlayerPrefs.SetFloat("y", GameSetting.Playerposy);
+                string json = JsonConvert.SerializeObject(GameSetting.DList);
+                string json2 = JsonConvert.SerializeObject(GameSetting.WList);
+                PlayerPrefs.SetString("data", json);
+                PlayerPrefs.SetString("data2", json2);
+                PlayerHP.SetMaxHealth(GameSetting.PlayerHP = 100); //最高生命值
+                PlayerPrefs.SetString("S2Enter", "true");
+                Debug.Log("Saved!!!");
+                GameSetting.Save();
+                PlayerPrefs.Save();
+            }
         }
     }
 }

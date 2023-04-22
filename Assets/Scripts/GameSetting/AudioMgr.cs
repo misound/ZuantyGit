@@ -55,6 +55,7 @@ public class AudioMgr : MonoBehaviour
         {
             titleMgr = FindObjectOfType<TitleMgr>();
             gameMgr = FindObjectOfType<GameMgr>();
+            GameSetting.AudioReady = false;
         }
 
         if (!BGM_audioSource.isPlaying)
@@ -62,7 +63,8 @@ public class AudioMgr : MonoBehaviour
             BGM_audioSource.PlayOneShot(BGM[0]);
         }
 
-        //Debug.Log(BGMCheck);
+        Debug.Log(GameSetting.AudioReady);
+        
         AudioBigSmall();
         SEAudioBigSmall();
     }

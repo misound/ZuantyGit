@@ -44,9 +44,9 @@ public static class GameSetting
         AudioReady = bool.Parse(PlayerPrefs.GetString("AudioReady", "false"));
         Playerpos.x = PlayerPrefs.GetFloat("x");
         Playerpos.y = PlayerPrefs.GetFloat("y");
-        PlayerHP = PlayerPrefs.GetInt("PlayerHP");
-        BGMAudio.BGM_audioSource.volume = PlayerPrefs.GetFloat("BGMV");
-        SceneManager.LoadScene(PlayerPrefs.GetString("level"));
+        //PlayerHP = PlayerPrefs.GetInt("PlayerHP");
+        //BGMAudio.BGM_audioSource.volume = PlayerPrefs.GetFloat("BGMV");
+        //SceneManager.LoadScene(PlayerPrefs.GetString("level"));
     }
 
     public static void Respawn()  //2023/2/15:做經過就能存檔的不會回血的臨時存檔點(在碰到陷阱或掉落時啟用)
@@ -58,7 +58,7 @@ public static class GameSetting
         AudioReady = bool.Parse(PlayerPrefs.GetString("AudioReady", "false"));
         Playerpos.x = PlayerPrefs.GetFloat("x");
         Playerpos.y = PlayerPrefs.GetFloat("y");
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         //PlayerHP = PlayerPrefs.GetInt("PlayerHP");
         //BGMAudio.BGM_audioSource.volume = PlayerPrefs.GetFloat("BGMV");
     }
@@ -71,6 +71,7 @@ public static class GameSetting
         WList = JsonConvert.DeserializeObject<IList<AtkWData>>(json2);
         Playerpos.x = PlayerPrefs.GetFloat("Tempx");
         Playerpos.y = PlayerPrefs.GetFloat("Tempy");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         Falling = false;
         Falled = false;
         //PlayerHP = PlayerPrefs.GetInt("PlayerHP");

@@ -28,6 +28,7 @@ public class S1Mgr : MonoBehaviour
 
     private void Awake()
     {
+        GameSetting.AudioReady = true;
         //判斷是否為新遊戲
 
         EnteredS1 = bool.Parse((PlayerPrefs.GetString("S1Enter")));
@@ -40,7 +41,7 @@ public class S1Mgr : MonoBehaviour
         
         PlayerHP = FindObjectOfType<HealthBar>();
         SPC = FindObjectOfType<SpeedPlayerController>();
-        
+
         if (EnteredS1)
         {
             GameSetting.DList = CakeData1();
@@ -50,12 +51,21 @@ public class S1Mgr : MonoBehaviour
             GameSetting.DList = JsonConvert.DeserializeObject<IList<Itemdata>>(json);
             GameSetting.WList = JsonConvert.DeserializeObject<IList<AtkWData>>(json2);
 
-            //回檔測試，但未處理其他場景的互動
+
+            GameSetting.Load();
             
-            PlayerHP.SetMaxHealth(GameSetting.PlayerHP = 100); //最高生命值
-            PlayerHP.GetHealth(GameSetting.PlayerHP = PlayerPrefs.GetInt("PlayerHP")); //讀取血量
-            PlayerHP.SetHealth(GameSetting.PlayerHP); //刷新當前血量
-            GameSetting.Respawn();
+            //回檔測試，但未處理其他場景的互動
+            if (GameSetting.PlayerHP <= 0) 
+            {
+                PlayerHP.SetMaxHealth(GameSetting.PlayerHP = 100); //最高生命值
+                PlayerHP.SetHealth(GameSetting.PlayerHP); //刷新當前血量
+            }
+            else if(GameSetting.PlayerHP > 0) 
+            {
+                PlayerHP.SetMaxHealth(GameSetting.PlayerHP = 100); //最高生命值
+                PlayerHP.GetHealth(GameSetting.PlayerHP = PlayerPrefs.GetInt("PlayerHP")); //讀取血量
+                PlayerHP.SetHealth(GameSetting.PlayerHP); //刷新當前血量
+            }
             SPC.transform.position = GameSetting.Playerpos;
         }
         else if (!EnteredS1)
@@ -92,6 +102,8 @@ public class S1Mgr : MonoBehaviour
             AtkWallHandler wall = temp.GetComponent<AtkWallHandler>();
             wall.SetWallData(GameSetting.WList[i]);
         }
+        
+
 
         FindObjectOfType<AudioMgr>().BGMCheck = true;
         FindObjectOfType<AudioMgr>().SECheck = true;
@@ -101,12 +113,12 @@ public class S1Mgr : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            CheckPoints();
+            //CheckPoints();
         }
 
         StartCoroutine(FallLine());
 
-        TempPoint();
+        //TempPoint();
     }
 
     #region 第一關可破壞物件資料
@@ -246,11 +258,12 @@ public class S1Mgr : MonoBehaviour
                     (FallingLine[i].transform.position.x,
                         FallingLine[i].transform.position.y - 10);
                     GameSetting.Falling = true;
-                    yield return new WaitForSeconds(FallSec);
-                    GameSetting.Falled = true;
                     GameSetting.PlayerHP -= FallDmg;
                     PlayerHP.SetHealth(GameSetting.PlayerHP);
-                    SPC.transform.position = GameSetting.Playerpos;
+                    yield return new WaitForSeconds(FallSec);
+                    GameSetting.PlayerHP -= FallDmg;
+                    PlayerHP.SetHealth(GameSetting.PlayerHP);
+                    GameSetting.Falled = true;
                 }
             }
 
@@ -262,11 +275,10 @@ public class S1Mgr : MonoBehaviour
                     (FallingLine[i].transform.position.x,
                         FallingLine[i].transform.position.y - 10);
                     GameSetting.Falling = true;
-                    yield return new WaitForSeconds(FallSec);
-                    GameSetting.Falled = true;
                     GameSetting.PlayerHP -= FallDmg;
                     PlayerHP.SetHealth(GameSetting.PlayerHP);
-                    SPC.transform.position = GameSetting.Playerpos;
+                    yield return new WaitForSeconds(FallSec);
+                    GameSetting.Falled = true;
                 }
             }
 
@@ -303,19 +315,38 @@ public class S1Mgr : MonoBehaviour
     {
         if (col.GetComponent<SpeedPlayerController>() != null)
         {
-            Vector3 pos = SPC.transform.position;
-            GameSetting.Playerposx = pos.x;
-            GameSetting.Playerposy = pos.y;
-            PlayerPrefs.SetFloat("x", GameSetting.Playerposx);
-            PlayerPrefs.SetFloat("y", GameSetting.Playerposy);
-            string json = JsonConvert.SerializeObject(GameSetting.DList);
-            string json2 = JsonConvert.SerializeObject(GameSetting.WList);
-            PlayerPrefs.SetString("data", json);
-            PlayerPrefs.SetString("data2", json2);
-            PlayerPrefs.SetString("S1Enter", "true");
-            Debug.Log("Saved!!!");
+            GameSetting.Playerpos = SPC.transform.position;
+            GameSetting.Playerposx = GameSetting.Playerpos.x;
+            GameSetting.Playerposy = GameSetting.Playerpos.y;
+            PlayerPrefs.SetFloat("Tempx", GameSetting.Playerposx);
+            PlayerPrefs.SetFloat("Tempy", GameSetting.Playerposy);
+            Debug.Log("AutoSaved!!!");
             GameSetting.Save();
             PlayerPrefs.Save();
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.GetComponent<SpeedPlayerController>() != null)
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                GameSetting.Playerpos = SPC.transform.position;
+                GameSetting.Playerposx = GameSetting.Playerpos.x;
+                GameSetting.Playerposy = GameSetting.Playerpos.y;
+                PlayerPrefs.SetFloat("x", GameSetting.Playerposx);
+                PlayerPrefs.SetFloat("y", GameSetting.Playerposy);
+                string json = JsonConvert.SerializeObject(GameSetting.DList);
+                string json2 = JsonConvert.SerializeObject(GameSetting.WList);
+                PlayerPrefs.SetString("data", json);
+                PlayerPrefs.SetString("data2", json2);
+                PlayerHP.SetMaxHealth(GameSetting.PlayerHP = 100); //最高生命值
+                PlayerPrefs.SetString("S1Enter", "true");
+                Debug.Log("Saved!!!");
+                GameSetting.Save();
+                PlayerPrefs.Save();
+            }
         }
     }
 }

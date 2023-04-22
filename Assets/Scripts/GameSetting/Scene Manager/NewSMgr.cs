@@ -302,15 +302,26 @@ public class NewSMgr : MonoBehaviour
             Vector3 pos = SPC.transform.position;
             GameSetting.Playerposx = pos.x;
             GameSetting.Playerposy = pos.y;
-            PlayerPrefs.SetFloat("x", GameSetting.Playerposx);
-            PlayerPrefs.SetFloat("y", GameSetting.Playerposy);
-            string json = JsonConvert.SerializeObject(GameSetting.DList);
-            string json2 = JsonConvert.SerializeObject(GameSetting.WList);
-            PlayerPrefs.SetString("data", json);
-            PlayerPrefs.SetString("data2", json2);
+            PlayerPrefs.SetFloat("Tempx", GameSetting.Playerposx);
+            PlayerPrefs.SetFloat("Tempy", GameSetting.Playerposy);
             Debug.Log("Saved!!!");
             GameSetting.Save();
             PlayerPrefs.Save();
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                pos = SPC.transform.position;
+                GameSetting.Playerposx = pos.x;
+                GameSetting.Playerposy = pos.y;
+                PlayerPrefs.SetFloat("x", GameSetting.Playerposx);
+                PlayerPrefs.SetFloat("y", GameSetting.Playerposy);
+                string json = JsonConvert.SerializeObject(GameSetting.DList);
+                string json2 = JsonConvert.SerializeObject(GameSetting.WList);
+                PlayerPrefs.SetString("data", json);
+                PlayerPrefs.SetString("data2", json2);
+                Debug.Log("Saved!!!");
+                GameSetting.Save();
+                PlayerPrefs.Save();
+            }
         }
     }
 }
