@@ -86,6 +86,9 @@ public class AudioMgr : MonoBehaviour
         SE_Elevator,
         SE_Atk_Door_Broken,
         SE_Atk_Wall_Broken,
+        SE_WalkRun,
+        SE_WalkFind,
+        SE_WalkAtk,
     }
 
     public void Play(eAudio audio)
@@ -131,6 +134,15 @@ public class AudioMgr : MonoBehaviour
             case eAudio.SE_Atk_Wall_Broken:
                 SE_audioSource.PlayOneShot(SE[13]);
                 break;
+            case eAudio.SE_WalkRun:
+                SE_audioSource.PlayOneShot(SE[14]);
+                break;
+            case eAudio.SE_WalkFind:
+                SE_audioSource.PlayOneShot(SE[15]);
+                break;
+            case eAudio.SE_WalkAtk:
+                SE_audioSource.PlayOneShot(SE[16]);
+                break;
             default:
                 Debug.LogError("NONE DEF");
                 break;
@@ -138,16 +150,6 @@ public class AudioMgr : MonoBehaviour
     }
 
     #endregion
-
-    public void PlayBoom()
-    {
-        if (SE_audioSource == null)
-        {
-            return;
-        }
-
-        SE_audioSource.PlayOneShot(SE[1]);
-    }
 
     #region BGM大小
 

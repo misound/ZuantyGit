@@ -425,21 +425,17 @@ public class EnemyWalk : MonoBehaviour
     #endregion
     #region 音效
 
-    public void SE_BOOM() //音效
-    {
-        GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_BoomBloom);
-    }
     public void SE_RUN() //音效
     {
-        GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_BoomRun);
+        GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_WalkRun);
     }
-    public void SE_DIE() //音效
+    public void SE_FIND() //音效
     {
-        GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_BoomDie);
+        GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_WalkFind);
     }
-    public void SE_5by5() //音效
+    public void SE_ATK() //音效
     {
-        GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_BoomAtk);
+        GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_WalkAtk);
     }
 
     #endregion
