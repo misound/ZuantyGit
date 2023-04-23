@@ -516,7 +516,7 @@ MonoBehaviour:
   _hangTime: 0.1
   _jumpBufferLength: 0.1
   _isJumping: 0
-  _wallSlideModifier: 0.01
+  _wallSlideModifier: -0.36
   _wallJumpXVelocityHaltDelay: 0.2
   _dashSpeed: 15
   _dashLength: 0.3
@@ -529,7 +529,7 @@ MonoBehaviour:
   _groundRaycastLength: 0.1
   _groundRaycastOffset: {x: 0, y: 0, z: 0}
   _onGround: 0
-  _wallRaycastLength: 0.6
+  _wallRaycastLength: 0.35
   _onWall: 0
   _topRaycastLength: 2.3
   _edgeRaycastOffset: {x: 0, y: 0, z: 0}
@@ -569,7 +569,7 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.063944064, y: 0.9306798}
+  m_Offset: {x: 0, y: 0.9306798}
   m_Size: {x: 0.63644755, y: 1.8613596}
   m_Direction: 0
 --- !u!1 &3691158420479989225
