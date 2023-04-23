@@ -226,13 +226,13 @@ GameObject:
   m_Component:
   - component: {fileID: 3691158419869026782}
   - component: {fileID: 3691158419869026774}
-  - component: {fileID: 3691158419869026779}
   - component: {fileID: 3691158419869026778}
   - component: {fileID: 3691158419869026781}
   - component: {fileID: 3691158419869026780}
   - component: {fileID: 3691158419869026783}
   - component: {fileID: 3691158419869026776}
   - component: {fileID: 3691158419869026775}
+  - component: {fileID: 8779184575074070306}
   m_Layer: 0
   m_Name: player
   m_TagString: Player
@@ -282,22 +282,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!70 &3691158419869026779
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3691158419869026753}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 1}
-  m_Size: {x: 0.74, y: 2}
-  m_Direction: 0
 --- !u!95 &3691158419869026778
 Animator:
   serializedVersion: 3
@@ -523,10 +507,10 @@ MonoBehaviour:
   _maxMoveSpeed: 6
   _groundLinearDrag: 200
   _horizontalDirection: 0
-  _jumpForce: 12
+  _jumpForce: 14
   _airLinearDrag: 2.5
   _fallMultiplier: 8
-  _lowJumpFallMultiplier: 5
+  _lowJumpFallMultiplier: 10
   _downMultiplier: 12
   _extraJumps: 1
   _hangTime: 0.1
@@ -537,7 +521,7 @@ MonoBehaviour:
   _dashSpeed: 15
   _dashLength: 0.3
   _dashBufferLength: 0.1
-  dashCD: 0.5
+  dashCD: 0.2
   _isDashing: 0
   dashImage: {fileID: 0}
   dashCoolDown: 0.5
@@ -572,6 +556,22 @@ MonoBehaviour:
   playerAttack: {fileID: 3691158420677850591}
   Footstep: {fileID: 3691158419869026776}
   isRunning: 0
+--- !u!70 &8779184575074070306
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3691158419869026753}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.063944064, y: 0.9306798}
+  m_Size: {x: 0.63644755, y: 1.8613596}
+  m_Direction: 0
 --- !u!1 &3691158420479989225
 GameObject:
   m_ObjectHideFlags: 0
