@@ -303,6 +303,12 @@ public class S3Mgr : MonoBehaviour
             Gizmos.DrawRay(CheckPoint[i].transform.position, Vector3.right * 2);
             Gizmos.DrawRay(CheckPoint[i].transform.position, Vector3.left * 2);
         }
+        
+        for (int i = 0; i < FallingLine.Length; i++)
+        {
+            Gizmos.DrawRay(FallingLine[i].transform.position, Vector3.left * 10);
+            Gizmos.DrawRay(FallingLine[i].transform.position, Vector3.right * 10);
+        }
     }
     
     private void OnTriggerEnter2D(Collider2D col)
