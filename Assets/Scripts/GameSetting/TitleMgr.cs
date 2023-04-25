@@ -120,6 +120,23 @@ public class TitleMgr : MonoBehaviour
 
     private void OnGUI()
     {
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            SceneManager.LoadScene("level_1_testColillder");
+        }
+        if (Input.GetKeyDown(KeyCode.F2))
+        {
+            SceneManager.LoadScene("level_2");
+        }
+        if (Input.GetKeyDown(KeyCode.F3))
+        {
+            SceneManager.LoadScene("level_3");
+        }
+        if (Input.GetKeyDown(KeyCode.F4))
+        {
+            SceneManager.LoadScene("BOSS");
+        }
+        /*
         if (GUI.Button(new Rect(50, 50, 160, 100), "Level1"))
         {
             SceneManager.LoadScene("level_1_testColillder");
@@ -135,6 +152,6 @@ public class TitleMgr : MonoBehaviour
         if (GUI.Button(new Rect(50, 350, 160, 100), "Boss關卡"))
         {
             SceneManager.LoadScene("BOSS");
-        }
+        }*/
     }
 }

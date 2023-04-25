@@ -21,6 +21,9 @@ public class S4Mgr : MonoBehaviour
     private void Awake()
     {
         //判斷是否為新遊戲
+        
+        
+        PlayerHP = FindObjectOfType<HealthBar>();
 
         EnteredS4 = bool.Parse((PlayerPrefs.GetString("S4Enter")));
         PlayerPrefs.SetString("D4-1S", "false");
@@ -47,7 +50,7 @@ public class S4Mgr : MonoBehaviour
         }
 
         PlayerHP = FindObjectOfType<HealthBar>();
-
+        PlayerHP.SetMaxHealth(GameSetting.PlayerHP = 100);
         if (GameSetting.PlayerHP <= 0)
         {
             PlayerHP.SetMaxHealth(GameSetting.PlayerHP = PlayerPrefs.GetInt("PlayerHP"));
@@ -76,15 +79,14 @@ public class S4Mgr : MonoBehaviour
             AtkWallHandler wall = temp.GetComponent<AtkWallHandler>();
             wall.SetWallData(GameSetting.WList[i]);
         }
-        
-        PlayerHP = FindObjectOfType<HealthBar>();
-        PlayerHP.SetMaxHealth(GameSetting.PlayerHP = 100); //最高生命值
-        PlayerHP.GetHealth(GameSetting.PlayerHP = PlayerPrefs.GetInt("PlayerHP")); //讀取血量
-        PlayerHP.SetHealth(GameSetting.PlayerHP); //刷新當前血量
-        
-        
+
+
+
         FindObjectOfType<AudioMgr>().BGMCheck = true;
         FindObjectOfType<AudioMgr>().SECheck = true;
+        
+        
+        Cursor.visible = false;
     }
 
     void Update()
@@ -92,11 +94,6 @@ public class S4Mgr : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             CheckPoints();
-        }
-
-        if (GameSetting.PlayerHP <= 0)
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 

@@ -108,6 +108,8 @@ public class S2Mgr : MonoBehaviour
 
         FindObjectOfType<AudioMgr>().BGMCheck = true; //關卡間傳遞
         FindObjectOfType<AudioMgr>().SECheck = true;
+        
+        Cursor.visible = false;
     }
 
     void Update()

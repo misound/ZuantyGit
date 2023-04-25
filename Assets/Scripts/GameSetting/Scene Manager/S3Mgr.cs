@@ -109,6 +109,8 @@ public class S3Mgr : MonoBehaviour
 
         FindObjectOfType<AudioMgr>().BGMCheck = true;
         FindObjectOfType<AudioMgr>().SECheck = true;
+        
+        Cursor.visible = false;
     }
 
     void Update()

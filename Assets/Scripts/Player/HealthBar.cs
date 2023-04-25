@@ -112,6 +112,16 @@ public class HealthBar : MonoBehaviour
     }
     private void OnGUI()
     {
+        if (Input.GetKeyDown(KeyCode.F11))
+        {
+            SetMaxHealth(GameSetting.PlayerHP = 100);
+            _isDirty = true;
+        }
+        if (Input.GetKeyDown(KeyCode.F12))
+        {
+            SetHealth(GameSetting.PlayerHP -= 20);
+        }
+        /*
         if (GUI.Button(new Rect(100, 240, 160, 100), "MaxHP"))
         {
             SetMaxHealth(GameSetting.PlayerHP = 100);
@@ -120,6 +130,6 @@ public class HealthBar : MonoBehaviour
         if (GUI.Button(new Rect(100, 960, 160, 100), "-HP"))
         {
             SetHealth(GameSetting.PlayerHP -= 60);
-        }
+        }*/
     }
 }

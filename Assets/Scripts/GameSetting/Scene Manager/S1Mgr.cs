@@ -103,7 +103,7 @@ public class S1Mgr : MonoBehaviour
             wall.SetWallData(GameSetting.WList[i]);
         }
         
-
+        Cursor.visible = false;
 
         FindObjectOfType<AudioMgr>().BGMCheck = true;
         FindObjectOfType<AudioMgr>().SECheck = true;
