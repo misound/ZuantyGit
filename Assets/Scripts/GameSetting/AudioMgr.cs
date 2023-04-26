@@ -63,7 +63,7 @@ public class AudioMgr : MonoBehaviour
             BGM_audioSource.PlayOneShot(BGM[0]);
         }
 
-        Debug.Log(GameSetting.AudioReady);
+        //Debug.Log(GameSetting.AudioReady);
         
         AudioBigSmall();
         SEAudioBigSmall();
@@ -135,7 +135,7 @@ public class AudioMgr : MonoBehaviour
                 SE_audioSource.PlayOneShot(SE[13]);
                 break;
             case eAudio.SE_WalkRun:
-                SE_audioSource.PlayOneShot(SE[14]);
+                //SE_audioSource.PlayOneShot(SE[14]);
                 break;
             case eAudio.SE_WalkFind:
                 SE_audioSource.PlayOneShot(SE[15]);
