@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2256811409821773509}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.252, y: 0, z: 0}
   m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_Children: []
   m_Father: {fileID: 4354169606809633115}
@@ -48,15 +48,15 @@ MonoBehaviour:
   m_UseRendererSilhouette: 1
   m_CastsShadows: 1
   m_SelfShadows: 1
-  m_ApplyToSortingLayers: 1d50402dc3f13d9e000000000fb462cfc3f13d9ec3f13d9e392b15d2
+  m_ApplyToSortingLayers: 1d50402dc3f13d9e000000000fb462cfc3f13d9ec3f13d9e392b15d2331a819d
   m_ShapePath:
-  - {x: -0.5, y: -0.5, z: 0}
-  - {x: 0.5, y: -0.5, z: 0}
-  - {x: 0.5, y: 0.5, z: 0}
-  - {x: -0.5, y: 0.5, z: 0}
-  m_ShapePathHash: 0
+  - {x: -0.47181478, y: 0.20381182, z: 0}
+  - {x: 0.28849798, y: 0.20382272, z: 0}
+  - {x: 0.28387678, y: 0.5752244, z: 0}
+  - {x: -0.47643602, y: 0.5752244, z: 0}
+  m_ShapePathHash: -900618824
   m_Mesh: {fileID: 0}
-  m_InstanceId: 103616
+  m_InstanceId: 552644
 --- !u!1 &4354169606809633124
 GameObject:
   m_ObjectHideFlags: 0
@@ -235,9 +235,9 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 0
   m_Points:
-  - {x: -0.8323331, y: 0.31153005}
-  - {x: 1.2010002, y: 0.31153005}
-  - {x: 1.2343335, y: 0.31153005}
+  - {x: -0.832333, y: 0.36309946}
+  - {x: 1.2010002, y: 0.36309946}
+  - {x: 1.2343335, y: 0.36309946}
   m_AdjacentStartPoint: {x: 0, y: 0}
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
