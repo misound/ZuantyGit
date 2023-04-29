@@ -21,8 +21,10 @@ public class level3MeetDoctor : MonoBehaviour
     {
         if (atkWall.GetComponent<CanAtkDoor>().Open)
         {
-            
-            timeLine.SetActive(true);
+            if (timeLine != null)
+            {
+                timeLine.SetActive(true);
+            }
         }
     }
 }

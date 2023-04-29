@@ -66,7 +66,7 @@ public class NewSMgr : MonoBehaviour
 
          //無法在新場景測試，需要到有關卡存檔認證的場景中測試
 
-         GameSetting.Respawn();
+         //GameSetting.Respawn();
          SPC.transform.position = GameSetting.Playerpos;
     }
 

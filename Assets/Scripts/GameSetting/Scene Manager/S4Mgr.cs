@@ -47,6 +47,9 @@ public class S4Mgr : MonoBehaviour
             S4Item S4Item = (S4Item)Factory.reset("S4");
             GameSetting.DList = S4Item.FakeData1();
             GameSetting.WList = S4Item.FakeData2();
+            
+            GameSetting.Falling = false;
+            GameSetting.Falled = false;
         }
 
         PlayerHP = FindObjectOfType<HealthBar>();

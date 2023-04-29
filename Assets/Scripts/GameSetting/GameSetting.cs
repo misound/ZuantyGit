@@ -72,10 +72,20 @@ public static class GameSetting
         Playerpos.x = PlayerPrefs.GetFloat("Tempx");
         Playerpos.y = PlayerPrefs.GetFloat("Tempy");
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        Falling = false;
-        Falled = false;
         //PlayerHP = PlayerPrefs.GetInt("PlayerHP");
         //BGMAudio.BGM_audioSource.volume = PlayerPrefs.GetFloat("BGMV");
+    }
+
+    public static void TempPoint()
+    {
+        string json = PlayerPrefs.GetString("data");
+        string json2 = PlayerPrefs.GetString("data2");
+        DList = JsonConvert.DeserializeObject<IList<Itemdata>>(json);
+        WList = JsonConvert.DeserializeObject<IList<AtkWData>>(json2);
+        Playerpos.x = PlayerPrefs.GetFloat("Tempx");
+        Playerpos.y = PlayerPrefs.GetFloat("Tempy");
+        Falling = false;
+        Falled = false;
     }
 
     public static void OptionSave()

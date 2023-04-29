@@ -55,7 +55,14 @@ public class S2Mgr : MonoBehaviour
             GameSetting.WList = JsonConvert.DeserializeObject<IList<AtkWData>>(json2);
 
             
-            GameSetting.Load();
+            if (GameSetting.Falling)
+            {
+                GameSetting.TempPoint();
+            }
+            else
+            {
+                GameSetting.Load();
+            }
             
             //回檔測試，但未處理其他場景的互動
             if (GameSetting.PlayerHP <= 0) 
@@ -80,6 +87,9 @@ public class S2Mgr : MonoBehaviour
             PlayerHP.SetMaxHealth(GameSetting.PlayerHP = 100); //最高生命值
             PlayerHP.GetHealth(GameSetting.PlayerHP = PlayerPrefs.GetInt("PlayerHP")); //讀取血量
             PlayerHP.SetHealth(GameSetting.PlayerHP); //刷新當前血量
+            
+            GameSetting.Falling = false;
+            GameSetting.Falled = false;
         }
         
     }

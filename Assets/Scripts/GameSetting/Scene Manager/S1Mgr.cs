@@ -51,8 +51,16 @@ public class S1Mgr : MonoBehaviour
             GameSetting.DList = JsonConvert.DeserializeObject<IList<Itemdata>>(json);
             GameSetting.WList = JsonConvert.DeserializeObject<IList<AtkWData>>(json2);
 
+            if (GameSetting.Falling)
+            {
+                GameSetting.TempPoint();
+            }
+            else
+            {
+                GameSetting.Load();
+            }
 
-            GameSetting.Load();
+
             
             //回檔測試，但未處理其他場景的互動
             if (GameSetting.PlayerHP <= 0) 
@@ -75,6 +83,9 @@ public class S1Mgr : MonoBehaviour
             GameSetting.WList = S1Item.FakeData2();
             
             PlayerHP.SetMaxHealth(GameSetting.PlayerHP = 100);
+            
+            GameSetting.Falling = false;
+            GameSetting.Falled = false;
         }
         
 
@@ -111,14 +122,7 @@ public class S1Mgr : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            //CheckPoints();
-        }
-
         StartCoroutine(FallLine());
-
-        //TempPoint();
     }
 
     #region 第一關可破壞物件資料
