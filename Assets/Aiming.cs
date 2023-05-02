@@ -18,6 +18,7 @@ public class Aiming : MonoBehaviour
         mousePos = FindObjectOfType<MousePos>();
         speedPlayerController = FindObjectOfType<SpeedPlayerController>();
         _anim = GetComponent<Animator>();
+        
     }
 
     // Update is called once per frame

@@ -1,3 +1,4 @@
+ using System;
  using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,7 @@ public class CanAtkDoor : MonoBehaviour
     public GameObject[] DoorBody;
     public int DoorHP;
     public SpeedPlayerController playerController;
+    public GameObject aim;
     float timer = 0f;
     float distimer = 3f;
     bool DisOn = false;
@@ -23,10 +25,15 @@ public class CanAtkDoor : MonoBehaviour
 
     private Itemdata _data;
 
+   [SerializeField] private bool locked;
+   
+
     // Start is called before the first frame update
     void Awake()
     {
         playerController = FindObjectOfType<SpeedPlayerController>();
+        
+        aim.SetActive(true);
         StartDoorState(DoorHP);
     }
 
@@ -41,6 +48,7 @@ public class CanAtkDoor : MonoBehaviour
         if (Open)
         {
             SetDoorRig();
+            aim.SetActive(false);
         }
 
         if (Opened)
@@ -56,6 +64,13 @@ public class CanAtkDoor : MonoBehaviour
             Opened = _data.States;
             DName = _data.Name;
             _isDirty = false;
+        }
+        
+        //斬殺門
+        if (locked&& playerController.isKilling)
+        {
+            Open=true;
+            
         }
 
     }
@@ -124,6 +139,26 @@ public class CanAtkDoor : MonoBehaviour
     {
         _data = data;
         _isDirty = true;
+    }
+
+    #endregion
+
+    #region 斬殺門
+
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.CompareTag("Mouse"))
+        {
+            locked = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D col)
+    {
+        if (col.CompareTag("Mouse"))
+        {
+            locked = false;
+        }
     }
 
     #endregion
