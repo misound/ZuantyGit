@@ -29,12 +29,12 @@ public class WallEnemy : MonoBehaviour
         else
         {
             aim.SetActive(false);
-        }
+        }*/
         
         if ( speedPlayerController.isKilling&& mousePos.onWallEnemy&&beChoose)
         {
             gameObject.SetActive(false);
-        }*/
+        }
         
     }
 

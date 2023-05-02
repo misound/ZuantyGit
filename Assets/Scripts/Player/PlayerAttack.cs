@@ -193,7 +193,7 @@ public class PlayerAttack : MonoBehaviour
         {
             if (hit2D[i].collider!=null &&hit2D[i].collider.tag!="Player")
             {
-                if (hit2D[0].collider.CompareTag("WallEnemy"))
+                if (hit2D[0].collider.CompareTag("WallEnemy")||hit2D[0].collider.CompareTag("Enemy"))
                 {
                     canKill = true;
                 }
@@ -204,7 +204,6 @@ public class PlayerAttack : MonoBehaviour
             }
         }
 
-        //Debug.Log(hit2D[0].collider.name);
 
 
         

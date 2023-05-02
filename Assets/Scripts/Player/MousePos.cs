@@ -28,17 +28,26 @@ public class MousePos : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.isTrigger!=true&& other.CompareTag("WallEnemy"))
+        if (other.isTrigger!=true)
         {
-            onWallEnemy = true;
-            enemyPos = other.transform.position;
+            if (other.CompareTag("Enemy")|| other.CompareTag("WallEnemy"))
+            {
+                onWallEnemy = true;
+                enemyPos = other.transform.position;
+            }
+           
         }
     }
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.isTrigger!=true&& other.CompareTag("WallEnemy"))
+        if (other.isTrigger!=true)
         {
-            onWallEnemy = false; 
+            if (other.CompareTag("Enemy")|| other.CompareTag("WallEnemy"))
+            {
+                onWallEnemy = false;
+                enemyPos = other.transform.position;
+            }
+           
         }
     }
 }

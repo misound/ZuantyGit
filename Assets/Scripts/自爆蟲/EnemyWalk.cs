@@ -56,6 +56,7 @@ public class EnemyWalk : MonoBehaviour
     [SerializeField] public float HitColor;
     [SerializeField] public float HitColorReturn;
     [SerializeField] public bool Die;
+    [SerializeField] public bool Locked;
     
     [Header("CoolDown")] 
     [SerializeField] public float AniSecs;
@@ -67,6 +68,14 @@ public class EnemyWalk : MonoBehaviour
     private float distance;
     public float timer = 0f;
 
+    [Header("ExcutionMode")] 
+    [SerializeField] public bool exMode;
+    [SerializeField] public GameObject aim;
+    [SerializeField] public MousePos mospos;
+    [SerializeField] public float exTime = 5;
+    [SerializeField] public float startExTime;
+    [SerializeField] public bool enemyBeChoose;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -74,14 +83,18 @@ public class EnemyWalk : MonoBehaviour
         playerController = FindObjectOfType<SpeedPlayerController>();
         PlayerHP = FindObjectOfType<HealthBar>();
         _anim = GetComponent<Animator>();
+        aim.SetActive(false);
 
         rb.gravityScale = 12f;
         mustPatrol = true;
+        startExTime = 0;
+        Locked = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        Excution();
         if (mustPatrol)
         {
             StatusSwitcher(Status.Patrol);
@@ -323,9 +336,10 @@ public class EnemyWalk : MonoBehaviour
             {        
                 RaycastHit2D hitL = Physics2D.Raycast(transform.position, Vector2.right * CheckPlayerRange
                     , CheckPlayerRange, PlayerLayer);
+                Atking = true;
                 if (hitL.collider != null)
                 {
-                    if (hitL.collider.gameObject.CompareTag("Player"))
+                    if (hitL.collider.gameObject.CompareTag("Player")&& Atking)
                     {
                         StatusSwitcher(Status.Attack);
                     }
@@ -335,7 +349,8 @@ public class EnemyWalk : MonoBehaviour
                     , CheckPlayerRange, PlayerLayer);
                 if (hitR.collider != null)
                 {
-                    if (hitR.collider.gameObject.CompareTag("Player"))
+                    Atking = true;
+                    if (hitR.collider.gameObject.CompareTag("Player")&& Atking)
                     {
                         StatusSwitcher(Status.Attack);
                     }
@@ -375,10 +390,12 @@ public class EnemyWalk : MonoBehaviour
             if (distance <= WarningRange)
             {
                 _chase = true;
+                Atking = false;
             }
             else
             {
                 mustPatrol = true;
+                Atking = false;
             }
         }
 
@@ -410,7 +427,6 @@ public class EnemyWalk : MonoBehaviour
         HP -= Damage;
         if (HP <= 0)
         {
-            
             HP = 0;
             Die = true;
         }
@@ -425,18 +441,57 @@ public class EnemyWalk : MonoBehaviour
     #endregion
     #region 音效
 
+    public void SE_BOOM() //音效
+    {
+        GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_BoomBloom);
+    }
     public void SE_RUN() //音效
     {
-        GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_WalkRun);
+        GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_BoomRun);
     }
-    public void SE_FIND() //音效
+    public void SE_DIE() //音效
     {
-        GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_WalkFind);
+        GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_BoomDie);
     }
-    public void SE_ATK() //音效
+    public void SE_5by5() //音效
     {
-        GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_WalkAtk);
+        GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_BoomAtk);
     }
+
+    #endregion
+
+    #region 殘血狀態
+
+    public void Excution()
+    {
+        if (HP>0&& HP<=40)
+        {
+            aim.SetActive(true);
+            _chase = false;
+            mustPatrol = false;
+            Atking = false;
+            exMode = true;
+            startExTime += Time.deltaTime;
+            
+            if (playerController.isKilling)
+            {
+                if (Locked)
+                {
+                    Die = true;
+                }   
+            }
+        }
+
+        if (startExTime> exTime)
+        {
+            aim.SetActive(false);
+            startExTime = 0;
+            exMode = false;
+            mustPatrol = true;
+            HP = 60;
+        }
+    }
+    
 
     #endregion
     private void OnTriggerEnter2D(Collider2D other)
@@ -444,12 +499,25 @@ public class EnemyWalk : MonoBehaviour
         if (other.GetComponent<PlayerAttack>() != null)
         {
             BeAttack();
-            
             HitColor = 0f;
             Wounds_x = 1f;
             Wounds_y = 1f;
         }
+
+        if (other.CompareTag("Mouse"))
+        {
+            Locked = true;
+        }
     }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Mouse"))
+        {
+            Locked = false;
+        }
+    }
+
     void BeAttack()
     {
         if (transform.position.x < playerController.transform.position.x)
@@ -482,5 +550,7 @@ public class EnemyWalk : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, AttackRange);
     }
+    }
     
-}
+
+    

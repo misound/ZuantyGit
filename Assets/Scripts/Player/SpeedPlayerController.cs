@@ -47,7 +47,7 @@ public class SpeedPlayerController : MonoBehaviour
     [SerializeField] private float _lowJumpFallMultiplier = 5f;
     [SerializeField] private float _downMultiplier = 12f;
     [SerializeField] private int _extraJumps = 1;
-    [SerializeField] private float _hangTime = 0.1f;
+    [SerializeField] private float _hangTime = 50f;
     [SerializeField] private float _jumpBufferLength = 0.1f;
     private int _extraJumpsValue;
     private float _hangTimeCounter;
@@ -146,6 +146,7 @@ public class SpeedPlayerController : MonoBehaviour
 
     private void Update()
     {
+        
         if (playerDead)
         {
 
@@ -251,16 +252,16 @@ public class SpeedPlayerController : MonoBehaviour
             if (M_dir.x < 0 && _facingRight)
             {
                 Flip();
-                StartCoroutine(KillDash(mousePos.enemyPos.x, mousePos.enemyPos.y));
+                StartCoroutine(KillDash(mousePos.transform.position.x, mousePos.transform.position.y));
             }
             else if (M_dir.x > 0 && !_facingRight)
             {
                 Flip();
-                StartCoroutine(KillDash(mousePos.enemyPos.x, mousePos.enemyPos.y));
+                StartCoroutine(KillDash(mousePos.transform.position.x, mousePos.transform.position.y));
             }
             else
             {
-                StartCoroutine(KillDash(mousePos.enemyPos.x, mousePos.enemyPos.y));
+                StartCoroutine(KillDash(mousePos.transform.position.x, mousePos.transform.position.y));
             }
         }
 
@@ -875,21 +876,7 @@ public class SpeedPlayerController : MonoBehaviour
 
     #endregion
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.isTrigger != true && other.CompareTag("WallEnemy"))
-        {
-            wallEnemyIn = true;
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.isTrigger != true && other.CompareTag("WallEnemy"))
-        {
-            wallEnemyIn = false;
-        }
-    }
+    
 
     void dashCDUI()
     {

@@ -7,7 +7,7 @@ public class Aiming : MonoBehaviour
 {
     public SpeedPlayerController speedPlayerController;
     public MousePos mousePos;
-    public WallEnemy wallEnemy;
+    public GameObject enemy;
 
     public bool inRange;
     public Animator _anim;
@@ -15,7 +15,6 @@ public class Aiming : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        wallEnemy = FindObjectOfType<WallEnemy>();
         mousePos = FindObjectOfType<MousePos>();
         speedPlayerController = FindObjectOfType<SpeedPlayerController>();
         _anim = GetComponent<Animator>();
@@ -33,7 +32,7 @@ public class Aiming : MonoBehaviour
         if (inRange)
         {
             _anim.SetBool("InRange",true);
-            if (mousePos.onWallEnemy && wallEnemy.beChoose)
+            if (mousePos.onWallEnemy )
             {
                 _anim.SetBool("Aim", true);
                 
@@ -55,6 +54,7 @@ public class Aiming : MonoBehaviour
         {
             inRange = true;
         }
+        
         
     }
 
