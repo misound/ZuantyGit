@@ -25,7 +25,7 @@ public class Look_project : MonoBehaviour
     }
     public void Stop()
     {
-        _playableDirector.playableGraph.GetRootPlayable(1).SetSpeed(0);
+        _playableDirector.playableGraph.GetRootPlayable(0).SetSpeed(0);
     }
     
 }

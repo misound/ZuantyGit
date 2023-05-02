@@ -160,8 +160,8 @@ MonoBehaviour:
   endingPoint: {fileID: 5053299251430613051}
   playerIn: 0
   moveUp: 1
-  oneTime: 0
   _eKey: {fileID: 7161434358672385670}
+  elevatorStart: 0
 --- !u!1 &5053299250292609400
 GameObject:
   m_ObjectHideFlags: 0
@@ -326,7 +326,7 @@ MonoBehaviour:
   m_UseRendererSilhouette: 1
   m_CastsShadows: 1
   m_SelfShadows: 1
-  m_ApplyToSortingLayers: 1d50402dc3f13d9e000000000fb462cf0000000000000000392b15d27bbe6310
+  m_ApplyToSortingLayers: 1d50402dc3f13d9e000000000fb462cf0000000000000000392b15d200000000331a819d
   m_ShapePath:
   - {x: -2.2396135, y: -2.0440335, z: 0}
   - {x: -1.8050342, y: -2.059412, z: 0}
@@ -427,7 +427,7 @@ MonoBehaviour:
   m_UseRendererSilhouette: 1
   m_CastsShadows: 1
   m_SelfShadows: 1
-  m_ApplyToSortingLayers: 1d50402dc3f13d9e000000000fb462cf0000000000000000392b15d2
+  m_ApplyToSortingLayers: 1d50402dc3f13d9e000000000fb462cf0000000000000000392b15d2392b15d2331a819d
   m_ShapePath:
   - {x: -0.28927422, y: -1.0952473, z: 0}
   - {x: 4.3047256, y: -1.0999622, z: 0}
@@ -484,7 +484,7 @@ MonoBehaviour:
   m_UseRendererSilhouette: 1
   m_CastsShadows: 1
   m_SelfShadows: 1
-  m_ApplyToSortingLayers: 1d50402dc3f13d9e000000000fb462cf0000000000000000392b15d27bbe6310
+  m_ApplyToSortingLayers: 1d50402dc3f13d9e000000000fb462cf0000000000000000392b15d27bbe6310331a819d
   m_ShapePath:
   - {x: -0.2686224, y: -6.269644, z: 0}
   - {x: -0.24312687, y: -6.0452824, z: 0}

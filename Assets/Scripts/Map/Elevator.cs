@@ -12,9 +12,10 @@ public class Elevator : MonoBehaviour
     public Transform  endingPoint;
     public bool playerIn;
     public bool moveUp;
-    public bool oneTime;
+    
     public GameObject _eKey;
-   
+    public bool elevatorStart;
+
 
 
 
@@ -26,58 +27,42 @@ public class Elevator : MonoBehaviour
         moveUp = false;
         playerIn = false;
         _eKey.SetActive(false);
+        elevatorStart = false;
     }
 
 
     void Update()
     {
-        
-        if (transform.position == endingPoint.position&& Input.GetKeyDown(KeyCode.E)&&playerIn)
-        {
-            
-            GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_Elevator);
-            StartCoroutine(DelaySwitchOnStart());
-
-        }
-        else if (transform.position == startingPoint.position&& Input.GetKeyDown(KeyCode.E)&&playerIn)
+        if (transform.position == startingPoint.position&& Input.GetKeyDown(KeyCode.E)&&playerIn)
         {
             GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_Elevator);
+           
             StartCoroutine(DelaySwitchOnEnd());
+            elevatorStart = true;
         }
-        if (moveUp == false)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, startingPoint.position, speed * Time.deltaTime);
-            
-        }
+        
  
-        else if (moveUp)
+        if (moveUp)
         {
             transform.position = Vector3.MoveTowards(transform.position, endingPoint.position, speed*Time.deltaTime);
+            
 
+        } 
+        if (transform.position == startingPoint.position && playerIn)
+        {
+            _eKey.SetActive(true);
         }
-        if (transform.position == endingPoint.position && oneTime)
+        else
         {
             _eKey.SetActive(false);
-            Destroy(this);
-
         }
-        
-        if (transform.position == endingPoint.position || transform.position == startingPoint.position && playerIn)
+        if (transform.position == endingPoint.position)
         {
-            if (transform.position == endingPoint.position && oneTime)
-            {
-                _eKey.SetActive(false);
-            }
-            else
-            {
-                _eKey.SetActive(true);
-            }
+            elevatorStart = false;
             
-           
-              
         }
-       
-        else { _eKey.SetActive(false); }
+
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -102,11 +87,7 @@ public class Elevator : MonoBehaviour
 
     }
 
-    IEnumerator DelaySwitchOnStart()
-    {
-        yield return new WaitForSeconds(2);
-        moveUp = false;
-    }
+   
     IEnumerator DelaySwitchOnEnd()
     {
 

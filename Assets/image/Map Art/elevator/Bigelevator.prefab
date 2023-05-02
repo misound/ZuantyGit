@@ -152,7 +152,7 @@ MonoBehaviour:
   - {x: -2.2369995, y: -1.5560508, z: 0}
   m_ShapePathHash: -2094966001
   m_Mesh: {fileID: 0}
-  m_InstanceId: 1556692
+  m_InstanceId: 624204
 --- !u!1 &4907810903417678549
 GameObject:
   m_ObjectHideFlags: 0
@@ -467,7 +467,7 @@ MonoBehaviour:
   - {x: -0.29871273, y: -0.23486137, z: 0}
   m_ShapePathHash: -1832481315
   m_Mesh: {fileID: 0}
-  m_InstanceId: 1556722
+  m_InstanceId: 624234
 --- !u!1 &4907810904980833919
 GameObject:
   m_ObjectHideFlags: 0
@@ -576,7 +576,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.03555441, y: -0.63}
+  m_Offset: {x: -0.03555441, y: -1.1944065}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -587,7 +587,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 5.1254873, y: 1.387344}
+  m_Size: {x: 5.1254873, y: 2.5161572}
   m_EdgeRadius: 0
 --- !u!61 &4907810904980833915
 BoxCollider2D:
@@ -632,8 +632,8 @@ MonoBehaviour:
   endingPoint: {fileID: 4907810903913183923}
   playerIn: 0
   moveUp: 1
-  oneTime: 0
   _eKey: {fileID: 0}
+  elevatorStart: 0
 --- !u!82 &4907810904980833917
 AudioSource:
   m_ObjectHideFlags: 0
@@ -895,7 +895,7 @@ PrefabInstance:
     - target: {fileID: 1301928227971251778, guid: 16cb515e747c4954a8f54459f7e785b8,
         type: 3}
       propertyPath: m_InstanceId
-      value: -1032716
+      value: -478782
       objectReference: {fileID: 0}
     - target: {fileID: 3348485702349675599, guid: 16cb515e747c4954a8f54459f7e785b8,
         type: 3}
@@ -905,8 +905,38 @@ PrefabInstance:
     - target: {fileID: 3348485702349675599, guid: 16cb515e747c4954a8f54459f7e785b8,
         type: 3}
       propertyPath: m_InstanceId
-      value: -1032758
+      value: -478824
       objectReference: {fileID: 0}
+    - target: {fileID: 4350205509392348773, guid: 16cb515e747c4954a8f54459f7e785b8,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 7.702465
+      objectReference: {fileID: 0}
+    - target: {fileID: 4350205509392348773, guid: 16cb515e747c4954a8f54459f7e785b8,
+        type: 3}
+      propertyPath: m_Offset.x
+      value: 3.9904423
+      objectReference: {fileID: 0}
+    - target: {fileID: 4350205509392348774, guid: 16cb515e747c4954a8f54459f7e785b8,
+        type: 3}
+      propertyPath: Elevator
+      value: 
+      objectReference: {fileID: 4907810904980833919}
+    - target: {fileID: 4350205509392348774, guid: 16cb515e747c4954a8f54459f7e785b8,
+        type: 3}
+      propertyPath: elevatorEnd
+      value: 
+      objectReference: {fileID: 4907810903913183923}
+    - target: {fileID: 4350205509392348774, guid: 16cb515e747c4954a8f54459f7e785b8,
+        type: 3}
+      propertyPath: ElevatorBase
+      value: 
+      objectReference: {fileID: 4907810904980833919}
+    - target: {fileID: 4350205509392348774, guid: 16cb515e747c4954a8f54459f7e785b8,
+        type: 3}
+      propertyPath: elevatorPoint
+      value: 
+      objectReference: {fileID: 4907810904980833918}
     - target: {fileID: 6726350910527932876, guid: 16cb515e747c4954a8f54459f7e785b8,
         type: 3}
       propertyPath: m_Mesh
@@ -915,7 +945,7 @@ PrefabInstance:
     - target: {fileID: 6726350910527932876, guid: 16cb515e747c4954a8f54459f7e785b8,
         type: 3}
       propertyPath: m_InstanceId
-      value: -1032730
+      value: -478796
       objectReference: {fileID: 0}
     - target: {fileID: 7319188941062561015, guid: 16cb515e747c4954a8f54459f7e785b8,
         type: 3}
@@ -977,38 +1007,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: elevtor_door (1)
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 4350205509392348774, guid: 16cb515e747c4954a8f54459f7e785b8, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 16cb515e747c4954a8f54459f7e785b8, type: 3}
---- !u!1 &6409358724866705470 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 9217577094106971129, guid: 16cb515e747c4954a8f54459f7e785b8,
-    type: 3}
-  m_PrefabInstance: {fileID: 2817551643006923719}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4794943660426702640 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7319188941062561015, guid: 16cb515e747c4954a8f54459f7e785b8,
     type: 3}
   m_PrefabInstance: {fileID: 2817551643006923719}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &3640048308451328225
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6409358724866705470}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e75af665706d6de4f83c6f089d0be25d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  elevatorIn: 0
-  canOpen: 0
-  elevatorEnd: {fileID: 4907810903913183923}
-  elevatorStart: {fileID: 4907810903417678548}
-  elevatorPoint: {fileID: 4907810904980833918}
 --- !u!1001 &4097035547980086156
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1024,7 +1030,7 @@ PrefabInstance:
     - target: {fileID: 4538221870223709975, guid: c863312829c825e48988ceccb9113114,
         type: 3}
       propertyPath: m_InstanceId
-      value: -1032772
+      value: -478838
       objectReference: {fileID: 0}
     - target: {fileID: 4538221871581941504, guid: c863312829c825e48988ceccb9113114,
         type: 3}
@@ -1289,7 +1295,7 @@ PrefabInstance:
     - target: {fileID: 1301928227971251778, guid: 16cb515e747c4954a8f54459f7e785b8,
         type: 3}
       propertyPath: m_InstanceId
-      value: -1032792
+      value: -478860
       objectReference: {fileID: 0}
     - target: {fileID: 3348485702349675599, guid: 16cb515e747c4954a8f54459f7e785b8,
         type: 3}
@@ -1299,8 +1305,28 @@ PrefabInstance:
     - target: {fileID: 3348485702349675599, guid: 16cb515e747c4954a8f54459f7e785b8,
         type: 3}
       propertyPath: m_InstanceId
-      value: -1032834
+      value: -478902
       objectReference: {fileID: 0}
+    - target: {fileID: 4350205509392348774, guid: 16cb515e747c4954a8f54459f7e785b8,
+        type: 3}
+      propertyPath: Elevator
+      value: 
+      objectReference: {fileID: 4907810904980833919}
+    - target: {fileID: 4350205509392348774, guid: 16cb515e747c4954a8f54459f7e785b8,
+        type: 3}
+      propertyPath: elevatorEnd
+      value: 
+      objectReference: {fileID: 4907810903913183923}
+    - target: {fileID: 4350205509392348774, guid: 16cb515e747c4954a8f54459f7e785b8,
+        type: 3}
+      propertyPath: ElevatorBase
+      value: 
+      objectReference: {fileID: 4907810904980833919}
+    - target: {fileID: 4350205509392348774, guid: 16cb515e747c4954a8f54459f7e785b8,
+        type: 3}
+      propertyPath: elevatorPoint
+      value: 
+      objectReference: {fileID: 4907810904980833918}
     - target: {fileID: 6726350910527932876, guid: 16cb515e747c4954a8f54459f7e785b8,
         type: 3}
       propertyPath: m_Mesh
@@ -1309,7 +1335,7 @@ PrefabInstance:
     - target: {fileID: 6726350910527932876, guid: 16cb515e747c4954a8f54459f7e785b8,
         type: 3}
       propertyPath: m_InstanceId
-      value: -1032806
+      value: -478874
       objectReference: {fileID: 0}
     - target: {fileID: 7319188941062561015, guid: 16cb515e747c4954a8f54459f7e785b8,
         type: 3}
@@ -1371,35 +1397,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: elevtor_door
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 4350205509392348774, guid: 16cb515e747c4954a8f54459f7e785b8, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 16cb515e747c4954a8f54459f7e785b8, type: 3}
---- !u!1 &881712232166544550 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 9217577094106971129, guid: 16cb515e747c4954a8f54459f7e785b8,
-    type: 3}
-  m_PrefabInstance: {fileID: 8347159251820654431}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1604946735222944680 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7319188941062561015, guid: 16cb515e747c4954a8f54459f7e785b8,
     type: 3}
   m_PrefabInstance: {fileID: 8347159251820654431}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7133571824533577749
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 881712232166544550}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e75af665706d6de4f83c6f089d0be25d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  elevatorIn: 0
-  canOpen: 0
-  elevatorEnd: {fileID: 4907810903913183923}
-  elevatorStart: {fileID: 4907810903417678548}
-  elevatorPoint: {fileID: 4907810904980833918}

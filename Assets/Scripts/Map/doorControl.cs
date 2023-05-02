@@ -7,29 +7,29 @@ public class doorControl : MonoBehaviour
 {
     public bool elevatorIn;
     public bool canOpen;
-    public Transform elevatorEnd;
-    public Transform elevatorPoint;
+
     private Animator elevatorAnim;
-    private GameObject player;
+    [SerializeField]private GameObject ElevatorBase;
     // Start is called before the first frame update
     void Start()
     {
         elevatorIn = false;
         canOpen = false;
         elevatorAnim = GetComponent<Animator>();
-        player = GameObject.Find("player");    }
+         
+    }
 
     // Update is called once per frame
     void Update()
     {
         Animation();
-        if (elevatorPoint.position == elevatorEnd.position)
+        if (ElevatorBase.GetComponent<Elevator>().elevatorStart)
         {
-            elevatorIn = true;
+            elevatorIn = false;
         }
         else
         {
-            elevatorIn = false;
+            elevatorIn = true;
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -55,11 +55,13 @@ public class doorControl : MonoBehaviour
     {
         if (canOpen&& elevatorIn)
         {
+            
             elevatorAnim.SetBool("isOpen", true);
 
         }
         else
         {
+            
             elevatorAnim.SetBool("isOpen", false);
         }
 
