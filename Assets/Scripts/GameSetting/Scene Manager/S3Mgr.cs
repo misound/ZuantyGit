@@ -124,13 +124,7 @@ public class S3Mgr : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            //CheckPoints();
-        }
-
         StartCoroutine(FallLine());
-        //TempPoint();
     }
 
     #region 第三關可破壞物件資料
@@ -276,11 +270,10 @@ public class S3Mgr : MonoBehaviour
                     (FallingLine[i].transform.position.x,
                         FallingLine[i].transform.position.y - 10);
                     GameSetting.Falling = true;
-                    yield return new WaitForSeconds(FallSec);
-                    GameSetting.Falled = true;
                     GameSetting.PlayerHP -= FallDmg;
                     PlayerHP.SetHealth(GameSetting.PlayerHP);
-                    SPC.transform.position = GameSetting.Playerpos;
+                    yield return new WaitForSeconds(FallSec);
+                    GameSetting.Falled = true;
                 }
             }
 
@@ -292,11 +285,10 @@ public class S3Mgr : MonoBehaviour
                     (FallingLine[i].transform.position.x,
                         FallingLine[i].transform.position.y - 10);
                     GameSetting.Falling = true;
-                    yield return new WaitForSeconds(FallSec);
-                    GameSetting.Falled = true;
                     GameSetting.PlayerHP -= FallDmg;
                     PlayerHP.SetHealth(GameSetting.PlayerHP);
-                    SPC.transform.position = GameSetting.Playerpos;
+                    yield return new WaitForSeconds(FallSec);
+                    GameSetting.Falled = true;
                 }
             }
 

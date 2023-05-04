@@ -124,13 +124,7 @@ public class S2Mgr : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            //CheckPoints();
-        }
-
         StartCoroutine(FallLine());
-        //TempPoint();
     }
 
     #region 第二關可破壞物件資料
@@ -278,11 +272,10 @@ public class S2Mgr : MonoBehaviour
                     (FallingLine[i].transform.position.x,
                         FallingLine[i].transform.position.y - 10);
                     GameSetting.Falling = true;
-                    yield return new WaitForSeconds(FallSec);
-                    GameSetting.Falled = true;
                     GameSetting.PlayerHP -= FallDmg;
                     PlayerHP.SetHealth(GameSetting.PlayerHP);
-                    SPC.transform.position = GameSetting.Playerpos;
+                    yield return new WaitForSeconds(FallSec);
+                    GameSetting.Falled = true;
                 }
             }
 
@@ -294,11 +287,10 @@ public class S2Mgr : MonoBehaviour
                     (FallingLine[i].transform.position.x,
                         FallingLine[i].transform.position.y - 10);
                     GameSetting.Falling = true;
-                    yield return new WaitForSeconds(FallSec);
-                    GameSetting.Falled = true;
                     GameSetting.PlayerHP -= FallDmg;
                     PlayerHP.SetHealth(GameSetting.PlayerHP);
-                    SPC.transform.position = GameSetting.Playerpos;
+                    yield return new WaitForSeconds(FallSec);
+                    GameSetting.Falled = true;
                 }
             }
 

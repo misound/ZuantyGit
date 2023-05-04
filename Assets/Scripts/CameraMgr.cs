@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,10 @@ public class CameraMgr : MonoBehaviour
     UnityEngine.Rendering.VolumeProfile volumeProfile;
     public GameMgr gameMgr;
     public RawImage BlackScreen;
+    [SerializeField] public bool Entry;
+    [SerializeField] public float _entersecs;
+    [SerializeField] public float _entertimer;
+    
     [SerializeField] public float pauseblur;
     [SerializeField] public float pastetime;
     
@@ -26,21 +31,180 @@ public class CameraMgr : MonoBehaviour
     [SerializeField] public float Fallblur;
     [SerializeField] public float Falltime;
     // Start is called before the first frame update
+    private void Awake()
+    {
+        Blackscreenalpha = 0.99f;
+        BlackScreen.color = new Color(0.0f, 0.0f, 0.0f, Blackscreenalpha);
+        Entry = true;
+    }
+
     void Start()
     {
         gameMgr = FindObjectOfType<GameMgr>();
-
+        
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        //VisualEffect();
+        VisualEffectDieReturn();
+        
+        
+        if (Entry)
+        {
+            _entertimer += Time.deltaTime;
+            CameraStatusSwitcher(CameraStatus.Start);
+
+            if (_entertimer >= _entersecs)
+            {
+                _entertimer = 0f;
+                CameraStatusSwitcher(default);
+                Entry = false;
+            }
+        }
+        else
+        {
+            if (GameSetting.PlayerHP > 0 && GameSetting.Falling)
+            {
+                CameraStatusSwitcher(CameraStatus.Fall);
+            }
+
+            if (GameSetting.PlayerHP > 0 && !GameSetting.Falling && !GameSetting.Falled)
+            {
+                CameraStatusSwitcher(default);
+            }
+
+            if (GameSetting.PlayerHP <= 0)
+            {
+                CameraStatusSwitcher(CameraStatus.Dead);
+            }
+        }
     }
     private void Update()
     {
         VisualEffectPause();
-        VisualEffectDieReturn();
+        PauseCamera();
+    }
+
+    public enum CameraStatus
+    {
+        Start,
+        Hurt,
+        Fall,
+        Dead,
+    }
+    private void CameraStatusSwitcher(CameraStatus cameraStatus)
+    {
+        switch (cameraStatus)
+        {
+            case CameraStatus.Start:
+
+                Blackscreenalpha -= (1f / Blackscreentime) * Time.unscaledDeltaTime;
+                Blackscreenalpha = Mathf.Clamp(Blackscreenalpha, 0f, 1f);
+            
+                BlackScreen.color = new Color(0.0f, 0.0f, 0.0f, Blackscreenalpha);
+
+                break;
+            
+            case CameraStatus.Hurt:
+                break;
+            
+            case CameraStatus.Fall:
+                
+                if (GameSetting.Falling)
+                {
+                    VisualEffectFall();
+                    Fallblur += (1f / Falltime) * Time.unscaledDeltaTime;
+                    Fallblur = Mathf.Clamp(Fallblur, 0f, 20f);
+            
+            
+                    Blackscreenalpha += (1f / Blackscreentime) * Time.unscaledDeltaTime;
+                    Blackscreenalpha = Mathf.Clamp(Blackscreenalpha, 0f, 1f);
+            
+                    BlackScreen.color = new Color(0.0f, 0.0f, 0.0f, Blackscreenalpha);
+                }
+
+                if (GameSetting.Falled)
+                {
+                    VisualEffectFall();
+                    Fallblur -= (1f / Falltime) * Time.unscaledDeltaTime * 50;
+                    Fallblur = Mathf.Clamp(Fallblur, 0f, 20f);
+            
+            
+                    Blackscreenalpha -= (1f / Blackscreentime) * Time.unscaledDeltaTime * 2;
+                    Blackscreenalpha = Mathf.Clamp(Blackscreenalpha, 0f, 1f);
+            
+                    BlackScreen.color = new Color(0.0f, 0.0f, 0.0f, Blackscreenalpha);
+                    if (Blackscreenalpha <= 0)
+                    {
+                        GameSetting.Falling = false;
+                        GameSetting.Falled = false;
+                    }
+                }
+                
+                break;
+            
+            case CameraStatus.Dead:
+                
+                if (GameSetting.PlayerHP <= 0)
+                {
+                    Camera_R += (1f / Deadtime) * Time.unscaledDeltaTime;
+                    Camera_R = Mathf.Clamp(Camera_R, 0.08410467f, 1f);
+            
+                    Camera_G -= (1f / Deadtime) * Time.unscaledDeltaTime;
+                    Camera_G = Mathf.Clamp(Camera_G, 0f, 0.1320755f);
+            
+                    Camera_B -= (1f / Deadtime) * Time.unscaledDeltaTime;
+                    Camera_B = Mathf.Clamp(Camera_B, 0f, 0.1320755f);
+            
+                    DeadEffect += (1f / Deadtime) * Time.unscaledDeltaTime;
+                    DeadEffect = Mathf.Clamp(DeadEffect, 0.1f, 1f);
+
+                    
+                    BlackScreen.color = new Color(0.0f, 0.0f, 0.0f, Blackscreenalpha);
+                    
+
+                }
+                
+                if (DeadEffect >= 1)
+                {
+                    if (!GameSetting.Falling && !GameSetting.Falled)
+                    {
+                        Blackscreenalpha += (1f / Blackscreentime) * Time.unscaledDeltaTime;
+                        Blackscreenalpha = Mathf.Clamp(Blackscreenalpha, 0f, 1f);
+                        
+                        BlackScreen.color = new Color(0.0f, 0.0f, 0.0f, Blackscreenalpha);
+                    }
+                }
+                break;
+            
+            default:
+                if (GameSetting.PlayerHP > 0)
+                {
+                    Camera_R = 0.08410467f;
+                    Camera_G = 0.1320755f;
+                    Camera_B = 0.1320755f;
+
+            
+                    DeadEffect -= (1f / Deadtime) * Time.unscaledDeltaTime;
+                    DeadEffect = Mathf.Clamp(DeadEffect, 0.1f, 1f);
+            
+                    if (!GameSetting.Falling && !GameSetting.Falled)
+                    {
+                        Blackscreenalpha -= (1f / Blackscreentime) * Time.unscaledDeltaTime * 2;
+                        Blackscreenalpha = Mathf.Clamp(Blackscreenalpha, 0f, 1f);
+                        BlackScreen.color = new Color(0.0f, 0.0f, 0.0f, Blackscreenalpha);
+                    }
+
+                }
+                break;
+        }
+    }
+
+    #region 暫停
+
+    private void PauseCamera()
+    {
         if (gameMgr.pausestates > 0)
         {
             pauseblur += (1f / pastetime) * Time.unscaledDeltaTime;
@@ -54,88 +218,23 @@ public class CameraMgr : MonoBehaviour
         {
             PauseEffect();
         }
-        
-        
-        if (GameSetting.Falling)
-        {
-            VisualEffectFall();
-            Fallblur += (1f / Falltime) * Time.unscaledDeltaTime;
-            Fallblur = Mathf.Clamp(Fallblur, 0f, 20f);
-            
-            
-            Blackscreenalpha += (1f / Blackscreentime) * Time.unscaledDeltaTime;
-            Blackscreenalpha = Mathf.Clamp(Blackscreenalpha, 0f, 1f);
-            
-            BlackScreen.color = new Color(0.0f, 0.0f, 0.0f, Blackscreenalpha);
-        }
+    }
 
-        if (GameSetting.Falled)
-        {
-            VisualEffectFall();
-            Fallblur -= (1f / Falltime) * Time.unscaledDeltaTime * 50;
-            Fallblur = Mathf.Clamp(Fallblur, 0f, 20f);
-            
-            
-            Blackscreenalpha -= (1f / Blackscreentime) * Time.unscaledDeltaTime * 2;
-            Blackscreenalpha = Mathf.Clamp(Blackscreenalpha, 0f, 1f);
-            
-            BlackScreen.color = new Color(0.0f, 0.0f, 0.0f, Blackscreenalpha);
-            if (Blackscreenalpha <= 0)
-            {
-                GameSetting.Falling = false;
-                GameSetting.Falled = false;
-            }
-        }
+    #endregion
 
-        if (GameSetting.PlayerHP <= 0)
-        {
-            Camera_R += (1f / Deadtime) * Time.unscaledDeltaTime;
-            Camera_R = Mathf.Clamp(Camera_R, 0.08410467f, 1f);
-            
-            Camera_G -= (1f / Deadtime) * Time.unscaledDeltaTime;
-            Camera_G = Mathf.Clamp(Camera_G, 0f, 0.1320755f);
-            
-            Camera_B -= (1f / Deadtime) * Time.unscaledDeltaTime;
-            Camera_B = Mathf.Clamp(Camera_B, 0f, 0.1320755f);
-            
-            DeadEffect += (1f / Deadtime) * Time.unscaledDeltaTime;
-            DeadEffect = Mathf.Clamp(DeadEffect, 0.1f, 1f);
+    #region 掉落和死亡
 
-            if (!GameSetting.Falling && !GameSetting.Falled)
-            {
-                BlackScreen.color = new Color(0.0f, 0.0f, 0.0f, Blackscreenalpha);
-            }
+    private void HpNFall()
+    {
 
-        }
-        else if (GameSetting.PlayerHP > 0)
-        {
-            Camera_R = 0.08410467f;
-            Camera_G = 0.1320755f;
-            Camera_B = 0.1320755f;
 
-            
-            DeadEffect -= (1f / Deadtime) * Time.unscaledDeltaTime;
-            DeadEffect = Mathf.Clamp(DeadEffect, 0.1f, 1f);
-            
-            if (!GameSetting.Falling && !GameSetting.Falled)
-            {
-                Blackscreenalpha -= (1f / Blackscreentime) * Time.unscaledDeltaTime * 2;
-                Blackscreenalpha = Mathf.Clamp(Blackscreenalpha, 0f, 1f);
-                BlackScreen.color = new Color(0.0f, 0.0f, 0.0f, Blackscreenalpha);
-            }
-
-        }
-
-        if (DeadEffect >= 1)
-        {
-            if (!GameSetting.Falling && !GameSetting.Falled)
-            {
-                Blackscreenalpha += (1f / Blackscreentime) * Time.unscaledDeltaTime;
-                Blackscreenalpha = Mathf.Clamp(Blackscreenalpha, 0f, 1f);
-            }
-        }
 
     }
+
+    #endregion
+
+    #region 範例
+
     private void VisualEffect()
     {
         volumeProfile = GetComponent<UnityEngine.Rendering.Volume>()?.profile;
@@ -156,6 +255,9 @@ public class CameraMgr : MonoBehaviour
             throw new System.NullReferenceException(nameof(motionBlur));
         
     }
+
+    #endregion
+    #region 攝影機效果搭載
     private void VisualEffectPause()
     {
         volumeProfile = GetComponent<UnityEngine.Rendering.Volume>()?.profile;
@@ -220,4 +322,33 @@ public class CameraMgr : MonoBehaviour
             gameMgr.VolumeUI.SetActive(false);
         }
     }
+    
+    private void VisualEffectHurtEffect()
+    {
+        volumeProfile = GetComponent<UnityEngine.Rendering.Volume>()?.profile;
+        if (!volumeProfile) 
+            throw new System.NullReferenceException(nameof(UnityEngine.Rendering.VolumeProfile));
+        
+        UnityEngine.Rendering.Universal.ChromaticAberration chromaticAberration;
+
+        if (!volumeProfile.TryGet(out chromaticAberration)) 
+            throw new System.NullReferenceException(nameof(chromaticAberration));
+
+
+        chromaticAberration.intensity.Override(DeadEffect);
+        
+        volumeProfile = GetComponent<UnityEngine.Rendering.Volume>()?.profile;
+        if (!volumeProfile) 
+            throw new System.NullReferenceException(nameof(UnityEngine.Rendering.VolumeProfile));
+        
+        UnityEngine.Rendering.Universal.Vignette vignette;
+
+        if (!volumeProfile.TryGet(out vignette)) 
+            throw new System.NullReferenceException(nameof(vignette));
+
+        vignette.color.value = new Color(Camera_R, Camera_G, Camera_B, 100);
+
+    }
+    
+    #endregion
 }

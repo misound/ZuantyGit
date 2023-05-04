@@ -109,22 +109,16 @@ public class EnemyWalk : MonoBehaviour
         if (CDing)
         {
             timer += Time.deltaTime;
+            StatusSwitcher(Status.CD);
             //rb.drag = 100000f;
-            _anim.SetBool("walk",false);
-            _anim.SetBool("chase",false);
-            _anim.SetBool("attack",false);
-            _anim.SetBool("CD",true);
         }
-        else
-        {
-            _anim.SetBool("CD",false);
-        }
-        
+
         if (timer >= AniSecs)
         {
             rb.drag = 2.5f;
             timer = 0f;
             CDing = false;
+            mustPatrol = true;
         } 
         
         Animation();
@@ -164,6 +158,7 @@ public class EnemyWalk : MonoBehaviour
         Patrol,
         Warning,
         Attack,
+        CD,
         Die,
     }
 
@@ -186,7 +181,16 @@ public class EnemyWalk : MonoBehaviour
                 _anim.SetBool("walk",false);
                 _anim.SetBool("chase",false);
                 _anim.SetBool("attack",true);
+                _anim.SetBool("CD",false);
                 StartCoroutine(Attack());
+                break;
+            case Status.CD:
+                _anim.SetBool("walk",false);
+                _anim.SetBool("chase",false);
+                _anim.SetBool("attack",false);
+                _anim.SetBool("CD",true);
+                mustPatrol = false;
+                _chase = false;
                 break;
             default:
                 break;
@@ -336,10 +340,9 @@ public class EnemyWalk : MonoBehaviour
             {        
                 RaycastHit2D hitL = Physics2D.Raycast(transform.position, Vector2.right * CheckPlayerRange
                     , CheckPlayerRange, PlayerLayer);
-                Atking = true;
                 if (hitL.collider != null)
                 {
-                    if (hitL.collider.gameObject.CompareTag("Player")&& Atking)
+                    if (hitL.collider.gameObject.CompareTag("Player"))
                     {
                         StatusSwitcher(Status.Attack);
                     }
@@ -349,8 +352,7 @@ public class EnemyWalk : MonoBehaviour
                     , CheckPlayerRange, PlayerLayer);
                 if (hitR.collider != null)
                 {
-                    Atking = true;
-                    if (hitR.collider.gameObject.CompareTag("Player")&& Atking)
+                    if (hitR.collider.gameObject.CompareTag("Player"))
                     {
                         StatusSwitcher(Status.Attack);
                     }
@@ -371,8 +373,8 @@ public class EnemyWalk : MonoBehaviour
         {
             mustPatrol = false;
             _chase = false;
-            //rb.drag = 100000f;
-            yield return new WaitForSeconds(AniSecs);
+            rb.drag = 4f;
+            yield return new WaitForSeconds(0f);
     
             
             distance = Vector2.Distance(transform.position, playerController.transform.position);
@@ -380,14 +382,16 @@ public class EnemyWalk : MonoBehaviour
             if (transform.position.x < playerController.transform.position.x)
             {
                 _isFacingRight = true;
+                CDing = true;
             }
     
             if (transform.position.x > playerController.transform.position.x)
             {
                 _isFacingRight = false;
+                CDing = true;
             }
     
-            if (distance <= WarningRange)
+            /*if (distance <= WarningRange)
             {
                 _chase = true;
                 Atking = false;
@@ -396,7 +400,7 @@ public class EnemyWalk : MonoBehaviour
             {
                 mustPatrol = true;
                 Atking = false;
-            }
+            }*/
         }
 
     #endregion
@@ -409,6 +413,7 @@ public class EnemyWalk : MonoBehaviour
                 _anim.SetBool("walk",true);
                 _anim.SetBool("chase",false);
                 _anim.SetBool("attack",false);
+                _anim.SetBool("CD",false);
             }
     
             if (_chase)
@@ -416,6 +421,7 @@ public class EnemyWalk : MonoBehaviour
                 _anim.SetBool("chase",true);
                 _anim.SetBool("walk",false);
                 _anim.SetBool("attack",false);
+                _anim.SetBool("CD",false);
             }
         }
 
@@ -441,21 +447,17 @@ public class EnemyWalk : MonoBehaviour
     #endregion
     #region 音效
 
-    public void SE_BOOM() //音效
+    public void SE_ATK() //音效
     {
-        GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_BoomBloom);
+        GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_WalkAtk);
     }
     public void SE_RUN() //音效
     {
-        GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_BoomRun);
+        GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_WalkRun);
     }
-    public void SE_DIE() //音效
+    public void SE_FIND() //音效
     {
-        GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_BoomDie);
-    }
-    public void SE_5by5() //音效
-    {
-        GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_BoomAtk);
+        GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_WalkFind);
     }
 
     #endregion
@@ -471,6 +473,7 @@ public class EnemyWalk : MonoBehaviour
             mustPatrol = false;
             Atking = false;
             exMode = true;
+            rb.drag = 4f;
             startExTime += Time.deltaTime;
             
             if (playerController.isKilling)

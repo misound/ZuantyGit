@@ -94,10 +94,7 @@ public class S4Mgr : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            CheckPoints();
-        }
+
     }
 
     #region 第四關可破壞物件資料

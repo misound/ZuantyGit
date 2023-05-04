@@ -265,8 +265,6 @@ public class S1Mgr : MonoBehaviour
                     GameSetting.PlayerHP -= FallDmg;
                     PlayerHP.SetHealth(GameSetting.PlayerHP);
                     yield return new WaitForSeconds(FallSec);
-                    GameSetting.PlayerHP -= FallDmg;
-                    PlayerHP.SetHealth(GameSetting.PlayerHP);
                     GameSetting.Falled = true;
                 }
             }

@@ -45,8 +45,8 @@ public class EnemyAtking : MonoBehaviour
             other.GetComponent<SpeedPlayerController>().TakeDmgFromWalk();
             GameSetting.PlayerHP -= WalkAtkDmg;
             PlayerHP.SetHealth(GameSetting.PlayerHP);
+            Walk.CDing = true;
         }
 
-        Walk.CDing = true;
     }
 }
