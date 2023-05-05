@@ -5086,7 +5086,7 @@ MonoBehaviour:
   CheckGround: {x: 0.56, y: 0, z: 0}
   VariableSpeed: 0
   PatrolSpeed: 3
-  HuntSpeed: 10.5
+  HuntSpeed: 12
   mustTurn: 0
   mustPatrol: 0
   _chase: 0
@@ -5108,13 +5108,13 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   Onhit: 0
-  Knockback: 800
+  Knockback: 200
   KnockbackHeight: 0
   HitColor: 0
   HitColorReturn: 0.15
   Die: 0
   Locked: 0
-  AniSecs: 4
+  AniSecs: 0.5
   CDing: 0
   _anim: {fileID: 0}
   timer: 0
