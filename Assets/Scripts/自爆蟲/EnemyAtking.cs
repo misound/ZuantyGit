@@ -47,6 +47,10 @@ public class EnemyAtking : MonoBehaviour
             PlayerHP.SetHealth(GameSetting.PlayerHP);
             Walk.CDing = true;
         }
+        else
+        {
+            Walk.CDing = true;
+        }
 
     }
 }

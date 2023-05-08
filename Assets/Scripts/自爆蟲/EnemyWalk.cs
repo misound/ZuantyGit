@@ -94,7 +94,7 @@ public class EnemyWalk : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Excution();
+        //Excution();
         if (mustPatrol)
         {
             StatusSwitcher(Status.Patrol);
@@ -110,6 +110,10 @@ public class EnemyWalk : MonoBehaviour
         {
             timer += Time.deltaTime;
             StatusSwitcher(Status.CD);
+            if (HP > 0 && HP <= 40)
+            {
+                timer = 300f;
+            }
             //rb.drag = 100000f;
         }
 
@@ -118,7 +122,10 @@ public class EnemyWalk : MonoBehaviour
             rb.drag = 2.5f;
             timer = 0f;
             CDing = false;
-            mustPatrol = true;
+            if (HP >= 40)
+            {
+                mustPatrol = true;
+            }
         } 
         
         Animation();
@@ -151,6 +158,13 @@ public class EnemyWalk : MonoBehaviour
 
             GetComponent<SpriteRenderer>().color = new Color(1f, HitColor, HitColor, 1f);
         }
+        
+        if (HP > 0 && HP <= 40)
+        {
+            StatusSwitcher(Status.FinishHim);
+        }
+
+
     }
 
     enum Status
@@ -159,7 +173,7 @@ public class EnemyWalk : MonoBehaviour
         Warning,
         Attack,
         CD,
-        Die,
+        FinishHim,
     }
 
     void StatusSwitcher(Status status)
@@ -182,6 +196,7 @@ public class EnemyWalk : MonoBehaviour
                 _anim.SetBool("chase",false);
                 _anim.SetBool("attack",true);
                 _anim.SetBool("CD",false);
+                _anim.SetBool("FinishHim",false);
                 StartCoroutine(Attack());
                 break;
             case Status.CD:
@@ -189,8 +204,39 @@ public class EnemyWalk : MonoBehaviour
                 _anim.SetBool("chase",false);
                 _anim.SetBool("attack",false);
                 _anim.SetBool("CD",true);
+                _anim.SetBool("FinishHim",false);
                 mustPatrol = false;
                 _chase = false;
+                break;
+            case Status.FinishHim:
+                _anim.SetBool("walk",false);
+                _anim.SetBool("chase",false);
+                _anim.SetBool("attack",false);
+                _anim.SetBool("CD",false);
+                _anim.SetBool("FinishHim",true);
+                
+                aim.SetActive(true);
+                _chase = false;
+                mustPatrol = false;
+                Atking = false;
+                rb.drag = 4f;
+                startExTime += Time.deltaTime;
+            
+                if (playerController.isKilling)
+                {
+                    if (Locked)
+                    {
+                        Die = true;
+                    }   
+                }
+                if (startExTime > exTime)
+                {
+                    aim.SetActive(false);
+                    startExTime = 0;
+                    mustPatrol = true;
+                    _anim.SetBool("FinishHim",false);
+                    HP = 60;
+                }
                 break;
             default:
                 break;
@@ -374,7 +420,7 @@ public class EnemyWalk : MonoBehaviour
             mustPatrol = false;
             _chase = false;
             rb.drag = 4f;
-            yield return new WaitForSeconds(0f);
+            yield return new WaitForSeconds(0.5f);
     
             
             distance = Vector2.Distance(transform.position, playerController.transform.position);
@@ -414,6 +460,7 @@ public class EnemyWalk : MonoBehaviour
                 _anim.SetBool("chase",false);
                 _anim.SetBool("attack",false);
                 _anim.SetBool("CD",false);
+                _anim.SetBool("FinishHim",false);
             }
     
             if (_chase)
@@ -422,6 +469,7 @@ public class EnemyWalk : MonoBehaviour
                 _anim.SetBool("walk",false);
                 _anim.SetBool("attack",false);
                 _anim.SetBool("CD",false);
+                _anim.SetBool("FinishHim",false);
             }
         }
 
@@ -466,7 +514,7 @@ public class EnemyWalk : MonoBehaviour
 
     public void Excution()
     {
-        if (HP>0&& HP<=40)
+        if (HP > 0 && HP <= 40)
         {
             aim.SetActive(true);
             _chase = false;
@@ -485,7 +533,7 @@ public class EnemyWalk : MonoBehaviour
             }
         }
 
-        if (startExTime> exTime)
+        if (startExTime > exTime)
         {
             aim.SetActive(false);
             startExTime = 0;
@@ -552,8 +600,8 @@ public class EnemyWalk : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, WarningRange);
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, AttackRange);
-    }
-    }
+    } 
+}
     
 
     
