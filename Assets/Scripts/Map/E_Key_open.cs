@@ -42,8 +42,8 @@ public class E_Key_open : MonoBehaviour
     {
         if (playIn && Input.GetKeyDown(KeyCode.E))
         {
-            timeline.Play();
             plsOpenThis.SetActive(true);
+            timeline.Play();
         }
     }
     private void OnTriggerEnter2D(Collider2D _collider)
