@@ -591,7 +591,7 @@ MonoBehaviour:
   _wallSlideModifier: 0
   _wallJumpXVelocityHaltDelay: 0.2
   _dashSpeed: 15
-  _dashLength: 0.3
+  _dashLength: 0.2
   _dashBufferLength: 0.1
   dashCD: 0.2
   _isDashing: 0
@@ -616,7 +616,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8192
   isKilling: 0
-  airForce: 5
+  airForce: 2
   wallEnemyIn: 0
   hasDashL: 0
   hasDashR: 0
@@ -776,7 +776,7 @@ MonoBehaviour:
   atkCol2: {fileID: 0}
   atkCol3: {fileID: 0}
   startTime: 0.065
-  endTime: 0.2
+  endTime: 0.24
   recover: 0
   canKill: 0
   cooldown: 0
@@ -789,8 +789,8 @@ MonoBehaviour:
     m_Bits: 18752
   enemy:
     serializedVersion: 2
-    m_Bits: 0
-  distance: 8
+    m_Bits: 16896
+  distance: 6
 --- !u!60 &3691158420677850590
 PolygonCollider2D:
   m_ObjectHideFlags: 0

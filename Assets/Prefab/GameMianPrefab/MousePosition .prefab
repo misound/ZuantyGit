@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3383543180082417269}
   - component: {fileID: 3383543180082417266}
   - component: {fileID: 3383543180082417267}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: 'MousePosition '
   m_TagString: Mouse
   m_Icon: {fileID: 0}
@@ -115,7 +115,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.5437343
+  m_Radius: 1
 --- !u!50 &3383543180082417267
 Rigidbody2D:
   serializedVersion: 4
