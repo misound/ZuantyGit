@@ -35,6 +35,17 @@ public class GameMgr : MonoBehaviour
     [SerializeField] public GameObject mainBGMSli;
     [SerializeField] public Slider mainSE;
     [SerializeField] public GameObject mainSESli;
+    
+    [Header("KeyUI")]
+    [SerializeField] public Button KeyBtn;
+    [SerializeField] public Button KeyBackBtn;
+    [SerializeField] public GameObject KeyBoardUI;
+    
+    [Header("StuffUI")]
+    [SerializeField] public Button StuffBtn;
+    [SerializeField] public GameObject StuffUI;
+    [SerializeField] public Button StuffBackBtn;
+    
     UnityEvent PauseEvent = new UnityEvent();
 
     public int pausestates;
@@ -48,7 +59,11 @@ public class GameMgr : MonoBehaviour
         option.onClick.AddListener(Option);
         OpBack.onClick.AddListener(Option);
         volume.onClick.AddListener(Volume);
+        KeyBtn.onClick.AddListener(Key);
+        StuffBtn.onClick.AddListener(Stuff);
         VBack.onClick.AddListener(VolumeBack);
+        KeyBackBtn.onClick.AddListener(VolumeBack);
+        StuffBackBtn.onClick.AddListener(VolumeBack);
         audioMgr = GameSetting.BGMAudio;
 
     }
@@ -72,7 +87,9 @@ public class GameMgr : MonoBehaviour
         Playing,
         Pause,
         Option,
-        Volume
+        Volume,
+        Key,
+        Stuff,
     }
     private void PauseStates()
     {
@@ -83,6 +100,8 @@ public class GameMgr : MonoBehaviour
                 Panal.SetActive(false);
                 pauseUI.SetActive(false);
                 VolumeUI.SetActive(false);
+                KeyBoardUI.SetActive(false);
+                StuffUI.SetActive(false);
                 break;
             case (int)ePauseStates.Pause:
                 //OptionUI.SetActive(false);
@@ -96,6 +115,8 @@ public class GameMgr : MonoBehaviour
                 pauseUI.SetActive(false);
                 Panal.SetActive(true);
                 VolumeUI.SetActive(false);
+                KeyBoardUI.SetActive(false);
+                StuffUI.SetActive(false);
                 Time.timeScale = 0;
                 break;
             case (int)ePauseStates.Volume:
@@ -103,6 +124,26 @@ public class GameMgr : MonoBehaviour
                 OptionUI.SetActive(false);
                 pauseUI.SetActive(false);
                 Panal.SetActive(true);
+                KeyBoardUI.SetActive(false);
+                StuffUI.SetActive(false);
+                Time.timeScale = 0;
+                break;
+            case (int)ePauseStates.Key:
+                VolumeUI.SetActive(false);
+                OptionUI.SetActive(false);
+                pauseUI.SetActive(false);
+                Panal.SetActive(true);
+                KeyBoardUI.SetActive(true);
+                StuffUI.SetActive(false);
+                Time.timeScale = 0;
+                break;
+            case (int)ePauseStates.Stuff:
+                VolumeUI.SetActive(false);
+                OptionUI.SetActive(false);
+                pauseUI.SetActive(false);
+                Panal.SetActive(true);
+                KeyBoardUI.SetActive(false);
+                StuffUI.SetActive(true);
                 Time.timeScale = 0;
                 break;
         }
@@ -131,8 +172,6 @@ public class GameMgr : MonoBehaviour
                 pauseEnabled = true;
                 Time.timeScale = 0;
                 PauseEvent.Invoke();
-                EventSystem.current.SetSelectedGameObject(null);
-                EventSystem.current.SetSelectedGameObject(Pausefirstbtn);
                 pausestates = 1;
             }
         }
@@ -169,16 +208,12 @@ public class GameMgr : MonoBehaviour
         {
             OpEnabled = true;
             OptionUI.SetActive(true);
-            EventSystem.current.SetSelectedGameObject(null);
-            EventSystem.current.SetSelectedGameObject(Optionfirstbtn);
             pausestates = 2;
         }
         else if(OpEnabled == true)
         {
             OpEnabled = false;
             OptionUI.SetActive(false);
-            EventSystem.current.SetSelectedGameObject(null);
-            EventSystem.current.SetSelectedGameObject(Pausefirstbtn);
             pausestates = 1;
         }
     }
@@ -187,19 +222,23 @@ public class GameMgr : MonoBehaviour
     private void Volume()
     {
         pausestates = 3;
-        EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(mainBGMSli);
     }
     private void VolumeBack()
     {
         pausestates = 2;
-        EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(Optionfirstbtn);
+    }
+    
+    #endregion
+    
+    public void Key()
+    {
+        pausestates = 4;
     }
 
-
-    #endregion
-
+    public void Stuff()
+    {
+        pausestates = 5;
+    }
 }
 
 

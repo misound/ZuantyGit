@@ -303,12 +303,16 @@ MonoBehaviour:
   VolumeBtn: {fileID: 1368423162}
   OpBackBtn: {fileID: 105862262}
   VoBackBtn: {fileID: 456253175}
+  KeyBackBtn: {fileID: 1395501029}
+  StuffBackBtn: {fileID: 292457933}
+  KeyBtn: {fileID: 1323973561}
+  StuffBtn: {fileID: 512833467}
   PlayBtn: {fileID: 322102713}
-  OpfirstBtn: {fileID: 1368423160}
-  VofirstBtn: {fileID: 92879816}
   TitleUI: {fileID: 1824984090}
   OptoinUI: {fileID: 1482218883}
   VolumeUI: {fileID: 632825317}
+  KeyBoardUI: {fileID: 258523045}
+  StuffUI: {fileID: 1637917526}
   TBGMSli: {fileID: 92879818}
   TSESli: {fileID: 436011631}
   gameMgr: {fileID: 0}
@@ -816,7 +820,8 @@ MonoBehaviour:
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
+    m_HighlightedSprite: {fileID: 21300000, guid: 51b9eca92d895e5419ce8ff718f47142,
+      type: 3}
     m_PressedSprite: {fileID: 0}
     m_SelectedSprite: {fileID: 21300000, guid: 51b9eca92d895e5419ce8ff718f47142, type: 3}
     m_DisabledSprite: {fileID: 0}
@@ -1359,7 +1364,8 @@ MonoBehaviour:
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
+    m_HighlightedSprite: {fileID: 21300000, guid: 51b9eca92d895e5419ce8ff718f47142,
+      type: 3}
     m_PressedSprite: {fileID: 0}
     m_SelectedSprite: {fileID: 21300000, guid: 51b9eca92d895e5419ce8ff718f47142, type: 3}
     m_DisabledSprite: {fileID: 0}
@@ -2701,7 +2707,8 @@ MonoBehaviour:
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
+    m_HighlightedSprite: {fileID: 21300000, guid: 51b9eca92d895e5419ce8ff718f47142,
+      type: 3}
     m_PressedSprite: {fileID: 0}
     m_SelectedSprite: {fileID: 21300000, guid: 51b9eca92d895e5419ce8ff718f47142, type: 3}
     m_DisabledSprite: {fileID: 0}
@@ -2771,7 +2778,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1482218884
 RectTransform:
   m_ObjectHideFlags: 0

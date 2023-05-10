@@ -16,19 +16,24 @@ public class TitleMgr : MonoBehaviour
 
     public Button OpBackBtn;
     public Button VoBackBtn;
+    public Button KeyBackBtn;
+    public Button StuffBackBtn;
+    
+
+    public Button KeyBtn;
+    public Button StuffBtn;
 
     public GameObject PlayBtn;
-    public GameObject OpfirstBtn;
-    public GameObject VofirstBtn;
     public GameObject TitleUI;
     public GameObject OptoinUI;
     public GameObject VolumeUI;
+    public GameObject KeyBoardUI;
+    public GameObject StuffUI;
 
     public Slider TBGMSli;
     public Slider TSESli;
 
     public GameMgr gameMgr;
-    private AudioMgr audioMgr;
 
     // Start is called before the first frame update
     void Start()
@@ -40,21 +45,16 @@ public class TitleMgr : MonoBehaviour
         OpBtn.onClick.AddListener(Option);
         QBtn.onClick.AddListener(Quit);
         VolumeBtn.onClick.AddListener(Volume);
+        KeyBtn.onClick.AddListener(Key);
+        StuffBtn.onClick.AddListener(Stuff);
         OpBackBtn.onClick.AddListener(OptionBack);
-        VoBackBtn.onClick.AddListener(VolumeBack);
-        EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(PlayBtn);
+        VoBackBtn.onClick.AddListener(BackToOption);
+        KeyBackBtn.onClick.AddListener(BackToOption);
+        StuffBackBtn.onClick.AddListener(BackToOption);
+
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
-
-        //audioMgr = FindObjectOfType<AudioMgr>();
-        audioMgr = GameSetting.BGMAudio;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        
         
     }
     public enum eTitleStates
@@ -62,6 +62,8 @@ public class TitleMgr : MonoBehaviour
         Title,
         Option,
         Volume,
+        KeyBoard,
+        Stuff,
     }
 
     public void UIstates(eTitleStates States)
@@ -72,16 +74,36 @@ public class TitleMgr : MonoBehaviour
                 TitleUI.SetActive(true);
                 OptoinUI.SetActive(false);
                 VolumeUI.SetActive(false);
+                KeyBoardUI.SetActive(false);
+                StuffUI.SetActive(false);
                 break;
             case eTitleStates.Option:
                 TitleUI.SetActive(false);
                 OptoinUI.SetActive(true);
                 VolumeUI.SetActive(false);
+                KeyBoardUI.SetActive(false);
+                StuffUI.SetActive(false);
                 break;
             case eTitleStates.Volume:
                 TitleUI.SetActive(false);
                 OptoinUI.SetActive(false);
                 VolumeUI.SetActive(true);
+                KeyBoardUI.SetActive(false);
+                StuffUI.SetActive(false);
+                break;
+            case eTitleStates.KeyBoard:
+                TitleUI.SetActive(false);
+                OptoinUI.SetActive(false);
+                VolumeUI.SetActive(false);
+                KeyBoardUI.SetActive(true);
+                StuffUI.SetActive(false);
+                break;
+            case eTitleStates.Stuff:
+                TitleUI.SetActive(false);
+                OptoinUI.SetActive(false);
+                VolumeUI.SetActive(false);
+                KeyBoardUI.SetActive(false);
+                StuffUI.SetActive(true);
                 break;
         }
     }
@@ -92,26 +114,28 @@ public class TitleMgr : MonoBehaviour
     public void Option()
     {
         UIstates(eTitleStates.Option);
-        EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(OpfirstBtn);
     }
     public void OptionBack()
     {
         UIstates(eTitleStates.Title);
-        EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(PlayBtn);
     }
     public void Volume()
     {
         UIstates(eTitleStates.Volume);
-        EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(VofirstBtn);
     }
-    public void VolumeBack()
+    public void BackToOption()
     {
         UIstates(eTitleStates.Option);
-        EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(OpfirstBtn);
+    }
+
+    public void Key()
+    {
+        UIstates(eTitleStates.KeyBoard);
+    }
+
+    public void Stuff()
+    {
+        UIstates(eTitleStates.Stuff);
     }
     public void Quit()
     {

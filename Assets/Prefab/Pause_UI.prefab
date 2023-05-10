@@ -565,7 +565,8 @@ MonoBehaviour:
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
+    m_HighlightedSprite: {fileID: 21300000, guid: 4af7b2a131e888e4881a442d518dadc6,
+      type: 3}
     m_PressedSprite: {fileID: 0}
     m_SelectedSprite: {fileID: 21300000, guid: 4af7b2a131e888e4881a442d518dadc6, type: 3}
     m_DisabledSprite: {fileID: 0}
@@ -1646,7 +1647,8 @@ MonoBehaviour:
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
+    m_HighlightedSprite: {fileID: 21300000, guid: 0d5a39d639930a54cacfbbfdd3f8db36,
+      type: 3}
     m_PressedSprite: {fileID: 0}
     m_SelectedSprite: {fileID: 21300000, guid: 0d5a39d639930a54cacfbbfdd3f8db36, type: 3}
     m_DisabledSprite: {fileID: 0}
@@ -2043,6 +2045,12 @@ MonoBehaviour:
   mainBGMSli: {fileID: 376161122500907212}
   mainSE: {fileID: 376161122985456633}
   mainSESli: {fileID: 376161122985456615}
+  KeyBtn: {fileID: 376161121738914932}
+  KeyBackBtn: {fileID: 4115980565248050707}
+  KeyBoardUI: {fileID: 2035008104080778014}
+  StuffBtn: {fileID: 5850053820012270717}
+  StuffUI: {fileID: 4364911970507640028}
+  StuffBackBtn: {fileID: 2520542594524191948}
   pausestates: 0
 --- !u!1 &376161123260861975
 GameObject:
