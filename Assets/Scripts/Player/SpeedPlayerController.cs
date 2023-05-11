@@ -79,14 +79,14 @@ public class SpeedPlayerController : MonoBehaviour
     public bool canDash;
 
 
-    [Header("Ground Collision Variables")] [SerializeField]
-    private float _groundRaycastLength;
+    [Header("Ground Collision Variables")] 
+    [SerializeField] private float _groundRaycastLength;
 
     [SerializeField] private Vector3 _groundRaycastOffset;
     [SerializeField] public bool _onGround;
 
-    [Header("Wall Collision Variables")] [SerializeField]
-    private float _wallRaycastLength;
+    [Header("Wall Collision Variables")]
+    [SerializeField] private float _wallRaycastLength;
 
     public bool _onWall;
     private bool _onRightWall;
@@ -149,18 +149,6 @@ public class SpeedPlayerController : MonoBehaviour
         
         if (playerDead)
         {
-
-            //別多設東西!!!
-            /*_anim.SetBool("isDashing",false);
-            _anim.SetBool("isGrounded", false);
-            _anim.SetBool("isFalling", false);
-            _anim.SetBool("WallGrab", false);
-            _anim.SetBool("isJumping", false);
-            _anim.SetFloat("horizontalDirection", 0f);
-            _anim.SetFloat("verticalDirection", 0f);
-            _anim.SetBool("Dead",true);*/
-            
-            
             _anim.SetBool("isGrounded", false);
             _anim.SetBool("isFalling", false);
             _anim.SetFloat("horizontalDirection", 0f);
@@ -264,8 +252,7 @@ public class SpeedPlayerController : MonoBehaviour
                 StartCoroutine(KillDash(mousePos.transform.position.x, mousePos.transform.position.y));
             }
         }
-
-        if (Input.GetButtonDown("Fire2") && canDash)
+        else if (Input.GetButtonDown("Fire2") && canDash)
         {
             canDash = false;
             dashImage.fillAmount = 1;
@@ -318,10 +305,10 @@ public class SpeedPlayerController : MonoBehaviour
         CheckCollisions();
 
 
-        if (_isDashing || isKilling)
+        /*if (_isDashing || isKilling)
         {
             return;
-        }
+        }*/
 
         if (!_isDashing || !isKilling || !playerAttack.recover)
         {
@@ -878,7 +865,7 @@ public class SpeedPlayerController : MonoBehaviour
 
     
 
-    void dashCDUI()
+    /*void dashCDUI()
     {
         if (Input.GetButtonDown("Fire2") && canDash)
         {
@@ -895,7 +882,7 @@ public class SpeedPlayerController : MonoBehaviour
                 canDash = true;
             }
         }
-    }
+    }*/
 
     public void TakeDmg()
     {

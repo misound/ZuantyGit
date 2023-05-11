@@ -35,7 +35,7 @@ public class MousePos : MonoBehaviour
                 onWallEnemy = true;
                 enemyPos = other.transform.position;
             }
-           
+            
         }
     }
     private void OnTriggerExit2D(Collider2D other)
