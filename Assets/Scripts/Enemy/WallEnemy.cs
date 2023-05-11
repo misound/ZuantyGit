@@ -11,6 +11,9 @@ public class WallEnemy : MonoBehaviour
     public SpeedPlayerController speedPlayerController;
     public bool beChoose;
 
+
+    public GameObject Deadbody;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,7 +36,11 @@ public class WallEnemy : MonoBehaviour
         
         if ( speedPlayerController.isKilling&& mousePos.onWallEnemy&&beChoose)
         {
-            gameObject.SetActive(false);
+            GameObject temp = Instantiate(Deadbody);
+            temp.transform.parent = transform.parent;
+            temp.transform.localPosition = transform.localPosition;
+            temp.transform.localScale = transform.localScale;
+            this.gameObject.SetActive(false);
         }
         
     }
