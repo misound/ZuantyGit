@@ -122,7 +122,7 @@ public class EnemyWalk : MonoBehaviour
             rb.drag = 2.5f;
             timer = 0f;
             CDing = false;
-            if (HP >= 40)
+            if (HP >= 19750)
             {
                 mustPatrol = true;
             }
@@ -159,7 +159,7 @@ public class EnemyWalk : MonoBehaviour
             GetComponent<SpriteRenderer>().color = new Color(1f, HitColor, HitColor, 1f);
         }
         
-        if (HP > 0 && HP <= 40)
+        if (HP > 0 && HP <=19750    )
         {
             StatusSwitcher(Status.FinishHim);
         }
@@ -235,7 +235,7 @@ public class EnemyWalk : MonoBehaviour
                     startExTime = 0;
                     mustPatrol = true;
                     _anim.SetBool("FinishHim",false);
-                    HP = 60;
+                    HP = 20000;
                 }
                 break;
             default:

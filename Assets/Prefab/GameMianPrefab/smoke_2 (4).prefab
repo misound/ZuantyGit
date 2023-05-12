@@ -168,7 +168,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 200
+      scalar: 20
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -660,13 +660,13 @@ ParticleSystem:
     serializedVersion: 6
     enabled: 1
     type: 4
-    angle: 0.64
+    angle: 12.1
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 1
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
-    m_Rotation: {x: -3.12, y: 0, z: 0}
+    m_Rotation: {x: -90, y: 0, z: 0}
     m_Scale: {x: 2.28, y: 1, z: 1}
     placementMode: 0
     m_MeshMaterialIndex: 0
@@ -3436,7 +3436,7 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    range: {x: 30, y: 150}
+    range: {x: 5, y: 20}
     separateAxes: 0
   RotationBySpeedModule:
     enabled: 0
@@ -3666,7 +3666,7 @@ ParticleSystem:
         m_Mode: 0
         m_NumColorKeys: 2
         m_NumAlphaKeys: 2
-    range: {x: 40, y: 300}
+    range: {x: 10, y: 20}
   CollisionModule:
     enabled: 0
     serializedVersion: 4
@@ -4835,7 +4835,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1623156453
-  m_SortingLayer: -2
+  m_SortingLayer: -1
   m_SortingOrder: 84
   m_RenderMode: 0
   m_SortMode: 0

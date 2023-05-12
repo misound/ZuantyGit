@@ -591,7 +591,7 @@ MonoBehaviour:
   _wallSlideModifier: 0
   _wallJumpXVelocityHaltDelay: 0.2
   _dashSpeed: 15
-  _dashLength: 0.2
+  _dashLength: 0.3
   _dashBufferLength: 0.1
   dashCD: 0.2
   _isDashing: 0
@@ -818,9 +818,9 @@ PolygonCollider2D:
     m_Paths:
     - - {x: 0.36531258, y: -1.158511}
       - {x: 1.0900867, y: -1.1143095}
-      - {x: 1.9470154, y: -0.792151}
-      - {x: 2.2276523, y: -0.29488862}
-      - {x: 2.004026, y: 0.7887368}
+      - {x: 2.2905905, y: -1.1121938}
+      - {x: 2.5524015, y: -0.26664954}
+      - {x: 2.2770035, y: 0.5863568}
       - {x: 1.5743515, y: 1.582881}
       - {x: 0.6410272, y: 1.9401352}
       - {x: 0.18906116, y: 1.0360734}
@@ -850,14 +850,14 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0.9028617, y: 1.8717833}
+    - - {x: 0.65342486, y: 1.9242964}
       - {x: 0.27094626, y: 1.126375}
       - {x: 0.48802608, y: -0.0034315288}
       - {x: 0.07481146, y: -1.0866396}
       - {x: 1.1126251, y: -1.1273386}
-      - {x: 1.8693311, y: -0.7766032}
-      - {x: 2.2230654, y: -0.30524218}
-      - {x: 1.8271258, y: 1.1459501}
+      - {x: 2.2505586, y: -1.0872328}
+      - {x: 2.5995865, y: -0.24405754}
+      - {x: 2.227538, y: 0.6733324}
 --- !u!60 &801182075406579247
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -892,9 +892,9 @@ PolygonCollider2D:
       - {x: 0.479043, y: -0.03273034}
       - {x: 0.15255761, y: -1.1038449}
       - {x: 1.1735375, y: -1.1654032}
-      - {x: 1.8940375, y: -0.77737415}
-      - {x: 2.2343173, y: -0.29386282}
-      - {x: 2.0447602, y: 0.7846725}
+      - {x: 2.2987974, y: -1.0927105}
+      - {x: 2.578291, y: -0.27503678}
+      - {x: 2.3181896, y: 0.5620228}
 --- !u!1 &3866515650493914045
 GameObject:
   m_ObjectHideFlags: 0
@@ -1485,6 +1485,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AllowRoll
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5792094916667032081, guid: ad1e7123bd13e944385f0b56702d9d1d,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5792094916667032081, guid: ad1e7123bd13e944385f0b56702d9d1d,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: 1655377775
       objectReference: {fileID: 0}
     - target: {fileID: 5792094916667032081, guid: ad1e7123bd13e944385f0b56702d9d1d,
         type: 3}

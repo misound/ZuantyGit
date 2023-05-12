@@ -247,7 +247,7 @@ MonoBehaviour:
   - {x: -0.100599855, y: 0.57492745, z: 0}
   m_ShapePathHash: 2085369985
   m_Mesh: {fileID: 0}
-  m_InstanceId: 65522
+  m_InstanceId: 976292
 --- !u!1 &7681421184610455814
 GameObject:
   m_ObjectHideFlags: 0
@@ -395,7 +395,7 @@ MonoBehaviour:
   - {x: -0.102661476, y: 0.2666253, z: 0}
   m_ShapePathHash: 1348089279
   m_Mesh: {fileID: 0}
-  m_InstanceId: 65516
+  m_InstanceId: 976286
 --- !u!1 &7681421185173113902
 GameObject:
   m_ObjectHideFlags: 0
@@ -543,7 +543,7 @@ MonoBehaviour:
   - {x: -0.12559988, y: 0.5777052, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: 65576
+  m_InstanceId: 976344
 --- !u!1 &7681421185941944033
 GameObject:
   m_ObjectHideFlags: 0
@@ -907,6 +907,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7681421186345239924}
     m_Modifications:
+    - target: {fileID: 2444603986898046520, guid: 5196cd61d9133024795e2d2f3b1b8e73,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2444603986898046520, guid: 5196cd61d9133024795e2d2f3b1b8e73,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
     - target: {fileID: 4612151977743157612, guid: 5196cd61d9133024795e2d2f3b1b8e73,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -975,6 +985,21 @@ PrefabInstance:
     - target: {fileID: 4810061702898404634, guid: 5196cd61d9133024795e2d2f3b1b8e73,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4810061702898404635, guid: 5196cd61d9133024795e2d2f3b1b8e73,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 3.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4810061702898404635, guid: 5196cd61d9133024795e2d2f3b1b8e73,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 3.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4810061702898404635, guid: 5196cd61d9133024795e2d2f3b1b8e73,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
