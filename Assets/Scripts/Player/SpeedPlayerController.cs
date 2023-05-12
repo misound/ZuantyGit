@@ -305,10 +305,10 @@ public class SpeedPlayerController : MonoBehaviour
         CheckCollisions();
 
 
-        /*if (_isDashing || isKilling)
+        if (_isDashing || isKilling)
         {
             return;
-        }*/
+        }
 
         if (!_isDashing || !isKilling || !playerAttack.recover)
         {
