@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 566615018419292735}
   m_Layer: 6
   m_Name: GameObject
-  m_TagString: Enemy
+  m_TagString: WallEnemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -115,7 +115,7 @@ GameObject:
   - component: {fileID: 3842274280195148965}
   m_Layer: 9
   m_Name: CanAtkDoor_3
-  m_TagString: Enemy
+  m_TagString: WallEnemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -247,7 +247,7 @@ MonoBehaviour:
   - {x: -0.100599855, y: 0.57492745, z: 0}
   m_ShapePathHash: 2085369985
   m_Mesh: {fileID: 0}
-  m_InstanceId: 976292
+  m_InstanceId: 323746
 --- !u!1 &7681421184610455814
 GameObject:
   m_ObjectHideFlags: 0
@@ -263,7 +263,7 @@ GameObject:
   - component: {fileID: 3002124292346963057}
   m_Layer: 9
   m_Name: CanAtkDoor_4
-  m_TagString: Enemy
+  m_TagString: WallEnemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -395,7 +395,7 @@ MonoBehaviour:
   - {x: -0.102661476, y: 0.2666253, z: 0}
   m_ShapePathHash: 1348089279
   m_Mesh: {fileID: 0}
-  m_InstanceId: 976286
+  m_InstanceId: 323740
 --- !u!1 &7681421185173113902
 GameObject:
   m_ObjectHideFlags: 0
@@ -411,7 +411,7 @@ GameObject:
   - component: {fileID: 9039430957974257695}
   m_Layer: 9
   m_Name: CanAtkDoor_2
-  m_TagString: Enemy
+  m_TagString: WallEnemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -543,7 +543,7 @@ MonoBehaviour:
   - {x: -0.12559988, y: 0.5777052, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: 976344
+  m_InstanceId: 323798
 --- !u!1 &7681421185941944033
 GameObject:
   m_ObjectHideFlags: 0
@@ -556,7 +556,7 @@ GameObject:
   - component: {fileID: 7681421185941944045}
   m_Layer: 9
   m_Name: CanAtkDoor_1
-  m_TagString: Enemy
+  m_TagString: WallEnemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -639,7 +639,7 @@ GameObject:
   - component: {fileID: 6319251377536698740}
   m_Layer: 6
   m_Name: CanAtkDoor
-  m_TagString: Enemy
+  m_TagString: WallEnemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -837,6 +837,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 6585545385649718255, guid: 18daabc1c06fe3c44b04bc8a22829055,
+        type: 3}
+      propertyPath: m_TagString
+      value: WallEnemy
+      objectReference: {fileID: 0}
     - target: {fileID: 7727312617718913821, guid: 18daabc1c06fe3c44b04bc8a22829055,
         type: 3}
       propertyPath: m_RootOrder
@@ -931,6 +936,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4810061702898404632, guid: 5196cd61d9133024795e2d2f3b1b8e73,
+        type: 3}
+      propertyPath: m_TagString
+      value: WallEnemy
       objectReference: {fileID: 0}
     - target: {fileID: 4810061702898404634, guid: 5196cd61d9133024795e2d2f3b1b8e73,
         type: 3}

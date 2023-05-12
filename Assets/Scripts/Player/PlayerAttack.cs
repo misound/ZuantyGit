@@ -33,6 +33,8 @@ public class PlayerAttack : MonoBehaviour
     private Vector3 M_pos;
     private Vector3 M_Center;
     private Vector3 M_dir;
+
+    public EnemyWalk enemyExMode;
     
     // Start is called before the first frame update
     void Start()
@@ -186,14 +188,37 @@ public class PlayerAttack : MonoBehaviour
         M_pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         M_Center = transform.position;
         M_dir = M_pos - M_Center;
+        //RaycastHit2D hit=Physics2D.Raycast(transform.position, M_dir, distance,wall);
         RaycastHit2D[] hit2D = Physics2D.RaycastAll(transform.position, M_dir, distance,wall);
         Debug.DrawRay(M_Center,M_dir,Color.cyan);
+
+        /*
+        if (hit.collider!=null)
+        {
+            if (hit.collider.CompareTag("WallEnemy"))
+            {
+                canKill = true;
+            }
+
+            if (hit.collider.CompareTag("Enemy"))
+            {
+                enemyExMode = hit.transform.GetComponent<EnemyWalk>();
+                
+                if (enemyExMode.exMode)
+                {
+                    canKill = true;
+                }
+            }
+
+        }*/
+
+        
 
         for (int i = 0; i < hit2D.Length; i++)
         {
             if (hit2D[i].collider!=null &&hit2D[i].collider.tag!="Player")
             {
-                if (hit2D[0].collider.CompareTag("WallEnemy")||hit2D[0].collider.CompareTag("Enemy"))
+                if (hit2D[0].collider.CompareTag("WallEnemy"))
                 {
                     canKill = true;
                 }
@@ -201,8 +226,26 @@ public class PlayerAttack : MonoBehaviour
                 {
                     canKill=false;
                 }
+
+                if (hit2D[0].collider.CompareTag("Enemy"))
+                {
+                    enemyExMode = hit2D[0].transform.GetComponent<EnemyWalk>();
+                    if (enemyExMode!=null)
+                    {
+                        if (enemyExMode.exMode)
+                        {
+                            canKill = true;
+                        }
+                        else
+                        {
+                            canKill = false;
+                        }
+                    }
+                }
+                
             }
         }
+
         
 
     }

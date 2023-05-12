@@ -9,6 +9,7 @@ public class MousePos : MonoBehaviour
 {
     public Vector3 mosPos;
     public bool onWallEnemy;
+    public bool onEnemy;
     public Vector3 enemyPos;
     
 
@@ -46,6 +47,11 @@ public class MousePos : MonoBehaviour
             {
                 onWallEnemy = false;
                 enemyPos = other.transform.position;
+            }
+
+            if (other.CompareTag("Enemy"))
+            {
+                onEnemy = true;
             }
            
         }

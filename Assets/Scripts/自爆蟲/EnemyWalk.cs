@@ -181,6 +181,7 @@ public class EnemyWalk : MonoBehaviour
         switch (status)
         {
             case Status.Patrol:
+                exMode = false;
                 mustPatrol = true;
                 _chase = false;
                 Patrol();
@@ -188,6 +189,7 @@ public class EnemyWalk : MonoBehaviour
                 CheckPlayerL();
                 break;
             case Status.Warning:
+                exMode = false;
                 mustPatrol = false;
                 Chase();
                 break;
@@ -216,6 +218,7 @@ public class EnemyWalk : MonoBehaviour
                 _anim.SetBool("FinishHim",true);
                 
                 aim.SetActive(true);
+                exMode = true;
                 _chase = false;
                 mustPatrol = false;
                 Atking = false;
