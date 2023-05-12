@@ -76,6 +76,7 @@ public class S3Mgr : MonoBehaviour
                 PlayerHP.SetMaxHealth(GameSetting.PlayerHP = 100); //最高生命值
                 PlayerHP.GetHealth(GameSetting.PlayerHP = PlayerPrefs.GetInt("PlayerHP")); //讀取血量
                 PlayerHP.SetHealth(GameSetting.PlayerHP); //刷新當前血量
+                PlayerHP.GetPoka(GameSetting.Poka);
             }
             SPC.transform.position = GameSetting.Playerpos;
         }
@@ -88,6 +89,8 @@ public class S3Mgr : MonoBehaviour
             PlayerHP.SetMaxHealth(GameSetting.PlayerHP = 100); //最高生命值
             PlayerHP.GetHealth(GameSetting.PlayerHP = PlayerPrefs.GetInt("PlayerHP")); //讀取血量
             PlayerHP.SetHealth(GameSetting.PlayerHP); //刷新當前血量
+            PlayerHP.GetPoka(GameSetting.Poka);
+            
             GameSetting.Falling = false;
             GameSetting.Falled = false;
         }
@@ -347,6 +350,7 @@ public class S3Mgr : MonoBehaviour
                 PlayerHP.SetMaxHealth(GameSetting.PlayerHP = 100); //最高生命值
                 PlayerPrefs.SetString("S3Enter", "true");
                 Debug.Log("Saved!!!");
+                PlayerHP.BuyPoka();
                 GameSetting.Save();
                 PlayerPrefs.Save();
             }

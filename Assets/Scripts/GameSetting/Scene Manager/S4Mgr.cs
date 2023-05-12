@@ -41,12 +41,14 @@ public class S4Mgr : MonoBehaviour
             string json2 = PlayerPrefs.GetString("data2");
             GameSetting.DList = JsonConvert.DeserializeObject<IList<Itemdata>>(json);
             GameSetting.WList = JsonConvert.DeserializeObject<IList<AtkWData>>(json2);
+            PlayerHP.BuyPoka();
         }
         else if (!EnteredS4)
         {
             S4Item S4Item = (S4Item)Factory.reset("S4");
             GameSetting.DList = S4Item.FakeData1();
             GameSetting.WList = S4Item.FakeData2();
+            PlayerHP.BuyPoka();
             
             GameSetting.Falling = false;
             GameSetting.Falled = false;
@@ -57,6 +59,7 @@ public class S4Mgr : MonoBehaviour
         if (GameSetting.PlayerHP <= 0)
         {
             PlayerHP.SetMaxHealth(GameSetting.PlayerHP = PlayerPrefs.GetInt("PlayerHP"));
+            PlayerHP.BuyPoka();
         }
     }
 

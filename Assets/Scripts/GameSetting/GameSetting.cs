@@ -17,6 +17,8 @@ public static class GameSetting
     public static Vector3 Playerpos;
 
     public static int PlayerHP;
+    public static int Poka;
+    public static int MaxPoka = 2;
 
     public static IList<Itemdata> DList;
     public static IList<AtkWData> WList;
@@ -29,6 +31,7 @@ public static class GameSetting
     public static void Save() 
     {
         PlayerPrefs.SetInt("PlayerHP", PlayerHP);
+        PlayerPrefs.SetInt("Poka", Poka);
         Level = SceneManager.GetActiveScene().name;
         PlayerPrefs.SetString("level",Level);
         PlayerPrefs.Save();

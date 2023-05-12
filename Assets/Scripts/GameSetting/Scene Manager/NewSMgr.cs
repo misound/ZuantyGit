@@ -61,6 +61,7 @@ public class NewSMgr : MonoBehaviour
         
         PlayerHP = FindObjectOfType<HealthBar>();
         PlayerHP.SetMaxHealth(GameSetting.PlayerHP = PlayerPrefs.GetInt("PlayerHP"));
+        PlayerHP.BuyPoka();
 
         SPC = FindObjectOfType<SpeedPlayerController>();
 
@@ -304,21 +305,30 @@ public class NewSMgr : MonoBehaviour
             GameSetting.Playerposy = pos.y;
             PlayerPrefs.SetFloat("Tempx", GameSetting.Playerposx);
             PlayerPrefs.SetFloat("Tempy", GameSetting.Playerposy);
-            Debug.Log("Saved!!!");
+            Debug.Log("AutoSaved!!!");
             GameSetting.Save();
             PlayerPrefs.Save();
+        }
+    }
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.GetComponent<SpeedPlayerController>() != null)
+        {
             if (Input.GetKeyDown(KeyCode.E))
             {
-                pos = SPC.transform.position;
-                GameSetting.Playerposx = pos.x;
-                GameSetting.Playerposy = pos.y;
+                GameSetting.Playerpos = SPC.transform.position;
+                GameSetting.Playerposx = GameSetting.Playerpos.x;
+                GameSetting.Playerposy = GameSetting.Playerpos.y;
                 PlayerPrefs.SetFloat("x", GameSetting.Playerposx);
                 PlayerPrefs.SetFloat("y", GameSetting.Playerposy);
                 string json = JsonConvert.SerializeObject(GameSetting.DList);
                 string json2 = JsonConvert.SerializeObject(GameSetting.WList);
                 PlayerPrefs.SetString("data", json);
                 PlayerPrefs.SetString("data2", json2);
+                PlayerHP.SetMaxHealth(GameSetting.PlayerHP = 100); //最高生命值
+                PlayerPrefs.SetString("S1Enter", "true");
                 Debug.Log("Saved!!!");
+                PlayerHP.BuyPoka();
                 GameSetting.Save();
                 PlayerPrefs.Save();
             }

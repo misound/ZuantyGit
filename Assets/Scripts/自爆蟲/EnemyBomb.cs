@@ -197,10 +197,10 @@ public class EnemyBomb : MonoBehaviour
 
         hitwall = Physics2D.Raycast(transform.position, Vector2.right * Checkwallrange, Checkwallrange,
                       1 << LayerMask.NameToLayer("Ground") | 1 << LayerMask.NameToLayer("Wall") |
-                      1 << LayerMask.NameToLayer("EnemyColliderWall"))
+                      1 << LayerMask.NameToLayer("EnemyColliderWall") | 1 << LayerMask.NameToLayer("CanAtkWall"))
                   || Physics2D.Raycast(transform.position, Vector2.left * Checkwallrange, Checkwallrange,
                       1 << LayerMask.NameToLayer("Ground") | 1 << LayerMask.NameToLayer("Wall") |
-                      1 << LayerMask.NameToLayer("EnemyColliderWall"));
+                      1 << LayerMask.NameToLayer("EnemyColliderWall") | 1 << LayerMask.NameToLayer("CanAtkWall"));
 
         if (mustTurn)
         {

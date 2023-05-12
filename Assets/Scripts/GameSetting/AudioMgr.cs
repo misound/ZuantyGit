@@ -89,6 +89,7 @@ public class AudioMgr : MonoBehaviour
         SE_WalkRun,
         SE_WalkFind,
         SE_WalkAtk,
+        FinishHim,
     }
 
     public void Play(eAudio audio)
@@ -142,6 +143,9 @@ public class AudioMgr : MonoBehaviour
                 break;
             case eAudio.SE_WalkAtk:
                 SE_audioSource.PlayOneShot(SE[16]);
+                break;
+            case eAudio.FinishHim:
+                SE_audioSource.PlayOneShot(SE[17]);
                 break;
             default:
                 Debug.LogError("NONE DEF");

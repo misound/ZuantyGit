@@ -11,8 +11,10 @@ public class HealthBar : MonoBehaviour
     public Gradient gradient;
     public Image fill;
 
-    private CameraMgr _cameraMgr;
+    public GameObject[] PokaCan;
 
+    private CameraMgr _cameraMgr;
+    
 
     private bool _isDirty = false;
     private void Awake()
@@ -26,6 +28,8 @@ public class HealthBar : MonoBehaviour
     }
     private void Update()
     {
+        Debug.Log(GameSetting.Poka);
+        
         if (_isDirty)
         {
             SetHealth(GameSetting.PlayerHP);
@@ -38,8 +42,6 @@ public class HealthBar : MonoBehaviour
             if (_cameraMgr.Blackscreenalpha >= 1)
             {
                 GameSetting.Respawn();
-                //SPC.transform.position = GameSetting.Playerpos;
-                //SetMaxHealth(GameSetting.PlayerHP);
             }
         }
         else if (GameSetting.PlayerHP <= 0 && GameSetting.Falled && GameSetting.Falling)
@@ -47,11 +49,7 @@ public class HealthBar : MonoBehaviour
             if (_cameraMgr.Blackscreenalpha >= 1)
             {
                 GameSetting.Respawn();
-                //SPC.transform.position = GameSetting.Playerpos;
-                //SetMaxHealth(GameSetting.PlayerHP);
             }
-
-
         }
         else if (GameSetting.PlayerHP > 0 || GameSetting.Falled && GameSetting.Falling)
         {
@@ -59,11 +57,12 @@ public class HealthBar : MonoBehaviour
             {
                 GameSetting.FallOut();
             }
-            
-
-
         }
 
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            INeedHealing();
+        }
     }
     
     public void SetMaxHealth(int health)
@@ -108,6 +107,45 @@ public class HealthBar : MonoBehaviour
         GameSetting.PlayerHP = health;
 
         _isDirty = true;
+    }
+
+    public void INeedHealing()
+    {
+        if (PokaCan != null)
+        {
+            if (GameSetting.Poka >= 1)
+            {
+                SetMaxHealth(GameSetting.PlayerHP = 100);
+
+                GameSetting.Poka -= 1;
+                PokaCan[GameSetting.Poka].SetActive(false);
+                PlayerPrefs.SetInt("Poka",GameSetting.Poka);
+            }
+            else if (GameSetting.Poka <= 0)
+            {
+                GameSetting.Poka = 0;
+                PlayerPrefs.SetInt("Poka",GameSetting.Poka);
+            }
+        }
+    }
+
+    public void BuyPoka()
+    {
+        GameSetting.Poka = GameSetting.MaxPoka;
+        for (int i = 0; i < PokaCan.Length; i++)
+        {
+            PokaCan[i].SetActive(true);
+        }
+    }
+
+    public void GetPoka(int poka)
+    {
+        poka = PlayerPrefs.GetInt("Poka");
+        GameSetting.Poka  = poka;
+        for (int i = 0; i < GameSetting.Poka; i++)
+        {
+            PokaCan[i].SetActive(true);
+        }
     }
     private void OnGUI()
     {
