@@ -94,6 +94,11 @@ public class HealthBar : MonoBehaviour
             GameSetting.PlayerHP = health;
             health = GameSetting.PlayerHP;
         }
+
+        if (health < 99)
+        {
+            _cameraMgr.CameraStatusSwitcher(CameraMgr.CameraStatus.Hurt);
+        }
         
         _isDirty = true;
     }
@@ -118,6 +123,7 @@ public class HealthBar : MonoBehaviour
                 SetMaxHealth(GameSetting.PlayerHP = 100);
 
                 GameSetting.Poka -= 1;
+                _cameraMgr.CameraStatusSwitcher(CameraMgr.CameraStatus.FullHP);
                 PokaCan[GameSetting.Poka].SetActive(false);
                 PlayerPrefs.SetInt("Poka",GameSetting.Poka);
             }
@@ -157,6 +163,7 @@ public class HealthBar : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F12))
         {
             SetHealth(GameSetting.PlayerHP -= 20);
+            
         }
         /*
         if (GUI.Button(new Rect(100, 240, 160, 100), "MaxHP"))

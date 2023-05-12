@@ -21,6 +21,9 @@ public class CameraMgr : MonoBehaviour
     [SerializeField] public float DeadEffect;
     [SerializeField] public float Deadtime;
     
+    [SerializeField] public float HurtEffect;
+    [SerializeField] public float Hurttime;
+    
     [SerializeField] public float Blackscreenalpha;
     [SerializeField] public float Blackscreentime;
     
@@ -48,6 +51,7 @@ public class CameraMgr : MonoBehaviour
     void FixedUpdate()
     {
         VisualEffectDieReturn();
+        VisualEffectHurtEffect();
         
         
         if (Entry)
@@ -58,7 +62,7 @@ public class CameraMgr : MonoBehaviour
             if (_entertimer >= _entersecs)
             {
                 _entertimer = 0f;
-                CameraStatusSwitcher(default);
+                CameraStatusSwitcher(CameraStatus.Playing);
                 Entry = false;
             }
         }
@@ -71,7 +75,7 @@ public class CameraMgr : MonoBehaviour
 
             if (GameSetting.PlayerHP > 0 && !GameSetting.Falling && !GameSetting.Falled)
             {
-                CameraStatusSwitcher(default);
+                CameraStatusSwitcher(CameraStatus.Playing);
             }
 
             if (GameSetting.PlayerHP <= 0)
@@ -89,11 +93,13 @@ public class CameraMgr : MonoBehaviour
     public enum CameraStatus
     {
         Start,
+        Playing,
         Hurt,
+        FullHP,
         Fall,
         Dead,
     }
-    private void CameraStatusSwitcher(CameraStatus cameraStatus)
+    public void CameraStatusSwitcher(CameraStatus cameraStatus)
     {
         switch (cameraStatus)
         {
@@ -105,8 +111,69 @@ public class CameraMgr : MonoBehaviour
                 BlackScreen.color = new Color(0.0f, 0.0f, 0.0f, Blackscreenalpha);
 
                 break;
+            case CameraStatus.Playing:
+                if (GameSetting.PlayerHP > 0)
+                {
+
+                    Camera_R -= (1f / Deadtime) * Time.unscaledDeltaTime;
+                    Camera_R = Mathf.Clamp(Camera_R, 0.08410467f, 1f);
+                    if (Camera_G > 0.1320755f)
+                    {
+                        Camera_G -= (1f / Deadtime) * Time.unscaledDeltaTime;
+                        Camera_G = Mathf.Clamp(Camera_G, 0.1320755f, 1f);
+                    }
+                    else
+                    {
+                        Camera_G += (1f / Deadtime) * Time.unscaledDeltaTime;
+                        Camera_G = Mathf.Clamp(Camera_G, 0f, 0.1320755f);
+                    }
+
+            
+                    Camera_B += (1f / Deadtime) * Time.unscaledDeltaTime;
+                    Camera_B = Mathf.Clamp(Camera_B, 0f, 0.1320755f);
+            
+                    DeadEffect -= (1f / Deadtime) * Time.unscaledDeltaTime;
+                    DeadEffect = Mathf.Clamp(DeadEffect, 0.1f, 1f);
+                    
+                    HurtEffect -= (1f / Hurttime) * Time.unscaledDeltaTime;
+                    HurtEffect = Mathf.Clamp(HurtEffect, 0.3f, 0.7f);
+            
+                    if (!GameSetting.Falling && !GameSetting.Falled)
+                    {
+                        Blackscreenalpha -= (1f / Blackscreentime) * Time.unscaledDeltaTime * 2;
+                        Blackscreenalpha = Mathf.Clamp(Blackscreenalpha, 0f, 1f);
+                        BlackScreen.color = new Color(0.0f, 0.0f, 0.0f, Blackscreenalpha);
+                    }
+
+                }
+                break;
             
             case CameraStatus.Hurt:
+                Camera_R = 1f;
+                    Camera_R = Mathf.Clamp(Camera_R, 0.08410467f, 1f);
+            
+                    Camera_G = 0f;
+                    Camera_G = Mathf.Clamp(Camera_G, 0f, 0.1320755f);
+
+                Camera_B = 0f;
+                    Camera_B = Mathf.Clamp(Camera_B, 0f, 0.1320755f);
+            
+                    HurtEffect += (1f / Hurttime) * Time.unscaledDeltaTime;
+                    HurtEffect = Mathf.Clamp(HurtEffect, 0.3f, 0.7f);
+                CameraStatusSwitcher(CameraStatus.Playing);
+                
+                break;
+            case CameraStatus.FullHP:
+                Camera_R = 0.372549f;
+                Camera_R = Mathf.Clamp(Camera_R, 0.08410467f, 1f);
+            
+                Camera_G = 1f;
+                Camera_G = Mathf.Clamp(Camera_G, 0.1320755f, 1f);
+
+                Camera_B = 0f;
+                Camera_B = Mathf.Clamp(Camera_B, 0f, 0.1320755f);
+
+                CameraStatusSwitcher(CameraStatus.Playing);
                 break;
             
             case CameraStatus.Fall:
@@ -188,6 +255,9 @@ public class CameraMgr : MonoBehaviour
             
                     DeadEffect -= (1f / Deadtime) * Time.unscaledDeltaTime;
                     DeadEffect = Mathf.Clamp(DeadEffect, 0.1f, 1f);
+                    
+                    HurtEffect -= (1f / Hurttime) * Time.unscaledDeltaTime;
+                    HurtEffect = Mathf.Clamp(HurtEffect, 0.3f, 0.7f);
             
                     if (!GameSetting.Falling && !GameSetting.Falled)
                     {
@@ -325,18 +395,7 @@ public class CameraMgr : MonoBehaviour
     
     private void VisualEffectHurtEffect()
     {
-        volumeProfile = GetComponent<UnityEngine.Rendering.Volume>()?.profile;
-        if (!volumeProfile) 
-            throw new System.NullReferenceException(nameof(UnityEngine.Rendering.VolumeProfile));
-        
-        UnityEngine.Rendering.Universal.ChromaticAberration chromaticAberration;
 
-        if (!volumeProfile.TryGet(out chromaticAberration)) 
-            throw new System.NullReferenceException(nameof(chromaticAberration));
-
-
-        chromaticAberration.intensity.Override(DeadEffect);
-        
         volumeProfile = GetComponent<UnityEngine.Rendering.Volume>()?.profile;
         if (!volumeProfile) 
             throw new System.NullReferenceException(nameof(UnityEngine.Rendering.VolumeProfile));
@@ -347,6 +406,7 @@ public class CameraMgr : MonoBehaviour
             throw new System.NullReferenceException(nameof(vignette));
 
         vignette.color.value = new Color(Camera_R, Camera_G, Camera_B, 100);
+        vignette.smoothness.value = HurtEffect;
 
     }
     
