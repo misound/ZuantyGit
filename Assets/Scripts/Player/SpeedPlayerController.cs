@@ -824,6 +824,7 @@ public class SpeedPlayerController : MonoBehaviour
         _rb.drag = 0f;
         Vector2 dir = new Vector2(x - transform.position.x, y - transform.position.y);
 
+        GameSetting.SEAudio.Play(AudioMgr.eAudio.FinishHim);
 
         while (Time.time < dashStartTime + 0.05)
         {
@@ -894,11 +895,13 @@ public class SpeedPlayerController : MonoBehaviour
         }
 
         FindObjectOfType<HealthBar>().SetHealth(GameSetting.PlayerHP -= FindObjectOfType<Trap>().TrapDmg);
+        FindObjectOfType<HealthBar>().CameraE(GameSetting.PlayerHP);
     }
 
     public void TakeDmgFromWalk()
     {
         FindObjectOfType<HealthBar>().SetHealth(GameSetting.PlayerHP -= FindObjectOfType<EnemyWalk>().Atk);
+        FindObjectOfType<HealthBar>().CameraE(GameSetting.PlayerHP);
     }
 
 

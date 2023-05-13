@@ -135,7 +135,7 @@ public class CameraMgr : MonoBehaviour
                     DeadEffect -= (1f / Deadtime) * Time.unscaledDeltaTime;
                     DeadEffect = Mathf.Clamp(DeadEffect, 0.1f, 1f);
                     
-                    HurtEffect -= (1f / Hurttime) * Time.unscaledDeltaTime;
+                    HurtEffect -= (1f * Hurttime) * Time.unscaledDeltaTime;
                     HurtEffect = Mathf.Clamp(HurtEffect, 0.3f, 0.7f);
             
                     if (!GameSetting.Falling && !GameSetting.Falled)
@@ -152,13 +152,13 @@ public class CameraMgr : MonoBehaviour
                 Camera_R = 1f;
                     Camera_R = Mathf.Clamp(Camera_R, 0.08410467f, 1f);
             
-                    Camera_G = 0f;
+                Camera_G = 0f;
                     Camera_G = Mathf.Clamp(Camera_G, 0f, 0.1320755f);
 
                 Camera_B = 0f;
                     Camera_B = Mathf.Clamp(Camera_B, 0f, 0.1320755f);
-            
-                    HurtEffect += (1f / Hurttime) * Time.unscaledDeltaTime;
+
+                HurtEffect = 0.7f;
                     HurtEffect = Mathf.Clamp(HurtEffect, 0.3f, 0.7f);
                 CameraStatusSwitcher(CameraStatus.Playing);
                 
@@ -256,7 +256,7 @@ public class CameraMgr : MonoBehaviour
                     DeadEffect -= (1f / Deadtime) * Time.unscaledDeltaTime;
                     DeadEffect = Mathf.Clamp(DeadEffect, 0.1f, 1f);
                     
-                    HurtEffect -= (1f / Hurttime) * Time.unscaledDeltaTime;
+                    HurtEffect -= (1f * Hurttime) * Time.unscaledDeltaTime;
                     HurtEffect = Mathf.Clamp(HurtEffect, 0.3f, 0.7f);
             
                     if (!GameSetting.Falling && !GameSetting.Falled)

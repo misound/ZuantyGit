@@ -342,6 +342,7 @@ public class EnemyWalk : MonoBehaviour
                 _isFacingRight = true;
                 _chase = true;
                 mustPatrol = false;
+                GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_WalkSee);
                 StatusSwitcher(Status.Warning);
             }
         }
@@ -358,6 +359,7 @@ public class EnemyWalk : MonoBehaviour
                 _isFacingRight = false;
                 _chase = true;
                 mustPatrol = false;
+                GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_WalkSee);
                 StatusSwitcher(Status.Warning);
             }
         }
@@ -439,17 +441,6 @@ public class EnemyWalk : MonoBehaviour
                 _isFacingRight = false;
                 CDing = true;
             }
-    
-            /*if (distance <= WarningRange)
-            {
-                _chase = true;
-                Atking = false;
-            }
-            else
-            {
-                mustPatrol = true;
-                Atking = false;
-            }*/
         }
 
     #endregion
@@ -510,42 +501,6 @@ public class EnemyWalk : MonoBehaviour
     {
         GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_WalkFind);
     }
-
-    #endregion
-
-    #region 殘血狀態
-
-    public void Excution()
-    {
-        if (HP > 0 && HP <= 40)
-        {
-            aim.SetActive(true);
-            _chase = false;
-            mustPatrol = false;
-            Atking = false;
-            exMode = true;
-            rb.drag = 4f;
-            startExTime += Time.deltaTime;
-            
-            if (playerController.isKilling)
-            {
-                if (Locked)
-                {
-                    Die = true;
-                }   
-            }
-        }
-
-        if (startExTime > exTime)
-        {
-            aim.SetActive(false);
-            startExTime = 0;
-            exMode = false;
-            mustPatrol = true;
-            HP = 60;
-        }
-    }
-    
 
     #endregion
     private void OnTriggerEnter2D(Collider2D other)

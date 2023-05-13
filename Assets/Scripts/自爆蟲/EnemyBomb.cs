@@ -384,6 +384,7 @@ public class EnemyBomb : MonoBehaviour
             Particles[1].GetComponent<ParticleSystem>().Play();
             Particles[2].GetComponent<ParticleSystem>().Play();
         }
+
     }
 
     #endregion
@@ -480,7 +481,7 @@ public class EnemyBomb : MonoBehaviour
             bombExMode = true;
             rb.drag = 4f;
             startExTime += Time.deltaTime;
-            
+            GetComponent<CircleCollider2D>().enabled = true;
             if (playerController.isKilling)
             {
                 if (Locked)
@@ -522,6 +523,11 @@ public class EnemyBomb : MonoBehaviour
     {
         GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_BoomAtk);
     }
+    public void SE_See() //音效
+    {
+        GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_BoomSee);
+    }
+    
 
     #endregion
     #region 被攻擊處理

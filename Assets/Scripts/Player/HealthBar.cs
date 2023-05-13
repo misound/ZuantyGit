@@ -95,12 +95,17 @@ public class HealthBar : MonoBehaviour
             health = GameSetting.PlayerHP;
         }
 
-        if (health < 99)
+
+        
+        _isDirty = true;
+    }
+
+    public void CameraE(int Hp)
+    {
+        if (Hp < 99)
         {
             _cameraMgr.CameraStatusSwitcher(CameraMgr.CameraStatus.Hurt);
         }
-        
-        _isDirty = true;
     }
     
     public void GetHealth(int health)

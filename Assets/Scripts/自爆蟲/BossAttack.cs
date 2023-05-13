@@ -31,6 +31,7 @@ public class BossAttack : MonoBehaviour
                     .AddForce(new Vector2(-10000f,0),ForceMode2D.Force);
                 GameSetting.PlayerHP -= atkk;
                 playerhp.SetHealth(GameSetting.PlayerHP);
+                playerhp.CameraE(GameSetting.PlayerHP);
             }
             else if (col.gameObject.GetComponent<SpeedPlayerController>().transform.position.x
                 > transform.position.x)
@@ -39,6 +40,7 @@ public class BossAttack : MonoBehaviour
                     .AddForce(new Vector2(10000f,0),ForceMode2D.Force);
                 GameSetting.PlayerHP -= atkk;
                 playerhp.SetHealth(GameSetting.PlayerHP);
+                playerhp.CameraE(GameSetting.PlayerHP);
             }            
             
         }

@@ -232,6 +232,7 @@ public class NewSMgr : MonoBehaviour
                     GameSetting.Falled = true;
                     GameSetting.PlayerHP -= FallDmg;
                     PlayerHP.SetHealth(GameSetting.PlayerHP);
+                    PlayerHP.CameraE(GameSetting.PlayerHP);
                     SPC.transform.position = GameSetting.Playerpos;
                 }
             }
@@ -248,6 +249,7 @@ public class NewSMgr : MonoBehaviour
                     GameSetting.Falled = true;
                     GameSetting.PlayerHP -= FallDmg;
                     PlayerHP.SetHealth(GameSetting.PlayerHP);
+                    PlayerHP.CameraE(GameSetting.PlayerHP);
                     SPC.transform.position = GameSetting.Playerpos;
                 }
             }
