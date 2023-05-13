@@ -31,7 +31,7 @@ public class MousePos : MonoBehaviour
     {
         if (other.isTrigger!=true)
         {
-            if (other.CompareTag("Enemy")|| other.CompareTag("WallEnemy"))
+            if (other.CompareTag("Enemy")|| other.CompareTag("WallEnemy")||other.CompareTag("Bomb"))
             {
                 onWallEnemy = true;
                 enemyPos = other.transform.position;

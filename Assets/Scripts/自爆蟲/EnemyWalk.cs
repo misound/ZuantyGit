@@ -159,7 +159,7 @@ public class EnemyWalk : MonoBehaviour
             GetComponent<SpriteRenderer>().color = new Color(1f, HitColor, HitColor, 1f);
         }
         
-        if (HP > 0 && HP <=19750    )
+        if (HP > 0 && HP <=19750)
         {
             StatusSwitcher(Status.FinishHim);
         }

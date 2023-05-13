@@ -252,8 +252,7 @@ public class SpeedPlayerController : MonoBehaviour
                 StartCoroutine(KillDash(mousePos.transform.position.x, mousePos.transform.position.y));
             }
         }
-        
-        if (Input.GetButtonDown("Fire2") && canDash)
+        else if (Input.GetButtonDown("Fire2") && canDash)
         {
             canDash = false;
             dashImage.fillAmount = 1;
@@ -818,6 +817,7 @@ public class SpeedPlayerController : MonoBehaviour
     {
         float dashStartTime = Time.time;
 
+        canDash = true;
         isKilling = true;
         _rb.velocity = Vector2.zero;
         _rb.gravityScale = 0f;

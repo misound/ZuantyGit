@@ -35,6 +35,7 @@ public class PlayerAttack : MonoBehaviour
     private Vector3 M_dir;
 
     public EnemyWalk enemyExMode;
+    public EnemyBomb bombExMode;
     
     // Start is called before the first frame update
     void Start()
@@ -242,8 +243,21 @@ public class PlayerAttack : MonoBehaviour
                         }
                     }
                 }
-                
+
+                if (hit2D[0].collider.CompareTag("Bomb"))
+                {
+                    bombExMode = hit2D[0].transform.GetComponent<EnemyBomb>();
+                    if (bombExMode.bombExMode)
+                    {
+                        canKill = true;
+                    }
+                    else
+                    {
+                        canKill = false;
+                    }
+                }
             }
+
         }
 
         

@@ -68,15 +68,20 @@ public class EnemyBomb : MonoBehaviour
     [SerializeField] public bool Die;
 
     public LayerMask playerlayer;
-
     public GameObject[] Particles;
-
     float distance;
+
+    [Header("execution")] 
+    [SerializeField] public GameObject aim;
+    [SerializeField] public bool bombExMode;
+    [SerializeField] public float startExTime;
+    [SerializeField] public float exTime = 5;
+    private bool Locked;
 
     // Start is called before the first frame update
     void Start()
     {
-        SetBombMaxHealth(HP = 100);
+        SetBombMaxHealth(HP = 1000);
 
         mustPatrol = true;
         playerController = FindObjectOfType<SpeedPlayerController>();
@@ -94,12 +99,17 @@ public class EnemyBomb : MonoBehaviour
             Particles[1].GetComponent<ParticleSystem>().Stop();
             Particles[2].GetComponent<ParticleSystem>().Stop();
         }
+        
+        //斬殺
+        aim.SetActive(false);
+        Locked = false;
     }
 
     private void FixedUpdate()
     {
         rb.bodyType = RigidbodyType2D.Dynamic;
 
+        Debug.Log(HP);
         if (Die)
         {
             GameObject temp = Instantiate(Deadbody);
@@ -154,12 +164,15 @@ public class EnemyBomb : MonoBehaviour
 
             GetComponent<SpriteRenderer>().color = new Color(1f, HitColor, HitColor, 1f);
         }
+        
+        //斬殺
+        bombEx();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (WannaBoom)
+        if (WannaBoom|| bombExMode)
             mustPatrol = false;
         else
             mustPatrol = true;
@@ -444,9 +457,51 @@ public class EnemyBomb : MonoBehaviour
 
     public void SetBombMaxHealth(int MaxHeath)
     {
-        MaxHeath = 100;
+        MaxHeath = 20000;
         HP = MaxHeath;
     }
+
+    #endregion
+
+    #region 斬殺
+
+    public void bombEx()
+    {
+       
+
+        if (HP > 0 && HP <= 19950)
+        {
+            aim.SetActive(true);
+            mustPatrol = false;
+            WannaBoom = false;
+            explosioned = false;
+            explosionReady = false;
+            explosion = false;
+            bombExMode = true;
+            rb.drag = 4f;
+            startExTime += Time.deltaTime;
+            
+            if (playerController.isKilling)
+            {
+                if (Locked)
+                {
+                    Die = true;
+                }   
+            }
+
+            
+        }
+
+        if (startExTime > exTime)
+        {
+            aim.SetActive(false);
+            startExTime = 0;
+            bombExMode = false;
+            mustPatrol = true;
+            HP = 20000;
+        }
+    }
+    
 
     #endregion
     #region 音效
@@ -473,9 +528,26 @@ public class EnemyBomb : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.tag == "Player")
+        if (!bombExMode)
         {
-            BeAttack();
+            if (col.CompareTag("Player"))
+            {
+                BeAttack();
+            }
+        }
+        
+
+        if (col.CompareTag("Mouse"))
+        {
+            Locked = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D col)
+    {
+        if (col.CompareTag("Mouse"))
+        {
+            Locked = false;
         }
     }
 
@@ -499,4 +571,6 @@ public class EnemyBomb : MonoBehaviour
     }
 
     #endregion
+
+    
 }
