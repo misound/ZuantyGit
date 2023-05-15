@@ -241,18 +241,18 @@ public class SpeedPlayerController : MonoBehaviour
             {
                 Flip();
                 StartCoroutine(KillDash(mousePos.transform.position.x, mousePos.transform.position.y));
-                StartCoroutine(MouseDown(mousePos.transform.position.x, mousePos.transform.position.y));
+                StartCoroutine(MouseDown(M_dir.x, M_dir.y));
             }
             else if (M_dir.x > 0 && !_facingRight)
             {
                 Flip();
                 StartCoroutine(KillDash(mousePos.transform.position.x, mousePos.transform.position.y));
-                StartCoroutine(MouseDown(mousePos.transform.position.x, mousePos.transform.position.y));
+                StartCoroutine(MouseDown(M_dir.x, M_dir.y));
             }
             else
             {
                 StartCoroutine(KillDash(mousePos.transform.position.x, mousePos.transform.position.y));
-                StartCoroutine(MouseDown(mousePos.transform.position.x, mousePos.transform.position.y));
+                StartCoroutine(MouseDown(M_dir.x, M_dir.y));
             }
         }
         else if (Input.GetButtonDown("Fire2") && canDash)
