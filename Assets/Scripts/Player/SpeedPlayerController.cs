@@ -241,15 +241,18 @@ public class SpeedPlayerController : MonoBehaviour
             {
                 Flip();
                 StartCoroutine(KillDash(mousePos.transform.position.x, mousePos.transform.position.y));
+                StartCoroutine(MouseDown(mousePos.transform.position.x, mousePos.transform.position.y));
             }
             else if (M_dir.x > 0 && !_facingRight)
             {
                 Flip();
                 StartCoroutine(KillDash(mousePos.transform.position.x, mousePos.transform.position.y));
+                StartCoroutine(MouseDown(mousePos.transform.position.x, mousePos.transform.position.y));
             }
             else
             {
                 StartCoroutine(KillDash(mousePos.transform.position.x, mousePos.transform.position.y));
+                StartCoroutine(MouseDown(mousePos.transform.position.x, mousePos.transform.position.y));
             }
         }
         else if (Input.GetButtonDown("Fire2") && canDash)
@@ -534,6 +537,7 @@ public class SpeedPlayerController : MonoBehaviour
     {
         if (playerAttack.recover)
         {
+            _anim.SetBool("isKilling",false);
             _anim.SetBool("isDashing", false);
             _anim.SetBool("isGrounded", false);
             _anim.SetBool("isFalling", false);
@@ -544,7 +548,7 @@ public class SpeedPlayerController : MonoBehaviour
         }
         else
         {
-            if (_isDashing)
+            if (_isDashing&&!isKilling)
             {
                 _anim.SetBool("isDashing", true);
                 _anim.SetBool("isGrounded", false);
@@ -554,11 +558,23 @@ public class SpeedPlayerController : MonoBehaviour
                 _anim.SetFloat("horizontalDirection", 0f);
                 _anim.SetFloat("verticalDirection", 0f);
             }
+            else if (isKilling)
+            {
+                _anim.SetBool("isKilling", true);
+                _anim.SetBool("isGrounded", false);
+                _anim.SetBool("isFalling", false);
+                _anim.SetBool("WallGrab", false);
+                _anim.SetBool("isJumping", false);
+                _anim.SetFloat("horizontalDirection", 0f);
+                _anim.SetFloat("verticalDirection", 0f);
+            
+            }
             else
             {
                 if (!playerDead)
                 {
                     _anim.SetBool("isDashing", false);
+                    _anim.SetBool("isKilling",false);
 
                     if ((_horizontalDirection < 0f && _facingRight || _horizontalDirection > 0f && !_facingRight) &&
                         !_wallGrab && !_wallSlide)
