@@ -7,11 +7,14 @@ public class BossAttack : MonoBehaviour
 {
     private HealthBar playerhp;
 
-    private int atkk = 14;
+    private int atkk = 50;
+
+    public Collider2D BossCol;
     // Start is called before the first frame update
     void Start()
     {
         playerhp = FindObjectOfType<HealthBar>();
+        BossCol = GetComponent<PolygonCollider2D>();
     }
 
     // Update is called once per frame
@@ -41,7 +44,19 @@ public class BossAttack : MonoBehaviour
                 GameSetting.PlayerHP -= atkk;
                 playerhp.SetHealth(GameSetting.PlayerHP);
                 playerhp.CameraE(GameSetting.PlayerHP);
-            }            
+            }
+
+            BossCol.isTrigger = true;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.gameObject.GetComponent<SpeedPlayerController>() != null)
+        {
+            GameSetting.PlayerHP -= atkk * 100;
+            playerhp.SetHealth(GameSetting.PlayerHP);
+            playerhp.CameraE(GameSetting.PlayerHP);
             
         }
     }

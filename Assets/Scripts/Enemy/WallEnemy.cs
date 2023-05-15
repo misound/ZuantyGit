@@ -40,6 +40,7 @@ public class WallEnemy : MonoBehaviour
             temp.transform.parent = transform.parent;
             temp.transform.localPosition = transform.localPosition;
             temp.transform.localScale = transform.localScale;
+            GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_FlyDie);
             this.gameObject.SetActive(false);
         }
         

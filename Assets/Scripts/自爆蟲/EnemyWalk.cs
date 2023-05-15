@@ -139,6 +139,7 @@ public class EnemyWalk : MonoBehaviour
             temp.transform.parent = transform.parent;
             temp.transform.localPosition = transform.localPosition;
             temp.transform.localScale = transform.localScale;
+            GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_WalkDie);
             this.gameObject.SetActive(false);
         }
         
