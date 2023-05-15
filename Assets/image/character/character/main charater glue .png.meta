@@ -418,7 +418,25 @@ TextureImporter:
     second: main charater glue _144
   - first:
       213: 309208901562208303
-    second: main charater glue _Die_
+    second: main charater glue _KillDash_1
+  - first:
+      213: 6315666246530592896
+    second: main charater glue _KillDash_2
+  - first:
+      213: 3084968726239598943
+    second: main charater glue _KillDash_3
+  - first:
+      213: -889503315749270091
+    second: main charater glue _148
+  - first:
+      213: 4441969063777254982
+    second: main charater glue _149
+  - first:
+      213: -8311755800250863905
+    second: main charater glue _150
+  - first:
+      213: 7285574932048874731
+    second: main charater glue _151
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -2088,7 +2106,7 @@ TextureImporter:
         serializedVersion: 2
         x: 5495
         y: 1966
-        width: 1035
+        width: 933
         height: 700
       alignment: 6
       pivot: {x: 0, y: 0}
@@ -3548,6 +3566,153 @@ TextureImporter:
       bones: []
       spriteID: 8ba751091233d8f30800000000000000
       internalID: 4579372615349926584
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: main charater glue _KillDash_1
+      rect:
+        serializedVersion: 2
+        x: 6505
+        y: 1440
+        width: 560
+        height: 523
+      alignment: 9
+      pivot: {x: 0.65, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f2011039bd78a4400800000000000000
+      internalID: 309208901562208303
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: main charater glue _KillDash_2
+      rect:
+        serializedVersion: 2
+        x: 7080
+        y: 1963
+        width: 631
+        height: 463
+      alignment: 9
+      pivot: {x: 0.65, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 08071684df0c5a750800000000000000
+      internalID: 6315666246530592896
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: main charater glue _KillDash_3
+      rect:
+        serializedVersion: 2
+        x: 6505
+        y: 1963
+        width: 575
+        height: 384
+      alignment: 9
+      pivot: {x: 0.65, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f5953be26b200da20800000000000000
+      internalID: 3084968726239598943
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: main charater glue _148
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 5466
+        width: 361
+        height: 549
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5bd8b367279d7a3f0800000000000000
+      internalID: -889503315749270091
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: main charater glue _149
+      rect:
+        serializedVersion: 2
+        x: 501
+        y: 554
+        width: 1035
+        height: 694
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 64eb7b5345b05ad30800000000000000
+      internalID: 4441969063777254982
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: main charater glue _150
+      rect:
+        serializedVersion: 2
+        x: 2160
+        y: 502
+        width: 1035
+        height: 694
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fde21422326b6ac80800000000000000
+      internalID: -8311755800250863905
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: main charater glue _151
+      rect:
+        serializedVersion: 2
+        x: 3572
+        y: 504
+        width: 1035
+        height: 692
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bec8341dccf8b1560800000000000000
+      internalID: 7285574932048874731
       vertices: []
       indices: 
       edges: []
