@@ -353,7 +353,7 @@ public class S1Mgr : MonoBehaviour
                 string json2 = JsonConvert.SerializeObject(GameSetting.WList);
                 PlayerPrefs.SetString("data", json);
                 PlayerPrefs.SetString("data2", json2);
-                PlayerHP.SetMaxHealth(GameSetting.PlayerHP = 100); //最高生命值
+                //PlayerHP.SetMaxHealth(GameSetting.PlayerHP = 100); //最高生命值
                 PlayerPrefs.SetString("S1Enter", "true");
                 Debug.Log("Saved!!!");
                 PlayerHP.BuyPoka();
