@@ -67,12 +67,16 @@ public class S1Mgr : MonoBehaviour
             {
                 PlayerHP.SetMaxHealth(GameSetting.PlayerHP = 100); //最高生命值
                 PlayerHP.SetHealth(GameSetting.PlayerHP); //刷新當前血量
+                
+                PlayerHP.BuyPoka();
             }
             else if(GameSetting.PlayerHP > 0) 
             {
                 PlayerHP.SetMaxHealth(GameSetting.PlayerHP = 100); //最高生命值
                 PlayerHP.GetHealth(GameSetting.PlayerHP = PlayerPrefs.GetInt("PlayerHP")); //讀取血量
                 PlayerHP.SetHealth(GameSetting.PlayerHP); //刷新當前血量
+                
+                PlayerHP.GetPoka(GameSetting.Poka);
             }
             SPC.transform.position = GameSetting.Playerpos;
         }
