@@ -83,7 +83,6 @@ public class S1Mgr : MonoBehaviour
             GameSetting.WList = S1Item.FakeData2();
             
             PlayerHP.SetMaxHealth(GameSetting.PlayerHP = 100);
-            PlayerHP.BuyPoka();
             
             if (GameSetting.PlayerHP <= 0) 
             {
