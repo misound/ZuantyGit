@@ -7,6 +7,7 @@ public class AtkTeach : MonoBehaviour
     // Start is called before the first frame update
     [SerializeField] private GameObject teachEnemy;
     [SerializeField] private GameObject timeLine;
+    
     private bool enemyIsDie = false;
     
     void Start()
@@ -20,9 +21,22 @@ public class AtkTeach : MonoBehaviour
     {
         if(teachEnemy.GetComponent<EnemyBomb>().Die|| teachEnemy.GetComponent<EnemyBomb>().explosioned)
         {
+            StartCoroutine(DelaySwitchOnEnd());
+
+        }
+        if (enemyIsDie)
+        {
+            Debug.Log("B");
             timeLine.SetActive(true);
             timeLine = null;
             Destroy(this);
+            enemyIsDie = false;
         }
+    }
+    IEnumerator DelaySwitchOnEnd()
+    {
+        Debug.Log("A");
+        yield return new WaitForSeconds(0.8f);
+        enemyIsDie = true;
     }
 }
