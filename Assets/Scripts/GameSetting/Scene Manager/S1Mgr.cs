@@ -356,6 +356,7 @@ public class S1Mgr : MonoBehaviour
                 //PlayerHP.SetMaxHealth(GameSetting.PlayerHP = 100); //最高生命值
                 PlayerPrefs.SetString("S1Enter", "true");
                 Debug.Log("Saved!!!");
+                GameSetting.SEAudio.Play(AudioMgr.eAudio.Saveed);
                 PlayerHP.BuyPoka();
                 GameSetting.Save();
                 PlayerPrefs.Save();

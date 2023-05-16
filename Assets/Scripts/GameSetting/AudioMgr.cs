@@ -94,6 +94,7 @@ public class AudioMgr : MonoBehaviour
         SE_BoomSee,
         SE_WalkDie,
         SE_FlyDie,
+        Saveed,
     }
 
     public void Play(eAudio audio)
@@ -162,6 +163,9 @@ public class AudioMgr : MonoBehaviour
                 break;
             case eAudio.SE_FlyDie:
                 SE_audioSource.PlayOneShot(SE[21]);
+                break;
+            case eAudio.Saveed:
+                SE_audioSource.PlayOneShot(SE[22]);
                 break;
             default:
                 Debug.LogError("NONE DEF");
