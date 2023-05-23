@@ -26,7 +26,7 @@ public class AtkTeach : MonoBehaviour
         }
         if (enemyIsDie)
         {
-            Debug.Log("B");
+          
             timeLine.SetActive(true);
             timeLine = null;
             Destroy(this);
@@ -35,7 +35,7 @@ public class AtkTeach : MonoBehaviour
     }
     IEnumerator DelaySwitchOnEnd()
     {
-        Debug.Log("A");
+        
         yield return new WaitForSeconds(0.8f);
         enemyIsDie = true;
     }

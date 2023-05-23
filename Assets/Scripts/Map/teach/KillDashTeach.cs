@@ -21,6 +21,10 @@ public class KillDashTeach : MonoBehaviour
         {
             killTeach.SetActive(true);
         }
+        if (!enemy.bombExMode)
+        {
+            killTeach.SetActive(false);
+        }
         if(enemy.Die)
         {
             killTeach.SetActive(false);
