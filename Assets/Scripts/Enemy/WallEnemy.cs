@@ -36,11 +36,11 @@ public class WallEnemy : MonoBehaviour
         
         if ( speedPlayerController.isKilling&& mousePos.onWallEnemy&&beChoose)
         {
+            GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_FlyDie);
             GameObject temp = Instantiate(Deadbody);
             temp.transform.parent = transform.parent;
             temp.transform.localPosition = transform.localPosition;
             temp.transform.localScale = transform.localScale;
-            GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_FlyDie);
             this.gameObject.SetActive(false);
         }
         

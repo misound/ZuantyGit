@@ -103,15 +103,17 @@ public class EnemyBomb : MonoBehaviour
         //斬殺
         aim.SetActive(false);
         Locked = false;
+        
+        rb.bodyType = RigidbodyType2D.Dynamic;
     }
 
     private void FixedUpdate()
     {
-        rb.bodyType = RigidbodyType2D.Dynamic;
-
-        Debug.Log(HP);
+        
+        
         if (Die)
         {
+            GameSetting.SEAudio.Play(AudioMgr.eAudio.SE_BoomDie);
             GameObject temp = Instantiate(Deadbody);
             temp.transform.parent = transform.parent;
             temp.transform.localPosition = transform.localPosition;
@@ -119,22 +121,32 @@ public class EnemyBomb : MonoBehaviour
             this.gameObject.SetActive(false);
         }
 
-        Animation();
-        if (mustPatrol)
-        {
-            Patrol();
-            _anim.SetBool("isAttack", false);
-            _anim.SetBool("explosion", false);
-        }
 
+
+        if (HP > 19950)
+        {
+            Animation();
+            
+            if (WannaBoom)
+                Attack();
+        
+            if (mustPatrol)
+            {
+                Patrol();
+                _anim.SetBool("isAttack", false);
+                _anim.SetBool("explosion", false);
+            }
+            if (explosionReady)
+            {
+                Explooooootion();
+            }
+        }
         if (_isFacingRight)
             CheckPlayerR();
         if (!_isFacingRight)
             CheckPlayerL();
-        if (WannaBoom)
-            Attack();
-        if (explosionReady)
-            Explooooootion();
+
+
 
         if (explosioned) //自毀
         {
@@ -450,7 +462,7 @@ public class EnemyBomb : MonoBehaviour
         HP -= Damage;
         if (HP <= 0)
         {
-            SE_DIE();
+            //SE_DIE();
             HP = 0;
             Die = true;
         }

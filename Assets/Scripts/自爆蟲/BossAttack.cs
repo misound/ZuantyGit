@@ -7,7 +7,7 @@ public class BossAttack : MonoBehaviour
 {
     private HealthBar playerhp;
 
-    private int atkk = 50;
+    public int atkk = 50;
 
     public Collider2D BossCol;
     // Start is called before the first frame update
@@ -54,7 +54,7 @@ public class BossAttack : MonoBehaviour
     {
         if (col.gameObject.GetComponent<SpeedPlayerController>() != null)
         {
-            GameSetting.PlayerHP -= atkk * 100;
+            GameSetting.PlayerHP -= atkk * 2;
             playerhp.SetHealth(GameSetting.PlayerHP);
             playerhp.CameraE(GameSetting.PlayerHP);
             
