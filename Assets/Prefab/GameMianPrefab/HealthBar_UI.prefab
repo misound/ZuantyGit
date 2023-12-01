@@ -755,7 +755,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 8523673283031981300}
   m_HandleRect: {fileID: 0}
@@ -813,6 +813,7 @@ MonoBehaviour:
   PokaCan:
   - {fileID: 2844341041233177286}
   - {fileID: 6210069555996189941}
+  _cameraMgr: {fileID: 0}
 --- !u!95 &9129013234830114435
 Animator:
   serializedVersion: 3

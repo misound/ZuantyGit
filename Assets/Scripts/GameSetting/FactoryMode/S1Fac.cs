@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 public interface IItem
@@ -15,10 +17,15 @@ public class SSItem : IItem
     public void saysomething()
     {
         Debug.Log("我是開始廠景");
-        PlayerPrefs.SetString("S1Enter", "false");
-        PlayerPrefs.SetString("S2Enter", "false");
-        PlayerPrefs.SetString("S3Enter", "false");
-        PlayerPrefs.SetString("S4Enter", "false");
+
+        //最大場景數量為4(關卡1~3，Boss為一關)，0為遊戲開始場景所以無須擔心。
+        //將全部入場證明關閉
+        for(int i = 1; i < SceneManager.GetActiveScene().buildIndex; i++) 
+        {
+            //開場動畫和結尾動畫是5和6
+            if(i < 5)
+                PlayerPrefs.SetString($"S{i}Enter", "false");
+        }
     }
 
     public IList<Itemdata> FakeData1()
@@ -51,11 +58,11 @@ public class S1Item : IItem
     {
         IList<AtkWData> result = new List<AtkWData>();
 
-        result.Add(new AtkWData() { AWName = "AW1-1", AWStates = false });
-        result.Add(new AtkWData() { AWName = "AW1-2", AWStates = false });
-        result.Add(new AtkWData() { AWName = "AW1-3", AWStates = false });
-        result.Add(new AtkWData() { AWName = "AW1-4", AWStates = false });
-        result.Add(new AtkWData() { AWName = "AW1-5", AWStates = false });
+        //門的最大數量為5，編號從1開始算
+        for(int i = 1; i < 6; i++)
+        {
+            result.Add(new AtkWData() { AWName = $"AW1-{i}", AWStates = false });
+        }
 
         return result;
     }
@@ -72,14 +79,11 @@ public class S2Item : IItem
     {
         IList<Itemdata> result = new List<Itemdata>();
 
-        result.Add(new Itemdata() { Name = "D2-1", States = false });
-        result.Add(new Itemdata() { Name = "D2-2", States = false });
-        result.Add(new Itemdata() { Name = "D2-3", States = false });
-        result.Add(new Itemdata() { Name = "D2-4", States = false });
-        result.Add(new Itemdata() { Name = "D2-5", States = false });
-        result.Add(new Itemdata() { Name = "D2-6", States = false });
-        result.Add(new Itemdata() { Name = "D2-7", States = false });
-        result.Add(new Itemdata() { Name = "D2-8", States = false });
+        //門的最大數量為8，編號從1開始算
+        for ( int i = 1; i < 9; i++)
+        {
+            result.Add(new Itemdata() { Name = $"D2-{i}", States = false });
+        }
 
         return result;
     }
@@ -88,10 +92,11 @@ public class S2Item : IItem
     {
         IList<AtkWData> result = new List<AtkWData>();
 
-        result.Add(new AtkWData() { AWName = "AW2-1", AWStates = false });
-        result.Add(new AtkWData() { AWName = "AW2-2", AWStates = false });
-        result.Add(new AtkWData() { AWName = "AW2-3", AWStates = false });
-        result.Add(new AtkWData() { AWName = "AW2-4", AWStates = false });
+        //牆的最大數量為4，編號從1開始算
+        for ( int i = 1; i < 5; i++)
+        {
+            result.Add(new AtkWData() { AWName = $"AW2-{i}", AWStates = false });
+        }
 
         return result;
     }
@@ -116,16 +121,11 @@ public class S3Item : IItem
     {
         IList<AtkWData> result = new List<AtkWData>();
 
-        result.Add(new AtkWData() { AWName = "AW3-1", AWStates = false });
-        result.Add(new AtkWData() { AWName = "AW3-2", AWStates = false });
-        result.Add(new AtkWData() { AWName = "AW3-3", AWStates = false });
-        result.Add(new AtkWData() { AWName = "AW3-4", AWStates = false });
-        result.Add(new AtkWData() { AWName = "AW3-5", AWStates = false });
-        result.Add(new AtkWData() { AWName = "AW3-6", AWStates = false });
-        result.Add(new AtkWData() { AWName = "AW3-7", AWStates = false });
-        result.Add(new AtkWData() { AWName = "AW3-8", AWStates = false });
-        result.Add(new AtkWData() { AWName = "AW3-9", AWStates = false });
-        result.Add(new AtkWData() { AWName = "AW3-10", AWStates = false });
+        //牆的最大數量為10，編號從1開始算
+        for(int i = 1; i < 11; i++)
+        {
+            result.Add(new AtkWData() { AWName = $"AW3-{i}", AWStates = false });
+        }
 
         return result;
     }
@@ -150,18 +150,17 @@ public class S4Item : IItem
     {
         IList<AtkWData> result = new List<AtkWData>();
 
-        result.Add(new AtkWData() { AWName = "AW4-1", AWStates = false });
-        result.Add(new AtkWData() { AWName = "AW4-2", AWStates = false });
-        result.Add(new AtkWData() { AWName = "AW4-3", AWStates = false });
-        result.Add(new AtkWData() { AWName = "AW4-4", AWStates = false });
-        result.Add(new AtkWData() { AWName = "AW4-5", AWStates = false });
-        result.Add(new AtkWData() { AWName = "AW4-6", AWStates = false });
+        //牆的最大數量為6，編號從1開始算
+        for(int i = 1; i < 7; i++)
+        {
+            result.Add(new AtkWData() { AWName = $"AW4-{i}", AWStates = false });
+        }
 
         return result;
     }
 }
 
-
+#region 這是關於測試場景的類別，實際遊玩不會碰到
 public class NewSItem : IItem
 {
     public void saysomething()
@@ -189,3 +188,4 @@ public class NewSItem : IItem
     }
     
 }
+#endregion

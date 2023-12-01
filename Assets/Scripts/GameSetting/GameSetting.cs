@@ -18,7 +18,7 @@ public static class GameSetting
 
     public static int PlayerHP;
     public static int Poka;
-    public static int MaxPoka = 2;
+    public static readonly int MaxPoka = 2;
 
     public static IList<Itemdata> DList;
     public static IList<AtkWData> WList;
@@ -47,9 +47,6 @@ public static class GameSetting
         AudioReady = bool.Parse(PlayerPrefs.GetString("AudioReady", "false"));
         Playerpos.x = PlayerPrefs.GetFloat("x");
         Playerpos.y = PlayerPrefs.GetFloat("y");
-        //PlayerHP = PlayerPrefs.GetInt("PlayerHP");
-        //BGMAudio.BGM_audioSource.volume = PlayerPrefs.GetFloat("BGMV");
-        //SceneManager.LoadScene(PlayerPrefs.GetString("level"));
     }
 
     public static void Respawn()  //2023/2/15:做經過就能存檔的不會回血的臨時存檔點(在碰到陷阱或掉落時啟用)
@@ -62,8 +59,6 @@ public static class GameSetting
         Playerpos.x = PlayerPrefs.GetFloat("x");
         Playerpos.y = PlayerPrefs.GetFloat("y");
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        //PlayerHP = PlayerPrefs.GetInt("PlayerHP");
-        //BGMAudio.BGM_audioSource.volume = PlayerPrefs.GetFloat("BGMV");
     }
     
     public static void FallOut()
@@ -75,8 +70,6 @@ public static class GameSetting
         Playerpos.x = PlayerPrefs.GetFloat("Tempx");
         Playerpos.y = PlayerPrefs.GetFloat("Tempy");
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        //PlayerHP = PlayerPrefs.GetInt("PlayerHP");
-        //BGMAudio.BGM_audioSource.volume = PlayerPrefs.GetFloat("BGMV");
     }
 
     public static void TempPoint()

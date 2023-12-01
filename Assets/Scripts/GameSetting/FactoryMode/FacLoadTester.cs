@@ -7,10 +7,16 @@ public class FacLoadTester : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+        //重置入場證明
         SSItem ssItem = (SSItem)Factory.reset("SS");
         
         ssItem.saysomething();
         
+
+        //非必要實作
+
+        /*
         S2Item s2Item = (S2Item)Factory.reset("S2");
         
         s2Item.saysomething();
@@ -23,10 +29,6 @@ public class FacLoadTester : MonoBehaviour
         
         Item.saysomething();
         Item.FakeData1();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
+        */
     }
 }
